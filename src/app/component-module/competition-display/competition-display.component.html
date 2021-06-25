@@ -1,0 +1,51 @@
+<div *ngIf="singleLineDisplay" class="ui-grid ui-grid-responsive ui-fluid">
+    <div class="ui-grid ui-fluid">
+        <div class="ui-grid-12 ui-md-3">
+            <img src = "{{competition.thumbnail?competition.thumbnail:competition.imageUrl}}"
+                    onerror = "this.src='assets/default_competition.png'">
+        </div>
+        <div class="ui-grid-12 ui-md-7">
+            {{competition.competitionName}}
+        </div>
+        <div class="ui-grid-12 ui-md-2">
+            {{competition.clubTag}}
+        </div>
+    </div>
+</div>
+<md-card *ngIf="!singleLineDisplay" class="mat-elevation-z4 competition-card">
+    <md-card-header>
+        <img md-card-avatar [src]="competition.thumbnail?competition.thumbnail:competition.imageUrl"
+                onerror="this.src='assets/images/default_competition.png'">
+        <md-card-title>
+            <div>
+                <span class="headline">{{competition.competitionName}}</span>
+                <div *ngIf="showStatus" class="vertical-align-center"
+                        [class.inprogess-text-bold]="competition.status==='In Progress'"
+                        [class.completed-text-bold]="competition.status==='Completed'"
+                        [class.upcoming-text-bold]="competition.status==='Upcoming'"
+                        style="float: right;text-align: right">
+                    <md-icon class="mdi-timer-sand"></md-icon>{{competition.status}}
+                </div>
+            </div>
+
+        </md-card-title>
+        <md-card-subtitle>{{competition.clubName}} ({{competition.clubTag}})</md-card-subtitle>
+
+    </md-card-header>
+
+    <md-card-content>
+        <div class="vertical-align-center">
+            <md-icon class="mdi-calendar"></md-icon>
+            {{competition.startDate|date:'mediumDate'}} - {{competition.endDate|date:'mediumDate'}}
+        </div>
+        <!--<p *ngIf="competition.description" [innerHTML]="competition.description"></p>-->
+    </md-card-content>
+    <md-card-actions>
+        <action-panel [data]="competition" [actions]="actions"
+                itemLayout="horizontal"
+                itemsAs="flat">
+        </action-panel>
+
+    </md-card-actions>
+</md-card>
+

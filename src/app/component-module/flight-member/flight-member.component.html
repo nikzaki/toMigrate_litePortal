@@ -1,0 +1,52 @@
+<div class="ui-g" *ngIf = "displayMode==='compact'">
+    <div class = "ui-g-3 player-image">
+        <img [src] = "flightMember.photoUrl"
+                onerror = "this.src='assets/images/default_user.png'">
+    </div>
+    <div class="ui-g-9 player-name"
+            [class.clickable] = "clickable"
+            (click)="onMemberClick()"
+            [class.withdrawn]="flightMember.status==='Withdrawn'">
+        {{flightMember.playerName}}
+    </div>
+</div>
+<div class="ui-g" *ngIf = "displayMode==='medium'">
+    <div class = "ui-g-3 player-image">
+        <img [src] = "flightMember.photoUrl"
+                onerror = "this.src='assets/images/default_user.png'">
+    </div>
+    <div class="ui-g-5 player-name"
+            (click)="onMemberClick()"
+            [class.clickable] = "clickable"
+            [class.withdrawn]="flightMember.status==='Withdrawn'">
+        {{flightMember.playerName}}
+    </div>
+    <div class="ui-g-2 hide-sm player-handicap">
+        {{flightMember.handicap}}
+    </div>
+    <div class="ui-g-2 hide-sm player-buggy">
+        {{flightMember.buggy}}
+    </div>
+</div>
+<div class="ui-g" *ngIf = "displayMode==='full'">
+    <div class = "ui-g-2 ui-sm-4 player-image">
+        <img [src] = "flightMember.photoUrl"
+                onerror = "this.src='assets/images/default_user.png'">
+    </div>
+    <div class="ui-g-4 ui-sm-8 player-name"
+            (click)="onMemberClick()"
+            [class.clickable] = "clickable"
+            [class.withdrawn]="flightMember.status==='W'">
+        {{flightMember.playerName}}
+    </div>
+    <div class="ui-g-1 ui-sm-hide player-handicap">
+        {{flightMember.handicap}}
+    </div>
+    <div class="ui-g-1 ui-sm-hide player-buggy">
+        {{flightMember.buggy}}
+    </div>
+    <div class="ui-g-4 ui-sm-hide scorer-name">
+        {{flightMember.scoringPlayerName}}
+    </div>
+</div>
+

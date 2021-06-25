@@ -1,0 +1,17 @@
+player-scorecard-display .ui-datatable .ui-datatable-data tr {
+  border-style: none; }
+  player-scorecard-display .ui-datatable .ui-datatable-data tr td {
+    padding: 0px;
+    text-align: center;
+    line-height: 1.5em; }
+player-scorecard-display .ui-widget-content.index-row td:first-child {
+  background-color: white;
+  color: black;
+  border-style: solid; }
+player-scorecard-display .ui-datatable .ui-datatable-data > tr > td {
+  border-style: none; }
+player-scorecard-display .amateur .bogey-score {
+  text-decoration: underline; }
+player-scorecard-display .amateur .double-bogey-score {
+  text-decoration: overline;
+  text-decoration-style: double; }

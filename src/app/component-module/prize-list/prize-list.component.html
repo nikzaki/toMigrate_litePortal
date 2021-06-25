@@ -1,0 +1,35 @@
+<p-treeTable [value] = "prizeNodes">
+    <p-header *ngIf="showHeader">{{header}}</p-header>
+    <p-column styleClass="name-column">
+        <ng-template let-col let-node="rowData" pTemplate="header">
+            <div class="column-header name-column-header">{{nameColumnHeader}}</div>
+        </ng-template>
+        <ng-template let-col let-node="rowData" pTemplate="body">
+            <span class="column-body name-column-body">{{node.data.name==='999'?'Overall':node.data.name}}</span>
+        </ng-template>
+    </p-column>
+    <p-column styleClass="prize-name-column">
+        <ng-template let-col let-node="rowData" pTemplate="header">
+            <div class="column-header name-column-header">Name</div>
+        </ng-template>
+        <ng-template let-col let-node="rowData" pTemplate="body">
+            <div class="column-body name-column-body">{{node.data.prizeName}}</div>
+        </ng-template>
+    </p-column>
+    <p-column styleClass="prize-title-column">
+        <ng-template let-col let-node="rowData" pTemplate="header">
+            <div class="column-header title-column-header">Title</div>
+        </ng-template>
+        <ng-template let-col let-node="rowData" pTemplate="body">
+            <div class="column-body title-column-body">{{node.data.title}}</div>
+        </ng-template>
+    </p-column>
+    <p-column styleClass="prize-money-column">
+        <ng-template let-col let-node="rowData" pTemplate="header">
+            <div class="column-header money-column-header">Money</div>
+        </ng-template>
+        <ng-template let-col let-node="rowData" pTemplate="body">
+            <div class="column-body money-column-body">{{node.data.prizeMoney}}</div>
+        </ng-template>
+    </p-column>
+</p-treeTable>

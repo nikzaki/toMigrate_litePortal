@@ -1,0 +1,75 @@
+team-leaderboard {
+    .ui-datatable .ui-datatable-data tr td {
+        padding: 1px 1px;
+        height: 40px;
+    }
+    .ui-datatable .ui-datatable-frozen-view .ui-datatable-data > tr > td,
+    .ui-datatable .ui-datatable-unfrozen-view .ui-datatable-data > tr > td {
+        height: 40px;
+    }
+    .heading {
+        margin: 0px;
+    }
+    .heading-xs {
+        padding-left: 0px !important;
+    }
+    .hide-settings {
+        display: none;
+    }
+    .player-name {
+        padding:0px;
+        display: flex;
+        align-items: center;
+        color: #2196F3;
+        font-weight: bold;
+        font-size: 1.5em;
+        line-height: 1.6em;
+        white-space: normal;
+        //text-decoration: underline;
+        font-variant-caps: small-caps;
+    }
+    .over-par {
+        .to-par {
+            background-color: black;
+            color: white;
+        }
+    }
+    .under-par {
+        .to-par {
+            background-color: #F44336;
+            color: white;
+        }
+    }
+    .on-par {
+        .to-par {
+            background-color: #2196F3;
+            color: white;
+        }
+    }
+    .team-leaderboard {
+        .fullscreen-header {
+            display: none;
+            .mat-headline, .mat-display-1, .mat-title {
+                margin: 0;
+            }
+        }
+        &:fullscreen {
+            /* Set the height to match that of the viewport. */
+            height: 100vh;
+
+            /* Set the width to match that of the viewport. */
+            width: 100vw;
+
+            /* Remove any browser-default margins. */
+            margin: 10px 10px;
+
+            .fullscreen-header {
+                display: block;
+            }
+        }
+    }
+    .withdrawn-player {
+        color: red;
+        font-weight: bold;
+    }
+}

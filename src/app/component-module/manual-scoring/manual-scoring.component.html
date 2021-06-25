@@ -1,0 +1,192 @@
+<p-panel styleClass = "ui-panel-info"
+        [toggleable] = "true" #flights>
+    <p-header><b>{{compInfo?.competitionName}}</b> Flights: Select a player to score</p-header>
+    <div class = "ui-grid ui-grid-responsive ui-fluid">
+        <div class = "ui-grid-row">
+            <div class = "ui-grid-col-12">
+                <input type = "search" pInputText id = "search" [(ngModel)] = "searchString"
+                        placeholder = "Enter search string to filter"
+                        (ngModelChange) = "onSearch($event)" />
+            </div>
+        </div>
+    </div>
+    <p-dataGrid [value] = "filteredFlights" [paginator] = "false" styleClass = "noheader-grid">
+        <ng-template let-flight pTemplate = "item">
+            <div class = "ui-g-12 ui-md-6 flight ui-shadow-1">
+                <flight [flight] = "flight" memberDisplayMode = "medium" [memberClickable] = "true"
+                        (onMemberClick) = "selectPlayer($event)"></flight>
+            </div>
+        </ng-template>
+    </p-dataGrid>
+</p-panel>
+<p-panel header = "Manual Scoring" *ngIf = "selectedPlayer && playerScorecard" #scoringpanel>
+    <div class = "ui-grid ui-grid-responsive ui-fluid">
+        <div class = "ui-grid-row">
+            <div class = "ui-grid-col-3">
+                <img [src] = "selectedPlayer.photoUrl" style = "width:64px;height:64px"
+                        onerror = "this.src='assets/images/default_user.png'">
+            </div>
+            <div class = "ui-grid-col-9">
+                <div class = "mui-row">
+                    Competition: <b>{{compInfo.competitionName}} - (Round {{scoringRound}})</b>
+                </div>
+                <div class = "mui-row">
+                    Player: <b>{{selectedPlayer.playerName}}</b> (Handicap: <u>{{selectedPlayer.handicap}}</u>)
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "ui-grid ui-grid-responsive">
+        <div class = "ui-grid-row ui-widget-header">
+            <div class = "ui-md-1" style = "text-align: left">Nine</div>
+            <div class = "ui-md-3" style = "text-align: left">Course</div>
+            <div class = "ui-md-8">
+                <div class = "ui-grid">
+                    <div class = "ui-grid-row">
+                        <div class = "ui-md-1">1</div>
+                        <div class = "ui-md-1">2</div>
+                        <div class = "ui-md-1">3</div>
+                        <div class = "ui-md-1">4</div>
+                        <div class = "ui-md-1">5</div>
+                        <div class = "ui-md-1">6</div>
+                        <div class = "ui-md-1">7</div>
+                        <div class = "ui-md-1">8</div>
+                        <div class = "ui-md-1">9</div>
+                        <div class = "ui-md-3">Total</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <form #scoreform>
+            <div class = "ui-grid-row" *ngFor = "let nine of playerScores">
+                <div class = "ui-md-1">{{nine.whichNine}}</div>
+                <div class = "ui-md-2">{{nine.courseName}}</div>
+                <div class = "ui-md-1">
+                    <div class = "ui-grid">
+                        <div class = "ui-grid-row hole-index">
+                            <div class = "ui-md-12">
+                                Index
+                            </div>
+                        </div>
+                        <div class = "ui-grid-row hole-par">
+                            <div class = "ui-md-12">
+                                Par
+                            </div>
+                        </div>
+                        <div class = "ui-grid-row scores">
+                            <div class = "ui-md-12">
+                                Scores
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class = "ui-md-8">
+                    <div class = "ui-grid">
+                        <div class = "ui-grid-row hole-index">
+                            <div class = "ui-md-1">{{nine.holeInfo1.holeIndex}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo2.holeIndex}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo3.holeIndex}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo4.holeIndex}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo5.holeIndex}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo6.holeIndex}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo7.holeIndex}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo8.holeIndex}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo9.holeIndex}}</div>
+                            <div class = "ui-md-3"></div>
+                        </div>
+                        <div class = "ui-grid-row hole-par">
+                            <div class = "ui-md-1">{{nine.holeInfo1.holePar}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo2.holePar}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo3.holePar}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo4.holePar}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo5.holePar}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo6.holePar}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo7.holePar}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo8.holePar}}</div>
+                            <div class = "ui-md-1">{{nine.holeInfo9.holePar}}</div>
+                            <div class = "ui-md-3"></div>
+                        </div>
+                        <div class = "ui-grid-row scores">
+                            <div class = "ui-md-1">
+                                <input type = "number" [(ngModel)] = "nine.hole1" [name] = "'hole1_'+nine.whichNine"
+                                        pInputText
+                                        (focus) = "onFocus($event, 1, nine.whichNine)"
+                                        (keyup) = "onKeyUp($event, 1, nine.whichNine)">
+                            </div>
+                            <div class = "ui-md-1">
+                                <input type = "number" [(ngModel)] = "nine.hole2" [name] = "'hole2_'+nine.whichNine"
+                                        pInputText
+                                        (focus) = "onFocus($event, 2, nine.whichNine)"
+                                        (keyup) = "onKeyUp($event, 2, nine.whichNine)">
+                            </div>
+                            <div class = "ui-md-1">
+                                <input type = "number" [(ngModel)] = "nine.hole3" [name] = "'hole3_'+nine.whichNine"
+                                        pInputText
+                                        (focus) = "onFocus($event, 3, nine.whichNine)"
+                                        (keyup) = "onKeyUp($event, 3, nine.whichNine)">
+                            </div>
+                            <div class = "ui-md-1">
+                                <input type = "number" [(ngModel)] = "nine.hole4" [name] = "'hole4_'+nine.whichNine"
+                                        pInputText
+                                        (focus) = "onFocus($event, 4, nine.whichNine)"
+                                        (keyup) = "onKeyUp($event, 4, nine.whichNine)">
+                            </div>
+                            <div class = "ui-md-1">
+                                <input type = "number" [(ngModel)] = "nine.hole5" [name] = "'hole5_'+nine.whichNine"
+                                        pInputText
+                                        (focus) = "onFocus($event, 5, nine.whichNine)"
+                                        (keyup) = "onKeyUp($event, 5, nine.whichNine)">
+                            </div>
+                            <div class = "ui-md-1">
+                                <input type = "number" [(ngModel)] = "nine.hole6" [name] = "'hole6_'+nine.whichNine"
+                                        pInputText
+                                        (focus) = "onFocus($event, 6, nine.whichNine)"
+                                        (keyup) = "onKeyUp($event, 6, nine.whichNine)">
+                            </div>
+                            <div class = "ui-md-1">
+                                <input type = "number" [(ngModel)] = "nine.hole7" [name] = "'hole7_'+nine.whichNine"
+                                        pInputText
+                                        (focus) = "onFocus($event, 7, nine.whichNine)"
+                                        (keyup) = "onKeyUp($event, 7, nine.whichNine)">
+                            </div>
+                            <div class = "ui-md-1">
+                                <input type = "number" [(ngModel)] = "nine.hole8" [name] = "'hole8_'+nine.whichNine"
+                                        pInputText
+                                        (focus) = "onFocus($event, 8, nine.whichNine)"
+                                        (keyup) = "onKeyUp($event, 8, nine.whichNine)">
+                            </div>
+                            <div class = "ui-md-1">
+                                <input type = "number" [(ngModel)] = "nine.hole9" [name] = "'hole9_'+nine.whichNine"
+                                        pInputText
+                                        (focus) = "onFocus($event, 9, nine.whichNine)"
+                                        (keyup) = "onKeyUp($event, 9, nine.whichNine)">
+                            </div>
+                            <div class = "ui-md-3"><input pInputText type = "text" [value] = "nine.total" disabled>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "ui-grid-row">
+                <div class="ui-grid-col-12  button-panel">
+                <button pButton label = "Save" icon = "ui-icon-save" class = "ui-button-primary"
+                        (click) = "onSaveClick()"></button>
+                <button pButton label = "Cancel" icon = "ui-icon-cancel" class = "ui-button-danger"
+                        (click) = "onCancelClick()"></button>
+                </div>
+            </div>
+        </form>
+    </div>
+</p-panel>
+<p-growl [value] = "messages" [life]="5000" [immutable]= "false"></p-growl>
+<p-confirmDialog header = "Confirmation" icon = "fa fa-question-circle" width = "425" #confirm>
+    <p-footer>
+        <button type = "button" pButton icon = "fa-close" label = "No" (click) = "doNotCancelScoring()"
+                class = "ui-button-primary"></button>
+        <button type = "button" pButton icon = "fa-check" label = "Yes" (click) = "cancelScoring()"
+                class = "ui-button-danger"></button>
+    </p-footer>
+</p-confirmDialog>
+<p-blockUI [blocked]="blocked">
+    <div style="text-align: center; padding-top: 40%"><span>Please wait...</span></div>
+</p-blockUI>

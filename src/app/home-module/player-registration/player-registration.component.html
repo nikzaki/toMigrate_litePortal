@@ -1,0 +1,166 @@
+<div class = "card card-w-title">
+    <h1>Player Registration</h1>
+    <div class = "ui-g">
+        <div class = "ui-g-1 ui-sm-1 ui-md-1  ui-g-nopad"></div>
+        <div class = "ui-g-10 ui-sm-10 ui-md-10   ui-g-nopad">
+            <form [formGroup] = "regForm" (submit) = "onSubmit(regForm.value)" (reset) = "onReset()">
+                <!--<div class = "ui-widget-header ui-primary">Authentication</div>-->
+                <div class = "ui-g form-item">
+                    <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">Email *</label>
+                    <div class = "ui-g-8  ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad md-inputfield">
+                        <input type = "email" formControlName = "email" class = "ui-inputtext" pInputText
+                                (change) = "onEmailChange()" (keyup) = "duplicateEmail=false">
+                        <div class = "ui-message ui-messages-error ui-corner-all"
+                                *ngIf = "regForm.controls['email'].hasError('required') && regForm.controls['email'].touched">
+                            Email is mandatory
+                        </div>
+                        <div class = "ui-message ui-messages-error ui-corner-all"
+                                *ngIf = "regForm.controls['email'].hasError('pattern') && regForm.controls['email'].touched">
+                            Invalid email address
+                        </div>
+                        <div class = "ui-message ui-messages-error ui-corner-allr"
+                                *ngIf = "duplicateEmail && regForm.controls['email'].touched"
+                        >Email is already taken
+                        </div>
+                    </div>
+                </div>
+                <div class = "ui-g form-item">
+                    <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">Password *</label>
+                    <div class = "ui-g-8  ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad md-inputfield">
+                        <input type = "password" formControlName = "password" class = "ui-inputtext" pInputText
+                                promptLabel = "Enter a password">
+                        <div class = "ui-message ui-messages-error ui-corner-all"
+                                *ngIf = "regForm.controls['password'].hasError('required') && regForm.controls['password'].touched">
+                            Password is mandatory
+                        </div>
+                    </div>
+                </div>
+                <div class = "ui-g form-item">
+                    <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">Retype Password *</label>
+                    <div class = "ui-g-8  ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad md-inputfield">
+                        <input type = "password" formControlName = "password2" class = "ui-inputtext"
+                                pInputText
+                                promptLabel = "Re-enter a password">
+                        <div class = "ui-message ui-messages-error ui-corner-all"
+                                *ngIf = "regForm.controls['password2'].hasError('equalTo') && regForm.controls['password'].touched">
+                            Passwords must match
+                        </div>
+                    </div>
+                </div>
+                <!--<div class = "mui-divider"></div>-->
+                <!--<div class = "ui-widget-header ui-primary">Details</div>-->
+                <div class = "ui-g form-item">
+                    <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">Firstname *</label>
+                    <div class = "ui-g-8  ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad md-inputfield">
+                        <input type = "text" formControlName = "firstName" class = "ui-inputtext" pInputText>
+                        <div class = "ui-message ui-messages-error ui-corner-all"
+                                *ngIf = "regForm.controls['firstName'].hasError('required') && regForm.controls['firstName'].touched">
+                            First name is mandatory
+                        </div>
+                        <div class = "ui-message ui-messages-error ui-corner-all"
+                                *ngIf = "regForm.controls['firstName'].hasError('maxlength') && regForm.controls['firstName'].touched">
+                            Maximum of 50 characters allowed in first name
+                        </div>
+                    </div>
+                </div>
+                <div class = "ui-g form-item">
+                    <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">Lastname *</label>
+                    <div class = "ui-g-8 ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad">
+                        <input type = "text" formControlName = "lastName" class = "ui-inputtext" pInputText>
+                    </div>
+                    <div class = "ui-message ui-messages-error ui-corner-all"
+                            *ngIf = "regForm.controls['lastName'].hasError('maxlength') && regForm.controls['lastName'].touched">
+                        Maximum of 50 characters allowed in last name
+                    </div>
+                </div>
+                <!-- <ion-select interface="alert" formControlName="nationality">
+                    <ion-option *ngFor="let country of countryList"  [value]="country.id">{{country.name}}</ion-option>
+                        </ion-select > -->
+                        
+                <div class = "ui-g form-item">
+                    <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">Nationality *</label>
+                    <div class = "ui-g-8 ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad">
+                            <p-dropdown *ngIf="countryDropdown" [style]="{'width':'100%'}" [options]="countryDropdown"
+                        placeholder="Select your nationality" [filter]="true" formControlName = "nationality"
+                        filterBy="label" (onChange)="selectedCountry()">
+                    </p-dropdown>                 
+                    </div>
+                </div>
+                <div class = "ui-g form-item">
+                        <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">Residing In *</label>
+                        <div class = "ui-g-8 ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad">
+                                <p-dropdown *ngIf="countryDropdown" [style]="{'width':'100%'}" [options]="countryDropdown"
+                            placeholder="Select current resident country" [filter]="true" formControlName = "country"
+                            filterBy="label" (onChange)="selectedCountry()">
+                        </p-dropdown>                 
+                        </div>
+                    </div>
+                <div class = "ui-g form-item ">
+                    <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">Gender *</label>
+                    <div class = "ui-g-8 ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad">
+                        <md-radio-group formControlName="gender">
+                            <md-radio-button value = "M" >Male</md-radio-button>
+                            <md-radio-button value = "F" >Female</md-radio-button>
+                        </md-radio-group>
+                        <div class = "ui-message ui-messages-error ui-corner-all"
+                                *ngIf = "regForm.controls['gender'].hasError('required') && regForm.controls['gender'].touched">
+                            Gender is mandatory
+                        </div>
+                    </div>
+                </div>
+                <div class = "ui-g form-item">
+                    <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">Tee Off</label>
+                    <div class = "ui-g-8 ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad">
+                        <md-radio-group formControlName = "teeoff">
+                            <md-radio-button value = "Black">Black</md-radio-button>
+                            <md-radio-button value = "Blue">Blue</md-radio-button>
+                            <md-radio-button value = "White">White</md-radio-button>
+                            <md-radio-button value = "Red">Red</md-radio-button>
+                        </md-radio-group>
+                        <!--<p-selectButton name = "teeoff" formControlName = "teeoff"-->
+                        <!--[options] = "teeoffOptions"></p-selectButton>-->
+                    </div>
+                </div>
+                <div class = "ui-g form-item">
+                    <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">Handicap</label>
+                    <div class = "ui-g-8 ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad">
+                        <p-spinner formControlName = "handicap" [min] = "0" [max] = "36" step = "1"></p-spinner>
+                    </div>
+                </div>
+                <div class = "ui-g form-item">
+                    <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">Phone</label>
+                    <div class = "ui-g-8 ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad">
+                        <input type = "tel" formControlName = "phone" class = "ui-inputtext" pInputText>
+                    </div>
+                </div>
+                <div class = "ui-g form-item">
+                    <label class = "ui-g-4 ui-sm-4 ui-md-3 ui-lg-2 ui-g-nopad">NHS Number</label>
+                    <div class = "ui-g-8 ui-sm-8 ui-md-9 ui-lg-10 ui-g-nopad">
+                        <input type = "text" formControlName = "nhsNumber" class = "ui-inputtext" pInputText>
+                    </div>
+                </div>
+                <div class = "ui-g">
+                    <div class = "ui-g-12  button-panel">
+                        <!--<button pButton type = "submit" label = "Register" icon = "fa-check"-->
+                                <!--[disabled] = "!regForm.valid || duplicateEmail"-->
+                                <!--class = "ui-button-success"></button>-->
+                        <button md-button color="primary" type = "submit"
+                                [disabled] = "!regForm.valid || duplicateEmail">
+                            <md-icon class="mdi-account-plus"></md-icon>Register
+                        </button>
+                        <!--<button pButton type = "button" label = "Reset" (click) = "onReset()"-->
+                                <!--icon = "fa-eraser" class = "ui-button-danger"></button>-->
+                        <button md-button color="warn" (click) = "onReset()" type="reset"
+                                icon = "fa-eraser">
+                            <md-icon class="mdi-eraser"></md-icon>
+                            Reset
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class = "ui-g-1 ui-sm-1 ui-md-1"></div>
+    </div>
+    <div>
+        <p-growl [value] = "emailValidationsMsgs"></p-growl>
+        <p-messages [value] = "registrationMessages"></p-messages>

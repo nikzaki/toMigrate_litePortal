@@ -1,0 +1,20 @@
+team-score-details .ui-datatable .ui-datatable-data tr {
+  border-style: none; }
+  team-score-details .ui-datatable .ui-datatable-data tr td {
+    padding: 0px;
+    text-align: center;
+    line-height: 1.5em; }
+  team-score-details .ui-datatable .ui-datatable-data tr.to-par td {
+    border-bottom-style: double; }
+team-score-details .ui-datatable.accent-table .ui-datatable-thead > tr th {
+  padding: 2px; }
+team-score-details .qualified {
+  font-weight: bold;
+  color: #00695C;
+  padding: 5px; }
+team-score-details .unqualified {
+  text-decoration: line-through;
+  text-decoration-style: double;
+  padding: 5px; }
+team-score-details .settings.vertical-align-center {
+  justify-content: space-between; }

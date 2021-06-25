@@ -1,0 +1,7 @@
+competition-details .label {
+  font-weight: bolder; }
+competition-details .card {
+  padding: 5px; }
+  competition-details .card h1, competition-details .card h2, competition-details .card h3, competition-details .card h4 {
+    text-decoration: underline;
+    margin: 5px 0px; }

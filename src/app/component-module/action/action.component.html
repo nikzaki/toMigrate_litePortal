@@ -1,0 +1,109 @@
+<!--<button  pButton type="button" *ngIf="action.iconOnly && (!action.isDisplay || action.isDisplay(data))"-->
+        <!--icon = "{{action.icon}}" icon-only-->
+        <!--pTooltip = "{{action.descritpion}}"-->
+        <!--[class] = "action.extraClasses?action.extraClasses:''"-->
+        <!--[class.flat]="action.flat"-->
+        <!--(click) = "onClick($event)"></button>-->
+<!--<button  pButton type="button" *ngIf="!action.iconOnly && (!action.isDisplay || action.isDisplay(data))"-->
+        <!--icon = "{{action.icon}}" label="{{action.actionLabel}}"-->
+        <!--pTooltip = "{{action.descritpion}}"-->
+        <!--[class] = "action.extraClasses?action.extraClasses:''"-->
+        <!--[class.flat]="action.flat"-->
+        <!--(click) = "onClick($event)"></button>-->
+<ng-container *ngIf="!action.isDisplay || action.isDisplay(data)">
+    <!--<button *ngIf="action.flat && action.iconOnly" md-icon-button (click)="onClick($event)">-->
+        <!--<md-icon [class]="action.icon"></md-icon>-->
+    <!--</button>-->
+    <!--<button *ngIf="action.flat && !action.iconOnly" md-button (click)="onClick($event)">-->
+        <!--<md-icon *ngIf="action.icon" [class]="action.icon"></md-icon>{{action.actionLabel}}-->
+    <!--</button>-->
+    <!--<button *ngIf="!action.flat && action.iconOnly" md-fab-button (click)="onClick($event)">-->
+        <!--<md-icon [class]="action.icon"></md-icon>-->
+    <!--</button>-->
+    <!--<button *ngIf="!action.flat && !action.iconOnly" md-button (click)="onClick($event)">-->
+        <!--<md-icon *ngIf="action.icon" [class]="action.icon"></md-icon>{{action.actionLabel}}-->
+    <!--</button>-->
+    <ng-container *ngIf="action.deriveRouterLink">
+        <a md-button
+                *ngIf="itemsAs==='flat' && action.actionLabel"
+                [mdTooltip]="action.description"
+                class="link-action" [color]="action.color?action.color:'warn'"
+
+                [routerLink]="action.deriveRouterLink(data)">
+            <md-icon *ngIf="action.icon" [class]="action.icon +' mdi-18px'"></md-icon>
+            <ng-container *ngIf="action.actionLabel">{{action.actionLabel}}</ng-container>
+        </a>
+        <a md-icon-button
+                *ngIf="itemsAs==='flat' && !action.actionLabel"
+                [mdTooltip]="action.description"
+                class="link-action" [color]="action.color?action.color:'warn'"
+                [routerLink]="action.deriveRouterLink(data)">
+            <md-icon *ngIf="action.icon" [class]="action.icon +' mdi-18px'"></md-icon>
+        </a>
+        <a md-raised-button
+                *ngIf="itemsAs==='raised' && action.actionLabel"
+                [mdTooltip]="action.description"
+                class="link-action" [color]="action.color?action.color:'warn'"
+                [routerLink]="action.deriveRouterLink(data)">
+            <md-icon *ngIf="action.icon" [class]="action.icon +' mdi-18px'"></md-icon>
+            <ng-container *ngIf="action.actionLabel">{{action.actionLabel}}</ng-container>
+        </a>
+        <a md-fab
+                *ngIf="itemsAs==='fab'"
+                [mdTooltip]="action.description"
+                class="link-action" [color]="action.color?action.color:'warn'"
+                [routerLink]="action.deriveRouterLink(data)">
+            <md-icon *ngIf="action.icon" [class]="action.icon +' mdi-18px'"></md-icon>
+        </a>
+        <a md-mini-fab
+                *ngIf="itemsAs==='fab-mini'"
+                class="link-action" [color]="action.color?action.color:'warn'"
+                [mdTooltip]="action.description"
+
+                [routerLink]="action.deriveRouterLink(data)">
+            <md-icon *ngIf="action.icon" [class]="action.icon +' mdi-18px'"></md-icon>
+        </a>
+    </ng-container>
+    <ng-container *ngIf="!action.deriveRouterLink">
+        <button md-button
+                [mdTooltip]="action.description"
+                class="link-action" [color]="action.color?action.color:'warn'"
+                *ngIf="itemsAs==='flat' && action.actionLabel"
+                (click)="actionClick($event, action)">
+            <md-icon *ngIf="action.icon" [class]="action.icon +' mdi-18px'"></md-icon>
+            <ng-container *ngIf="action.actionLabel">{{action.actionLabel}}</ng-container>
+        </button>
+        <button md-icon-button
+                [mdTooltip]="action.description"
+                class="link-action" [color]="action.color?action.color:'warn'"
+                *ngIf="itemsAs==='flat' && !action.actionLabel"
+                (click)="actionClick($event, action)">
+            <md-icon *ngIf="action.icon" [class]="action.icon +' mdi-18px'"></md-icon>
+        </button>
+        <button md-raised-button
+                [mdTooltip]="action.description"
+                class="link-action" [color]="action.color?action.color:'warn'"
+                *ngIf="itemsAs==='raised' && action.actionLabel"
+                (click)="actionClick($event, action)">
+            <md-icon *ngIf="action.icon" [class]="action.icon +' mdi-18px'"></md-icon>{{action.actionLabel}}
+        </button>
+        <button md-fab
+                [mdTooltip]="action.description"
+                class="link-action" [color]="action.color?action.color:'warn'"
+                *ngIf="itemsAs==='fab'"
+                (click)="actionClick($event, action)">
+            <md-icon *ngIf="action.icon" [class]="action.icon +' mdi-18px'"></md-icon>
+        </button>
+        <button md-mini-fab
+                [mdTooltip]="action.description"
+                class="link-action" [color]="action.color?action.color:'warn'"
+                *ngIf="itemsAs==='fab-mini'"
+                (click)="actionClick($event, action)">
+            <md-icon *ngIf="action.icon" [class]="action.icon +' mdi-18px'"></md-icon>
+        </button>
+    </ng-container>
+
+</ng-container>
+
+
+

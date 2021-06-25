@@ -1,0 +1,36 @@
+.editor-input {
+  border-width: 0px;
+  border-bottom-width: 1px;
+  border-radius: 0px;
+  border-color: #1976D2;
+  width: 80%; }
+  .editor-input:focus {
+    border-width: 0px;
+    border-bottom-width: 1px;
+    border-radius: 0px;
+    outline: none; }
+
+.attribute-label {
+  font-weight: bold; }
+
+.device-info {
+  padding: 2px; }
+  .device-info div {
+    text-align: left; }
+
+.ui-panel .ui-panel-content {
+  padding: 2px; }
+
+p-toolbar .ui-widget-header {
+  background: transparent;
+  box-shadow: none;
+  padding: 0px; }
+
+.device-list-header {
+  text-align: right; }
+
+p-panel.selected .ui-widget-content {
+  background: lightblue; }
+
+.ui-datagrid .ui-datagrid-header {
+  padding: 2px 3px; }

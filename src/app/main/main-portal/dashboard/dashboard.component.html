@@ -1,0 +1,448 @@
+<!-- <div [@routerTransition]> -->
+<!-- <h2 class="text-muted">Dashboard <small>Statistics Overview</small></h2> -->
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">-->
+<div class = "chunkfive-typography">
+    <div class = "row main-content chunkfive-typography">
+        <div class = "col-g-12">
+            <ngb-carousel #carousel>
+                <ng-template ngbSlide *ngFor = "let slider of sliders">
+                    <img class = "img-fluid mx-auto d-block main-phone" [src] = "slider.imagePath"
+                            alt = "Random first slide" width = "100%">
+                    <!-- [src]="slider.imagePath"  -->
+                    <div class = "carousel-caption">
+                        <div class = "row" style = "align-items:center">
+                            <div class = "col-md-8 text-xs-center">
+                                <div class = "carousel-head-caption">
+                                    <h3 style = "color:white">{{slider.label}} - <br><span class = "feat-color">{{slider.tournament_name}}</span>
+                                    </h3>
+                                </div>
+                                <br>
+                                <!-- <div [hidden] = "slider.hide">
+                                    <a *ngIf = "slider.routerLink" [routerLink] = "slider.routerLink">
+                                        <button type = "button" class = "btn btn-lg btn-primary btn-responsive">View
+                                            Leaderboard
+                                        </button>
+                                    </a>
+                                    <a *ngIf = "!slider.routerLink" href = "{{slider.link}}">
+                                        <button type = "button" class = "btn btn-lg btn-primary btn-responsive">View
+                                            Leaderboard
+                                        </button>
+                                    </a>
+                                    <button [routerLink] = "slider.details" type = "button"
+                                            class = "btn btn-lg btn-success btn-responsive">View Details
+                                    </button>
+                                </div> -->
+                            </div>
+                            <div class = "col-3 text-xs-center hidden-sm-down">
+                                <div class = "card card-default"
+                                        style = "background-color:rgba(255, 255, 255, 0) !important">
+                                    <div>
+                                        <img class = "img-fluid" style = "margin-bottom:-250px;margin-right:500px"
+                                                [src] = "slider.iosPic">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </ngb-carousel>
+            <br>
+            <!--Carousel Wrapper-->
+            <!-- <p-growl [value]="msgs"></p-growl> -->
+            <!-- CAROUSEL HERE -->
+            <!-- <p-carousel headerText="sliders"
+                  [value]="sliders" numVisible="1"
+                  circular="circular" autoplayInterval="3000"
+                  responsive="true">
+                      <ng-template let-slider pTemplate="item">
+                        <img class="img-fluid mx-auto d-block main-phone" [src]="slider.imagePath" alt="Random first slide" width="100%">
+                        <div class="carousel-caption">
+                            <div class="row" style="align-items:center">
+                                <div class="col-md-8 text-xs-center">
+                                    <div class="carousel-head-caption" style="/*background-color:rgba(255, 255, 255, 0) !important*/">
+                                        <h3>{{slider.label}} - <br><span class = "feat-color">{{slider.tournament_name}}</span>
+                                        </h3>
+                                    </div>
+                                    <br>
+                                    <div [hidden]="slider.hide">
+                                        <a *ngIf= "slider.routerLink" [routerLink]="slider.routerLink"><button type = "button" class = "btn btn-lg btn-primary btn-responsive">View Leaderboard</button></a>
+                                        <a *ngIf= "!slider.routerLink" href="{{slider.link}}"><button type = "button" class = "btn btn-lg btn-primary btn-responsive">View Leaderboard</button></a>
+                                        <button type="button" class="btn btn-lg btn-success btn-responsive">View Details</button>
+                                    </div>
+                                </div>
+                                <div class="col-3 text-xs-center hidden-sm-down">
+                                    <div class="card card-default" style="background-color:rgba(255, 255, 255, 0) !important">
+                                        <div>
+                                            <img class="img-fluid" style="margin-bottom:-250px;margin-right:500px" [src]="slider.iosPic">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> -->
+            <!-- <div class="ui-grid ui-grid-responsive">
+                              <div class="ui-grid-row">
+                                  <!-- <div class="ui-grid-col-12"><img src="assets/showcase/images/demo/car/{{car.brand}}.png" width="60"></div> -->
+            <!-- </div>
+                              <div class="ui-grid-row">
+                                  <div class="ui-grid-col-6">Vin</div>
+                                  <div class="ui-grid-col-6">{{slider.label}}</div>
+                              </div>
+                              <div class="ui-grid-row">
+                                  <div class="ui-grid-col-6">Year</div>
+                                  <div class="ui-grid-col-6">{{slider.tournament_name}}</div>
+                              </div>
+                              <div class="ui-grid-row">
+                                  <div class="ui-grid-col-6">Color</div>
+                                  <div class="ui-grid-col-6">{{slider.link}}</div>
+                              </div>
+                              <div class="ui-grid-row">
+                                  <div class="ui-grid-col-12"> -->
+            <!-- <button type="button" pButton icon="fa-search" (click)="selectCar(car)"></button> -->
+            <!-- </div>
+                              </div>
+                          </div> -->
+            <!-- </ng-template>
+                  </p-carousel> -->
+            <!--/.Carousel Wrapper-->
+        </div>
+    </div>
+    <div class = "row main-content">
+        <div class = "col-lg-4 text-xs-center ml-lg-auto chunkfive-typography">
+            <div class = "card card-default card-borderless">
+                <div class = "card-block">
+                    <h3>Welcome To myGolf2u</h3>
+                    <p class = "robotolight-typography lead">Home of Golf Tournaments, live electronic scoring, analysis
+                        and more…</p>
+                    <h4>Clubs/Organizers</h4>
+                    <ul class = "robotolight-typography list-styled list-same-indent">
+                        <li>Manage all your tournaments from A to Z</li>
+                        <li>List your tournament on myGolf2u and get instant access to 1000's of golfers</li>
+                        <li>Introduce Live Scoring/Leaderboard to your club/corporate tournaments</li>
+                        <li>Calculate final scores/winners in a matter of seconds after the final putt!</li>
+                    </ul>
+                    <h4>Players</h4>
+                    <ul class = "robotolight-typography list-styled list-same-indent">
+                        <li>Score all your rounds electronically, view performance & statistics</li>
+                        <li>Review all your tournament scores and performance</li>
+                        <li>Find tournaments, register your interest and monitor progress on the myGolf2u app!</li>
+                        <li>No need to repeatedly register in multiple sites, download forms, fill them, fax them and so
+                            on and so forth!
+                        </li>
+                        <li>Get your latest handicap!</li>
+                    </ul>
+                    <!-- <h3>Welcome To myGolf2u</h3>
+                              <p class = "lead">Tournaments, electronic scorecards, analysis and more…</p>
+                              <ul class = "list-styled">
+                                  <li>myGolf2u is a single place where you can find and register for any competitions in your
+                                      region, your favourite clubs or in the entire country on your phone or in this site.
+                                  </li>
+                                  <li>This eliminates the laborious task of repeatedly registering in multiple sites and having to
+                                      download forms, fill them, fax them and so on and so forth!
+                                  </li>
+                                  <li>Simply search for your competition, click on it to view details and register.</li>
+                                  <li>Get member access at all relevant clubs</li>
+                                  <li>MyGolf mobile also allows you to score your games electronically and keep them for
+                                      analysis.
+                                  </li>
+                              </ul>
+                              <br><br><br> -->
+                </div>
+            </div>
+        </div>
+        <div class = "col-lg-4 text-xs-center">
+            <div class = "card card-default card-borderless">
+                <div class = "card-block">
+                    <h3>News</h3>
+                    <app-feed maxHeight="40em" overflow="auto" [maxCharacters]="300"
+                            feedUrl="https://sports.yahoo.com/golf/rss.xml"></app-feed>
+                    <!-- <feed summary="true" url="http://www.thestar.com.my/rss/sport/golf/" count="3"/> -->
+                    <!--<ul class = "media-list main-list">-->
+                        <!--<li class = "media">-->
+                            <!--<a class = "pull-left" href = "#">-->
+                                <!--<img class = "media-object" src = "assets/images/news1.jpg" alt = "...">-->
+                            <!--</a>-->
+                            <!--<div class = "media-body">-->
+                                <!--<h4 class = "media-heading"><strong>Lahiri falls short and settles for top 10-->
+                                    <!--finish</strong></h4>-->
+                                <!--<p>INDIA’s Anirban Lahiri fell short in his bid to claim his first …</p>-->
+                                <!--<p class = "by-author"><em>16 October</em></p>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li class = "media">-->
+                            <!--<a class = "pull-left" href = "#">-->
+                                <!--<img class = "media-object" src = "assets/images/news2.jpg" alt = "...">-->
+                            <!--</a>-->
+                            <!--<div class = "media-body">-->
+                                <!--<h4 class = "media-heading"><strong>Justin hints he may return for the fourth-->
+                                    <!--time</strong></h4>-->
+                                <!--<p>WORLD No. 4 Justin Thomas (pic) has given the strongest…</p>-->
+                                <!--<p class = "by-author"><em>16 October</em></p>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                        <!--<li class = "media">-->
+                            <!--<a class = "pull-left" href = "#">-->
+                                <!--<img class = "media-object" src = "assets/images/news3.jpg" alt = "...">-->
+                            <!--</a>-->
+                            <!--<div class = "media-body">-->
+                                <!--<h4 class = "media-heading"><strong>Perez returns from injury to nail third PGA Tour-->
+                                    <!--win</strong></h4>-->
+                                <!--<p>AMERICAN Pat Perez completed a remarkable 12-month …</p>-->
+                                <!--<p class = "by-author"><em>16 October</em></p>-->
+                            <!--</div>-->
+                        <!--</li>-->
+                    <!--</ul>-->
+                </div>
+            </div>
+        </div>
+        <div class = "col-2 text-xs-center hidden-sm-down">
+            <!-- .hidden-md-down -->
+            <ul>
+                <li><img src = "assets/images/fj-myjoys.png" class = "img-fluid" /></li>
+            </ul>
+        </div>
+    </div>
+    <!----------- UPCOMING TOURNAMENTS ------------>
+    <div class = "row main-content vertical-center-row">
+        <div class = "col-lg-4 text-xs-center ml-lg-auto">
+            <div class = "card card-default border-0 card-borderless">
+                <div class = "card-block">
+                    <h3>Upcoming Tournaments</h3>
+                    <ul class = "media-list main-list list-group">
+                        <li *ngFor = "let competition of upcomingCompetitions"
+                                [routerLink] = "['/competition/details/'+ competition.competitionId]"
+                                [routerLinkActive] = "['router-link-active']" class = "media list-group-item-action">
+                            <div class = "ui-g align-items-center ui-fluid" style="width: 100%">
+                                <div class = "ui-g-2">
+                                    <a class = "pull-left" href = "javascript:void(0)">
+                                        <!-- [src] = "competition.thumbnail?competition.thumbnail:competition.imageUrl" -->
+                                        <img class = "media-object" *ngIf="competition.thumbnail"
+                                        [src]="competition.thumbnail"
+                                                alt = "...">
+                                                <img class = "media-object" *ngIf="competition.imageUrl && !competition.thumbnail"
+                                        [src]="competition.imageUrl"
+                                                alt = "...">
+                                                <img class = "media-object" *ngIf="!competition.imageUrl && !competition.thumbnail"
+                                        src="assets/images/default_competition.png"
+                                                alt = "...">
+  
+                                    </a>
+                                </div>
+                                <div class = "ui-g-8" style = "padding-left:1.5em">
+                                    <div class = "media-body">
+                                        <h5 class = "comp-date"><i class = "fa fa-calendar"></i>
+                                            {{competition.startDate| date:'EEE, MMMM d y'}} |
+                                            {{competition.scoringFormat}}</h5>
+                                        <h4 class = "media-heading"><strong>{{competition.competitionName}}</strong>
+                                        </h4>
+                                        <p>{{competition.closedForRegistration?'Registration Closed': 'Registration Open'}}</p>
+                                    </div>
+                                </div>
+                                <div class = "ui-g-2 comp-countdown ">
+                                    <span class = "pull-right">Starting {{compStartsIn(competition.startDate)}}</span>
+                                </div>
+                            </div>
+                        </li>
+                    </ul>
+                    <!-- <div class="card-footer text-center bg-transparent">
+                              <button type="button" class="btn btn-lg btn-success btn-wide">View More</button>
+                            </div> -->
+                </div>
+            </div>
+        </div>
+        <div class = "col-lg-4 text-xs-center">
+            <div class = "card card-default border-0 bg-white card-borderless">
+                <div class = "card-block">
+                    <h3>Most Popular Courses</h3>
+                    <!-- <feed summary="true" url="http://www.thestar.com.my/rss/sport/golf/" count="3"/> -->
+                    <ul class = "media-list main-list">
+                        <li class = "media">
+                            <div class = "row">
+                                <div class = "col-3">
+                                    <a class = "pull-left" href = "#">
+                                        <img class = "media-object" src = "assets/images/default_club.png" alt = "...">
+                                    </a>
+                                </div>
+                                <div class = "col-9 media-body">
+                                    <div class = "row">
+                                        <div class = "col-12 align-self-start">
+                                            <h4 class = "media-heading"><strong>Tropicana Golf & Country Resort</strong>
+                                            </h4>
+                                        </div>
+                                        <div class = "col-8">
+                                            <p class = "by-author">
+                                                <em>East 1, Par: 36</em><br>
+                                                <em>East 2, Par: 36</em><br>
+                                                <em>West 1, Par: 36</em></p>
+                                        </div>
+                                        <div class = "col-2 align-self-end">
+                                            <div>
+                                                <!-- <i class="feat-color fa-2x fa fa-star"></i> -->
+                                                <i class = "feat-color material-icons">star_rate</i>
+                                                <br>
+                                                <button type = "button" class = "btn btn-sm btn-success">Selangor
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="row">
+
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class = "media">
+                            <div class = "row">
+                                <div class = "col-3">
+                                    <a class = "pull-left" href = "#">
+                                        <img class = "media-object" src = "assets/images/default_club.png" alt = "...">
+                                    </a>
+                                </div>
+                                <div class = "col-9 media-body">
+                                    <div class = "row">
+                                        <div class = "col-12 align-self-start">
+                                            <h4 class = "media-heading"><strong>The Mines Resort & Golf Club</strong>
+                                            </h4>
+                                        </div>
+                                        <div class = "col-8">
+                                            <p class = "by-author">
+                                                <em>East 1, Par: 36</em><br>
+                                                <em>East 2, Par: 36</em><br>
+                                                <em>West 1, Par: 36</em></p>
+                                        </div>
+                                        <div class = "col-2 align-self-end">
+                                            <div>
+                                                <!-- <i class="feat-color fa-2x fa fa-star"></i> -->
+                                                <i class = "feat-color material-icons">star_rate</i>
+                                                <br>
+                                                <button type = "button" class = "btn btn-sm btn-success">Selangor
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="row">
+
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class = "media">
+                            <div class = "row">
+                                <div class = "col-3">
+                                    <a class = "pull-left" href = "#">
+                                        <img class = "media-object" src = "assets/images/default_club.png" alt = "...">
+                                    </a>
+                                </div>
+                                <div class = "col-9 media-body">
+                                    <div class = "row">
+                                        <div class = "col-12 align-self-start">
+                                            <h4 class = "media-heading"><strong>Kota Permai Golf & Country Club</strong>
+                                            </h4>
+                                        </div>
+                                        <div class = "col-8">
+                                            <p class = "by-author">
+                                                <em>East 1, Par: 36</em><br>
+                                                <em>East 2, Par: 36</em><br>
+                                                <em>West 1, Par: 36</em></p>
+                                        </div>
+                                        <div class = "col-2 align-self-end">
+                                            <div>
+                                                <!-- <i class="feat-color fa-2x fa fa-star"></i> -->
+                                                <i class = "feat-color material-icons">star_rate</i>
+                                                <br>
+                                                <button type = "button" class = "btn btn-sm btn-success">Selangor
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <!-- <div class="row">
+
+                                        </div> -->
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <!-- <li class="media">
+                          <a class="text-right" href="#">
+                                            <img class = "media-object" src = "assets/images/default_club.png" alt = "...">
+                                        </a>
+                          <div class="media-body">
+                            <h4 class="media-heading"><strong>The Mines Resort & Golf Club</strong></h4>
+                            <p class="by-author"><em>East 1, Par: 36</em><br>
+                              <em>East 2, Par: 36</em><br>
+                              <em>West 1, Par: 36</em></p>
+                          </div>
+                          <div class="text-right">
+                            <i class="feat-color material-icons">star_rate</i>
+                            <br>
+                            <button type="button" class="btn btn-sm btn-success">Selangor</button>
+                          </div>
+                        </li>
+                        <li class="media">
+                          <a class="pull-left" href="#">
+                                            <img class = "media-object" src = "assets/images/default_club.png" alt = "...">
+                                        </a>
+                          <div class="media-body">
+                            <h4 class="media-heading"><strong>Kota Permai Golf & Country Club</strong></h4>
+                            <p class="by-author"><em>East 1, Par: 36</em><br>
+                              <em>East 2, Par: 36</em><br>
+                              <em>West 1, Par: 36</em></p>
+                          </div>
+                          <div class="text-right">
+                            <i class="feat-color material-icons">star_rate</i>
+                            <br>
+                            <button type="button" class="btn btn-sm btn-success">Selangor</button>
+                          </div>
+                        </li> -->
+                    </ul>
+                    <!-- <div class="card-footer text-center">
+                              <button type="button" class="btn btn-lg btn-success btn-wide">View More</button>
+                            </div> -->
+                </div>
+            </div>
+        </div>
+        <div class = "col-2 text-xs-center hidden-sm-down">
+            <ul>
+                <li><img src = "assets/images/austads.gif" class = "img-fluid" /></li>
+                <li><img src = "assets/images/gigagolf.gif" class = "img-fluid" /></li>
+            </ul>
+        </div>
+    </div>
+    <!-- <div class="row">
+          <div class="col-xl-3 col-lg-6">
+              <app-stat [bgClass]="'card-primary'" [icon]="'fa-comments'" [count]="26" [label]="'New Comments!'" ></app-stat>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+              <app-stat [bgClass]="'card-info'" [icon]="'fa-tasks'" [count]="12" [label]="'New task!'" ></app-stat>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+              <app-stat [bgClass]="'card-success'" [icon]="'fa-shopping-cart'" [count]="124" [label]="'New Orders!'" ></app-stat>
+          </div>
+          <div class="col-xl-3 col-lg-6">
+              <app-stat [bgClass]="'card-danger'" [icon]="'fa-support'" [count]="13" [label]="'New Tickets!'"></app-stat>
+          </div>
+      </div> -->
+    <!-- <ngb-alert [type]="alert.type" (close)="closeAlert(alert)" *ngFor="let alert of alerts">{{ alert.message }}</ngb-alert> -->
+    <!-- <div class="row">
+          <div class="col-lg-8">
+              <div class="card card-default">
+                  <div class="card-header">
+                      <i class="fa fa-clock-o fa-fw"></i> Responsive Timeline
+                  </div>
+                  <app-timeline></app-timeline>
+              </div>
+          </div>
+          <div class="col-lg-4">
+              <div class="card card-default">
+                  <div class="card-header">
+                      <i class="fa fa-bell fa-fw"></i> Notifications card
+                  </div>
+                  <app-notification></app-notification>
+              </div>
+
+              <app-chat></app-chat>
+          </div>
+      </div> -->
+    <!-- </div> -->
+</div>
+<!--<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>-->
+<!--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js" integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ" crossorigin="anonymous"></script>-->

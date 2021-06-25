@@ -1,0 +1,21 @@
+.ui-datatable-thead {
+    .ui-state-default{
+        th {
+            &.ui-state-default{
+                background: #2196F3;
+                color: white;
+            }
+        }
+    }
+}
+.ui-dropdown-item-empty, .ui-dropdown-label-empty {
+    text-indent: 0px !important;
+}
+
+.assignOverlay .ui-widget-content .ui-inputtext {
+    color: white;
+}
+
+.main-container {
+    height: 500px;
+}

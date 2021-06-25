@@ -1,0 +1,285 @@
+
+	.scroll-off-container{
+		position: relative;
+		width: 100%;
+		display: block;
+	}
+
+	.scroll-off-container iframe{
+		width: 100%;
+	}
+
+
+	/* Main Content Borders */
+	.page-header,
+	.main-content ul.list-bordered li,
+	.main-content ul.sitemap li li,
+	.main-content pre,
+	.main-content .user-rating,
+	.main-content .post-section,
+	.main-content ul.comments > li,
+	.main-content ul.comments > li ul li,
+	.main-content .review-bars,
+	.main-content .review-tally,
+	.main-content aside.sidebar .widget,
+	.main-content .team-member-details .social-links,
+	.main-content .team-page .grid-item,
+	.main-content .list-stats li,
+	.main-content table th,
+	.main-content table td,
+	.main-content table.table-striped td:first-child,
+	.main-content table.table-striped th:first-child,
+	.main-content .table-fixtures td,
+	.main-content .table-fixtures th,
+	.main-content div.grid-item.product,
+	.main-content .widget-shop-cart .sub-total,
+	.main-content .cart-subtotal .cart-total,
+	.main-content .cart-payment,
+	.main-content .events-filter,
+	.main-content .event-details dl,
+	.main-content .table-bordered > tbody > tr > td,
+	.main-content .table-bordered > tbody > tr > th,
+	.main-content .table-bordered > tfoot > tr > td,
+	.main-content .table-bordered > tfoot > tr > th,
+	.main-content .table-bordered > thead > tr > td,
+	.main-content .table-bordered > thead > tr > th,
+	.main-content .data-row-cell,
+	.table-price > div[class*="col-"] .table-price-cell,
+	.table-price > div[class*="col-"] .table-price-cell > div,
+	.table-price > div[class*="col-"] .table-price-cell > ul,
+	.main-content form fieldset + fieldset,
+	.rule-icon:before,
+	.rule-icon:after,
+	.section-bordered,
+	.main-content .widget-player-profile h1,
+	.main-content .widget-countdown .meta-text,
+	.main-content .widget-countdown  .versus,
+	.main-content .widget-player-profile + p,
+	.main-content .toggle-btn:before,
+	.main-content .accordion-btn:before,
+	.main-content .list-stats {
+		border-color: #eaeaea;
+	}
+
+	/* Main Content Headings*/
+	.main-content h1,
+	.main-content h2,
+	.main-content h3,
+	.fancybox-skin h1,
+	.fancybox-skin h2,
+	.fancybox-skin h3 {
+		color: #004720;
+	}
+
+	/* Secondary Content Headings*/
+	.main-content h4,
+	.main-content h5,
+	.main-content h6,
+	.fancybox-skin h4,
+	.fancybox-skin h5,
+	.fancybox-skin h6{
+		color: #004720;
+	}
+
+	/* Main Content Headings Span/Small*/
+	.h1 .small, .h1 small, h1 .small, h1 small, .h1 span, h1 span,
+	.h2 .small, .h2 small, h2 .small, h2 small, .h2 span, h2 span,
+	.h3 .small, .h3 small, h3 .small, h3 small, .h3 span, h3 span,
+	.h4 .small, .h4 small, h4 .small, h4 small, .h4 span, h4 span,
+	.h5 .small, .h5 small, h5 .small, h5 small, .h5 span, h5 span,
+	.h6 .small, .h6 small, h6 .small, h6 small, .h6 span, h6 span{
+		color: #00632c;
+	}
+
+	/* Main Content Links Hover */
+	.main-content a:hover,
+	.main-content a.toggle-btn.active,
+	.main-content a.accordion-btn.active,
+	.main-content a:hover h1,
+	.main-content a:hover h2,
+	.main-content a:hover h3,
+	.main-content a:hover h4,
+	.main-content a:hover h5,
+	.main-content a:hover h6,
+	.main-content a:hover strong,
+	.main-content .post-meta a:hover,
+	.main-content .meta-text a:hover,
+	.main-content .product  a:hover small.price.discount,
+	.fancybox-skin a:hover,
+	.parallax-background a:hover,
+	.parallax-background a:active,
+	.parallax-background a:focus{
+		color: #ffae00;
+	}
+
+	/* Main Content Lead text */
+	.main-content .lead{
+		color: #1c2721;
+	}
+	h1{
+		font-family: 'chunkfive_exregular';
+	}
+
+	h2{
+		font-family: 'chunkfive_exregular';
+	}
+
+	h3,
+	.list-stats h4.counter,
+	div.table-price-cell div.price-plan{
+		font-family: 'chunkfive_exregular';
+	}
+
+	h4,
+	.review-tally{
+		font-family: 'robotobold';
+	}
+
+	h5{
+		font-family: 'robotobold';
+	}
+
+	h6{
+		font-family: 'robotobold';
+	}
+
+	input,
+	textarea,
+	select{
+		font-family: 'robotoregular';
+	}
+
+	/* Main Content Form Fields */
+	.form-control,
+	.menuzord-menu > li.search form input[type="text"],
+	.input-group-addon,
+	form .input input,
+	form .select select,
+	form .textarea textarea,
+	form .radio i,
+	form .checkbox i,
+	form .toggle i,
+	.main-content form .input-captcha img{
+		background: #f1f1f1;
+		background-color: rgba(241, 241, 241, .2);
+		color: #555;
+		box-shadow: none;
+	}
+
+	/* Main Content Form Borders */
+	.form-control,
+	.menuzord-menu > li.search form input[type="text"],
+	.input-group-addon,
+	form .input input,
+	form .select select,
+	form .textarea textarea,
+	form .radio i,
+	form .checkbox i,
+	form .toggle i,
+	form .icon_append,
+	form .icon_prepend,
+	.main-content form .input-captcha img,
+	form .ui-slider{
+		border-color: #eaeaea;
+	}
+
+	/* Main Content Form Focus */
+	.form-control:focus,
+	form .input input:focus,
+	form .select select:focus,
+	form .textarea textarea:focus,
+	form .radio input:focus + i,
+	form .checkbox input:focus + i,
+	form .toggle input:focus + i,
+	form .input:hover input,
+	form .select:hover select,
+	form .textarea:hover textarea,
+	form .radio:hover i,
+	form .checkbox:hover i,
+	form .toggle:hover i,
+	form .ui-slider-handle:hover,
+	form .input input:focus,
+	form .select select:focus,
+	form .textarea textarea:focus,
+	form .radio input:focus + i,
+	form .checkbox input:focus + i,
+	form .toggle input:focus + i,
+	form .ui-slider-handle{
+		border-color: #97d797;
+		box-shadow: none;
+	}
+
+	@media screen and (max-width: 1900px) {
+	    .main-container {
+	        margin-left: 0px !important;
+	        // margin-top: 104px;
+	    }
+	}
+	@media screen and (min-width:992px) and (max-width:1466px){
+	      .main-container {
+	        margin-left: 0px !important;
+	        // margin-top: 100px;
+					.scroll-off-container iframe{
+						width: 100%;
+						max-height: 30em
+					}
+	    }
+	}
+
+	@media screen and (min-width:900px) and (max-width:992px){
+	      .main-container {
+	        margin-left: 0px !important;
+	        // //margin-top: 94px;
+
+					.scroll-off-container iframe{
+						width: 100%;
+						max-height: 30em
+					}
+	    }
+	}
+
+	ul.list-styled li::before{
+		content:"\f054"; /* http://fontawesome.bootstrapcheatsheets.com/ */
+		font-family: "FontAwesome";
+		font-size: .65rem;
+		top: 4px;
+		margin-right: 1em;
+	}
+
+	ul.list-styled-alt li::before,
+	ul.list-filter li a::before{
+		content:"\f067";
+		font-family: "FontAwesome";
+		font-size: .65rem;
+		top: 4px;
+	}
+
+	ul.list-styled li::before,
+	ul.list-styled-alt li::before,
+	ul.list-filter li a::before,
+	.main-content ul.list-filter li a.active,
+	.main-content a.feat-color,
+	.read-more::before,
+	.main-content .tab-nav li.active,
+	.main-content .hover-box-content a:hover,
+	.main-content .hover-box-content a:hover *,
+	.main-content .widget-stats .counter,
+	.main-content .widget-stats .stat-icon,
+	.icons-list > li span.glyphicon,
+	.icons-list > li span.fa,
+	.icons-list [class^="icon-"],
+	.main-content .table-events td.current-day b:first-child,
+	.main-content .table-events td.active-time b:first-child,
+	.data-row-cell:after,
+	.table-data-row td:after,
+	.data-row-cell span.interval,
+	table.table-data-row tr:nth-child(odd) td:first-child span.interval,
+	.table-data-row tr.featured td:first-child:before,
+	div.table-price-cell div.price-plan,
+	.table-price > div[class*="col-"] .table-price-cell.featured:before,
+	.main-content form .rating input + label:hover,
+	.main-content form .rating input + label:hover ~ label,
+	.widget-countdown  .versus > span,
+	.fa-heart.active {
+		color: #ffae00;
+	}

@@ -1,0 +1,12 @@
+<ng-container *ngFor="let notification of notifications">
+    <md-card *ngIf="notification">
+        <md-card-header>
+            <img md-card-avata *ngIf = "notification?.image"
+                    [src] = "notification?.image">
+            <md-card-title>{{notification?.title}}</md-card-title>
+        </md-card-header>
+        <md-card-content *ngIf="notification?.message">
+            <div [innerHTML] = "notification?.message"></div>
+        </md-card-content>
+    </md-card>
+</ng-container>

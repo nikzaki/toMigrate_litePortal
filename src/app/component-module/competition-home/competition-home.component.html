@@ -1,0 +1,63 @@
+<section class="mat-typography" >
+    <div  style="text-align: center" class="mat-headline">Competition Home</div>
+    <md-tab-group [(selectedIndex)]="adminHomePref.tabIndex">
+        <md-tab label="Active Competitions">
+            <section  class="card mat-typography">
+                <search [showRefersh]="false" [filterText]="adminHomePref.activeCompSearchText"
+                        (onFilterTextChange)="onFilter($event)"
+                        prompt="Enter text here to filter competitions"></search>
+                <div class="spacer"></div>
+                <competition-list
+                        *ngIf="adminHomePref.activeCompSearchText || (activeCompetitions && activeCompetitions.length)"
+                        [competitions]="activeCompetitions" [showClubInfo]="true"
+                        [showCompetitionStatus]="false"
+                        [actions]="activeCompActions"
+                        (onCompetitionAction)="onCompetitionAction($event)"
+                        emptyMessage="No active competitions found matching search criteria"
+                        [totalCompetitions]="activeCompetitions.length">
+                </competition-list>
+                <h3 *ngIf="(!activeCompetitions || !activeCompetitions.length) && !adminHomePref.activeCompSearchText">
+                    No active competitions today.
+                </h3>
+            </section>
+        </md-tab>
+        <md-tab label="Competitions">
+            <section class="mat-typography">
+                <section class="ui-g">
+                    <section class="ui-g-12 ui-md-6 ui-lg-4 vertical-align-center">
+                        <section>
+                            <label class="radio-chkbox-spacer">Search</label>
+                            <md-radio-group [(ngModel)]="adminHomePref.searchType"
+                                    name="searchType" (change)="onSearchTypeChange($event)">
+                                <md-radio-button class="radio-chkbox-spacer" value="Upcoming">Upcoming</md-radio-button>
+                                <md-radio-button class="radio-chkbox-spacer" value="All">All</md-radio-button>
+                            </md-radio-group>
+                        </section>
+                    </section>
+                    <section class="ui-g-12 ui-md-6 ui-lg-8">
+                        <search [showRefersh]="false"
+                                [filterText]="adminHomePref.upcomingCompSearchText"
+                                (onFilterTextChange)="onFilterOtherComps($event)"
+                                prompt="Enter text here to filter competitions"></search>
+                    </section>
+                </section>
+                <div class="spacer"></div>
+                <competition-list #compList
+                        [competitions]="upcomingCompetitions?.competitions"
+                        [showClubInfo]="true"
+                        [showCompetitionStatus]="true"
+                        [actions]="activeCompActions"
+                        (onCompetitionAction)="onCompetitionAction($event)"
+                        (onPageRequest)="onUpcomingCompPageRequest($event)"
+                        emptyMessage="No competitions found"
+                        [initialPage]="adminHomePref?.upcomingCompPageNo"
+                        [pageSize]="upcomingCompPageSize"
+                        [lazyLoad]="true"
+                        paginatorPosition="top"
+                        [paginator]="upcomingCompetitions?.totalItems>upcomingCompPageSize"
+                        [totalCompetitions]="upcomingCompetitions?.totalItems">
+                </competition-list>
+            </section>
+        </md-tab>
+    </md-tab-group>
+</section>

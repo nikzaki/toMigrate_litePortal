@@ -1,0 +1,143 @@
+@import "../../../assets/colors/named-colors";
+team-score-details {
+    .ui-datatable .ui-datatable-data tr {
+        border-style: none;
+        td {
+            padding: 0px;
+            text-align: center;
+            height: 30px;
+            line-height: 1.5em;
+            &.total-col {
+                background-color: lighten($parColor, 10%);
+            }
+        }
+        &.to-par {
+            &.out-under .out-total {
+                background-color: #F44336;
+                color: white;
+            }
+            &.in-under .in-total {
+                background-color: #F44336;
+                color: white;
+            }
+            &.tot-under .overall-total {
+                background-color: #F44336;
+                color: white;
+            }
+
+            &.out-over .out-total {
+                background-color: black;
+
+                color: white;
+            }
+            &.in-over .in-total {
+                background-color: black;
+
+                color: white;
+            }
+            &.tot-over .overall-total {
+                background-color: black;
+
+                color: white;
+            }
+
+            &.out-on .out-total {
+                background-color: #2196F3;
+                color: white;
+            }
+            &.in-on .in-total {
+                background-color: #2196F3;
+                color: white;
+            }
+            &.tot-on .overall-total {
+                background-color: #2196F3;
+                color: white;
+            }
+        }
+        &.gross-row {
+            height: auto;
+            padding: 3px 2px;
+            &.out-under .out-total {
+                background-color: #F44336;
+                color: white;
+            }
+            &.in-under .in-total {
+                background-color: #F44336;
+                color: white;
+            }
+            &.tot-under .overall-total {
+                background-color: #F44336;
+                color: white;
+            }
+
+            &.out-over .out-total {
+                background-color: black;
+
+                color: white;
+            }
+            &.in-over .in-total {
+                background-color: black;
+
+                color: white;
+            }
+            &.tot-over .overall-total {
+                background-color: black;
+
+                color: white;
+            }
+
+            &.out-on .out-total {
+                background-color: #2196F3;
+                color: white;
+            }
+            &.in-on .in-total {
+                background-color: #2196F3;
+                color: white;
+            }
+            &.tot-on .overall-total {
+                background-color: #2196F3;
+                color: white;
+            }
+        }
+        &.gap-row {
+            line-height: 10px;
+        }
+    }
+    .ui-datatable.accent-table .ui-datatable-thead > tr th {
+        padding: 2px;
+    }
+    .qualified {
+        font-weight: bold;
+        //color: #00695C;
+        padding: 5px;
+    }
+    .unqualified {
+        text-decoration: line-through;
+        text-decoration-style: double;
+        padding: 5px;
+    }
+    .settings {
+        &.vertical-align-center {
+            justify-content: space-between;
+        }
+    }
+
+    .under-par {
+        .topar-total-column, .score-total-column  {
+            background-color: #F44336;
+            color: white;
+        }
+    }
+    .over-par {
+        .topar-total-column, .score-total-column  {
+            background-color: black;
+            color: white;
+        }
+    }
+    .on-par {
+        .topar-total-column, .score-total-column  {
+            background-color: #2196F3;
+            color: white;
+        }
+    }
+}

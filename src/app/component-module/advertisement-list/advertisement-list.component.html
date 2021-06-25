@@ -1,0 +1,41 @@
+<p-dataGrid [value] = "advertisements"
+        [emptyMessage]="emptyMessage"
+        [paginator] = "showPaginator"
+        [lazy] = "lazyLoad"
+        [rows]="pageSize"
+        [paginatorPosition] = "paginatorPosition"
+        [totalRecords] = "totalAdvertisements"
+        (onLazyLoad) = "onLazyLoadRequest($event)">
+    <p-header *ngIf="listHeader">
+        <div class="ui-g">
+            <div class="ui-g-8 vertical-align-center" style="padding:0">
+                <i class="material-icons">movie</i>{{listHeader}}
+            </div>
+            <div *ngIf="actions && actions.length" class="ui-g-4 action-panel" style="padding:0">
+                <action-panel
+                        itemLayout="horizontal"
+                        itemsAs="flat"
+                        (onActionClick)="onAdListAction($event)"
+                        [actions]="actions"></action-panel>
+            </div>
+        </div>
+
+        <!--<div *ngIf="actions && actions.length" class="action-panel">-->
+            <!---->
+        <!--</div>-->
+    </p-header>
+    <ng-template let-advertisement pTemplate="item">
+        <div class="ui-g-12" [class.ui-md-6]="!displayAsList" [class.ui-lg-4]="!displayAsList">
+            <advertisement-display [advertisement]="advertisement"
+                    [draggable]="draggable"
+                    [dragId]="dragId"
+                    (onDrag)="onAdDragged($event)"
+                    (onDragEnd)="onAdDragEnd($event)"
+                    (onAction)="onAdAction($event)"
+                    [actions]="itemActions"
+                    [selectable]="selectable" [clickable]="clickable"
+                    [displayMode]="displayMode"></advertisement-display>
+        </div>
+
+    </ng-template>
+</p-dataGrid>

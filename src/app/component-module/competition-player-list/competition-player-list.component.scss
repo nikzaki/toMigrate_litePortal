@@ -1,0 +1,38 @@
+competition-player-list{
+    .player {
+        vertical-align: middle;
+        text-overflow: ellipsis;
+
+        .player-name {
+            line-height: 30px;
+            margin-left: 3px;
+            white-space: normal;
+            &:hover {
+                text-decoration: underline;
+                cursor: pointer;
+                cursor: hand;
+            }
+        }
+    }
+    .player-image {
+        width: 30px;
+        margin-right: 5px;
+
+    }
+    .team-logo {
+        height: 50px;
+        margin-right: 10px;
+    }
+    section {
+        //border: solid thin silver;
+        //border-radius: 10px;
+        margin-bottom: 10px;
+        padding: 10px;
+    }
+    .mat-column-player {
+        flex: 1 0 50%;
+    }
+    .mat-column-handicap, .mat-column-status {
+        text-align: center;
+    }
+}

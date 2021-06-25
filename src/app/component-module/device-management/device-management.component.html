@@ -1,0 +1,127 @@
+<p-panel header = "Filter" styleClass = "mui--z2">
+    <div class = "ui-grid ui-grid-responsive">
+        <div class = "ui-grid-row">
+            <div class = "ui-grid-col-4">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2" style="padding-left: 5px"> Showing</div>
+                        <div class="ui-grid-col-10">
+                            <p-selectButton [options] = "showingOptions"
+                                    (onChange) = "onRefreshClick()"
+                                    [(ngModel)] = "showing"></p-selectButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "ui-grid-col-5" *ngIf="showing==='devices'">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2" style="padding-left: 5px"> List Only</div>
+                        <div class="ui-grid-col-10">
+                            <p-selectButton [options] = "platformOptions" multiple="multiple"
+                                    (onChange) = "onRefreshClick()"
+                                    [(ngModel)] = "platform"></p-selectButton>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "ui-grid-col-3" style = "text-align:left"  *ngIf="showing==='devices'">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-6" style="padding-left: 5px"> Active on or after</div>
+                        <div class="ui-grid-col-6">
+                            <p-calendar [(ngModel)] = "activeOnOrAfter"
+                                    dateFormat = "dd-M-yy"></p-calendar>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-col-3" *ngIf="showing==='favorites'">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-6" style="padding-left: 5px">Page Size</div>
+                        <div class="ui-grid-col-6">
+                            <p-spinner [(ngModel)] = "pageSize" [size]="30" [min] = "0" [max] = "100"
+                                    (onChange)="onPageSize()"></p-spinner>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "ui-grid-col-4" *ngIf="showing==='favorites'">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2" style="padding-left: 5px">Search</div>
+                        <div class="ui-grid-col-10">
+                            <input type = "search" pInputText [(ngModel)] = "favoriteFilter"
+                                    placeholder = "Enter filter string"
+                                    name = "search" (ngModelChange) = "filterFavorites()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="ui-grid-col-1"  *ngIf="showing==='favorites'">
+                <button pButton icon-left label = "Refresh"
+                        style="width: 100%"
+                        (click) = "onRefreshClick()"></button>
+            </div>
+        </div>
+        <br />
+        <div class = "ui-grid-row" *ngIf="showing==='devices'">
+            <div class="ui-grid-col-4">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2" style="padding-left: 5px">Page Size</div>
+                        <div class="ui-grid-col-10">
+                            <p-spinner [(ngModel)] = "pageSize" [size]="30" [min] = "0" [max] = "100"
+                                (onChange)="onPageSize()"></p-spinner>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "ui-grid-col-5">
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-2" style="padding-left: 5px">Search</div>
+                        <div class="ui-grid-col-10">
+                            <input type = "search" pInputText [(ngModel)] = "searchText"
+                                    placeholder = "Enter search string to filter"
+                                    name = "search" (ngModelChange) = "onRefreshClick()">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "ui-grid-col-3" >
+                <div class="ui-grid ui-grid-responsive ui-fluid">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-6" style="padding-left: 5px"></div>
+                        <div class="ui-grid-col-6">
+                            <button pButton icon-left label = "Refresh"
+                                    style="width: 100%"
+                                    (click) = "onRefreshClick()"></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</p-panel>
+<div *ngIf="showing==='devices'"> Total selected : {{totalSelected()}}</div>
+<device-list *ngIf="showing==='devices'" [deviceList] = "deviceList?.deviceList" [allowEdit] = "true"
+        [favoriteDevices]="favoriteDeviceIds"
+        [displayMode]="'grid'"
+        [showing]="'devices'"
+        [rowsPerPage] = "pageSize" [selectable]="true"
+        [showPaginator] = "deviceList?.totalItems > pageSize" [totalItems] = "deviceList?.totalItems"
+        (onPage)="onPage($event)"
+        (onAddToFavorite) = "addToFavorites($event)"
+        (onDeviceUpdate) = "onDeviceUpdated($event)">
+</device-list>
+<device-list *ngIf="showing==='favorites'" [deviceList] = "filteredFavorites" [allowEdit] = "false"
+        [displayMode]="'grid'"
+        [showing]="'favorites'"
+        [rowsPerPage] = "pageSize" [selectable]="true"
+        [showPaginator] = "filteredFavorites.length>pageSize" [totalItems] = "filteredFavorites.length"
+        (onRemoveFromFavorite)="removeFromFavorites($event)">
+</device-list>
+<p-growl [(value)]="messages" [life]="3000" [sticky]="false"></p-growl>

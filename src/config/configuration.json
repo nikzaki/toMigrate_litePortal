@@ -1,0 +1,7 @@
+{
+  "serverRoot": "http://clslet.mygolf2u.com",
+  "webSocketDebug": false,
+  "webSocketProtocol": "ws",
+  "webSocketPort": 80,
+  "serverPort": 80
+}

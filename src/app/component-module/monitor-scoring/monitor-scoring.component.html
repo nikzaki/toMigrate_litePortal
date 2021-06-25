@@ -1,0 +1,63 @@
+<div class = "card top-card">
+    <h2>{{monitoring?.competitionName}} Status Monitoring {{roundNo?'for Round '+roundNo:''}}</h2>
+    <p-fieldset legend="Filter" [toggleable]="true">
+        <div class="ui-g">
+            <div class="ui-g-4">
+                <p-radioButton name="currentView" value="monitor" label="Monitoring" [(ngModel)]="currentView"></p-radioButton>
+                <p-radioButton name="currentView" value="assignment" label="Device Assignment" [(ngModel)]="currentView"></p-radioButton>
+            </div>
+            <div class="ui-g-4" *ngIf="currentView=== 'monitor'">
+                Auto Refresh <p-checkbox [(ngModel)]="autoRefresh" binary="true"></p-checkbox>
+                every <p-spinner [(ngModel)]="autoRefreshFrequency"
+                    [min]="5" [max]="60" [maxlength]="3"
+                    (onChange)="handleFrequencyChange($event)"></p-spinner> seconds
+            </div>
+            <!--<div class="ui-g-4" *ngIf="currentView=== 'monitor'">Frequency (Seconds)-->
+                <!---->
+            <!--</div>-->
+            <div class="ui-g-4" *ngIf="currentView=== 'monitor'">
+                Show <p-checkbox [(ngModel)]="showPending" binary="true" label="Pending" (onChange)="filterChanged()"></p-checkbox>
+                <p-checkbox [(ngModel)]="showSubmitted" binary="true" label="Submitted" (onChange)="filterChanged()"></p-checkbox>
+                <p-checkbox [(ngModel)]="showWithdrawn" binary="true" label="Withdrawn" (onChange)="filterChanged()"></p-checkbox>
+            </div>
+            <div class="ui-g-4" *ngIf="currentView=== 'monitor'" style="padding: 0px">
+                <search [showRefersh]="false"
+                        (onFilterTextChange)="filterChanged($event)"></search>
+            </div>
+
+            <div class="ui-g-4" *ngIf="currentView=== 'monitor'">
+                <p-radioButton name="displayMode" value="grid" label="Grid Display" [(ngModel)]="displayMode"></p-radioButton>
+                <p-radioButton name="displayMode" value="table" label="Tabular Display" [(ngModel)]="displayMode"></p-radioButton>
+            </div>
+            <div class="ui-g-4">
+                <button pButton label="Show Devices" (click)="showDeviceStatus($event)"></button>
+            </div>
+        </div>
+    </p-fieldset>
+</div>
+<device-assignment *ngIf="currentView==='assignment'"
+    [flights]="competitionFlights" [competitionLocks]="data.competitionLocks">
+</device-assignment>
+<scoring-display *ngIf="currentView==='monitor'"
+        [data]="data" [displayMode]="displayMode">
+</scoring-display>
+<scoring-notifications
+        [notifications]="scoringNotifications|async"></scoring-notifications>
+<p-overlayPanel #deviceoverlay [showCloseIcon]="true" [style]="{'maxWidth': '700px'}">
+    <p-dataTable [value]="data.competitionLocks" styleClass="accent-table">
+        <p-column field="flightNumber" header="flight" [style]="{'width':'10%'}"></p-column>
+        <p-column field="scorerName" header="Scorer" [style]="{'width':'40%'}"></p-column>
+        <p-column field="deviceName" header="Device" [style]="{'width':'40%'}"></p-column>
+        <p-column field="batteryLevel" header="Battery" [style]="{'width':'10%'}">
+            <ng-template pTemplate="body" let-device="rowData">
+                <span class="battery-level" [class.battery-ok]="device.batteryLevel >= 60"
+                        [class.battery-low]="device.batteryLevel<60 && device.batteryLevel >= 35"
+                        [class.battery-critical]="device.batteryLevel<35">
+                    {{device.batteryLevel}}%
+                </span>
+
+            </ng-template>
+        </p-column>
+    </p-dataTable>
+</p-overlayPanel>
+

@@ -1,0 +1,11 @@
+player-merge {
+    .button-panel {
+        text-align: center;
+        button {
+            width: auto;
+        }
+    }
+    .ui-growl {
+        z-index: 1035 !important;
+    }
+}

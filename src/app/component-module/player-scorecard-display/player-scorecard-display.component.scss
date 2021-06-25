@@ -1,0 +1,41 @@
+player-scorecard-display {
+    .ui-datatable .ui-datatable-data tr {
+        border-style: none;
+        td {
+            padding: 0px;
+            text-align: center;
+            line-height: 1.5em;
+            &.total-col {
+                border-left: double;
+                border-right: double;
+                border-color: black;
+            }
+        }
+    }
+    .ui-widget-content {
+        &.index-row {
+            td:first-child {
+                background-color: white;
+                color: black;
+                border-style: solid;
+            }
+        }
+    }
+    .ui-datatable .ui-datatable-data>tr>td {
+        border-style: none;
+    }
+    .amateur {
+        .bogey-score {
+            text-decoration: underline;
+        }
+        .double-bogey-score {
+            text-decoration: underline;
+            text-decoration-style: double;
+        }
+        .triple-bogey-score {
+            text-decoration: underline;
+            text-decoration-style: double;
+        }
+    }
+
+}

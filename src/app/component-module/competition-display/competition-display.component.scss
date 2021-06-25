@@ -1,0 +1,44 @@
+competition-display {
+    .competition{
+        padding:5px;
+        border-bottom:1px solid #D5D5D5;
+
+        .competition-image {
+            text-align:center;
+            img {
+                width:64px;
+                height:64px
+            }
+        }
+        .bold-icon {
+            font-weight: bold;
+        }
+        .competition-name, .competition-club, .competition-dates{
+            display: flex;
+            align-items: center;
+        }
+
+        .competition-actions {
+            text-align: left;
+            margin-top: 10px;
+            button {
+                width: auto;
+                margin-right: 5px;
+            }
+        }
+    }
+    md-card.competition-card {
+        .mat-card-header-text {
+            width: 100%;
+        }
+        .headline {
+            font-size: 1.3rem;
+        }
+        .mat-card-content {
+            padding-left: 45px;
+        }
+        .mat-card-actions, .mat-card-content, .mat-card-subtitle, .mat-card-title {
+            margin-bottom: 5px;
+        }
+    }
+}

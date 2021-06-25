@@ -1,0 +1,645 @@
+app-team-expand {
+    font-size: 1em !important;
+    font-weight: normal;
+    .feat-color {
+        color: #e9d35c;
+    }
+    th {
+        text-align: center;
+    }
+
+    td{
+        font-size: 0.6em !important;
+        vertical-align: middle !important;
+        text-align: center !important;
+        margin-left: auto !important;
+        height: auto !important;
+        > span {
+            display: block;
+            text-align: center;
+            margin: 0 auto;
+        }
+        &:last-child {
+            width:100%;
+        }
+    }
+    th {
+        font-size: 0.6em !important;
+    }
+
+    .nav-link.active {
+        border-bottom-style: solid;
+        border-bottom-color: rgb(59,197,84);
+    }
+
+    .player-name-column {
+        width: 10em;
+        img {
+            max-width: 4em;
+        }
+        &.mobile {
+            width: 10em;
+
+            img{
+                display: none;
+            }
+        }
+    }
+    .expand-header {
+        background-color: #e9d35c;
+        color: black;
+    }
+
+    .par-column {
+        // width: 3em;
+        text-align: center;
+    }
+
+    .total-column {
+        // width: 2em;
+        text-align: center;
+        background-color: rgba(240, 230, 140, 0.46);
+    }
+
+    .score-column {
+        // width: 1em;
+        text-align: center;
+    }
+
+    .birdie-score {
+        background-color: #b9d1ff;
+        width: 2em;
+        height: 2em;
+
+        vertical-align: middle;
+        border-radius: 50%;
+    }
+
+    .par-score {
+        background-color: #e9d35c;
+        width: 2em;
+        height: 2em;
+
+        vertical-align: middle;
+        border-radius: 50%;
+    }
+
+    .bogey-score {
+        background-color: rgba(57,71,56,1);
+        width: 2em;
+        height: 2em;
+
+        vertical-align: middle;
+        border-radius: 50%;
+    }
+
+    .eagle-score {
+        background-color: #e8575c;
+        color: white;
+        width: 2em;
+        height: 2em;
+
+        vertical-align: middle;
+        border-radius: 50%;
+    }
+
+    .birdie-score-icon {
+        color: #b9d1ff;
+    }
+
+    .par-score-icon {
+        color: #e9d35c;
+    }
+
+    .bogey-score-icon {
+        color: rgba(57,71,56,1);
+    }
+
+    .eagle-score-icon {
+        color: #e8575c;
+    }
+
+    .alternate-row {
+        background-color: #f7f7f7;
+    }
+
+    .on-par {
+        text-align: center;
+        // background-color: black;
+        background-color: blue; //rgba(70, 70, 70, 1);
+        color: white;
+    }
+
+    .under-par {
+        text-align: center;
+        color: white;
+        background-color: rgba(233,86,92,1);
+    }
+
+    .above-par {
+        text-align: center;
+        color: white;
+        background-color: rgba(57,71,56,1); //rgba(70, 70, 70, 1);
+    }
+
+    .rnd-opt-dropdown {
+        display: block;
+    }
+    .img-thumbnail.lb-ply-thmb {
+        border: none;
+    }
+
+    @media only screen and (max-width: 380px) {}
+    @media (min-width: 380px) and (max-width: 600px) {
+        // .hide-responsive {
+        //     display: none;
+        // }
+        //
+        // td {
+        //     font-size: smaller;
+        // }
+        //
+        // th {
+        //     font-size: smaller;
+        // }
+        //
+        // .tlogo-responsive {
+        //     max-width: 80%;
+        // }
+        //
+        // .legend-responsive {
+        //     font-size: x-small;
+        // }
+        //
+        // .img-thumbnail.lb-ply-thmb {
+        //     max-width: 3em;
+        // }
+        //
+        // .player-name {
+        //     font-size: x-small;
+        // }
+        //
+        // .rnd-opt-radio {
+        //     display: none;
+        // }
+        //
+        // .rnd-opt-dropdown {
+        //     display: contents;
+        // }
+        // .birdie-score {
+        //   height: 1em;
+        // }
+    }
+    @media only screen and (min-width: 668px) {
+        .rnd-opt-dropdown {
+            display: none;
+        }
+
+        .rnd-opt-radio {
+            display: contents;
+        }
+    }
+    @media only screen and (max-width: 668px) {
+        .rnd-opt-dropdown {
+            display: none;
+        }
+
+        .rnd-opt-radio {
+            display: contents;
+        }
+    }
+    /* ----------- iPhone 4 and 4S ----------- */
+    /* Portrait and Landscape */
+    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) {}
+    /* Portrait */
+    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+        .hide-responsive {
+            display: none;
+        }
+
+        td {
+            font-size: smaller;
+        }
+
+        .tlogo-responsive {
+            max-width: 50%;
+        }
+
+        .table td,
+        .table th {
+            padding: 0;
+        }
+
+        th {
+            font-size: smaller;
+        }
+
+        .legend-responsive {
+            font-size: x-small;
+        }
+
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 3em;
+        }
+
+        .player-name {
+            font-size: x-small;
+        }
+
+        .rnd-opt-radio {
+            display: none;
+        }
+
+        .rnd-opt-dropdown {
+            display: block;
+        }
+
+
+    }
+    /* Landscape */
+    @media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 6em;
+        }
+
+        .rnd-opt-dropdown {
+            display: none;
+        }
+    }
+    /* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+    /* Portrait and Landscape */
+    @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) {
+        .hide-responsive {
+            display: none;
+        }
+
+        td {
+            font-size: smaller;
+        }
+
+        .tlogo-responsive {
+            max-width: 50%;
+        }
+
+        .table td,
+        .table th {
+            padding: 0;
+        }
+
+        th {
+            font-size: smaller;
+        }
+
+        .legend-responsive {
+            font-size: x-small;
+        }
+
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 3em;
+        }
+
+
+
+        .rnd-opt-radio {
+            display: none;
+        }
+
+        .rnd-opt-dropdown {
+            display: block;
+        }
+
+
+    }
+    /* Portrait */
+    @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+        .hide-responsive {
+            display: none;
+        }
+
+        td {
+            font-size: smaller;
+        }
+
+        .tlogo-responsive {
+            max-width: 50%;
+        }
+
+        .table td,
+        .table th {
+            padding: 0;
+        }
+
+        th {
+            font-size: smaller;
+        }
+
+        .legend-responsive {
+            font-size: x-small;
+        }
+
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 3em;
+        }
+
+        .player-name {
+            font-size: x-small;
+        }
+
+        .rnd-opt-radio {
+            display: none;
+        }
+
+        .rnd-opt-dropdown {
+            display: block;
+        }
+
+    }
+    /* Landscape */
+    @media only screen and (min-device-width: 320px) and (max-device-width: 568px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 6em;
+        }
+
+        .rnd-opt-dropdown {
+            display: none;
+        }
+    }
+    /* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+    /* Portrait and Landscape */
+    @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) {
+        .hide-responsive {
+            display: none;
+        }
+
+        td {
+            font-size: smaller;
+        }
+
+        .tlogo-responsive {
+            max-width: 50%;
+        }
+
+        .table td,
+        .table th {
+            padding: 0;
+        }
+
+        th {
+            font-size: smaller;
+        }
+
+        .legend-responsive {
+            font-size: x-small;
+        }
+
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 3em;
+        }
+
+        .player-name {
+            font-size: x-small;
+        }
+
+        .rnd-opt-radio {
+            display: none;
+        }
+
+        .rnd-opt-dropdown {
+            display: block;
+        }
+
+    }
+    /* Portrait */
+    @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: portrait) {
+        .hide-responsive {
+            display: none;
+        }
+
+        td {
+            font-size: smaller;
+        }
+
+        .tlogo-responsive {
+            max-width: 80%;
+        }
+
+        .table td,
+        .table th {
+            padding: 0;
+        }
+
+        th {
+            font-size: smaller;
+        }
+
+        .legend-responsive {
+            font-size: x-small;
+        }
+
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 3em;
+        }
+
+        .player-name {
+            font-size: x-small;
+        }
+
+        .rnd-opt-radio {
+            display: none;
+        }
+
+        .rnd-opt-dropdown {
+            display: block;
+        }
+
+    }
+    /* Landscape */
+    @media only screen and (min-device-width: 375px) and (max-device-width: 667px) and (-webkit-min-device-pixel-ratio: 2) and (orientation: landscape) {
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 6em;
+        }
+
+        .rnd-opt-dropdown {
+            display: none;
+        }
+    }
+    /* ----------- iPhone 6+, 7+ and 8+ ----------- */
+    /* Portrait and Landscape */
+    @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) {
+        .hide-responsive {
+            display: none;
+        }
+
+        td {
+            font-size: smaller;
+        }
+
+        .tlogo-responsive {
+            max-width: 80%;
+        }
+
+        .table td,
+        .table th {
+            padding: 0;
+        }
+
+        th {
+            font-size: smaller;
+        }
+
+        .legend-responsive {
+            font-size: x-small;
+        }
+
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 3em;
+        }
+
+        .player-name {
+            font-size: x-small;
+        }
+
+        .rnd-opt-radio {
+            display: none;
+        }
+
+        .rnd-opt-dropdown {
+            display: block;
+        }
+
+    }
+    /* Portrait */
+    @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+        .hide-responsive {
+            display: none;
+        }
+
+        td {
+            font-size: smaller;
+        }
+
+        .tlogo-responsive {
+            max-width: 80%;
+        }
+
+        .table td,
+        .table th {
+            padding: 0;
+        }
+
+        th {
+            font-size: smaller;
+        }
+
+        .legend-responsive {
+            font-size: x-small;
+        }
+
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 3em;
+        }
+
+        .player-name {
+            font-size: x-small;
+        }
+
+        .rnd-opt-radio {
+            display: none;
+        }
+
+        .rnd-opt-dropdown {
+            display: block;
+        }
+
+    }
+    /* Landscape */
+    @media only screen and (min-device-width: 414px) and (max-device-width: 736px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 6em;
+        }
+
+        .rnd-opt-dropdown {
+            display: none;
+        }
+    }
+    /* ----------- iPhone X ----------- */
+    /* Portrait and Landscape */
+    @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) {}
+    /* Portrait */
+    @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: portrait) {
+        .hide-responsive {
+            display: none;
+        }
+
+        td {
+            font-size: smaller;
+        }
+
+        .tlogo-responsive {
+            max-width: 80%;
+        }
+
+        .table td,
+        .table th {
+            padding: 0;
+        }
+
+        th {
+            font-size: smaller;
+        }
+
+        .legend-responsive {
+            font-size: x-small;
+        }
+
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 3em;
+        }
+
+        .player-name {
+            font-size: x-small;
+        }
+
+        .rnd-opt-radio {
+            display: none;
+        }
+
+        .rnd-opt-dropdown {
+            display: block;
+        }
+
+    }
+    /* Landscape */
+    @media only screen and (min-device-width: 375px) and (max-device-width: 812px) and (-webkit-min-device-pixel-ratio: 3) and (orientation: landscape) {}
+    /* ----------- Non-Retina Screens ----------- */
+    @media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 1) {
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 6em;
+        }
+
+        .rnd-opt-dropdown {
+            display: none;
+        }
+    }
+    /* ----------- Retina Screens ----------- */
+    @media screen and (min-device-width: 1200px) and (max-device-width: 1600px) and (-webkit-min-device-pixel-ratio: 2) and (min-resolution: 192dpi) {
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 4em;
+        }
+
+        .rnd-opt-dropdown {
+            display: none;
+        }
+    }
+    /* Leapad Leagoo 7s */
+    @media screen and (min-device-width:1280px) and (min-device-height:600px) and (orientation:landscape) {
+        /* Styles here */
+        .img-thumbnail.lb-ply-thmb {
+            max-width: 3em;
+        }
+
+        .rnd-opt-dropdown {
+            display: none;
+        }
+    }
+}

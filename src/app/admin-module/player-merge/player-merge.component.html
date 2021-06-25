@@ -1,0 +1,155 @@
+<p-panel header = "Merge player record" styleClass = "sub-header">
+    <div class = "ui-grid ui-fluid">
+        <div class = "ui-g-12 ui-md-8">
+            <input type = "search" pInputText [(ngModel)] = "searchString"
+                    placeholder = "Enter search string to filter players"
+                    name = "search" (ngModelChange) = "onSearch($event)"
+                    class = "search-string">
+        </div>
+        <div class = "ui-g-12 ui-md-4">
+            <p-checkbox [(ngModel)] = "activePlayersOnly"
+                    name = "active-only"
+                    label = "Active Players Only" (onChange) = "refreshPlayers()"
+                    binary = "true">
+            </p-checkbox>
+        </div>
+    </div>
+    <div class="ui-grid">
+        <div class="ui-g-12">
+            <p>Select a player as <b>Move From</b> and another player as <b>Move To</b>. Data from <b>Move From</b>
+                will be moved to <b>Move To</b> player record.</p>
+                <p><i>*** Move From (origin). Move To (destination)</i></p>
+        </div>
+        <div class="ui-g-7">
+            <p-dataList *ngIf = "playerList" [value] = "playerList.players"
+                    [paginator] = "true" paginatorPosition = "top"
+                    [rows] = "pageSize"
+                    [rowsPerPageOptions] = "pageSizeOptions"
+                    [lazy] = "true"
+                    [totalRecords] = "playerList.totalItems"
+                    (onLazyLoad) = "onLazyLoad($event)">
+                <ng-template let-player pTemplate = "item">
+                    <div class = "ui-grid ui-grid-responsive ui-fluid"
+                            style = "padding:5px;border-bottom:1px solid #D5D5D5;">
+                        <div class = "ui-grid-row">
+                            <div class = "ui-grid-col-3">
+                                <img [src] = "player.thumbnail?player.thumbnail:player.photoUrl"
+                                        style = "width:64px;height:64px"
+                                        onerror = "this.src='assets/images/default_user.png'">
+                            </div>
+                            <div class = "ui-grid-col-6">
+                                <div class = "ui-grid ui-grid-responsive ui-fluid">
+                                    <div class = "ui-grid-row">
+                                        <div class = "ui-grid-col-12 player-name">
+                                            {{player.playerName}} ({{player.playerId}})
+                                        </div>
+                                    </div>
+                                    <div class = "ui-grid-row">
+                                        <div class = "ui-grid-col-12 player-email">
+                                            {{player.email}}
+                                        </div>
+                                    </div>
+                                    <div class = "ui-grid-row">
+                                        <div class = "ui-grid-col-12 player-status"
+                                                [ngClass] = "{'active':player.status==='Active', 'inactive': player.status==='Inactive' }"
+                                        >{{player.status}}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class = "ui-grid-col-3 buttons">
+                                <div class = "ui-grid-row">
+                                    <button pButton label = "Set as Move From" class = "ui-button-info"
+                                           
+                                            (click) = "setSourcePlayer(player)"></button>
+                                            <!-- icon = "fa-arrow-circle-right" -->
+                                </div>
+                                <div class = "ui-grid-row">
+                                    <button pButton label = "Set as Move To" class = "ui-button-danger"
+                                            
+                                            (click) = "setTargetPlayer(player)"></button>
+                                            <!-- icon = "fa-mygolf fa-bullseye" -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-template>
+            </p-dataList>
+        </div>
+        <div class="ui-g-5">
+            <div class = "ui-grid ui-grid-responsive source-player" *ngIf = "sourcePlayer">
+                <div class = "ui-grid-row ui-widget-header">Move From Player Record</div>
+                <div class = "ui-grid-row">
+                    <div class = "ui-grid-col-4 label">Player Name</div>
+                    <div class = "ui-grid-col-8 value">{{sourcePlayer.playerName}} ({{sourcePlayer.playerId}})</div>
+                </div>
+                <div class = "ui-grid-row" *ngIf = "sourcePlayer">
+                    <div class = "ui-grid-col-4 label">Email</div>
+                    <div class = "ui-grid-col-8 value">{{sourcePlayer.email}}</div>
+                </div>
+            </div>
+            <div class = "ui-grid ui-grid-responsive target-player" *ngIf = "targetPlayer">
+                <div class = "ui-grid-row ui-widget-header">Move To Player Record</div>
+                <div class = "ui-grid-row">
+                    <div class = "ui-grid-col-4 label">Player Name</div>
+                    <div class = "ui-grid-col-8 value">{{targetPlayer.playerName}} ({{targetPlayer.playerId}})</div>
+                </div>
+                <div class = "ui-grid-row">
+                    <div class = "ui-grid-col-4 label">Email</div>
+                    <div class = "ui-grid-col-8 value">{{targetPlayer.email}}</div>
+                </div>
+            </div>
+            <div class = "ui-grid ui-grid-responsive summary" *ngIf = "sourcePlayer && targetPlayer">
+                <div class = "ui-grid-row details" style="padding-top: 1rem; padding-bottom: 1rem;">
+                    <span>Moving <b>[{{sourcePlayer.playerId}}] {{sourcePlayer.playerName}}({{sourcePlayer.email}})</b>
+                    <br>data to <b>[{{targetPlayer.playerId}}] {{targetPlayer.playerName}}({{targetPlayer.email}})</b></span>
+                </div>
+                <div class = "ui-grid-row delete-option">
+                    <p-checkbox [(ngModel)] = "deleteSourcePlayer"
+                            name = "active-only"
+                            label = "Delete Move From player record"
+                            binary = "true">
+                    </p-checkbox>
+                </div>
+                <div class = "ui-grid-row delete-option">
+                    <p-checkbox [(ngModel)] = "sendEmail"
+                            name = "send-email"
+                            label = "Send Email"
+                            binary = "true">
+                    </p-checkbox>
+                </div>
+                <div class = "ui-grid-row details" *ngIf = "deleteSourcePlayer">
+                    <span style="color:red">{{sourcePlayer.playerName}}({{sourcePlayer.email}}) record will be deleted
+                    after successful move.</span>
+                </div>
+                <div class = "ui-grid-row">
+                    <div class = "ui-grid-col-12 button-panel">
+                        <button pButton label = "Continue" icon = "fa-mygolf fa-compress" class = "ui-button-info"
+                                (click) = "onContinueClick()"></button>
+                        <button pButton label = "Cancel" icon = "fa-mygolf  fa-times" class = "ui-button-danger"
+                                (click) = "onCancelClick()"></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class = "ui-grid ui-grid-responsive ui-fluid">
+        <div class = "ui-grid-row">
+            <div class = "ui-grid-col-7">
+
+            </div>
+            <div class = "ui-grid-col-5 merge-details">
+
+            </div>
+        </div>
+    </div>
+</p-panel>
+<p-growl [value] = "messages" life = "5000"></p-growl>
+<p-confirmDialog header = "Confirmation" icon = "fa fa-question-circle" width = "425" #confirm>
+    <p-footer>
+        <button type = "button" pButton icon = "fa-close" label = "No"
+                (click) = "cancelDialog()" class = "ui-button-danger"></button>
+        <button type = "button" pButton icon = "fa-check" label = "Yes"
+                (click) = "mergePlayerRecords()" class = "ui-button-primary"></button>
+    </p-footer>
+</p-confirmDialog>

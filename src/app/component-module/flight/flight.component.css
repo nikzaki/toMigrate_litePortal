@@ -1,0 +1,8 @@
+flight .flight-content .ui-widget-content {
+  border: none; }
+flight .flight-number {
+  font-weight: bold; }
+flight .start-hole {
+  text-align: center; }
+flight .start-time {
+  text-align: right; }

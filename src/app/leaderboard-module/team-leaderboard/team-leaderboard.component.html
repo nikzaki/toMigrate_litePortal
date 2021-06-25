@@ -1,0 +1,244 @@
+<!--<div [ngBusy]="busyConfig"></div>-->
+<div class="row">
+    <!--<div class="col-xl-1"></div>-->
+    <div class="card col-xl-12" >
+        <!-- Image and Title -->
+        <div class="card-title ui-g align-items-center" *ngIf="competition">
+            <div class="ui-md-3" [hidden]="!this.settings.showSponsor">
+                    <img *ngIf="compDetails&&compDetails.sponsors[0]"
+                    [src]="compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''"
+                    fxFlex="0 1 12vh">
+            </div>
+            <div class="ui-md-3" >
+                <img class="mx-auto d-block img-fluid lb-logo"
+                style="padding: 3em !important"
+                        [src]="competition && competition.imageUrl?competition.imageUrl:'assets/images/default_competition.png'"
+                        onerror="assets/images/default_competition.png">
+            </div>
+            
+            <div class="ui-md-6 vertical-align-center competition-name">
+                <h1 class="mga-font">{{competition?.competitionName}}</h1>
+            </div>
+            <div *ngIf="competition.status == 'In Progress'" class="ui-md-6 vertical-align-center competition-name">
+                <p class="under-par">*** Competition is still in progress</p>
+              </div>
+        </div>
+
+        <div class="card-subtitle ui-g">
+            <div class="ui-md-3 ui-sm-5 vertical-align-center">
+                <ul *ngIf="competition?.teamEvent" class="list-inline nav cursor">
+                    <li class="nav-link list-inline-item"
+                            [class.active]="!byTeam"
+                            (click)="byTeam = false; onLeaderboardTypeChange()">
+                        <h4>Individual</h4></li>
+                    <li class="nav-link list-inline-item" [class.active]="byTeam"
+                            (click)="byTeam = true; onLeaderboardTypeChange()">
+                        <h4>Team</h4></li>
+                </ul>
+            </div>
+            <div class="ui-md-9 ui-sm-7" style="text-align: right">
+                <button md-icon-button mdTooltip = "View Leaderboard in full screen view" color = "primary"
+                        (click) = "enterFullScreen()">
+                    <md-icon class = "mdi mdi-fullscreen"></md-icon>
+                </button>
+                <button md-icon-button [mdTooltip] = "showSettings?'Hide Settings':'Show Settings'"
+                        [color] = "showSettings?'warn':'primary'"
+                        (click) = "onToggleShowSettings()">
+                    <md-icon class = "mdi mdi-settings"></md-icon>
+                </button>
+                <button md-icon-button mdTooltip = "Change column visibility" color = "primary"
+                        (click) = "leaderboardColumns=byTeam?tlbColumns:ilbColumns">
+                    <md-icon class = "mdi mdi-eye"></md-icon>
+                </button>
+            </div>
+        </div>
+        <div class="card-body">
+            <section #teamSection [class.hidden] = "!byTeam" class = "team-leaderboard">
+                <leaderboard-settings #settings [competition] = "competition"
+                        [teamLeaderBoard] = "true"
+                        [hideColorSet]="true"
+                        [settings] = "teamLeaderboardSettings"
+                        (settingsChange) = "onTeamLeaderboardSettingsChange($event)"
+                        [styleClass] = "showSettings && !fullScreen?'show-settings':'hide-settings'"
+                        [scrollPaused] = "(leaderboard.expandedRows && leaderboard.expandedRows.length)||!byTeam"
+                        [details] = "competitionDetails"
+                        [totalPlayers] = "teamScores?.length"
+                        (onNextPage) = "nextPage($event)"
+                        (onRefresh) = "refresh($event)"></leaderboard-settings>
+                <div class = "fullscreen-header mat-typography">
+                    <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-between center">
+                        <div fxFlex="1 1 auto" fxLayout = "row nowrap" fxLayoutGap = "10px" fxLayoutAlign = "space-between center"
+                                >
+                                <!-- style="margin-left: -200px" -->
+                            <img class="comp-logo" fxFlex = "0 0 auto" *ngIf = "competition"
+                                    [src] = "competition.thumbnail?competition.thumbnail:competition.imageUrl"
+                                    onerror = "this.src='assets/images/default_competition.png'">
+                            <span class="mat-display-1 comp-name" style="text-align: center"
+                                    fxFlex = "0 0 auto">{{competition?.competitionName}}</span>
+                                    <img class="m2u-logo" fxFlex="0 1 16vw" src="assets/images/mygolf2uLogo.png">
+
+                        </div>
+                    </div>
+
+                </div>
+                <p-dataTable #teamleaderboard [value] = "teamScoreDisplay" [expandableRows] = "true"
+                        rowExpandMode = "single"
+                        [rowStyleClass] = "getRowClass"
+                        styleClass = "primary-table">
+                    <p-header *ngIf = "fullScreen">
+                        <div class = "ui-g table-header">
+                            <div class = "ui-g-11 vertical-align-center competition-name" style = "text-align: center">
+                                <span>Leaderboard: {{competition?.competitionName}}</span>
+                            </div>
+                            <div class = "ui-g-1">
+                                <button pButton icon-only icon = "ui-icon-fullscreen-exit" flat
+                                        pTooltip = "Exit full screen"
+                                        (click) = "fullScreen = !fullScreen"
+                                        style = "float: right; width:auto"></button>
+                            </div>
+                        </div>
+                    </p-header>
+                    <p-headerColumnGroup class="lb-header">
+                        <p-row>
+                            <p-column expander = "true" header = "" rowspan = "1" [style] = "{'width':'3%'}"></p-column>
+                            <p-column header = "Pos" rowspan = "1" [style] = "{'width':'5%'}"></p-column>
+                            <p-column header = "Team" rowspan = "1" [style] = "{'width':'30%','textAlign':'left'}"></p-column>
+                            <p-column header = "(+/-)" rowspan = "1" [style] = "{'width':'5%'}"></p-column>
+                            <p-column *ngFor = "let round of rounds" [header] = "'R'+round.roundNo"
+                                    [style] = "{'width': '5%'}"
+                                    [hidden] = "settings.settings.teamsByGrossOrNet !== 'gross' || isColumnHidden('rounds')"></p-column>
+                            <p-column header = "Total" [style] = "{'width': '5%'}"
+                                    [hidden] = "settings.settings.teamsByGrossOrNet !== 'gross'||isColumnHidden('total')"></p-column>
+                            <p-column *ngFor = "let round of rounds" [header] = "'R'+round.roundNo"
+                                    [style] = "{'width': '5%'}"
+                                    [hidden] = "settings.settings.teamsByGrossOrNet !== 'net' || isColumnHidden('rounds')"></p-column>
+                            <p-column header = "Net Total" [style] = "{'width': '5%'}"
+                                    [hidden] = "settings.settings.teamsByGrossOrNet !== 'net' || isColumnHidden('total')"></p-column>
+                            <p-column header = "OCB"
+                                    [hidden] = "isColumnHidden('ocb')"
+                                    [style] = "{'width':'15%'}"></p-column>
+                        </p-row>
+                    </p-headerColumnGroup>
+                    <p-column expander = "true"></p-column>
+                    <p-column [style] = "{'textAlign': 'center'}">
+                        <ng-template let-col let-team="rowData" pTemplate = "body">
+                            <div [class.withdrawn-player]="team.status === 'W' || team.position > 999">
+                                {{team.status === 'W'|| team.position > 999?'W':team.position}}
+                            </div>
+                        </ng-template>
+                    </p-column>
+                    <p-column>
+                        <ng-template let-col let-team = "rowData" pTemplate = "body">
+                            <div class = "player-name vertical-align-center" (click) = "expandRow(team)">
+                                <img [src] = "team.logo" style = "height:40px; margin-right: 10px">
+                                <span>{{team.teamScores.teamName}}</span>
+                            </div>
+                        </ng-template>
+                    </p-column>
+                    <p-column field = "topNToPar"
+                            styleClass = "to-par"
+                            [style] = "{'textAlign': 'center'}">
+                        <ng-template let-team = "rowData" pTemplate = "body">
+                            {{(isGrossDisplay()?team.topNToPar:team.topNToParNet) | topar}}
+                        </ng-template>
+                    </p-column>
+                    <p-column *ngFor = "let round of rounds" [style] = "{'textAlign': 'center'}"
+                            [hidden] = "!isGrossDisplay() || isColumnHidden('rounds')">
+                        <ng-template let-col let-team = "rowData" pTemplate = "body">
+                            {{team['R'+round.roundNo+'_topNTotalGross']}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field = "topNTotalGross" [style] = "{'textAlign': 'center'}"
+                            [hidden] = "!isGrossDisplay() || isColumnHidden('total')">
+                    </p-column>
+                    <p-column *ngFor = "let round of rounds" [style] = "{'textAlign': 'center'}"
+                            [hidden] = "isGrossDisplay()|| isColumnHidden('rounds')">
+                        <ng-template let-col let-team = "rowData" pTemplate = "body">
+                            {{team['R'+round.roundNo+'_topNTotalNet']}}
+                        </ng-template>
+                    </p-column>
+                    <p-column field = "topNTotalNet" [style] = "{'textAlign': 'center'}"
+                            [hidden] = "isGrossDisplay()|| isColumnHidden('total')"></p-column>
+                    <p-column [hidden] = "isColumnHidden('ocb')"
+                            [style] = "{'textAlign': 'center'}">
+                        <ng-template let-team = "rowData" pTemplate = "body">
+                            {{isGrossDisplay()?team.ocb:team.ocbNet}}
+                        </ng-template>
+                    </p-column>
+                    <ng-template let-team pTemplate = "rowexpansion">
+                        <app-team-expand [competition]="competition"
+                         [teamScores]="team.teamScores"></app-team-expand>
+                        <!--<team-score-details-->
+                                <!--[competition] = "competition"-->
+                                <!--[competitionDetails] = "competitionDetails"-->
+                                <!--[colorSet] = "settingsComp.settings.colorSet"-->
+                                <!--[teamScores] = "team.teamScores"></team-score-details>-->
+                    </ng-template>
+                </p-dataTable>
+                <!-- <footer class="fullscreen-footer" [hidden]="!this.settings.showSponsor">
+                        <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-evenly" >
+                                <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="10px" fxLayoutAlign="space-between center" style="margin-bottom: 1em">
+                                        <img *ngIf="compDetails&&compDetails.sponsors[0]"
+                                        [src]="compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''"
+                                        fxFlex="0 1 12vh">
+                                        <img *ngIf="compDetails&&compDetails.sponsors[1]"
+                                        [src]="compDetails.sponsors[1]?compDetails.sponsors[1].imageUrl:''"
+                                        fxFlex="0 1 12vh">
+                    
+                                </div>
+                                <div fxFlex="0 0 auto" *ngIf="refreshParams" fxLayout="row nowrap" fxLayoutGap="30px"
+                                    fxLayoutAlign="center center" class="mat-typography" style="margin-right:2em">
+                                    <div class="qr-code">
+                                        Scan for live scoring : <img [src]="url_qrCode" fxFlex="0 1 12vh" alt="" title="" />
+                                    </div>
+                    
+                                    <ng-container  *ngIf="competition&&competition.teamEvent" >
+                                            <img class="m2u-logo" fxFlex="0 1 12vh" src="assets/images/mygolf2uLogo.png">
+                                    </ng-container>
+                                </div>
+                            </div>
+                        </footer> -->
+            </section>
+            <section #individualSection [class.hidden] = "byTeam">
+                <individual-leaderboard #invidualleaderboard [competitionId] = "competitionId" [embedded] = "true"
+                        [paused] = "byTeam" [settings] = "individualLeaderboardSettings"
+                        [hiddenColumns] = "ilbVisibility"
+                        (leaderboardSettingsChange) = "onInvidualLbSettingsChange($event)"
+                        [showSettings] = "showSettings"></individual-leaderboard>
+            </section>
+
+
+        </div>
+    </div>
+    <!--<div class="col-xl-1"></div>-->
+</div>
+
+
+
+
+<scoring-notifications
+        [notifications]="scoringNotifications|async"></scoring-notifications>
+<p-dialog #columnVisibility [visible] = "leaderboardColumns"
+        [closable] = "false"
+        showHeader = "false"
+        [contentStyle] = "{'overflow':'visible'}"
+        height = "200" width = "400"
+        (onHide) = "columnVisibilityChanged(visibilityComp.columnDetails)">
+    <div style = "width: auto">
+        <h3>Select Columns to Hide</h3>
+        <div class = "ui-g ui-fluid">
+            <div class = "ui-g-12">
+                <leaderboard-column-visibility #visibilityComp [columnDetails] = "leaderboardColumns">
+                </leaderboard-column-visibility>
+            </div>
+        </div>
+        <p-footer>
+            <div style = "text-align: right">
+                <button md-button (click) = "leaderboardColumns=null" color = "primary">
+                    <md-icon class = "mdi mdi-check"></md-icon>
+                    OK
+                </button>
+            </div>
+        </p-footer>
+    </div>
+</p-dialog>

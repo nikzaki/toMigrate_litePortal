@@ -1,0 +1,55 @@
+<div class = "ui-g ui-fluid">
+    <ng-container *ngIf = "displayMode==='single'">
+        <div class = "ui-g-4">
+            <img [src] = "player.thumbnail?player.thumbnail:player.photoUrl">
+        </div>
+        <div class = "ui-g-8">{{player.playerName}}</div>
+        <div class = "ui-g-12 player-button-panel" *ngIf = "playerActions && playerActions.length">
+            <action *ngFor = "let action of playerActions"
+                    (onAction) = "onAction($event)"
+                    [data] = "player"
+                    [action] = "action"></action>
+        </div>
+    </ng-container>
+    <ng-container *ngIf = "displayMode==='compact'">
+        <div class="ui-g-4">
+            <img [src] = "player.thumbnail?player.thumbnail:player.photoUrl">
+        </div>
+        <div class="ui-g-8">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12">{{player.playerName}}</div>
+                <div class="ui-g-12">{{player.email}}</div>
+                <div class="ui-g-12">{{player.status}}</div>
+            </div>
+        </div>
+        <div class = "ui-g-12 player-button-panel" *ngIf = "playerActions && playerActions.length">
+            <action *ngFor = "let action of playerActions"
+                    (onAction) = "onAction($event)"
+                    [data] = "player"
+                    [action] = "action"></action>
+        </div>
+    </ng-container>
+
+    <ng-container *ngIf = "displayMode==='detail'">
+        <div class="ui-g-4">
+            <img [src] = "player.thumbnail?player.thumbnail:player.photoUrl">
+        </div>
+        <div class="ui-g-8">
+            <div class="ui-g ui-fluid">
+                <div class="ui-g-12"><i class="ui-icon-person"></i>{{player.playerName}}</div>
+                <div class="ui-g-12"><i class="ui-icon-contact-mail"></i>{{player.email}}</div>
+                <div class="ui-g-12"><i class="ui-icon-contact-phone"></i>{{player.phone}}</div>
+                <div class="ui-g-12"><i class="ui-icon-info"></i>{{player.status}}</div>
+                <div class="ui-g-12"><i class="ui-icon-info"></i>{{player.handicap}} ({{player.handicapIn}})</div>
+            </div>
+        </div>
+        <div class = "ui-g-12 player-button-panel" *ngIf = "playerActions && playerActions.length">
+            <action *ngFor = "let action of playerActions"
+                    (onAction) = "onAction($event)"
+                    [data] = "player"
+                    [action] = "action"></action>
+        </div>
+    </ng-container>
+    <ng-container *ngIf = "displayMode==='full'">
+    </ng-container>
+</div>

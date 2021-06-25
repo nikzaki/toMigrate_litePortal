@@ -1,0 +1,22 @@
+advertise-management {
+    h2, .ui-widget-header {
+        text-align: center;
+        margin: 5px 0px 10px 0px;
+    }
+    .ui-dialog-content.ui-widget-content {
+        i {
+            color: red;
+        }
+    }
+    .ad-option-section {
+        display: flex;
+        align-content: center;
+        align-items: center;
+        height: 60px;
+    }
+
+    .ad-option-margin {
+        margin: 0 10px;
+    }
+
+}

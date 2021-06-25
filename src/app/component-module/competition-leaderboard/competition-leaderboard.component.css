@@ -1,0 +1,57 @@
+competition-leaderboard {
+  line-height: 0.8rem; }
+  competition-leaderboard h2 {
+    -webkit-margin-before: 0.1em;
+    -webkit-margin-after: 0.1em;
+    -webkit-margin-start: 0px;
+    -webkit-margin-end: 0px; }
+  competition-leaderboard .ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default {
+    background-color: transparent; }
+    competition-leaderboard .ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default.ui-state-active {
+      background-color: #186ba0; }
+  competition-leaderboard .ui-lg-1, competition-leaderboard .ui-lg-2, competition-leaderboard .ui-lg-3, competition-leaderboard .ui-lg-4, competition-leaderboard .ui-lg-5, competition-leaderboard .ui-lg-6, competition-leaderboard .ui-lg-7, competition-leaderboard .ui-lg-8, competition-leaderboard .ui-lg-9, competition-leaderboard .ui-lg-10, competition-leaderboard .ui-lg-11, competition-leaderboard .ui-lg-12 {
+    padding: 1px; }
+  competition-leaderboard .ui-md-1, competition-leaderboard .ui-md-2, competition-leaderboard .ui-md-3, competition-leaderboard .ui-md-4, competition-leaderboard .ui-md-5, competition-leaderboard .ui-md-6, competition-leaderboard .ui-md-7, competition-leaderboard .ui-md-8, competition-leaderboard .ui-md-9, competition-leaderboard .ui-md-10, competition-leaderboard .ui-md-11, competition-leaderboard .ui-md-12 {
+    padding: 1px; }
+  competition-leaderboard td {
+    font-weight: bold; }
+  competition-leaderboard .plain-text {
+    padding-top: 1px; }
+  competition-leaderboard .net-column {
+    background-color: #81C784;
+    font-weight: bold;
+    font-size: medium; }
+  competition-leaderboard .gross-column {
+    background-color: #B2FF59;
+    font-weight: bold;
+    font-size: medium; }
+  competition-leaderboard .player-name {
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    color: blue;
+    font-weight: bold;
+    font-size: 1.5em;
+    line-height: 1.6em;
+    white-space: normal;
+    font-variant-caps: small-caps; }
+  competition-leaderboard .strike-out {
+    text-decoration: line-through;
+    font-size: smaller; }
+  competition-leaderboard .under-par {
+    color: red; }
+  competition-leaderboard .withdrawn-player {
+    color: red; }
+  competition-leaderboard .hide-settings {
+    display: none; }
+  competition-leaderboard .vertical-align-center {
+    display: flex;
+    align-items: center; }
+  competition-leaderboard .table-header .ui-g-1, competition-leaderboard .table-header .ui-g-2, competition-leaderboard .table-header .ui-g-3, competition-leaderboard .table-header .ui-g-4, competition-leaderboard .table-header .ui-g-5, competition-leaderboard .table-header .ui-g-6, competition-leaderboard .table-header .ui-g-7, competition-leaderboard .table-header .ui-g-8 {
+    padding: 0.1em; }
+  competition-leaderboard .table-header .competition-name {
+    font-weight: bold;
+    font-size: large; }
+  competition-leaderboard .table-header button.ui-button {
+    background: transparent;
+    border: none; }

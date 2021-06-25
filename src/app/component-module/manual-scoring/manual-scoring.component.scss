@@ -1,0 +1,31 @@
+manual-scoring {
+    .hole-index {
+        background-color: black;
+        color: white;
+        text-align: right;
+    }
+    .hole-par {
+        background-color: darken(yellow, 5%);
+        text-align: right;
+    }
+    .scores {
+        input {
+            width: 100%;
+            text-align: right;
+        }
+        input[type=number]::-webkit-inner-spin-button,
+        input[type=number]::-webkit-outer-spin-button {
+
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            margin: 0;
+        }
+    }
+    .button-panel {
+        text-align: center;
+    }
+    .ui-growl {
+        margin-top: 7em;
+    }
+}

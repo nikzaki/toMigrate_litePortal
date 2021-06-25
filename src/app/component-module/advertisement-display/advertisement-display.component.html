@@ -1,0 +1,149 @@
+<ng-container *ngIf="advertisement">
+    <div *ngIf="displayMode === 'single' && !draggable" class="ui-g advertisement-single"
+            [class.advertisement-inactive]="!advertisement.active"
+            [class.advertisement-expired] = 'isExpired()'
+            [class.clickable]="clickable">
+        <div class="ui-g-3 advertisement-image vertical-align-center">
+            <img [src]="advertisement.imageUrl" (click)="onAdClick($event)" draggable="false">
+        </div>
+        <div class="ui-g-9 advertisement-name  vertical-align-center" (click)="onAdClick($event)">
+            {{advertisement.name}}
+
+        </div>
+        <div *ngIf="actions && actions.length" class="ui-g-4 action-panel" style="padding:0">
+            <action-panel
+                    itemLayout="horizontal"
+                    itemsAs="flat"
+                    [data]="advertisement"
+                    (onActionClick)="onAdAction($event)"
+                    [actions]="actions"></action-panel>
+        </div>
+        <!--<ng-container *ngIf="actions && actions.length">-->
+            <!--<div class="ui-g-12 action-panel" (onDragStart)="onDragStart($event)">-->
+                <!--<action *ngFor="let action of actions" [action]="action"></action>-->
+            <!--</div>-->
+        <!--</ng-container>-->
+    </div>
+    <div *ngIf="displayMode === 'single' && draggable" class="ui-g advertisement-single"
+            (onDragStart)="onDragStart($event)"
+            (onDragEnd)="dragEnd($event)"
+            [class.clickable]="clickable" [pDraggable]="dragId">
+        <div class="ui-g-3 advertisement-image vertical-align-center">
+            <img [src]="advertisement.imageUrl" (click)="onAdClick($event)" draggable="false">
+        </div>
+        <div class="ui-g-8 advertisement-name  vertical-align-center" (click)="onAdClick($event)">
+            {{advertisement.name}}
+        </div>
+        <div class="ui-g-1" *ngIf="draggable && dragId">
+            <i *ngIf="draggable" class="fa fa-arrows fa-2x" style="float:right;margin-top:8px"></i>
+        </div>
+        <ng-container *ngIf="actions && actions.length">
+            <div class="ui-g-12 action-panel" >
+                <action *ngFor="let action of actions" [action]="action"></action>
+            </div>
+        </ng-container>
+    </div>
+    <div *ngIf="displayMode === 'compact'" class="ui-g advertisement-compact"
+            [attr.pDraggable]="(draggable && dragId)?dragId:null"
+            [class.advertisement-inactive]="!advertisement.active"
+            [class.advertisement-expired] = 'isExpired()'
+            [class.clickable]="clickable">
+        <div class="ui-g-2 advertisement-image vertical-align-center">
+            <img [src]="advertisement.imageUrl" (click)="onAdClick($event)" draggable="false">
+        </div>
+        <div class="ui-g-10 advertisement-name" (click)="onAdClick($event)">
+            <div class="ui-g">
+                <div class="ui-g-4 advertisement-label">Name:</div>
+                <div class="ui-g-8 advertisement-value">{{advertisement.name}}
+                    {{advertisement.active?'':'(INACTIVE)'}}</div>
+                <div class="ui-g-4 advertisement-label">Company:</div>
+                <div class="ui-g-8 advertisement-company">{{advertisement.companyName}}</div>
+
+            </div>
+        </div>
+        <div *ngIf="actions && actions.length" class="ui-g-12 action-panel" style="padding:0">
+            <action-panel
+                    itemLayout="horizontal"
+                    itemsAs="flat"
+                    [data]="advertisement"
+                    (onActionClick)="onAdAction($event)"
+                    [actions]="actions"></action-panel>
+        </div>
+        <!--<ng-container *ngIf="actions && actions.length">-->
+            <!--<div class="ui-g-12 action-panel">-->
+                <!--<action *ngFor="let action of actions" (onAction)="onAdAction($event)"-->
+                        <!--[action]="action" [data]="advertisement"></action>-->
+            <!--</div>-->
+        <!--</ng-container>-->
+    </div>
+    <div *ngIf="displayMode === 'full'" class="ui-g advertisement-compact"
+            [attr.pDraggable]="(draggable && dragId)?dragId:null"
+            [class.advertisement-inactive]="!advertisement.active"
+            [class.advertisement-expired] = 'isExpired()'
+            [class.clickable]="clickable">
+        <div class="ui-g-2 advertisement-image vertical-align-center">
+            <img [src]="advertisement.imageUrl" (click)="onAdClick($event)" draggable="false">
+        </div>
+        <div class="ui-g-10 advertisement-name" (click)="onAdClick($event)">
+            <div class="ui-g">
+                <div class="ui-g-4 advertisement-label">Name:</div>
+                <div class="ui-g-8 advertisement-value">{{advertisement.name}}
+                    {{advertisement.active?'':'(INACTIVE)'}}</div>
+                <div class="ui-g-4 advertisement-label">Company:</div>
+                <div class="ui-g-8 advertisement-company">{{advertisement.companyName}}</div>
+                <div class="ui-g-4 advertisement-label">Website:</div>
+                <div class="ui-g-8 advertisement-value">{{advertisement.externalUrl}}</div>
+                <div class="ui-g-4 advertisement-label">Display Interval</div>
+                <div class="ui-g-3 advertisement-value">{{advertisement.displayPeriod}}</div>
+                <div class="ui-g-3 advertisement-label">Rank</div>
+                <div class="ui-g-2 advertisement-value">{{advertisement.rank}}</div>
+            </div>
+        </div>
+        <ng-container *ngIf="actions && actions.length">
+            <div class="ui-g-12 action-panel">
+                <action *ngFor="let action of actions" (onAction)="onAdAction($event)"
+                        [action]="action" [data]="advertisement"></action>
+            </div>
+        </ng-container>
+    </div>
+    <div *ngIf="displayMode === 'detail'" class="ui-g advertisement-detail">
+        <div class="ui-g-2 advertisement-image vertical-align-center">
+            <img [src]="advertisement.imageUrl">
+        </div>
+        <div class="ui-g-10 advertisement-name">
+            <div class="ui-g">
+                <div class="ui-g-4 advertisement-label">Name</div>
+                <div class="ui-g-8 advertisement-value">{{advertisement.name}}</div>
+                <div class="ui-g-4 advertisement-label">Active ?</div>
+                <div class="ui-g-8 advertisement-value">
+                    <i class="fa fa-lg fa-check" style="color:green" *ngIf="advertisement.active"></i>
+                    <i class="fa fa-lg fa-remove" style="color:red" *ngIf="!advertisement.active"></i>
+                </div>
+                <div class="ui-g-4 advertisement-label">Company</div>
+                <div class="ui-g-8 advertisement-value">{{advertisement.companyName}}</div>
+                <div class="ui-g-4 advertisement-label">Website</div>
+                <div class="ui-g-8 advertisement-value">{{advertisement.externalUrl}}</div>
+                <div class="ui-g-4 advertisement-label">Display Interval</div>
+                <div class="ui-g-8 advertisement-value">{{advertisement.displayPeriod}}</div>
+                <div class="ui-g-4 advertisement-label">Display Rank</div>
+                <div class="ui-g-8 advertisement-value">{{advertisement.rank}}</div>
+                <div class="ui-g-4 advertisement-label">Valid between</div>
+                <div class="ui-g-8 advertisement-value">{{advertisement.startDate |date:'dd-MMM-yyyy'}} to
+                    {{advertisement.endDate | date:'dd-MMM-yyyy'}} </div>
+
+                <div class="ui-g-12 advertisement-value">
+                    <!--<p-checkbox *ngFor="let u of advertisement.useIn" [value]="true" [disabled]="true"-->
+                            <!--[binary]="true"-->
+                        <!--[label]="deriveUseLabel(u)"></p-checkbox>-->
+                    <div class="vertical-align-center" *ngFor="let u of advertisement.useIn">
+                        <i class="success-text-bold material-icons">check_circle</i>
+                        <span>{{deriveUseLabel(u)}}</span>
+                    </div>
+                    <!--<p-chips [(ngModel)]="useInValues" [disabled]="true"></p-chips>-->
+                </div>
+
+            </div>
+        </div>
+    </div>
+</ng-container>
+

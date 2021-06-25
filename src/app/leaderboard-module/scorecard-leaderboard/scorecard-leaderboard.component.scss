@@ -1,0 +1,420 @@
+@import "../../../../node_modules/bootstrap/scss/mixins";
+@import "../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/variables";
+$grossColumnBg: #B2FF59;
+$grossColumnHdr: darken($grossColumnBg, 10%);
+$netColumnBg: #81C784;
+$netColumnHdr: darken($netColumnBg, 10%);
+scorecard-leaderboard{
+    font-size: 1em !important;
+    .ui-datatable-data.ui-widget-content {
+        font-size: 1em !important;
+    }
+    .ui-datatable .ui-datatable-data >tr >td {
+        padding: 1px 1px;
+        height: 40px;
+        font-size: 1em !important;
+    }
+
+    .heading {
+        justify-content: center;
+        margin: 0px;
+        padding-left: 130px;
+        white-space: nowrap;
+    }
+    .heading-xs {
+        padding-left: 0px !important;
+    }
+    .ui-chkbox-box.ui-widget.ui-corner-all.ui-state-default {
+        background-color: transparent;
+        &.ui-state-active {
+            background-color: #186ba0;
+
+        }
+    }
+
+    .ui-lg-1, .ui-lg-2, .ui-lg-3, .ui-lg-4, .ui-lg-5, .ui-lg-6, .ui-lg-7, .ui-lg-8, .ui-lg-9, .ui-lg-10, .ui-lg-11, .ui-lg-12 {
+        padding: 1px;
+    }
+    .ui-md-1, .ui-md-2, .ui-md-3, .ui-md-4, .ui-md-5, .ui-md-6, .ui-md-7, .ui-md-8, .ui-md-9, .ui-md-10, .ui-md-11, .ui-md-12 {
+        padding: 1px;
+    }
+    td{
+        font-weight: 700;
+    }
+    .plain-text {
+        padding-top: 1px;
+    }
+    .net-column {
+        background-color: $netColumnBg;
+        font-weight: bold;
+
+    }
+    .gross-column{
+        background-color: $grossColumnBg;
+        font-weight: bold;
+    }
+
+    .player-name {
+        padding:0px;
+        display: flex;
+        align-items: center;
+        // color: #2196F3;
+        font-size: 1em;
+        white-space: normal;
+
+    }
+
+
+    .strike-out {
+        text-decoration: line-through;
+        font-size: smaller;
+    }
+    .under-par {
+        color: red;
+    }
+    .withdrawn-player {
+        color: red;
+    }
+    .hide-settings {
+        display: none;
+    }
+    .vertical-align-center {
+        display: flex;
+        align-items: center;
+    }
+    .table-header {
+        .ui-g-1,.ui-g-2,.ui-g-3,.ui-g-4,.ui-g-5,.ui-g-6,.ui-g-7,.ui-g-8 {
+            padding: 0.1em;
+        }
+        .competition-name {
+            font-weight: bold;
+            font-size: large;
+        }
+        button.ui-button {
+            background: transparent;
+            border: none;
+        }
+    }
+    .ui-datatable .ui-datatable-thead > tr th {
+        padding: 2px;
+    }
+
+    .competition-leaderboard {
+        .fullscreen-header {
+            padding: 0px 10px;
+            display: none;
+            .mat-headline, .mat-display-1 , .mat-title{
+                margin: 0px;
+            }
+            background-color: white;
+        }
+        &:-webkit-full-screen{
+
+            /* Set the height to match that of the viewport. */
+            height: 100vh;
+
+            /* Set the width to match that of the viewport. */
+            width: 100vw;
+
+            /* Remove any browser-default margins. */
+            margin: 0;
+            .fullscreen-header {
+                display: block;
+            }
+            background-color: white;
+
+        }
+        &:fullscreen {
+            /* Set the height to match that of the viewport. */
+            height: 100vh;
+
+            /* Set the width to match that of the viewport. */
+            width: 100vw;
+
+            /* Remove any browser-default margins. */
+            margin: 0;
+            .fullscreen-header {
+                display: block;
+            }
+            background-color: white;
+        }
+    }
+
+    // @media only screen and (min-height: 768px) {
+    //   .fs-div {
+    //     height: 7em;
+    //     // background-color: #2E7D32;
+    //     // color: white;
+    //     .comp-logo {
+    //       height: 7em !important;
+    //       min-width: 12em !important;
+    //     }
+    //     .comp-name {
+    //       // font-size: 2em;
+    //       font-family: garamond, 'chunkfive_exregular' !important;
+    //       font-weight: 600;
+    //     }
+    //   }
+    //
+    //   .comp-name {
+    //     font-size: 3em;
+    //     font-family: garamond, 'chunkfive_exregular' !important;
+    //     font-weight: 600;
+    //   }
+    //
+    //   .comp-logo {
+    //     height: 5em !important;
+    //   }
+    //
+    //   th {
+    //     font-size: 1.5em;
+    //   }
+    //
+    //   td {
+    //     font-size: 1.6em;
+    //     font-weight: 500;
+    //   }
+    //
+    //   .team-name {
+    //     font-variant-caps: small-caps;
+    //   }
+    // }
+    .mg2u-logo {
+      z-index: 99;
+      max-width: 5em !important;
+    }
+    @include media-breakpoint-down(xs) {
+      .ui-datatable-thead > tr > th {
+        font-size: 1.2em !important;
+      }
+
+      .player-name {
+        font-weight: bold;
+        font-variant-caps: small-caps;
+        font-size: 1.5em;
+      }
+
+      .ui-datatable .ui-datatable-data > tr > td {
+        padding: 1px;
+        height: 40px;
+        font-size: 1.4em !important;
+      }
+
+      tbody.ui-datatable .ui-datatable-frozen-view .ui-datatable-data > tr > td,
+      tbody.ui-datatable .ui-datatable-unfrozen-view .ui-datatable-data > tr > td {
+        height: 40px;
+        font-size: 1.8em !important;
+      }
+      .fs-div {
+        height: 6em;
+
+        .comp-logo {
+          height: 7em ;
+          min-width: 7em ;
+        }
+
+        .comp-name {
+          font-size: 1.5em;
+        //   font-family: garamond, 'chunkfive_exregular' ;
+          font-family: Arial, Helvetica, sans-serif;
+          font-weight: 400;
+        }
+
+        .m2u-logo {
+          height: 3em ;
+          min-width: 10em ;
+        }
+      }
+    }
+    @include media-breakpoint-down(md) {
+      .ui-datatable-thead > tr > th {
+        font-size: 1.2em !important;
+      }
+
+      .player-name {
+        font-weight: bold;
+        font-variant-caps: small-caps;
+        // text-transform: lowercase;
+        // text-transform: capitalize;
+        font-size: 1.5em !important;
+      }
+
+      .competition-name {
+        h1 {
+          margin: 1.1em !important;
+          font-size: 2em !important;
+        }
+      }
+
+      .fs-div {
+        height: 6em;
+
+        .comp-logo {
+          height: 5em ;
+          min-width: 7em ;
+        }
+
+        .comp-name {
+          font-size: 1.5em;
+        //   font-family: garamond, 'chunkfive_exregular' ;
+        font-family: Arial, Helvetica, sans-serif;
+          font-weight: 400;
+        }
+
+        .m2u-logo {
+          height: 3em ;
+          min-width: 10em ;
+        }
+      }
+
+      .ui-datatable .ui-datatable-data > tr > td {
+        padding: 1px;
+        height: 40px;
+        font-size: 1.6em !important;
+      }
+
+      tbody.ui-datatable .ui-datatable-frozen-view .ui-datatable-data > tr > td,
+      tbody.ui-datatable .ui-datatable-unfrozen-view .ui-datatable-data > tr > td {
+        height: 40px;
+        font-size: 1.8em !important;
+      }
+      // .comp-name {
+      //   font-size: 2em;
+      //   font-family: garamond, 'chunkfive_exregular' !important;
+      //   font-weight: 600;
+      // }
+      // .comp-logo {
+      //   height: 5em !important;
+      // }
+    }
+
+    @include media-breakpoint-up(lg) {
+      .ui-datatable-thead > tr > th {
+        font-size: 1.2em !important;
+      }
+
+      .player-name {
+        font-weight: bold;
+        font-variant-caps: small-caps;
+        font-size: 1.5em !important;
+      }
+
+      .competition-name {
+        h1 {
+          margin: 1.1em !important;
+          font-size: 2em !important;
+        }
+      }
+      .fs-div {
+        height: 6em;
+
+        .comp-logo {
+          height: 5em !important;
+          min-width: 5em !important;
+        }
+
+        .comp-name {
+          font-size: 1.5em;
+        //   font-family: garamond, 'chunkfive_exregular' !important;
+        font-family: Arial, Helvetica, sans-serif;
+          font-weight: 400;
+        }
+
+        .m2u-logo {
+          height: 3em !important;
+          min-width: 10em !important;
+        }
+      }
+
+      .ui-datatable .ui-datatable-data > tr > td {
+        padding: 1px;
+        height: 40px;
+        font-size: 1.5em !important;
+      }
+
+      tbody.ui-datatable .ui-datatable-frozen-view .ui-datatable-data > tr > td,
+      tbody.ui-datatable .ui-datatable-unfrozen-view .ui-datatable-data > tr > td {
+        height: 40px;
+        font-size: 2.1em !important;
+      }
+    }
+    @include media-breakpoint-up(xl) {
+        .ui-datatable .ui-datatable-data >tr >td {
+            padding: 1px 1px;
+            height: 40px;
+            font-size: 1.5em !important;
+        }
+        tbody.ui-datatable .ui-datatable-frozen-view .ui-datatable-data > tr > td,
+        tbody.ui-datatable .ui-datatable-unfrozen-view .ui-datatable-data > tr > td {
+            height: 40px;
+            font-size: 1.3em !important;
+        }
+        .player-name {
+            //text-decoration: underline;
+            font-variant-caps: small-caps;
+            font-weight: bold;
+            font-size: 1.5em;
+            line-height: 1.6em;
+        }
+
+        .fs-div {
+          height: 8em;
+                // background-color: #2E7D32;
+                // color: white;
+          .comp-logo {
+            height: 8em !important;
+            min-width: 8em !important;
+          }
+          .comp-name {
+            font-size: 3em;
+            // font-family: garamond, 'chunkfive_exregular' !important;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 600;
+          }
+        }
+    }
+
+    @include media-breakpoint-down(md) {
+        .competition-name {
+            h1 {
+                margin: 1.1em;
+                font-size: 2em;
+            }
+
+        }
+
+        .fs-div {
+          height: 6em;
+
+          .comp-logo {
+            height: 5em !important;
+            min-width: auto !important;
+          }
+          .comp-name {
+            font-size: 1.5em;
+            // font-family: garamond, 'chunkfive_exregular' !important;
+            font-family: Arial, Helvetica, sans-serif;
+            font-weight: 400;
+          }
+
+          .m2u-logo {
+            height: 3em !important;
+            min-width: 10em !important;
+          }
+        }
+
+        .ui-datatable .ui-datatable-data >tr >td {
+            padding: 1px 1px;
+            height: 40px;
+            font-size: 1.3em !important;
+        }
+        tbody.ui-datatable .ui-datatable-frozen-view .ui-datatable-data > tr > td,
+        tbody.ui-datatable .ui-datatable-unfrozen-view .ui-datatable-data > tr > td {
+            height: 40px;
+            font-size: 1.8em !important;
+        }
+
+    }
+
+}

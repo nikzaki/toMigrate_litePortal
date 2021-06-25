@@ -1,0 +1,19 @@
+competition-display .competition {
+  padding: 5px;
+  border-bottom: 1px solid #D5D5D5; }
+  competition-display .competition .competition-image {
+    text-align: center; }
+    competition-display .competition .competition-image img {
+      width: 64px;
+      height: 64px; }
+  competition-display .competition .bold-icon {
+    font-weight: bold; }
+  competition-display .competition .competition-name, competition-display .competition .competition-club, competition-display .competition .competition-dates {
+    display: flex;
+    align-items: center; }
+  competition-display .competition .competition-actions {
+    text-align: left;
+    margin-top: 10px; }
+    competition-display .competition .competition-actions button {
+      width: auto;
+      margin-right: 5px; }

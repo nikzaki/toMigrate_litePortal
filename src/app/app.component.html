@@ -1,0 +1,32 @@
+<div class = "layout-wrapper" [ngClass] = "{'layout-compact':layoutCompact}"  (click)="onLayoutClick()">
+    <div #layoutContainer class = "layout-container"
+            [ngClass] = "{'menu-layout-static': !isOverlay(),
+            'menu-layout-overlay': isOverlay(),
+            'layout-menu-overlay-active': overlayMenuActive,
+            'menu-layout-horizontal': isHorizontal(),
+            'menu-layout-slim': isSlim(),
+            'layout-menu-static-inactive': staticMenuDesktopInactive,
+            'layout-menu-static-active': staticMenuMobileActive}">
+        <!-- <app-topbar></app-topbar> -->
+
+        <!-- <div class = "layout-menu" [ngClass] = "{'layout-menu-dark':darkMenu}" (click) = "onMenuClick($event)">
+            <div #layoutMenuScroller class = "nano">
+                <div class = "nano-content menu-scroll-content">
+                    <inline-profile *ngIf = "(loggedIn|async) && profileMode=='inline'&&!isHorizontal()"></inline-profile>
+                    <app-menu [reset] = "resetMenu" [model]="appMenu|async"></app-menu>
+                </div>
+            </div>
+        </div> -->
+        <div class = "layout-main">
+                <app-main-header></app-main-header>
+            <router-outlet></router-outlet>
+            <!-- <app-footer> -->
+            <!--<p-growl [(value)]="messageAction.growlMessages"-->
+                    <!--[sticky]="false" [life]="3000"></p-growl>-->
+            <!-- <p-messages [(value)]="messageAction.messages"></p-messages> -->
+              <app-main-footer></app-main-footer>
+            <!-- </app-footer> -->
+        </div>
+        <div class = "layout-mask"></div>
+    </div>
+</div>

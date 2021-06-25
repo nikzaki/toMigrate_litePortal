@@ -1,0 +1,21 @@
+action-panel {
+    .action-panel {
+        display: flex;
+        &.horizontal-items {
+            flex-direction: row;
+            flex-wrap: nowrap;
+            align-items: center;
+            justify-content: flex-end;
+            &.small-screen {
+                justify-content: flex-end;
+            }
+        }
+        &.vertical-items {
+            flex-direction: column;
+            align-items: center;
+        }
+        .link-action {
+            font-weight: bold;
+        }
+    }
+}

@@ -1,0 +1,29 @@
+@import "../../../../node_modules/bootstrap/scss/mixins";
+@import "../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../node_modules/bootstrap/scss/variables";
+
+leaderboard-settings {
+
+    .mat-input-element {
+        text-align: center;
+        font-weight: bold;
+    }
+    .mat-typography {
+        h3, h4 {
+            margin-bottom: 0px;
+        }
+    }
+    .mat-select{
+        padding-top: 0px;
+    }
+    .settings-line {
+        max-height: 50px !important;
+        min-height: 50px;
+    }
+
+    // @include media-breakpoint-up(md) {
+    //   .break-line {
+    //     display:none;
+    //   }
+    // }
+}

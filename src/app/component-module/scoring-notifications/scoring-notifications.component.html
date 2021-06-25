@@ -1,0 +1,16 @@
+<div class="notification-container">
+  <div *ngFor="let notf of notifications"
+          (click)="notf.hide=true"
+          [class.hidden]="notf.hide"
+          class="scoring-notification">
+      <div class="scoring-notification"></div>
+      <div class="balloon" [class.eagle]="notf.scoreType==='Eagle'"
+        [class.albatross]="notf.scoreType==='HoleInOne' || notf.scoreType==='Albatross'">
+          <div>
+              <div><b style="font-size: large">{{notf.scoreType}}!!!</b><br/>
+                  <b>{{notf.player}}<br/>
+                  Hole - {{notf.hole}}</b></div>
+          </div>
+      </div>
+  </div>
+</div>

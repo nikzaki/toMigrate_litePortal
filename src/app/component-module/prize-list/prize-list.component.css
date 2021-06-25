@@ -1,0 +1,19 @@
+prize-list .name-column {
+  width: 30%; }
+prize-list .prize-name-column {
+  width: 25%; }
+prize-list .prize-title-column {
+  width: 25%; }
+prize-list .prize-money-column {
+  width: 20%; }
+prize-list .column-header {
+  width: 100%;
+  text-align: left;
+  font-weight: bold; }
+  prize-list .column-header.money-column-header {
+    text-align: right; }
+prize-list .column-body {
+  width: 100%;
+  text-align: left; }
+  prize-list .column-body.money-column-body {
+    text-align: right; }

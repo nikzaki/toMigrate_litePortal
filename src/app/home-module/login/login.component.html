@@ -1,0 +1,38 @@
+<div class="login-body">
+    <div class = "card login-panel ui-fluid">
+            <form>
+        <div class = "ui-g">
+            
+            <div class = "ui-g-12">
+                <img src = "assets/images/new_mygolf2u_logo.png">
+            </div>
+            <div class = "ui-g-12">
+                    <span class = "md-inputfield"  style="color: ghostwhite">
+                        <input type = "text"  autocomplete = "off" [(ngModel)]="userid" [ngModelOptions]="{standalone: true}"
+                                class = "ui-inputtext ui-corner-all ui-state-default ui-widget ui-state-filled">
+                        <label>Username</label>
+                    </span>
+            </div>
+            <div class = "ui-g-12">
+                  <span class = "md-inputfield"  style="color: ghostwhite">
+                      <input type = "password" autocomplete = "off" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"
+                              class = "ui-inputtext ui-corner-all ui-state-default ui-widget  ui-state-filled">
+                      <label>Password</label>
+                  </span>
+            </div>
+            <div class = "ui-g-12">
+                <button type = "submit" (click)="signIn()"
+                        class = "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left ui-button-warning">
+                    <span class = "ui-button-icon-left ui-c fa fa-fw ui-icon-person"></span>
+                    <span class = "ui-button-text ui-c">Sign In</span>
+                </button>
+                <!--<button type = "button"-->
+                        <!--class = "secondary ui-button ui-widget ui-state-default ui-corner-all ui-button-text-icon-left">-->
+                    <!--<span class = "ui-button-icon-left ui-c fa fa-fw ui-icon-help"></span>-->
+                    <!--<span class = "ui-button-text ui-c">Forgot Password</span>-->
+                <!--</button>-->
+            </div>
+        </div>
+    </form>
+    </div>
+</div>

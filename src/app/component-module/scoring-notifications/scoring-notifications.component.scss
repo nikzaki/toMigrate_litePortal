@@ -1,0 +1,209 @@
+scoring-notifications {
+    $particles: 50;
+    $width: 500;
+    $height: 500;
+    $gps-burg: rgba(182, 15, 97, 0.9);
+    $gps-eagle: rgba(15, 182, 97, 0.9);
+    $gps-albatross: rgba(30, 30, 182, 0.9);
+
+    // Create the explosion...
+    $box-shadow: ();
+    $box-shadow2: ();
+    @for $i from 0 through $particles {
+        $box-shadow: $box-shadow,
+        random($width)-$width / 2 + px
+        random($height)-$height / 1.2 + px
+        hsl(random(360), 100, 50);
+        $box-shadow2: $box-shadow2, 0 0 #fff
+    }
+    @mixin keyframes ($animationName) {
+        @-webkit-keyframes #{$animationName} {
+            @content;
+        }
+
+        @-moz-keyframes #{$animationName} {
+            @content;
+        }
+
+        @-o-keyframes #{$animationName} {
+            @content;
+        }
+
+        @-ms-keyframes #{$animationName} {
+            @content;
+        }
+
+        @keyframes #{$animationName} {
+            @content;
+        }
+    }
+
+    @mixin animation-delay ($settings) {
+        -moz-animation-delay: $settings;
+        -webkit-animation-delay: $settings;
+        -o-animation-delay: $settings;
+        -ms-animation-delay: $settings;
+        animation-delay: $settings;
+    }
+
+    @mixin animation-duration ($settings) {
+        -moz-animation-duration: $settings;
+        -webkit-animation-duration: $settings;
+        -o-animation-duration: $settings;
+        -ms-animation-duration: $settings;
+        animation-duration: $settings;
+    }
+
+    @mixin animation ($settings) {
+        -moz-animation: $settings;
+        -webkit-animation: $settings;
+        -o-animation: $settings;
+        -ms-animation: $settings;
+        animation: $settings;
+    }
+
+    @mixin transform ($settings) {
+        transform: $settings;
+        -moz-transform: $settings;
+        -webkit-transform: $settings;
+        -o-transform: $settings;
+        -ms-transform: $settings;
+    }
+
+
+    .scoring-notification {
+        //white-space: nowrap;
+        //font-size: 1.5rem;
+        color: #761c19;
+        position: absolute;
+        width: 5px;
+        height: 5px;
+        border-radius: 50%;
+        box-shadow: $box-shadow2;
+        @include animation((5s bang ease-out infinite backwards,
+        20s moving ease-in infinite backwards
+        //,50s position linear infinite backwards
+        ));
+    }
+    .balloon {
+        z-index: 999;
+        position: absolute;
+        width: 438px;
+        margin: 0 auto;
+        padding-top: 30px;
+    }
+    .balloon > div {
+
+        width:104px;
+        height:140px;
+
+        border-radius:0;
+        border-radius:80% 80% 80% 80%;
+        margin: 0 auto;
+
+        padding:10px;
+        box-shadow:inset 17px 7px 10px $gps-burg;
+        -webkit-transform-origin: bottom center;
+        background: $gps-burg;
+        left: 0;
+        box-shadow:inset 10px 10px 10px darken($gps-burg, 10%);
+
+        @include animation((
+                20s moving ease-in infinite));
+    }
+    .balloon.eagle > div {
+        background: $gps-eagle;
+        box-shadow:inset 10px 10px 10px darken($gps-eagle, 10%);
+    }
+    .balloon.albatross > div {
+        background: $gps-albatross;
+        box-shadow:inset 10px 10px 10px darken($gps-albatross, 10%);
+    }
+    .balloon > div > div {
+        margin-top: 30px;
+        margin-left:10px;
+        color: white;
+        text-align: center;
+    }
+
+
+    .balloon > div:before {
+        color:$gps-burg;
+        position:absolute;
+        bottom:-11px;
+        left: 212px;
+        content:"▲";
+        font-size:1em;
+    }
+    .balloon.eagle > div:before {
+        color: $gps-eagle;
+    }
+    .balloon.albatross > div:before {
+        color: $gps-albatross;
+    }
+    @include keyframes(bang) {
+        to {
+            box-shadow:$box-shadow;
+        }
+    }
+
+    @include keyframes(gravity)  {
+        to {
+            @include transform(translateY(-400px));
+            opacity: 0;
+        }
+    }
+
+    @include keyframes(position) {
+        0%, 19.9% {
+            margin-top: 10%;
+            margin-left: 40%;
+        }
+        20%, 39.9% {
+            margin-top: 40%;
+            margin-left: 30%;
+        }
+        40%, 59.9% {
+            margin-top: 20%;
+            margin-left: 30%
+        }
+        60%, 79.9% {
+            margin-top: 30%;
+            margin-left: 20%;
+        }
+        80%, 99.9% {
+            margin-top: 30%;
+            margin-left: 30%;
+        }
+    }
+    @include keyframes(moving) {
+        from {
+            top: 0px;
+            left: 0px
+        }
+        to {top: 90%;
+            left: 90%
+        }
+    }
+
+
+
+
+    /*BALLOON 1 4*/
+    @-webkit-keyframes balloon1 {
+        0%,100%{ -webkit-transform:translateY(0) rotate(-6deg);}
+        50%{ -webkit-transform:translateY(-20px) rotate(8deg); }
+    }
+    @-moz-keyframes balloon1 {
+        0%,100%{ -moz-transform:translateY(0) rotate(-6deg);}
+        50%{ -moz-transform:translateY(-20px) rotate(8deg); }
+    }
+    @-o-keyframes balloon1 {
+        0%,100%{ -o-transform:translateY(0) rotate(-6deg);}
+        50%{ -o-transform:translateY(-20px) rotate(8deg); }
+    }
+    @keyframes balloon1 {
+        0%,100%{ transform:translateY(0) rotate(-6deg);}
+        50%{ transform:translateY(-20px) rotate(8deg); }
+    }
+}

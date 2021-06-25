@@ -1,0 +1,13 @@
+app-feed {
+    .container {
+        overflow: hidden;
+        &:hover {
+            overflow: auto;
+        }
+    }
+    .media-body {
+        .description {
+            padding-bottom: 2px;
+        }
+    }
+}

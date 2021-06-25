@@ -1,0 +1,41 @@
+advertisement-display .ui-g-1, advertisement-display .ui-g-2, advertisement-display .ui-g-3, advertisement-display .ui-g-4, advertisement-display .ui-g-5, advertisement-display .ui-g-6, advertisement-display .ui-g-7, advertisement-display .ui-g-8, advertisement-display .ui-g-9, advertisement-display .ui-g-10, advertisement-display .ui-g-11, advertisement-display .ui-g-12 {
+  padding: 3px; }
+advertisement-display .advertisement-single {
+  border: solid 1px silver; }
+  advertisement-display .advertisement-single img {
+    max-height: 30px;
+    max-width: 100%; }
+  advertisement-display .advertisement-single .advertisement-name {
+    text-align: left;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+  advertisement-display .advertisement-single.clickable img, advertisement-display .advertisement-single.clickable .advertisement-name {
+    cursor: hand;
+    cursor: pointer; }
+advertisement-display .advertisement-compact {
+  border: solid 1px silver; }
+  advertisement-display .advertisement-compact img {
+    max-height: 60px;
+    max-width: 100%; }
+  advertisement-display .advertisement-compact .advertisement-name {
+    text-align: left;
+    white-space: normal; }
+  advertisement-display .advertisement-compact .advertisement-label {
+    font-weight: bold; }
+  advertisement-display .advertisement-compact .advertisement-value {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; }
+  advertisement-display .advertisement-compact.advertisement-expired {
+    border: solid 2px darkred; }
+  advertisement-display .advertisement-compact.advertisement-inactive {
+    border: solid 2px red; }
+advertisement-display .advertisement-detail img {
+  max-width: 100%;
+  max-height: 100%; }
+advertisement-display .advertisement-detail .advertisement-value {
+  display: flex;
+  align-items: center; }
+advertisement-display .action-panel {
+  text-align: center; }

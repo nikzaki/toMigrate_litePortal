@@ -1,0 +1,49 @@
+<div class = "ui-g">
+    <div class = "ui-g-2">
+        <img [src] = "player?.photoUrl" style = "height:60px;border-radius: 50%"
+                onerror = "this.src = 'assets/images/default_user.png'">
+    </div>
+    <div class = "ui-g-10">
+        <div class="ui-g">
+            <div class="ui-g-12" [class.amateur]="colorSet === 'amateur'"
+                    [class.professional]="colorSet === 'professional'">
+                <legend-display [items]="scoreLegends"
+                        icon="bookmark"
+                        displayMode="horizontal"></legend-display>
+            </div>
+        </div>
+    </div>
+    <div class="ui-g-12">
+        <p-dataTable *ngIf="scores" sortField="round" rowGroupMode="rowspan"
+                sortMode="multiple" [multiSortMeta]="multiSortMeta"
+                [rowStyleClass]="deriveRowClass"
+                [styleClass]="'accent-table '+ colorSet" [value]="scores">
+            <p-headerColumnGroup>
+                <p-row>
+                    <p-column header="Hole" colspan="2"></p-column>
+                    <p-column *ngFor="let col of firstNineCols" [header]="col.header"></p-column>
+                    <p-column header="Out"></p-column>
+                    <p-column *ngFor="let col of secondNineCols" [header]="col.header"></p-column>
+                    <p-column header="In"></p-column>
+                </p-row>
+            </p-headerColumnGroup>
+            <p-column field="round"></p-column>
+            <p-column field="rowType"  sortField="sortField"></p-column>
+            <p-column *ngFor="let col of firstNineCols" >
+
+                <ng-template let-row="rowData" pTemplate="body">
+                    <div [class]="getScoreClass(row['toPar'+col.header], row['s'+col.field])">{{row['s'+col.field]}}</div>
+                </ng-template>
+
+            </p-column>
+            <p-column field="outTotal" styleClass="total-col"></p-column>
+            <p-column *ngFor="let col of secondNineCols">
+                <ng-template let-row="rowData" pTemplate="body">
+                    <div [class]="getScoreClass(row['toPar'+col.header], row['s'+col.field])">{{row['s'+col.field]}}</div>
+                </ng-template>
+            </p-column>
+            <p-column field="inTotal" styleClass="total-col"></p-column>
+
+        </p-dataTable>
+    </div>
+</div>

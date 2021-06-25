@@ -1,0 +1,861 @@
+<!-- <p-dataGrid #compList [value] = "competitions"
+        [rows] = "pageSize"
+        [paginator] = "paginator"
+        [lazy]="lazyLoad"
+        [totalRecords] = "totalCompetitions"
+        [paginatorPosition] = "paginatorPosition"
+        [emptyMessage]="emptyMessage"
+        (onLazyLoad)="onLazyLoad($event)">
+    <ng-template let-comp pTemplate="item">
+        <div class="ui-g-12 ui-lg-6">
+            <competitdisplay [competition]="comp"
+                    [singleLineDisplay]="singleLineDisplay" [showStatus]="showCompetitionStatus"
+                    [showClubInfo]="showClubInfo" [actions]="actions" (onCompetitionAction)="onAction($event)">
+            </competitdisplay>
+        </div>
+
+    </ng-template>
+</p-dataGrid> -->
+<!-- Float Label -->
+<p-growl [value]="messages" life="5000"></p-growl>
+<!-- 'text-align:center' -->
+<p-panel header="Enter Player MG2U ID and click Get or click Search Player to search by name / email"
+    [style]="{'margin-top':'2em','text-align':'center'}">
+    <!-- Enter player MG2U ID or use Search Player to search by name / email -->
+    <div class=" ui-g ">        
+        <!-- <div class="ui-g-12 ui-md-4 ui-md-offset-4">ui-g-12 i-md-4 ui-md-offset-4</div> -->
+        <!-- ui-inputgroup  -->
+        <div class="ui-g-12">
+            <!-- style="margin-left:25%" -->
+            <input id="float-input" style="width:16em" type="number" pInputText [(ngModel)]="searchPlayerId"
+                placeholder="Enter Player MG2U ID" (keyup.enter)="getPlayer(searchPlayerId)">
+
+            <!-- size="40" -->
+            <!-- <span class="ui-inputgroup-addon"> -->
+            <button class="ui-button-warning" type="button" pButton label="GET"
+                (click)="getPlayer(searchPlayerId)"></button>
+            <!-- </span> -->
+            <!-- <span class="ui-inputgroup-addon"> -->
+            <button pButton type="button" label="SEARCH PLAYER" (click)="showPlayerDialog()"></button>
+            <!-- </span> -->
+        </div>
+
+    </div>
+    <br>
+    <p-messages [(value)]="msgId">
+        <md-icon class="mdi mdi-loading mdi-spin"></md-icon>
+    </p-messages>
+    <!-- {{screenWidth}}&nbsp;{{screenHeight}} -->
+</p-panel>
+<div class="ui-g-12">
+    <div class="ui-g-12 ui-xl-6">
+        <p-panel header="Player Information / Handicap Index" class="player-panel" *ngIf="handicapRounds && player">
+            <!-- <div class="searchBar">
+        <span class="ui-float-label">
+            <input id="float-input" type="text" size="50" pInputText [(ngModel)]="searchPlayerId" placeholder="Get Player by MG2U ID" style="width:100px">
+            <button pButton label="Get" (click)="getPlayer(searchPlayerId)"></button>
+            <button pButton label="Search Player" (click)="showPlayerDialog()"></button>
+
+        </span>
+
+    </div> -->
+
+            <!-- <div class="ui-g">
+        <div class="ui-g-6"><input id="float-input" type="text" size="30" pInputText
+             [(ngModel)]="searchPlayerId" placeholder="Get Player by MG2U ID" style="width:100px">
+        </div>
+        <div class="ui-g-3">
+                <button pButton label="Get" (click)="getPlayer(searchPlayerId)"></button>
+    
+        </div>
+        <div class="ui-g-3">
+                <button pButton label="Search Player" (click)="showPlayerDialog()"></button>
+        </div>
+
+    </div> -->
+            <!-- [contentStyle]="{'overflow':'visible'}" -->
+            <!-- <p-overlayPanel #op1 appendTo="body" [showCloseIcon]="true" [dismissable]="false">
+                    <img [src]="fullImageUrl" alt="Galleria 1" />
+                </p-overlayPanel> -->
+
+            <!-- (onHide)="clearPlayerList()" -->
+            <!-- <div class="ui-g-10"> -->
+            <p-dialog [(visible)]="displayImage" [resizable]="false" [draggable]="true"
+                [modal]="true" [dismissableMask]="true" [responsive]="true" [width]="500"
+                (onHide)="displayImage = false">
+                <img class="mx-auto d-block img-fluid"
+                    [src]="player && player.photoUrl?player.photoUrl:'assets/images/default_user.png'"
+                    onerror="this.src = 'assets/images/default_user.png'">
+            </p-dialog>
+            <!-- [positionTop]="150" -->
+            <!-- </div> -->
+
+            <div *ngIf="handicapRounds && player" class="ui-g ui-fluid">
+                <!-- <div class="ui-g ui-fluid">
+                    <div class="ui-g-12 ui-md-4">
+                        <div class="ui-inputgroup">
+                            <span class="ui-inputgroup-addon">Name</span>
+                            <input type="text" pInputText placeholder="Username">         
+                        </div>
+                    </div> -->
+                <div class="ui-g-3 avatar" style="text-align:center;">
+                    <!-- (click)="expandImage($event,player,op1)" -->
+                    <img (click)="expandImage()" class="mx-auto d-block img-fluid lb-logo"
+                        [src]="player && player.photoUrl?player.photoUrl:'assets/images/default_user.png'"
+                        onerror="this.src = 'assets/images/default_user.png'">
+                    <br>{{getPlayerHcpSystem(selectedHcpSystem,'shortCode')}} INDEX
+                    <h1>{{latestPlayerHcpIdx | number: '1.1-1'}}</h1>
+                    <br>Effective Date
+                    <h5 style="font-weight:bold;font-size:1.2rem">{{getDate(handicapList[0].handicapIndexDate)?getDate(handicapList[0].handicapIndexDate):getDate(handicapList[0].calculatedOn)}}</h5>
+                    <!-- <br>MG2U HCP INDEX
+                    <h1>{{player.mygolfHandicapIndex | number: '1.1-1'}}</h1>
+                    <br>Effective Date
+                    <h5 style="font-weight:bold;font-size:1.2rem">{{getDate(handicapList[0].calculatedOn)}}</h5> -->
+                </div>
+                <div class="ui-g-9">
+                    <div class="ui-g-4 player-param">Name</div>
+                    <!-- style="width:33%" -->
+                    <div class="ui-g-8 player-field">{{player.playerName}}</div>
+                    <div class="ui-g-4 player-param">MG2U ID</div>
+                    <!-- style="width:33%" -->
+                    <div class="ui-g-8 player-field">{{player.playerId}}</div>
+                    <div class="ui-g-4 player-param">Nationality</div>
+                    <!-- style="width:33%" -->
+                    <div class="ui-g-8 player-field">{{player.countryName?player.countryName:'&nbsp;'}}</div>
+                    <!-- <div class="ui-g-6 player-param">MG2U Handicap Index</div>
+                <div class="ui-g-6 player-field">{{player.mygolfHandicapIndex | number: '1.1-1'}}</div> -->
+                    <!-- <div class="ui-g-6 player-param">Effective Date</div>
+                <div class="ui-g-6 player-field">{{getDate(handicapList[0].calculatedOn)}}</div> -->
+                    <div class="ui-g-4 player-param">
+                        <span class="d-none d-xl-block">Def. Hcp System</span>
+                        <span class="d-xl-none">Def. Hcp Sys</span>
+                    </div>
+                    <!-- style="width:33%" -->
+                    <div class="ui-g-8 player-field">
+                        <span class="d-none d-xl-block">{{getPlayerHcpSystem(null,'name')?getPlayerHcpSystem(null,'name')+" ("+getPlayerHcpSystem(null,'shortCode')+")":'&nbsp;'}}</span>
+                        <span class="d-xl-none">{{getPlayerHcpSystem(null,'shortCode')?getPlayerHcpSystem(null,'shortCode'):'&nbsp;'}}</span>
+                       </div>
+                    <div class="ui-g-4 player-param">
+                        <span class="d-none d-xl-block">View Hcp System</span>
+                        <span class="d-xl-none">View. Hcp Sys</span>
+                    </div>
+                    <!-- <div class="ui-g-8 player-field"></div> -->
+                    <div class="ui-g-8 player-field">
+                        <p-dropdown *ngIf="handicapSystemDropdown" [style]="{'width':'100%'}" 
+                            [options]="handicapSystemDropdown"
+                            placeholder="Select a handicap system to view" [(ngModel)]="selectedHcpSystem"
+                            (onChange)="onChangeHandicapSystem()">
+                            <!-- handicapSystemList && handicapSystemList.length > 0 -->
+                            <!-- [filter]="false"
+                            filterBy="label"  -->
+                            
+                        </p-dropdown>
+                    </div>
+                    <div class="ui-g-4 player-param">
+                        Hcp Index Date
+                        <!-- <span class="d-lg-none d-xl-block">Handicap Index Date</span>
+                        <span class="d-none d-lg-block d-xl-none">Hcp Idx Date</span> -->
+                        </div>
+                    <div class="ui-g-8 player-field">{{getDate(handicapList[0].handicapIndexDate)?getDate(handicapList[0].handicapIndexDate):getDate(handicapList[0].calculatedOn)}}</div>
+                   
+                    <div class="ui-g-4 player-param">Home Club</div>
+                    <div class="ui-g-8 player-field">{{clubHandicap?clubHandicap.clubInfo.clubName:'&nbsp;'}}</div>
+                    <div class="ui-g-4 player-param">
+                        {{getPlayerHcpSystem(selectedHcpSystem,'shortCode')?getPlayerHcpSystem(selectedHcpSystem,'shortCode'):'&nbsp;'}} Hcp
+                        <!-- <span class="d-lg-none d-xl-block">{{getPlayerHcpSystem(selectedHcpSystem,'shortCode')?getPlayerHcpSystem(selectedHcpSystem,'shortCode'):'&nbsp;'}} Handicap</span>
+                        <span class="d-none d-lg-block d-xl-none">{{getPlayerHcpSystem(selectedHcpSystem,'shortCode')?getPlayerHcpSystem(selectedHcpSystem,'shortCode'):'&nbsp;'}} HCP</span> -->
+                    </div>
+                    <div class="ui-g-8 player-field">{{clubHandicap?clubHandicap.handicap:'&nbsp;'}}</div>
+                    
+                    <div class="ui-g-4 player-param">NHS Hcp | Idx</div>
+                    <div class="ui-g-8 player-field">{{getPlayerNhsDetails('hcpOnly')}} {{getPlayerNhsDetails('hcpIdx')?' | ' + getPlayerNhsDetails('hcpIdx'):'&nbsp;'}}</div>
+                    
+                    <div class="ui-g-4 player-param">View Index Date</div>
+                    <!-- <div class="ui-g-8 player-field"></div> -->
+                    <div class="ui-g-8 player-field">
+                        <p-dropdown *ngIf="hcpHistoryDropdown" [style]="{'width':'100%'}" 
+                            [options]="hcpHistoryDropdown"
+                            placeholder="Select a handicap index date to view" [(ngModel)]="selectedHcpHistory"
+                            (onChange)="onChangeHandicapHistory()">
+                            <!-- handicapSystemList && handicapSystemList.length > 0 -->
+                            <!-- [filter]="false"
+                            filterBy="label"  -->
+                            
+                        </p-dropdown>
+                    </div>
+                    <div *ngIf="viewIdxDateFlag" class="ui-g-4 player-param">
+                        Calc. Index
+                        <!-- <span class="d-lg-none d-xl-block">
+                        Calculated Index</span><span class="d-none d-lg-block d-xl-none">Calc. Idx</span> -->
+                    </div>
+                    <div *ngIf="viewIdxDateFlag && playerHcpIdx" class="ui-g-8 player-field">{{playerHcpIdx | number: '1.1-1'}}</div>
+                    <!-- <div class="ui-g-8 player-field">{{player.handicap?player.handicap:'&nbsp;'}} {{player.handicapIndex?' | '+player.handicapIndex:'&nbsp;'}}</div> -->
+                    <div class="ui-g-12">&nbsp;</div>
+                </div>
+
+
+
+                <!-- Player Name : {{player.playerName}} <br> -->
+                <!-- MG2U ID : {{player.playerId}} <br>
+        Country : {{player.countryName}} <br>
+        m2u Handicap Index : {{player.mygolfHandicapIndex}} <br>
+        Total Rounds Read : {{handicapRounds.length}}
+        <p>* Effective Date : {{getDate(handicapList[0].calculatedOn)}}</p> -->
+            </div>
+        </p-panel>
+    </div>
+    <br>
+    <!-- optionLabel="clubName"  -->
+    <div class="ui-g-12 ui-xl-6" *ngIf="hasPlayer">
+        <p-panel header="Club Selection / Course Handicap Calculator">
+            <!-- <button pButton label="Refresh Club List" (click)="getClubList()"></button> -->
+
+            <div class="ui-g ui-fluid ">
+                <div class="ui-g-4 player-param">
+                    <span class="d-none d-xl-block">View Hcp System : </span>
+                    <span class="d-xl-none">View. Hcp Sys : </span>
+                </div>
+                <!-- <div class="ui-g-8 player-field"></div> -->
+                <div class="ui-g-8 player-field">
+                    <p-dropdown *ngIf="handicapSystemDropdown" [style]="{'width':'100%'}" 
+                        [options]="handicapSystemDropdown"
+                        placeholder="Select a handicap system to view" [(ngModel)]="selectedHcpCalc"
+                        (onChange)="onChangeHandicapCalculator()">
+                        <!-- handicapSystemList && handicapSystemList.length > 0 -->
+                        <!-- [filter]="false"
+                        filterBy="label"  -->
+                        
+                    </p-dropdown>
+                </div>
+                <div *ngIf="hcpCalcFlag && calcPlayerHcpIdx" class="ui-g-4 player-param">
+                    <span>{{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : </span>
+                </div>
+                <!-- <div class="ui-g-8 player-field"></div> -->
+                <div *ngIf="hcpCalcFlag && selectedHcpCalc" class="ui-g-8 player-field">
+                    <span>{{calcPlayerHcpIdx | number : '1.1-1'}}</span>
+                </div>
+                <div class="ui-g-4 player-param"><md-icon class="mdi mdi-sync-alert" (click)="refreshCountryList()" *ngIf="!countrySuccess"></md-icon>Country : </div>
+                <div class="ui-g-8">
+                    <p-dropdown *ngIf="countryDropdown" [style]="{'width':'100%'}" [options]="countryDropdown"
+                        placeholder="Select a club's country" [(ngModel)]="selectedCountry" [filter]="true"
+                        filterBy="label" (onChange)="getClubList()">
+                    </p-dropdown>
+                </div>
+                <div class="ui-g-4 player-param">
+                    <md-icon class="mdi mdi-sync-alert" (click)="getClubList()" *ngIf="!clubSuccess"></md-icon>
+                    <md-icon class="mdi mdi-sync-alert" (click)="refreshCourses()" *ngIf="!courseSuccess"></md-icon>
+                    Club : </div>
+                <div class="ui-g-8">
+                    <p-dropdown *ngIf="clubDropdown" [style]="{'width':'100%'}" [options]="clubDropdown"
+                        placeholder="Select a club (or filter by country)" [(ngModel)]="selectedClub" [filter]="true"
+                        filterBy="label,value.countryName,value.countryId" (onChange)="refreshCourses(selectedClub)">
+                    </p-dropdown>
+                </div>
+                <div class="ui-g-4 player-param"><md-icon class="mdi mdi-sync-alert" (click)="getCourseHandicap(1)" *ngIf="!firstNineSuccess"></md-icon>First Nine : </div>
+                <div class="ui-g-8">
+                    <p-dropdown [style]="{'width':'100%'}" *ngIf="courseList" placeholder="Select first nine"
+                        [options]="courseList" [(ngModel)]="selectedCourse1" optionLabel="courseName"
+                        (onChange)="getCourseHandicap(1)">
+                    </p-dropdown>
+                </div>
+                <!-- (onChange)="getCourseHandicap()" -->
+                <div class="ui-g-4 player-param"><md-icon class="mdi mdi-sync-alert" (click)="getCourseHandicap(2)" *ngIf="!secondNineSuccess"></md-icon>Second Nine : </div>
+                <div class="ui-g-8">
+                    <p-dropdown [style]="{'width':'100%'}" *ngIf="courseList" placeholder="Select second nine"
+                        [options]="courseList" [(ngModel)]="selectedCourse2" optionLabel="courseName"
+                        (onChange)="getCourseHandicap(2)">
+                    </p-dropdown>
+                </div>
+                <!-- <br><br> -->
+                <div class="ui-g-12">
+                    <ng-container *ngFor="let tb of teeBox">
+                        <!-- <div class="ui-xl-3 d-none d-xl-block">&nbsp;</div> -->
+                        <div *ngIf="tb.name === 'Black' && blackMgHcp" class="ui-g-4 player-param">
+                            Black Tee:
+                        </div>
+                        <div *ngIf="tb.name === 'Black' && blackMgHcp" class="ui-g-2  player-field">
+                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{blackMgHcp}}<span *ngIf="this.clubNhsHandicap.handicapIndex"><br>NHS : {{blackHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-black"></i>
+                        </div>
+                        <div *ngIf="tb.name === 'Blue' && blueMgHcp" class="ui-g-4  player-param">
+                            Blue Tee:
+                        </div>
+                        <div *ngIf="tb.name === 'Blue' && blueMgHcp" class="ui-g-2 player-field">
+                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{blueMgHcp}}<span *ngIf="this.clubNhsHandicap.handicapIndex"><br>NHS : {{blueHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-blue"></i>
+                        </div>
+                        <!-- <div class="ui-xl-3 d-none d-xl-block">&nbsp;</div>
+                    <div class="ui-xl-3 d-none d-xl-block">&nbsp;</div> -->
+                        <div *ngIf="tb.name === 'Red' && redMgHcp" class="ui-g-4 player-param">
+                            Red Tee:
+                        </div>
+                        <div *ngIf="tb.name === 'Red' && redMgHcp" class="ui-g-2  player-field">
+                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{redMgHcp}}<span *ngIf="this.clubNhsHandicap.handicapIndex"><br>NHS :  {{redHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-red"></i>
+                        </div>
+                        <div *ngIf="tb.name === 'White' && whiteMgHcp" class="ui-g-4  player-param">
+                            White Tee:
+                        </div>
+                        <div *ngIf="tb.name === 'White' && whiteMgHcp" class="ui-g-2 player-field">
+                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{whiteMgHcp}}<span *ngIf="this.clubNhsHandicap.handicapIndex"><br>NHS : {{whiteHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-white"></i>
+                        </div>
+                        <!-- <div class="ui-xl-3 d-none d-xl-block">&nbsp;</div> -->
+                        <div *ngIf="tb.name === 'Gold' && goldMgHcp" class="ui-g-4 player-param">
+                            Gold Tee:
+                        </div>
+                        <div *ngIf="tb.name === 'Gold' && goldMgHcp" class="ui-g-2  player-field">
+                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{goldMgHcp}}<span *ngIf="this.clubNhsHandicap.handicapIndex"><br>NHS : {{goldHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-gold"></i>
+                        </div>
+                    </ng-container>
+                    <div class="ui-g-12">
+                        &nbsp;
+                    </div>
+
+                </div>
+            </div>
+        </p-panel>
+    </div>
+</div>
+
+<p-dialog [(visible)]="displayPlayer" (onHide)="clearPlayerList()" [resizable]="true" 
+     [modal]="true" [dismissableMask]="true"  [width]="500" [closable]="false" [positionTop]="100">
+     <!-- [draggable]="true" -->
+     <!-- [responsive]="true" -->
+     <!-- [positionTop]="150" -->
+    <!-- class="ui-g" -->
+    <!-- [appendTo]="body" -->
+    <p-header>
+        <!-- [style]="{'text-align':'center'}" -->
+        <!-- Search Player by Name or Email -->
+
+        <div class="searchBar">
+            <span class="ui-g-12">
+                <div class=" ui-g-9">
+                    <!-- size="30" -->
+                    <input class="ui-float-label" type="text" pInputText [(ngModel)]="searchPlayer"
+                        (keyup.enter)="refreshPlayerList(searchPlayer)" placeholder="Search players by name or email"
+                        style="width:100%">
+                </div>
+                <!-- id="float-input"  -->
+                <!-- <label >Search Players by name or email</label> -->
+                <!-- for="float-input" -->
+                <div class="ui-g-3">
+                    <button pButton type="button" label="SEARCH" (click)="refreshPlayerList(searchPlayer)"></button>
+                </div>
+            </span>
+            <!-- <span>
+                            <p-dropdown *ngIf="countryDropdown" [style]="{'width':'250px'}" [options]="clubDropdown"
+                                placeholder="Select a country" [(ngModel)]="selectedCountry" [filter]="true" filterBy="label"
+                                (onChange)="refreshPlayerList()">
+                            </p-dropdown>
+                        </span> -->
+            <br>
+            <!-- <p *ngIf="errorMessage" style="color:red">* Please specify player name or email</p> -->
+
+
+        </div>
+    </p-header>
+    <p-messages [(value)]="msgs"></p-messages>
+    <!-- appendTo="body" -->
+    <div *ngIf="displayPlayer && refreshPlayerAttempt && playerList" class="player-list-table">
+        <!-- style="height:25rem" -->
+
+        <!-- *ngIf="playerList && playerList.totalItems > 0" -->
+        <!-- *ngIf="!listMode" -->
+        <!-- class="main-table"  -->
+        <!-- & playerList && playerList.totalItems > 0 -->
+        <p-dataTable *ngIf="displayPlayer && refreshPlayerAttempt && playerList" #dt [value]="playerList.players"
+            styleClass="primary-table" (onRowSelect)="onSelectPlayer($event)" [(selection)]="selectedPlayer"
+            selectionMode="single" paginatorPosition="both" [paginator]="true" [rows]="10" [scrollable]="true">
+            <!-- [scrollable]="true" -->
+            <!--  [(first)]="0" -->
+            <!-- [loading]="true" -->
+            <!-- <p-column *ngFor="let hr of handicapRounds" [field]="hr" -->
+            <p-column header="MG2U ID" [style]="{'width':'5%'}">
+                <ng-template let-col let-p="rowData" pTemplate="body">
+                    <div>{{p.playerId}}</div>
+                </ng-template>
+            </p-column>
+            <p-column header="Player" [style]="{'width':'12%'}">
+                <ng-template let-col let-p="rowData" pTemplate="body">
+                    <div>{{p.playerName}}</div>
+                </ng-template>
+            </p-column>
+            <p-column header="Country" [style]="{'width':'5%'}" [styleClass]="list-number">
+                <ng-template let-col let-p="rowData" pTemplate="body">
+                    <div>{{p.countryId}}</div>
+                </ng-template>
+            </p-column>
+            <!-- <p-column header="Email" [style]="{'width':'12%'}">
+                <ng-template let-col let-p="rowData" pTemplate="body">
+                    <div>{{p.email}}</div>
+                </ng-template>
+            </p-column> -->
+            <p-column header="Hcp Index" [style]="{'width':'5%'}" [styleClass]="list-number">
+                <ng-template let-col let-p="rowData" pTemplate="body">
+                    <div>{{p.mygolfHandicapIndex}}</div>
+                </ng-template>
+            </p-column>
+        </p-dataTable>
+    </div>
+    <p-footer>
+        <button pButton label="Close" type="button" (click)="closePlayerDialog()"></button>
+    </p-footer>
+</p-dialog>
+
+<!-- <button pButton label="toggle table/list" (click)="toggleList()"></button> -->
+<br>&nbsp;
+<!-- <p-dataList [value]="handicapRounds">
+    <ng-template let-gr let-i="index" pTemplate="item">
+
+        {{hr.roundDate}} <br>
+        {{hr.clubName}} <br>
+        {{hr.courseNames[0]}} {{(hr.courseNames[1])?"| "+hr.courseNames[1]:""}} <br>
+        # Course : {{hr.rating.courseRating}} | Slope : {{hr.rating.slopeRating}} | Diff : {{hr.averageDifferential}}
+
+        Used : {{(hr.used)?"Yes":"No"}} &nbsp;
+        Score : {{hr.totalGrossScore}} (x|y) <br>
+        Adj. : {{hr.totalAdjustedScore}} (x|y)
+
+    </ng-template>
+</p-dataList> -->
+<!-- <div> -->
+<!-- handicap list-->
+<!-- <section>        
+            <p class="under-par">&nbsp; *** Auto-scrolling leaderboard for <b>{{settings.scrollSize}}</b> players over <b>{{settings.scrollFrequency}}</b> seconds</p>
+            <p class="under-par">&nbsp; You may disable the 'Auto Scroll', change 'Every x' rows or 'Every n seconds' in the settings above.</p>
+        </section> -->
+
+<section *ngIf="refreshedAttempt && handicapList && handicapList.length > 0">
+    <!-- <p class="d-none d-sm-block under-par-text">&nbsp;* Collapse handicap detail by clicking on arrow icon</p>
+            <p class="d-block d-sm-none under-par-text">&nbsp;* Tap on Detail button to view more details</p> -->
+    <p class="d-none d-sm-block under-par-text">&nbsp;* Click on any arrow in the list to show the scorecard</p>
+    <p class="d-block d-sm-none under-par-text">&nbsp;* Tap on Detail button to show the scorecard</p>
+</section>
+<p-dataTable *ngIf="refreshedAttempt" #dt [value]="handicapRounds" styleClass="primary-table" class="main-table d-none d-lg-block"
+    expandableRows="true" [style]="{'padding':'1em'}">
+    <!-- d-none d-sm-block -->
+
+    <!-- *ngIf="!listMode" -->
+    <!-- (onRowSelect)="showDetailDialog($event)" [(selection)]="selectedRound"
+                selectionMode="single"  -->
+    <!-- [loading]="true" -->
+    <!-- <p-column *ngFor="let hr of handicapRounds" [field]="hr" -->
+    <p-column expander="true" [styleClass]="col-icon" [style]="{'width':'3%'}"></p-column>
+
+    <p-column header="Game Date" [style]="{'width':'10%'}">
+        <ng-template let-col let-hr="rowData" pTemplate="body">
+            <div>
+                <md-icon class="mdi mdi-calendar"></md-icon>&nbsp;{{getDate(hr.roundDate)}}
+            </div>
+            <div>
+                <md-icon class="mdi mdi-clock"></md-icon>&nbsp;{{getTime(hr.startTime)}}
+            </div>
+        </ng-template>
+    </p-column>
+    <!-- <p-column field="clubName" header="Club Played" [style]="{'width':'23%'}"></p-column> -->
+    <p-column header="Courses Played" [style]="{'width':'25%'}">
+        <ng-template let-col let-hr="rowData" pTemplate="body">
+            <div *ngIf="hr.competitionRound">
+                <md-icon style="color:#ffae00" class="mdi mdi-trophy-variant"></md-icon>
+                &nbsp;{{hr.competitionRound?hr.competitionName:''}}<br>
+            </div>
+            <div>
+                <md-icon style="color:green" class="mdi mdi-home-map-marker"></md-icon>&nbsp;{{hr.clubName}} <br>
+                <md-icon style="color:red" class="mdi mdi-map-marker"></md-icon>&nbsp;{{hr.courseNames[0]}}
+                {{hr.courseNames[1]?' | '+hr.courseNames[1]:''}}
+                <br>
+                <md-icon class="mdi mdi-pound"></md-icon>&nbsp;Course : {{hr.rating.courseRating}} | Slope :
+                {{hr.rating.slopeRating}} | Actual Diff. :
+                <!-- {{hr.averageDifferential}} -->
+                {{getActualDiff(hr) | number: '1.1-1'}}
+                <span *ngIf="selectedHcpSystem.id.toLowerCase().includes('whs')">
+                <br>
+                <md-icon class="mdi mdi-pound"></md-icon>&nbsp;ESR : {{hr.esr}} | Cumulative ESR : {{hr.cumulativeESR}} | PCC Adj. : {{hr.pccAdjustment}}
+                </span>
+            </div>
+            <div *ngIf="hr.teeBoxName">Teebox :
+                <i [ngClass]="getTBoxColor(hr)" class="mdi mdi-flag-variant"></i>
+                &nbsp;{{hr.teeBoxName?hr.teeBoxName:player.teeOffFrom}}</div>
+            <!-- mdi-flag-variant -->
+            <!-- <br *ngIf="hr.courseNames[1]"> -->
+        </ng-template>
+    </p-column>
+    <!-- <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
+                <ng-template let-col let-player="rowData" pTemplate="body">
+                    <div [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+                </ng-template>
+            </p-column>
+        </p-column> -->
+
+    <p-column [style]="{'width':'5%','text-align':'center'}" header="Handicap" [styleClass]="list-number">
+        <ng-template let-col let-hr="rowData" pTemplate="body">
+            <span style="font-size:xx-large">{{hr.courseHandicap}}</span>
+        </ng-template>
+    </p-column>
+    <!-- <p-column [style]="{'width':'5%'}" header="Course / Slope">
+        <ng-template let-col let-hr="rowData" pTemplate="body">
+            <div>{{hr.rating.courseRating}} | {{hr.rating.slopeRating}}</div>
+        </ng-template>
+    </p-column> -->
+    <p-column [style]="{'width':'5%','text-align':'center'}" header="Gross" [styleClass]="list-number">
+        <!-- field="totalGrossScore"      -->
+        <ng-template let-col let-hr="rowData" pTemplate="body">
+            <span style="font-size:x-large">{{hr.totalGrossScore}}</span>
+            <br>
+            <i>({{getFrontBack(hr,false)}})</i>
+        </ng-template>
+    </p-column>
+    <p-column [style]="{'width':'5%','text-align':'center'}" header="Adjusted" [styleClass]="list-number">
+        <!-- field="totalAdjustedScore"    -->
+        <ng-template let-col let-hr="rowData" pTemplate="body">
+            <span style="font-size:x-large">{{hr.totalAdjustedScore}}</span><br>
+            <i>({{getFrontBack(hr,true)}})</i>
+        </ng-template>
+    </p-column>
+    <p-column [style]="{'width':'5%','text-align':'center'}" header="Actual Diff" [styleClass]="list-number">
+        <!-- field="totalAdjustedScore"    -->
+        <ng-template let-col let-hr="rowData" pTemplate="body">
+            <span style="font-size:x-large">{{getActualDiff(hr) | number: '1.1-1'}}</span>
+        </ng-template>
+    </p-column>
+    <p-column header="Is used" [style]="{'width':'3%','text-align':'center'}">
+        <ng-template let-col let-hr="rowData" pTemplate="body">
+            <md-icon *ngIf="hr.used" style="color:green;font-size:xx-large" class="mdi mdi-checkbox-marked-outline">
+            </md-icon>
+        </ng-template>
+    </p-column>
+    <!-- <p-column [style]="{'width':'5%'}" field="averageDifferential" header="Avg. Diff"></p-column> -->
+    <!-- <p-column [style]="{'width':'5%'}" field="used" header="Used?">
+        <ng-template let-col let-hr="rowData" pTemplate="body">
+            <i *ngIf="hr.used" class="fa fa-check-square check-used club-name">Yes</i>
+        </ng-template>
+    </p-column> -->
+    <ng-template let-hr pTemplate="rowexpansion">
+        <div class="col-8 legend-responsive">
+            <i class="material-icons eagle-score-icon  align-bottom">bookmark</i>Eagle
+            <i class="material-icons birdie-score-icon align-bottom">bookmark</i>Birdie
+            <i class="material-icons par-score-icon  align-bottom">bookmark</i>Par
+            <!-- <i class = "material-icons bogey-score-icon  align-bottom">bookmark</i>Bogey -->
+        </div>
+
+        <table class="table">
+            <thead class="thead text-white bg-success">
+                <tr class="no-border">
+                    <th style="width:10%">Hole</th>
+                    <ng-container *ngFor="let s of hr.scores;">
+                        <th *ngIf="s.holeNo <=9 ">{{s.holeNo}}</th>
+                    </ng-container>
+                    <th >Out</th>
+                    <ng-container *ngFor="let s of hr.scores;">
+                        <th *ngIf="s.holeNo > 9 ">{{s.holeNo}}</th>
+                    </ng-container>
+
+                    <th >In</th>
+                    <th><span class="d-none d-xl-block">Total</span>
+                        <span class="d-none d-lg-block d-xl-none">Tot</span></th>
+                </tr>
+            </thead>
+            <tbody style="font-size: large">
+                <tr class="index-row">
+                    <td style="width:10%">Index</td>
+                    <ng-container *ngFor="let s of hr.scores;">
+                        <td *ngIf="s.holeNo <=9 ">{{s.holeIndex}}</td>
+                    </ng-container>
+                    <td >&nbsp;</td>
+                    <ng-container *ngFor="let s of hr.scores;">
+                        <td *ngIf="s.holeNo >9 ">{{s.holeIndex}}</td>
+                    </ng-container>
+                    <td >&nbsp;</td>
+                    <td>&nbsp;</td>
+                </tr>
+                <tr class="par-row">
+                    <!-- par-row +  -->
+                    <td style="width:10%">Par</td>
+                    <ng-container *ngFor="let s of hr.scores;">
+                        <td *ngIf="s.holeNo <=9 ">{{s.holePar}}</td>
+                    </ng-container>
+                    <td class="sub-nine">{{getTotalCoursePar(hr,1)}}</td>
+                    <ng-container *ngFor="let s of hr.scores;">
+                        <td *ngIf="s.holeNo > 9 " >{{s.holePar}}</td>
+                    </ng-container>
+                    <td class="sub-nine">{{getTotalCoursePar(hr,2)}}</td>
+                    <td>{{getTotalCoursePar(hr)}}</td>
+                </tr>
+                <tr>
+                    <td style="width:10%">Gross</td>
+                    <ng-container *ngFor="let s of hr.scores;">
+                        <td *ngIf="s.holeNo <=9 "><span [ngClass]="deriveScoreClass(s)">{{s.grossScore}}</span></td>
+                    </ng-container>
+                    <td class="sub-nine">{{getSubTotalGross(hr,false,1)}}</td>
+                    <ng-container *ngFor="let s of hr.scores;">
+                        <td *ngIf="s.holeNo >9 "><span [ngClass]="deriveScoreClass(s)">{{s.grossScore}}</span></td>
+                    </ng-container>
+                    <td class="sub-nine">{{getSubTotalGross(hr,false,2)}}</td>
+                    <td>{{hr.totalGrossScore}}</td>
+                </tr>
+                <tr>
+                    <td style="width:10%">Adjusted</td>
+                    <ng-container *ngFor="let s of hr.scores;">
+                        <td *ngIf="s.holeNo <=9 ">
+                            <span [ngClass]="deriveAdjScoreClass(s)">{{s.adjustedScore}}</span></td>
+                    </ng-container>
+                    <td class="sub-nine">{{getSubTotalGross(hr,true,1)}}</td>
+                    <ng-container *ngFor="let s of hr.scores;">
+                        <td *ngIf="s.holeNo >9 ">
+                            <span [ngClass]="deriveAdjScoreClass(s)">{{s.adjustedScore}}</span></td>
+                    </ng-container>
+                    <td class="sub-nine">{{getSubTotalGross(hr,true,2)}}</td>
+                    <td>{{hr.totalAdjustedScore}}</td>
+                </tr>
+            </tbody>
+        </table>
+
+
+        <!-- <p-dataTable #dt [value]="hr.scores" styleClass="primary-table" class="main-table" [scrollable]="true">
+
+            <p-column [style]="{'width':'20%'}" header="Hole No">
+                <ng-template let-col let-s="rowData" pTemplate="body">
+                    <div>{{s.holeNo}}</div>
+                </ng-template>
+
+            </p-column>
+            <p-column [style]="{'width':'20%'}" header="Par">
+                <ng-template let-col let-s="rowData" pTemplate="body">
+                    <div>{{s.holePar}}</div>
+                </ng-template>
+                <div>{{getTotalCoursePar(hr)}}</div>
+            </p-column>
+            <p-column [style]="{'width':'20%'}" header="Index">
+                <ng-template let-col let-s="rowData" pTemplate="body">
+                    <div>{{s.holeIndex}}</div>
+                </ng-template>
+            </p-column>
+            <p-column [style]="{'width':'20%'}" header="Gross">
+                <ng-template let-col let-s="rowData" pTemplate="body">
+                    <div>{{s.grossScore}}</div>
+                </ng-template>
+
+            </p-column>
+            <p-column [style]="{'width':'20%'}" header="Adj.">
+                <ng-template let-col let-s="rowData" pTemplate="body">
+                    <div>{{s.adjustedScore}}</div>
+                </ng-template>
+
+            </p-column>
+            <p-footer>
+                <p-column [style]="{'width':'20%'}" header="Hole No">
+                    <ng-template pTemplate="body">
+                        <div>Total</div>
+                    </ng-template>
+                </p-column>
+                <p-column [style]="{'width':'20%'}" header="Par">
+                    <ng-template pTemplate="body">
+                        <div>{{getTotalCoursePar(hr)}}</div>
+                    </ng-template>
+                </p-column>
+                <p-column [style]="{'width':'20%'}" header="Index">
+                    <ng-template pTemplate="body">
+                        <div>&nbsp;</div>
+                    </ng-template>
+                </p-column>
+                <p-column [style]="{'width':'20%'}" header="Gross">
+                    <ng-template pTemplate="body">
+                        <div>{{hr.totalGrossScore}}</div>
+                    </ng-template>
+                </p-column>
+                <p-column [style]="{'width':'20%'}" header="Adj.">
+                    <ng-template pTemplate="body">
+                        <div>{{hr.totalAdjustedScore}}</div>
+                    </ng-template>
+                </p-column>
+            </p-footer>
+        </p-dataTable> -->
+    </ng-template>
+
+
+</p-dataTable>
+<!-- </div> -->
+
+
+<!-- handicap cards -->
+<p-dataGrid *ngIf="refreshedAttempt" [value]="handicapRounds" [rows]="20" class="d-lg-none">
+    <!-- d-block d-sm-none -->
+
+    <p-header>Handicap Round List</p-header>
+    <!-- *ngIf="listMode" -->
+    <div class="ui-g-12 ui-fluid" style="padding:3px;width:450px">
+        <ng-template let-hr pTemplate="item">
+
+            <!-- class="player-panel " -->
+            <!-- ui-g-12 ui-md-3 -->
+            <p-panel class="ui-g-12 ui-fluid card">
+                <p-header [hidden]="true"></p-header>
+                <div class="ui-g-8 item-left">
+                    <!--  style="float:left;width:70%" -->
+                    <div class="card-date">
+                        <md-icon class="mdi mdi-calendar"></md-icon>&nbsp;{{getDate(hr.roundDate)}} | <md-icon
+                            class="mdi mdi-clock"></md-icon>{{getTime(hr.startTime)}}
+                    </div>
+                    <div class="card-competition" *ngIf="hr.competitionRound">
+                        <md-icon style="color:#ffae00" class="mdi mdi-trophy-variant"></md-icon>
+                        &nbsp;{{hr.competitionRound?hr.competitionName:''}}
+                    </div>
+                    <div class="card-clubname">
+                        <md-icon style="color:green" class="mdi mdi-home-map-marker"></md-icon>&nbsp;{{hr.clubName}}
+                    </div>
+                    <div class="card-coursename">
+                        <md-icon style="color:red" class="mdi mdi-map-marker"></md-icon>&nbsp;{{hr.courseNames[0]}}
+                        {{hr.courseNames[1]?' | '+hr.courseNames[1]:''}}
+                    </div>
+                    <div class="card-ratings">
+                        <md-icon class="mdi mdi-pound"></md-icon>&nbsp;Course : {{hr.rating.courseRating}} | Slope :
+                        {{hr.rating.slopeRating}} | Actual Diff : {{getActualDiff(hr) | number: '1.1-1'}}
+                        <!-- {{hr.averageDifferential}} -->
+                    </div>
+                    <div *ngIf="selectedHcpSystem.id.toLowerCase().includes('whs')" class="card-ratings">
+                        <md-icon class="mdi mdi-pound"></md-icon>&nbsp;ESR : {{hr.esr}} | Cumulative ESR :
+                        {{hr.cumulativeESR}} | PCC Adj. : {{hr.pccAdjustment}}
+                        <!-- {{hr.averageDifferential}} -->
+                    </div>
+                </div>
+                <!-- <div class="ui-g-2">
+                        <div class="card-used"></div>
+                    </div> -->
+                <div class="ui-g-4 item-right" style="text-align: end;">
+                    <div class="card-score"><span *ngIf="hr.used">
+                            <md-icon style="color:green" class="mdi mdi-checkbox-marked-outline"></md-icon>
+                        </span>&nbsp;Score : {{hr.totalGrossScore}} <i
+                            class="card-badge-total">({{getFrontBack(hr,false)}})</i></div>
+                    <div class="card-adjusted">
+                        <span *ngIf="hr.teeBoxName"><i [ngClass]="getTBoxColor(hr)" class="mdi mdi-flag-variant"></i>
+                            &nbsp;</span>Adjusted : {{hr.totalAdjustedScore}} <i
+                            class="card-badge-total">({{getFrontBack(hr,true)}})</i></div>
+                    <div class="card-adjusted">
+                        Actual Diff. : {{getActualDiff(hr) | number: '1.1-1'}}
+                        </div>
+                    <br>
+                    <div class="card-button"><button pButton label="Detail" type="button"
+                            (click)="showDetailDialog_(hr)"></button></div>
+                </div>
+
+
+            </p-panel>
+
+
+            <!-- </row> -->
+
+        </ng-template>
+    </div>
+</p-dataGrid>
+
+
+
+<!-- [contentStyle]="{'overflow':'visible'}" -->
+<p-dialog [(visible)]="displayDetail" (onHide)="clearDetail()" [resizable]="false"[modal]="true"
+    [dismissableMask]="true" [showHeader]="false" class="ui-g-10">
+    <!-- [positionTop]="150"  -->
+    <!--  [width]="600" -->
+    <!-- <p-header>
+            Search Player by Name or Email
+        </p-header> -->
+    <!-- <p-header> -->
+    <div class="searchBar" *ngIf="hcpDetail && displayDetail">
+        <!-- <span class="ui-float-label">
+                <input id="float-input" type="text" size="30" pInputText [(ngModel)]="searchPlayer">
+                <label for="float-input">Search Players by name or email</label>
+                <button pButton label="Search" (click)="refreshPlayerList(searchPlayer)"></button>
+            </span>
+            <br>
+            <p *ngIf="errorMessage" style="color:red">* Please specify player name or email</p> -->
+        <div style="text-align:right" class="col-12 legend-responsive">
+            <button pButton label="CLOSE" (click)="closeDetailDialog()"></button></div>
+        <div class="ui-g-8" class="detail-handicap" style="font-size:1.5em;">
+            <div *ngIf="hcpDetail.competitionRound">
+                <md-icon style="color:#ffae00" class="mdi mdi-trophy-variant"></md-icon>
+                &nbsp;{{hcpDetail.competitionRound?hcpDetail.competitionName:''}}
+            </div>
+            <div>
+                <md-icon class="mdi mdi-calendar"></md-icon>&nbsp;{{getDate(hcpDetail.roundDate)}} | <md-icon
+                    class="mdi mdi-clock"></md-icon>{{getTime(hcpDetail.startTime)}}
+            </div>
+            <div>
+                <md-icon style="color:green" class="mdi mdi-home-map-marker"></md-icon>&nbsp;{{hcpDetail.clubName}} |
+                <md-icon class="mdi mdi-map-marker"></md-icon>&nbsp;{{hcpDetail.courseNames[0]}}
+                {{hcpDetail.courseNames[1]?','+hcpDetail.courseNames[1]:''}}
+            </div>
+            <!-- <div>{{hcpDetail.courseNames[0]}} {{hcpDetail.courseNames[1]?','+hcpDetail.courseNames[1]:''}}</div> -->
+            <!-- <div>{{hcpDetail.startTime}}</div> -->
+            <div>
+                <md-icon class="mdi mdi-pound"></md-icon>&nbsp;Course : {{hcpDetail.rating.courseRating}} | Slope :
+                {{hcpDetail.rating.slopeRating}} | Actual Diff : {{getActualDiff(hcpDetail)}}
+                <!-- {{hcpDetail.averageDifferential}} -->
+            </div>
+            <div><span *ngIf="hcpDetail.teeBoxName">Teebox : <i [ngClass]="getTBoxColor(hcpDetail)"
+                        class="mdi mdi-flag-variant"></i>&nbsp;|</span>
+                Handicap : {{hcpDetail.courseHandicap}}</div>
+        </div>
+        <!-- <div class="ui-g-2" style="text-align:right"> <button type="button" pButton label="CLOSE" (click)="closeDetailDialog()"></button></div> -->
+
+
+        <!-- <div>Total Gross Score : {{hcpDetail.totalGrossScore}}</div>
+        <div>Total Adjusted Score : {{hcpDetail.totalAdjustedScore}}</div> -->
+
+    </div>
+    <!-- </p-header> -->
+    <div *ngIf="hcpDetail  && displayDetail">
+        <div class="col-8 legend-responsive">
+            <i class="material-icons eagle-score-icon  align-bottom">bookmark</i>Eagle
+            <i class="material-icons birdie-score-icon align-bottom">bookmark</i>Birdie
+            <i class="material-icons par-score-icon  align-bottom">bookmark</i>Par
+            <!-- <i class = "material-icons bogey-score-icon  align-bottom">bookmark</i>Bogey -->
+        </div>
+
+        <!--  style="margin-right:5em" -->
+        <div class="ui-g-12 ui-fluid ui-g-nopad" style="font-size:1.5em">
+            <div class="ui-g-2 detail-header  ui-g-nopad">Hole No</div>
+            <div class="ui-g-2 detail-header  ui-g-nopad">Index</div>
+            <div class="ui-g-2 detail-header  ui-g-nopad">Par</div>
+            <div class="ui-g-3 detail-header ui-g-nopad">Gross</div>
+            <div class="ui-g-3 detail-header ui-g-nopad">Adjusted</div>
+            <!-- <div class="ui-g-2 detail-header">&nbsp;</div> -->
+            <ng-container *ngFor="let s of hcpDetail.scores">
+                <div class="ui-g-2 detail-item ui-g-nopad">{{s.holeNo}}</div>
+                <div class="ui-g-2 detail-item index-row ui-g-nopad">{{s.holeIndex}}</div>
+                <!-- [ngClass]="ui-g-2 detail-item par-row ui-g-nopad deriveScoreClass(s)" -->
+                <div class="ui-g-2 detail-item ui-g-nopad">{{s.holePar}}</div>
+                <!-- par-row  -->
+
+                <div class="ui-g-3 detail-item ui-g-nopad" [ngClass]="deriveScoreClass(s,true)">{{s.grossScore}}</div>
+                <div class="ui-g-3 detail-item ui-g-nopad" [ngClass]="deriveAdjScoreClass(s,true)">{{s.adjustedScore}}
+                </div>
+                <!-- <div class="ui-g-2 detail-item">&nbsp;</div> -->
+            </ng-container>
+            <div class="ui-g-2 detail-footer ui-g-nopad">Total</div>
+            <div class="ui-g-2 detail-footer ui-g-nopad">&nbsp;</div>
+            <div class="ui-g-2 detail-footer ui-g-nopad">{{getTotalCoursePar(hcpDetail)}}</div>
+            <div class="ui-g-3 detail-footer ui-g-nopad">{{hcpDetail.totalGrossScore}}</div>
+            <div class="ui-g-3 detail-footer ui-g-nopad">{{hcpDetail.totalAdjustedScore}}</div>
+        </div>
+    </div>
+    <br>
+    <!-- <p-footer> -->
+    <!-- <div><button pButton type="button" label="Close" (click)="closeDetailDialog()"></button></div> -->
+    <!-- </p-footer> -->
+</p-dialog>
+<!-- <button pButton label="test overlay" (click)="overlayPanel=true"></button>
+<p-overlayPanel *ngIf="overlayPanel">
+    OVERLAY CONTENT HERE
+</p-overlayPanel> -->
+
+<!-- <div class="d-none d-sm-block">Not XS</div>
+<div class="d-sm-none d-md-block">Not SM</div>
+<div class="d-md-none d-lg-block">Not MD</div>
+<div class="d-lg-none d-xl-block">Not LG</div>
+<div class="d-md-none d-lg-block">Not XL</div>
+
+<div class="d-block d-sm-none">Only XS</div>
+<div class="d-none d-sm-block d-md-none">Only SM</div>
+<div class="d-none d-md-block d-lg-none">Only MD</div>
+<div class="d-none d-lg-block d-xl-none">Only LG</div>
+<div class="d-none d-xl-block">Only XL</div>
+
+<div class="d-none d-lg-block">display wider >= LG</div>
+<div class="d-lg-none">hide wider than lg</div> -->

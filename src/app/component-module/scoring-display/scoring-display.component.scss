@@ -1,0 +1,51 @@
+scoring-display {
+    .ui-datatable .ui-datatable-thead > tr th {
+        padding: 2px;
+    }
+    .flight-monitor-column {
+        text-align: center;
+        color:#2196F3;
+        font-weight: bold;
+        .submitted {
+            color: darkgreen;
+            font-weight: bold;
+        }
+        .withdrawn {
+            color: darkred;
+            font-weight: bold;
+        }
+    }
+    .noheader-grid{
+        .ui-datagrid-header {
+            display: none;
+        }
+    }
+    .ui-lg-6{
+        padding: 2px;
+    }
+    .battery-level {
+        font-weight: bold;
+        &.battery-ok {
+            color: green;
+        }
+        &.battery-low {
+            color: #c67605;
+        }
+        &.battery-critical {
+            color: #ff1010;
+        }
+    }
+
+    @-webkit-keyframes blinker {
+        from {opacity: 1.0;}
+        to {opacity: 0.0;}
+    }
+    .blink{
+        text-decoration: blink;
+        -webkit-animation-name: blinker;
+        -webkit-animation-duration: 0.6s;
+        -webkit-animation-iteration-count:infinite;
+        -webkit-animation-timing-function:ease-in-out;
+        -webkit-animation-direction: alternate;
+    }
+}

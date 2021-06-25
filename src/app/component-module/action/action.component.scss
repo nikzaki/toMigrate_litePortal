@@ -1,0 +1,19 @@
+action {
+    .ui-button {
+        overflow: hidden;
+        font-size: 1em;
+        height: 2em;
+        padding: 0 .5em;
+        border: 0 none;
+        .ui-button-text {
+            line-height: normal;
+        }
+    }
+    .ui-button-text-icon-left, .ui-button-text-icon-right {
+        .ui-button-text{
+            padding-left: .5em !important;
+            padding-right: .5em !important;
+        }
+
+    }
+}

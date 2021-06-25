@@ -1,0 +1,25 @@
+
+Todo:
+  ✔ 7/ Add auto approve in import player page @done(21-02-24 11:45)
+  ✔ >> Done, but the API only allows club user to approve @done(21-02-24 11:45)
+  ✔ lite portal - mg2u handicap @done(21-02-25 10:04)
+  ✔ >> list handicap system (dropdown) - not showing up @done(21-02-25 10:04)
+  ✔ >> change mg2u hcp index display based on hcp system selection @done(21-02-25 10:04)
+  ✔ >> effective date is handicap index date @done(21-02-25 10:04)
+  ✔ >> sort by handicap index date desc @done(21-02-25 10:04)
+  ✔ >> player handicap calculation @done(21-02-25 10:04)
+  ✔ >> asked Ashok for player's default handicap system API @done(21-02-25 10:04)
+  ☐ >> generate handicap calculation
+  ☐ >>> /rest/handicap/recalculate-handicap-index?playerId=
+Public API:
+  ✔ /rest/rest/handicap/handicap-systems @done(21-02-25 10:03)
+  ✔ /rest/players/get-by-id?playerId @done(21-02-25 10:03)
+
+
+2021-02-25 : 
+  ☐ incorrect login toast message is white/transparent
+  table > class="d-none d-lg-block"
+  card > class="d-lg-none"
+
+  2021-03-05:
+    ☐ add hcp system in calculator panel

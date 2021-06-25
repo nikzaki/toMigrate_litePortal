@@ -1,0 +1,65 @@
+<p-dataList #compList [value] = "competitions"
+        [rows] = "pageSize"
+        [paginator] = "paginator"
+        [lazy]="lazyLoad"
+        [totalRecords] = "totalCompetitions"
+        [paginatorPosition] = "paginatorPosition"
+        [emptyMessage]="emptyMessage"
+        (onLazyLoad)="onLazyLoad($event)">
+    <ng-template let-comp pTemplate="item">
+        <div class="ui-g-12 ui-md-6 ui-lg-4">
+            <competition-display [competition]="comp"
+                    [singleLineDisplay]="singleLineDisplay" [showStatus]="showCompetitionStatus"
+                    [showClubInfo]="showClubInfo" [actions]="actions" (onCompetitionAction)="onAction($event)">
+            </competition-display>
+        </div>
+
+    </ng-template>
+</p-dataList>
+
+<!-- <div class="d-none d-sm-block">Not XS</div>
+<div class="d-sm-none d-md-block">Not SM</div>
+<div class="d-md-none d-lg-block">Not MD</div>
+<div class="d-lg-none d-xl-block">Not LG</div>
+<div class="d-md-none d-lg-block">Not XL</div>
+
+<div class="d-block d-sm-none">Only XS</div>
+<div class="d-none d-sm-block d-md-none">Only SM</div>
+<div class="d-none d-md-block d-lg-none">Only MD</div>
+<div class="d-none d-lg-block d-xl-none">Only LG</div>
+<div class="d-none d-xl-block">Only XL</div>
+
+<div class="d-none d-lg-block">display wider >= LG</div>
+<div class="d-lg-none">hide wider than lg</div>
+
+
+<button pButton label="Refresh Competition" (click)="refreshCompetition()"></button>
+<p-dataGrid [value]="compList">
+        [lazy]="true" (onLazyLoad)="loadData($event)"
+    <ng-template let-comp pTemplate="item">
+            <div class="ui-g-12 ui-lg-4 comp-card">
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        COMP LOGO
+                    </div>
+                    <div class="ui-g-8">
+                        {{comp.competitionName}}<br>
+                        {{comp.startDate}}<br>
+                        {{comp.clubName}} ({{comp.clubTag}})
+                    </div>
+                </div>
+                <div class="ui-g-12">
+                    <div class="ui-g-4">
+                        Registration Info
+                    </div>
+                    <div class="ui-g-4">
+                        Player slots
+                    </div>
+                    <div class="ui-g-4">
+                        {{comp.status}}
+                    </div>
+                </div>
+            </div>
+       
+    </ng-template>
+</p-dataGrid> -->

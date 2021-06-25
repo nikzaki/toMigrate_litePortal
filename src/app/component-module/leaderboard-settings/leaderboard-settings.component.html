@@ -1,0 +1,203 @@
+<section *ngIf="!teamLeaderBoard"
+        style="border: solid thin silver; height: auto;padding-bottom:10px" [ngClass]="styleClass">
+    <section class = "mat-typography ui-fluid"
+            [ngClass.gt-sm]="settings-line"
+            fxLayout = "row nowrap"
+            fxLayout.lt-md = "column nowrap"
+            fxLayoutAlign = "space-between center"
+            fxLayoutGap="20px"
+            fxLayoutGap.lt-md="5px"
+            fxLayoutAlign.lt-md = "start start" style = "padding:5px">
+        <section fxFlex = "0 0 370px"
+                fxFlex.lt-md="0 0 30px"
+                fxLayout = "row nowrap"
+                fxLayoutAlign = "start center">
+            <md-checkbox fxFlex = "0 0 100px" fxFlex.lt-md="0 0 75px"
+                    (change)="settingsChanged()"
+                    [(ngModel)] = "settings.autoScroll">Auto Scroll
+            </md-checkbox>
+            <md-form-field fxFlex = "0 0 100px" fxFlex.lt-md="0 0 75px">
+                <input type = "number" mdInput (change)="settingsChanged()" [(ngModel)] = "settings.scrollSize">
+                <span mdSuffix>Rows</span>
+            </md-form-field>
+            <md-form-field fxFlex = "0 0 150px"  fxFlex.lt-md="0 0 auto" style = "margin-left: 5px">
+                <span mdPrefix>&nbsp;Every &nbsp;</span>
+                <input type = "number" mdInput (change)="settingsChanged()" [(ngModel)] = "settings.scrollFrequency">
+                <span mdSuffix> &nbsp;seconds</span>
+            </md-form-field>
+        </section>
+        <section fxFlex = "1 1 auto" fxLayout = "row nowrap"
+                fxLayoutGap = "10px"
+                fxLayoutAlign = "start center">
+            <md-checkbox [disabled] = "!settings.autoScroll" (change)="settingsChanged()"
+                    [(ngModel)] = "settings.scrollRounds">Scroll Rounds
+            </md-checkbox>
+            <md-checkbox [disabled] = "!settings.autoScroll" (change)="settingsChanged()"
+                    [(ngModel)] = "settings.scrollCategories">Scroll Categories
+            </md-checkbox>
+            <md-checkbox [disabled] = "!settings.autoScroll" (change)="settingsChanged()"
+                    [(ngModel)] = "settings.scrollScoreTypes">Scroll Gross/Net
+            </md-checkbox>
+        </section>
+    </section>
+    <!-- Round and category-->
+    <section class = "mat-typography ui-fluid settings-line"
+            fxLayout = "row nowrap"
+            fxLayout.lt-md = "column nowrap"
+            fxLayoutGap="20px" fxLayoutGap.lt-md="5px"
+            fxLayoutAlign = "space-between center"
+            fxLayoutAlign.lt-md = "start stretch" style = "padding:5px">
+        <section fxFlex = "0 0 370px"
+                fxFlex.lt-md="0 0 auto"
+                fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
+                fxLayout = "row nowrap"
+                fxLayoutGap.lt-md="column nowrap"
+                fxLayoutAlign = "start center"
+                fxLayoutAlign.lt-md="start stretch">
+            <ng-container *ngIf="validRounds && validRounds.length > 1">
+                <label fxFlex="0 0 auto">Round</label>
+                <md-select fxFlex="1 1 auto" (change)="settingsChanged()"
+                        [(ngModel)]="settings.selectedRound">&nbsp;&nbsp;&nbsp;
+                    <md-option *ngFor="let round of validRounds" (change)="settingsChanged()" [value]="round.roundNo">
+                        {{round.roundNo?'Round '+round.roundNo:'All Rounds'}}
+                    </md-option>
+                </md-select>
+            </ng-container>
+            <ng-container *ngIf="validRounds?.length===1">
+                <h3 fxFlex="1 1 auto">Single Round Competition</h3>
+            </ng-container>
+        </section>
+        <section fxFlex="1 1 auto" fxLayout="row nowrap"
+                fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
+                fxLayoutAlign="space-between center"
+                fxLayoutAlign.lt-md="space-between stretch">
+            <ng-container *ngIf="validCategories && validCategories.length > 1">
+                <md-checkbox fxFlex="0 0 auto"
+                        [disabled]="settings.autoScroll && settings.scrollCategories"
+                        [(ngModel)]="settings.byCategory">By Category</md-checkbox>
+                <md-select fxFlex="1 1 100%" [disabled]="!settings.byCategory"
+                        [(ngModel)]="settings.selectedCategory" name="category">
+                    <md-option *ngFor="let catg of validCategories" [value]="catg.categoryId">
+                        {{catg.categoryName}}
+                    </md-option>
+                </md-select>
+            </ng-container>
+            <ng-container *ngIf="validCategories && validCategories.length === 1">
+                <div  class="mat-subheader-2" fxFlex="1 1 auto">Category: {{validCategories[0].categoryName}}</div>
+            </ng-container>
+            <ng-container *ngIf="!validCategories || !validCategories.length">
+                <div class="mat-subheader-2" fxFlex="1 1 auto">No player categories for this competition</div>
+            </ng-container>
+        </section>
+    </section><br>
+
+    <section class = "mat-typography ui-fluid settings-line"
+            fxLayout = "row nowrap"
+            fxLayout.lt-md = "column nowrap"
+            fxLayoutGap="20px" fxLayoutGap.lt-md="5px"
+            fxLayoutAlign = "space-between center"
+            fxLayoutAlign.lt-md = "start stretch" style = "padding:5px">
+        <section *ngIf="!hideColorSet" fxFlex="0 0 370px" fxFlex.lt-md="0 0 auto"
+                fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
+                fxLayout="row nowrap"
+                fxLayoutAlign = "space-between center"
+                fxLayoutAlign.lt-md="start stretch">
+            <label fxFlex="1 1 auto">Color Set</label>
+            <md-radio-group fxFlex="1 1 auto" [(ngModel)]="settings.colorSet">
+                <md-radio-button value="amateur">Amateur</md-radio-button>
+                <md-radio-button value="professional">Professional</md-radio-button>
+            </md-radio-group>
+        </section>
+        <section *ngIf="!settings.autoScroll || (settings.autoScroll && !settings.scrollScoreTypes)"
+                fxFlex="1 1 auto"
+                fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
+                fxLayoutAlign = "space-between center"
+                fxLayoutAlign.lt-md="start stretch">
+            <md-radio-group fxFlex="1 1 auto" (change)="settingsChanged()"
+                    [(ngModel)]="settings.scoreType">
+                <md-radio-button value="gross">By Gross</md-radio-button>
+                <md-radio-button value="net">By Net</md-radio-button>
+            </md-radio-group>
+            <md-checkbox fxFlex="1 1 auto"  *ngIf="settings.scoreType === 'net'"
+                    [(ngModel)]="settings.hideGrossColumns">Hide Gross Columns</md-checkbox>
+            <md-checkbox fxFlex="1 1 auto"  *ngIf="settings.scoreType === 'gross'"
+                    [(ngModel)]="settings.hideNetColumns">Hide Net Columns</md-checkbox>
+                    <md-checkbox fxFlex="1 1 auto"
+                    [(ngModel)]="settings.showSponsor">Show Sponsors</md-checkbox>
+                    <md-checkbox fxFlex="1 1 auto"
+                    [(ngModel)]="settings.hideExpanderColumns">Hide Details</md-checkbox>
+                    <md-checkbox fxFlex="1 1 auto" (change)="settingsChanged()"
+                    [(ngModel)]="settings.showNonPlaying">Show Withdrawn/Cut Players</md-checkbox>
+        </section>
+    </section>
+    <section>        
+            <p class="under-par">&nbsp; *** Auto-scrolling leaderboard for <b>{{settings.scrollSize}}</b> players over <b>{{settings.scrollFrequency}}</b> seconds</p>
+            <p class="under-par">&nbsp; You may disable the 'Auto Scroll', change 'Every x' rows or 'Every n seconds' in the settings above.</p>
+        </section>
+</section>
+
+<section *ngIf="teamLeaderBoard" style="border: solid thin silver; height: auto;padding-bottom:10px"
+        [ngClass]="styleClass">
+    <section class = "mat-typography ui-fluid"
+            ngClass.gt-sm="settings-line"
+            fxLayout = "row wrap"
+            fxLayout.lt-md = "column nowrap"
+            fxLayoutAlign = "space-between center"
+            fxLayoutGap="20px"
+            fxLayoutGap.lt-md="5px"
+            fxLayoutAlign.lt-md = "start start" style = "padding:10px 5px;height: auto">
+
+        <section fxFlex = "1 1 auto"
+                fxFlex.lt-md="0 0 30px"
+                fxLayout = "row nowrap"
+                fxLayoutAlign = "start center"
+                fxLayoutGap.lt-md="1px"
+                fxLayoutAlign.lt-md = "start start">
+            <md-checkbox fxFlex = "0 0 100px"
+                    fxFlex.lt-md="0 0 75px"
+                    (change)="settingsChanged()"
+                    [(ngModel)] = "settings.autoScroll">Auto Scroll
+            </md-checkbox>
+            <md-form-field fxFlex = "0 0 100px" fxFlex.lt-md="0 0 75px">
+                <input type = "number" mdInput (change)="settingsChanged()" [(ngModel)] = "settings.scrollSize">
+                <span mdSuffix>Rows</span>
+            </md-form-field>
+            <md-form-field fxFlex = "0 0 150px" fxFlex.lt-md="0 0 auto" style = "margin-left: 5px">
+                <span mdPrefix>&nbsp;Every &nbsp;</span>
+                <input type = "number" mdInput (change)="settingsChanged()" [(ngModel)] = "settings.scrollFrequency">
+                <span mdSuffix> &nbsp;seconds</span>
+            </md-form-field>
+           
+        </section>
+        <section fxFlex="0 0 auto">
+                <md-checkbox fxFlex="1 1 auto"
+                [(ngModel)]="settings.showSponsor">Show Sponsors</md-checkbox>
+                <md-checkbox fxFlex="1 1 auto"
+                [(ngModel)]="settings.hideExpanderColumns">Hide Details</md-checkbox>
+                
+            </section>
+
+        <section *ngIf="!hideColorSet"  fxFlex="0 0 370px" fxFlex.lt-md="0 0 30px"
+                fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
+                fxLayout="row nowrap"
+                fxLayoutAlign = "space-between center"
+                fxLayoutAlign.lt-md="start stretch">
+            <label fxFlex="1 1 auto">Color Set</label>
+            <md-radio-group fxFlex="1 1 auto" [(ngModel)]="settings.colorSet">
+                <md-radio-button value="amateur">Amateur</md-radio-button>
+                <md-radio-button value="professional">Professional</md-radio-button>
+            </md-radio-group>
+        </section>
+
+        <section fxFlex="0 0 auto">
+            <md-radio-group fxFlex="1 1 auto" (change)="settingsChanged()"
+                    [(ngModel)]="settings.teamsByGrossOrNet">
+                <md-radio-button value="gross">By Gross</md-radio-button>
+                <md-radio-button value="net">By Net</md-radio-button>
+            </md-radio-group>
+            
+        </section>
+
+    </section>
+</section>
+

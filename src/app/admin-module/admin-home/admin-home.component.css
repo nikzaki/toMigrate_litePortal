@@ -1,0 +1,10 @@
+admin-home .card {
+  padding: 0.3em; }
+  admin-home .card.card-w-title {
+    padding-bottom: 0.5em; }
+admin-home h2, admin-home .ui-widget-header {
+  text-align: center;
+  margin: 5px 0px 10px 0px; }
+admin-home h3 {
+  margin: 8px 0px 15px 0px;
+  text-decoration: underline; }

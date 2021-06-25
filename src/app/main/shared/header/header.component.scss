@@ -1,0 +1,427 @@
+@import "../../../../../node_modules/bootstrap/scss/mixins";
+@import "../../../../../node_modules/bootstrap/scss/functions";
+@import "../../../../../node_modules/bootstrap/scss/variables";
+
+$topnav-background-color: #222;
+.topnav {
+    border-radius: 0;
+    background-color: $topnav-background-color;
+    padding : 6px;
+    z-index:2;
+    .text-center{
+        text-align: center;
+        padding-left : 0;
+        cursor: pointer;
+    }
+    .top-right-nav{
+        .buy-now{
+            a{
+                color:#999;
+            }
+        }
+        .dropdown-menu{
+            top: 40px;
+            right: -5px;
+            left : auto;
+            .message-preview{
+                .media{
+                    .media-body{
+                        .media-heading{
+                            font-size: 14px;
+                            font-weight: bold;
+                            margin-bottom : 0;
+                        }
+                        p{
+                            margin : 0;
+                        }
+                        p.last{
+                            font-size : 13px;
+                            margin-bottom: 0;
+                        }
+                    }
+                }
+            }
+            hr {
+                margin-top: 1px;
+                margin-bottom: 4px;
+            }
+        }
+    }
+}
+.messages {
+    width: 300px;
+    .media {
+        border-bottom: 1px solid #DDD;
+        padding: 5px 10px;
+        &:last-child {
+            border-bottom: none;
+        }
+    }
+    .media-body {
+        h5 {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .small {
+            margin: 0;
+        }
+        .last {
+            font-size: 12px;
+            margin: 0;
+        }
+    }
+}
+.header .navbar {
+    background: $topnav-background-color !important;
+}
+
+/* --------------------------------------------------
+ Pre-Header
+-------------------------------------------------- */
+.pre-header,
+.pre-header ul.mini-nav ul.mini-sub-menu{
+	background-color: #1c2721;
+	background-color: rgba(28, 39, 33, 1);
+}
+
+/* Pre Header Stuck BG */
+.pre-header.stuck,
+.pre-header.header-reveal--stick{
+	background-color: #1c2721;
+	background-color: rgba(28, 39, 33, 1);
+}
+
+/* Pre Header Text */
+.pre-header,
+.pre-header .menuzord-menu a,
+.pre-header a{
+	color: #fff;
+}
+
+/* Pre Header Link Hover */
+.pre-header a:hover,
+.pre-header li.active > a,
+.pre-header .menuzord-menu > li:hover > a{
+	color: #ffae00;
+}
+
+/* Pre Header Borders */
+.pre-header .menuzord-responsive .menuzord-menu > li:first-child > a,
+.pre-header .menuzord-responsive .menuzord-menu > li > a,
+.pre-header .menuzord-responsive .menuzord-menu li .indicator,
+.pre-header .menuzord-responsive .menuzord-menu ul.dropdown li a,
+.pre-header .menuzord-responsive .menuzord-menu > li > .megamenu {
+	border-color: #33433a;
+}
+
+/* Pre Header Border Active */
+.pre-header .menuzord-responsive .menuzord-menu > li > a:hover,
+.pre-header .menuzord-menu > li:hover > a,
+.pre-header .menuzord-responsive .menuzord-menu > li.active > a{
+	border-color: #ffae00;
+}
+
+/* Pre Header Dropdown BG */
+.pre-header .menuzord-menu ul.dropdown,
+.pre-header .menuzord-menu > li > .megamenu{
+	background-color: #1c2721;
+	background-color: rgba(28, 39, 33, 1);
+}
+
+/* Pre Header Dropdown Link */
+.pre-header .menuzord-menu ul.dropdown > li > a{
+	color: #fff;
+}
+
+/* Pre Header Dropdown Link Hover */
+.pre-header .menuzord-menu ul.dropdown > li:hover > a{
+	color: #ffae00;
+}
+
+/* Pre Header Dropdown Secondary */
+.pre-header .menuzord-menu ul.dropdown li ul.dropdown{
+	background-color: #1c2721;
+	background-color: rgba(28, 39, 33, 1);
+}
+
+/* Pre Header Dropdown Secondary Link */
+.pre-header .menuzord-menu ul.dropdown > li > ul.dropdown li a{
+	color: #fff;
+}
+
+/* Pre Header Dropdown Secondary Link Hover*/
+.pre-header .menuzord-menu ul.dropdown > li > ul.dropdown li:hover a{
+	color: #ffae00;
+}
+
+/* Pre Header Social Icons */
+.pre-header .social-links.sl-circle li,
+.pre-header .social-links.sl-square li{
+	background: #fff;
+	background-color: rgba(255, 255, 255, .2);
+}
+
+/* Pre Header Feature Text Color */
+.pre-header .feat-color,
+.pre-header ul.list-styled li::before,
+.pre-header ul.list-styled-alt li::before{
+	color: #ffae00;
+}
+
+
+
+
+
+
+
+
+/* --------------------------------------------------
+ Main-Header Colors
+-------------------------------------------------- */
+.main-header,
+.main-header ul.mini-nav ul.mini-sub-menu{
+	background-color: #00632c;
+	background-color: rgba(0, 99, 44, 1);
+}
+
+/* Main Header Stuck BG */
+.main-header.stuck,
+.main-header.header-reveal--stick{
+	background-color: #00632c;
+	background-color: rgba(0, 99, 44, 1);
+}
+
+/* Main Header Text */
+.main-header,
+.main-header .menuzord-menu a,
+.main-header a{
+	color: #fff;
+}
+
+/* Main Header Link Hover */
+.main-header a:hover,
+.main-header li.active > a,
+.main-header .menuzord-menu > li:hover > a{
+	color: #ffae00;
+}
+
+/* Main Header Borders */
+.main-header .menuzord-responsive .menuzord-menu > li:first-child > a,
+.main-header .menuzord-responsive .menuzord-menu > li > a,
+.main-header .menuzord-responsive .menuzord-menu li .indicator,
+.main-header .menuzord-responsive .menuzord-menu ul.dropdown li a,
+.main-header .menuzord-responsive .menuzord-menu > li > .megamenu {
+	border-color: #1c7c47;
+}
+
+/* Main Header Border Active */
+.main-header .menuzord-responsive .menuzord-menu > li > a:hover,
+.main-header .menuzord-menu > li:hover > a,
+.main-header .menuzord-responsive .menuzord-menu > li.active > a{
+	border-color: #ffae00;
+}
+
+/* Main Header Dropdown BG */
+.main-header .menuzord-menu ul.dropdown,
+.main-header .menuzord-menu > li > .megamenu{
+	background-color: #00632c;
+	background-color: rgba(0, 99, 44, 1);
+}
+
+/* Main Header Dropdown Link */
+.main-header .menuzord-menu ul.dropdown > li > a{
+	color: #fff;
+}
+
+/* Main Header Dropdown Link Hover */
+.main-header .menuzord-menu ul.dropdown > li:hover > a{
+	color: #ffae00;
+}
+
+/* Main Header Dropdown Secondary */
+.main-header .menuzord-menu ul.dropdown li ul.dropdown{
+	background-color: #004720;
+	background-color: rgba(0, 71, 32, .9);
+}
+
+/* Main Header Dropdown Secondary Link */
+.main-header .menuzord-menu ul.dropdown > li > ul.dropdown li a{
+	color: #fff;
+}
+
+/* Main Header Dropdown Secondary Link Hover*/
+.main-header .menuzord-menu ul.dropdown > li > ul.dropdown li:hover a{
+	color: #ffae00;
+}
+
+/* Main Header Social Icons */
+.main-header .social-links.sl-circle li,
+.main-header .social-links.sl-square li{
+	background: #fff;
+	background-color: rgba(255, 255, 255, .2);
+}
+
+/* Main Header Feature Text Color */
+.main-header .feat-color,
+.main-header ul.list-styled li::before,
+.main-header ul.list-styled-alt li::before{
+	color: #ffae00;
+}
+
+
+
+
+
+
+
+
+
+/* --------------------------------------------------
+ Post-Header
+-------------------------------------------------- */
+.post-header,
+.post-header ul.mini-nav ul.mini-sub-menu{
+	background-color: #004720;
+	background-color: rgba(0, 71, 32, 1);
+}
+
+/* Post Header Stuck BG */
+.post-header.stuck,
+.post-header.header-reveal--stick{
+	background-color: #004720;
+	background-color: rgba(0, 71, 32, 1);
+}
+
+/* Post Header Text */
+.post-header,
+.post-header .menuzord-menu a,
+.post-header a{
+	color: #fff;
+}
+
+/* Post Header Link Hover */
+.post-header a:hover,
+.post-header li.active > a,
+.post-header .menuzord-menu > li:hover > a{
+	color: #ffae00;
+}
+
+/* Post Header Borders */
+.post-header .menuzord-responsive .menuzord-menu > li:first-child > a,
+.post-header .menuzord-responsive .menuzord-menu > li > a,
+.post-header .menuzord-responsive .menuzord-menu li .indicator,
+.post-header .menuzord-responsive .menuzord-menu ul.dropdown li a,
+.post-header .menuzord-responsive .menuzord-menu > li > .megamenu {
+	border-color: #33433a;
+}
+
+/* Post Header Border Active */
+.post-header .menuzord-responsive .menuzord-menu > li > a:hover,
+.post-header .menuzord-menu > li:hover > a,
+.post-header .menuzord-responsive .menuzord-menu > li.active > a{
+	border-color: #ffae00;
+}
+
+/* Post Header Dropdown BG */
+.post-header .menuzord-menu ul.dropdown,
+.post-header .menuzord-menu > li > .megamenu{
+	background-color: #004720;
+	background-color: rgba(0, 71, 32, 1);
+}
+
+/* Post Header Dropdown Link */
+.post-header .menuzord-menu ul.dropdown > li > a{
+	color: #fff;
+}
+
+/* Post Header Dropdown Link Hover */
+.post-header .menuzord-menu ul.dropdown > li:hover > a{
+	color: #ffae00;
+}
+
+/* Post Header Dropdown Secondary */
+.post-header .menuzord-menu ul.dropdown li ul.dropdown{
+	background-color: #004720;
+	background-color: rgba(0, 71, 32, 1);
+}
+
+/* Post Header Dropdown Secondary Link */
+.post-header .menuzord-menu ul.dropdown > li > ul.dropdown li a{
+	color: #fff;
+}
+
+/* Post Header Dropdown Secondary Link Hover*/
+.post-header .menuzord-menu ul.dropdown > li > ul.dropdown li:hover a{
+	color: #ffae00;
+}
+
+/* Post Header Social Icons */
+.post-header .social-links.sl-circle li,
+.post-header .social-links.sl-square li{
+	background: #fff;
+	background-color: rgba(255, 255, 255, .2);
+}
+
+/* Post Header Feature Text Color */
+.post-header .feat-color,
+.post-header ul.list-styled li::before,
+.post-header ul.list-styled-alt li::before{
+	color: #ffae00;
+}
+
+.active-link {
+  color:  #ffae00;
+}
+
+.navbar-inline {
+  display: -webkit-inline-box;
+}
+
+li:focus { outline: none; }
+
+// .nav-link.active {
+//     border-bottom-style: solid;
+//     border-bottom-color: rgb(59,197,84);
+// }
+//
+//
+//
+//
+// .navbar-brand {
+//   max-height:10em;
+// }
+// @include media-breakpoint-down(xs) {
+//   .pre-header {
+//     line-height: 0.5em;
+//   }
+//
+//   .post-header {
+//     line-height: 0.5em;
+//   }
+//
+//   .main-header {
+//     line-height: 2em;
+//   }
+//
+//   .navbar-brand {
+//     max-height: 3em !important;
+//   }
+// }
+//
+// @include media-breakpoint-down(md) {
+//   .pre-header {
+//     line-height: 0.5em;
+//   }
+//
+//   .post-header {
+//     line-height: 0.5em;
+//   }
+//
+//   .main-header {
+//     line-height: 2em;
+//   }
+//
+//   .navbar-brand {
+//     max-height: 3em !important;
+//   }
+// }

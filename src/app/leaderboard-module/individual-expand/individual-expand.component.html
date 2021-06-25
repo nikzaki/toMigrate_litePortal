@@ -1,0 +1,296 @@
+
+<div class="container-fluid" *ngIf="player.rounds && isMobile()">
+    <div class = "row justify-content-between">
+        <div class = "col-1">
+            <img [src] = "player.imageURL?player.imageURL:'assets/images/default-user.jpg'"
+                    onerror = "this.src = 'assets/images/default-user.jpg'"
+                    class = "img-thumbnail lb-ply-thmb" />
+
+        </div>
+        <div class = "col-8 legend-responsive">
+            <i class = "material-icons eagle-score-icon  align-bottom">bookmark</i>Eagle
+            <i class = "material-icons birdie-score-icon align-bottom">bookmark</i>Birdie
+            <i class = "material-icons par-score-icon  align-bottom">bookmark</i>Par
+            <i class = "material-icons bogey-score-icon  align-bottom">bookmark</i>Bogey
+            <div style="margin-top: 1em">
+                <p>{{player.playerName}}</p>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table">
+                <thead class = "thead text-white bg-success">
+                    <tr class="no-border">
+                        <th></th>
+                        <th>H</th>
+                        <th *ngFor="let hole of holes">
+                            {{hole + (whichNine-1)*9}}
+                        </th>
+                        <th>{{whichNine===1?'Out':'In'}}</th>
+                        <th class="vertical-align-center">Tot
+                            <i class="material-icons"
+                                    *ngIf="whichNine === 1"
+                                    (click)="whichNine=2">keyboard_arrow_right</i>
+                            <i class="material-icons"
+                                    *ngIf="whichNine === 2"
+                                    (click)="whichNine=1">keyboard_arrow_left</i>
+                        </th>
+
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let round of player.rounds">
+                        <tr class = "index-row">
+                            <td class = "round-group" rowspan = "3">{{'R'+round.roundNo}}</td>
+                            <td>Index</td>
+                            <ng-container *ngFor = "let score of round.nines[whichNine-1].scores">
+                                <td>{{score.index}}</td>
+                            </ng-container>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr class = "par-row">
+                            <td>Par</td>
+                            <ng-container *ngFor = "let score of round.nines[whichNine-1].scores">
+                                <td>{{score.parScore}}</td>
+                            </ng-container>
+                            <td></td>
+                            <td>71</td>
+                        </tr>
+                        <tr>
+                            <td>Gross</td>
+                            <td *ngFor = "let score of round.nines[whichNine-1].scores">
+                                <span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span>
+                            </td>
+                            <td [ngClass] = "deriveParClass(whichNine===1?round.outTotal : round.inTotal)">
+                                {{whichNine===1?round.outTotal : round.inTotal}}
+                            </td>
+                            <td [ngClass] = "deriveTotalClass(round.inTotal+round.outTotal)">
+                                {{round.inTotal+round.outTotal}}
+                            </td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+
+    <div class = "container-fluid" *ngIf="player.rounds && !isMobile()">
+        <div class = "row justify-content-between">
+            <div class = "col-1">
+                <img [src] = "player.imageURL?player.imageURL:'assets/images/default-user.jpg'"
+                        onerror = "this.src = 'assets/images/default-user.jpg'"
+                        class = "img-thumbnail lb-ply-thmb" />
+            </div>
+            <div class = "col-8 legend-responsive">
+                <i class = "material-icons eagle-score-icon  align-bottom">bookmark</i>Eagle
+                <i class = "material-icons birdie-score-icon align-bottom">bookmark</i>Birdie
+                <i class = "material-icons par-score-icon  align-bottom">bookmark</i>Par
+                <i class = "material-icons bogey-score-icon  align-bottom">bookmark</i>Bogey
+                <div style="margin-top: 1em">
+                        <p>{{player.playerName}}</p>
+                </div>
+            </div>
+        </div>
+        <div class = "row">
+            <table class = "table">
+                <thead class = "thead text-white bg-success">
+                <tr class = "no-border">
+                    <th></th>
+                    <th>H</th>
+                    <th>1</th>
+                    <th>2</th>
+                    <th>3</th>
+                    <th>4</th>
+                    <th>5</th>
+                    <th>6</th>
+                    <th>7</th>
+                    <th>8</th>
+                    <th>9</th>
+                    <th>Out</th>
+                    <th>10</th>
+                    <th>11</th>
+                    <th>12</th>
+                    <th>13</th>
+                    <th>14</th>
+                    <th>15</th>
+                    <th>16</th>
+                    <th>17</th>
+                    <th>18</th>
+                    <th>In</th>
+                    <th>Tot</th>
+                </tr>
+                <tbody>
+                <tr class = "index-row">
+                    <td class = "round-group" rowspan = "3">R1</td>
+                    <td>Index</td>
+                    <ng-container *ngFor = "let score of player.rounds[0].nines[0].scores">
+                        <td>{{score.index}}</td>
+                    </ng-container>
+                    <td></td>
+                    <ng-container *ngFor = "let score of player.rounds[0].nines[1].scores">
+                        <td>{{score.index}}</td>
+                    </ng-container>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <tr class = "par-row">
+                    <td>Par</td>
+                    <ng-container *ngFor = "let score of player.rounds[0].nines[0].scores">
+                        <td>{{score.parScore}}</td>
+                    </ng-container>
+                    <td>{{totalParScore(player.rounds[0].nines[0].scores)}}</td>
+                    <ng-container *ngFor = "let score of player.rounds[0].nines[1].scores">
+                        <td>{{score.parScore}}</td>
+                    </ng-container>
+                    <td>{{totalParScore(player.rounds[0].nines[1].scores)}}</td>
+                    <td>{{totalParScore(player.rounds[0].nines[0].scores,player.rounds[0].nines[1].scores)}}</td>
+                </tr>
+                <tr>
+                    <td>Gross</td>
+                    <ng-container *ngFor = "let score of player.rounds[0].nines[0].scores">
+                        <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
+                    </ng-container>
+                    <td [ngClass] = "deriveParClass(player.rounds[0].outTotal)">{{player.rounds[0].outTotal}}</td>
+                    <ng-container *ngFor = "let score of player.rounds[0].nines[1].scores">
+                        <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
+                    </ng-container>
+                    <td [ngClass] = "deriveParClass(player.rounds[0].inTotal)">{{player.rounds[0].inTotal}}</td>
+                    <td [ngClass] = "deriveTotalClass(player.rounds[0].inTotal+player.rounds[0].outTotal)">
+                        {{player.rounds[0].outTotal+player.rounds[0].inTotal}}
+                    </td>
+
+                </tr>
+                <ng-container *ngIf = "player.rounds[1]">
+                    <tr class = "index-row">
+                        <td class = "round-group" rowspan = "3">R2</td>
+                        <td>Index</td>
+                        <ng-container *ngFor = "let score of player.rounds[1].nines[0].scores">
+                            <td>{{score.index}}</td>
+                        </ng-container>
+                        <td></td>
+                        <ng-container *ngFor = "let score of player.rounds[1].nines[1].scores">
+                            <td>{{score.index}}</td>
+                        </ng-container>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class = "par-row">
+                        <td>Par</td>
+                        <ng-container *ngFor = "let score of player.rounds[1].nines[0].scores">
+                            <td>{{score.parScore}}</td>
+                        </ng-container>
+                        <td>{{totalParScore(player.rounds[1].nines[0].scores)}}</td>
+                        <ng-container *ngFor = "let score of player.rounds[1].nines[1].scores">
+                            <td>{{score.parScore}}</td>
+                        </ng-container>
+                    <td>{{totalParScore(player.rounds[1].nines[1].scores)}}</td>
+                    <td>{{totalParScore(player.rounds[1].nines[0].scores,player.rounds[1].nines[1].scores)}}</td>
+                    </tr>
+                    <tr>
+                        <td>Gross</td>
+                        <ng-container *ngFor = "let score of player.rounds[1].nines[0].scores">
+                            <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
+                        </ng-container>
+                        <td [ngClass] = "deriveParClass(player.rounds[1].outTotal)">{{player.rounds[1].outTotal}}</td>
+                        <ng-container *ngFor = "let score of player.rounds[1].nines[1].scores">
+                            <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
+                        </ng-container>
+                        <td [ngClass] = "deriveParClass(player.rounds[1].inTotal)">{{player.rounds[1].inTotal}}</td>
+                        <td [ngClass] = "deriveTotalClass(player.rounds[1].inTotal+player.rounds[1].outTotal)">
+                            {{player.rounds[1].outTotal+player.rounds[1].inTotal}}
+                        </td>
+
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf = "player.rounds[2]">
+                    <tr class = "index-row">
+                        <td class = "round-group" rowspan = "3">R3</td>
+                        <td>Index</td>
+                        <ng-container *ngFor = "let score of player.rounds[2].nines[0].scores">
+                            <td>{{score.index}}</td>
+                        </ng-container>
+                        <td></td>
+                        <ng-container *ngFor = "let score of player.rounds[2].nines[1].scores">
+                            <td>{{score.index}}</td>
+                        </ng-container>
+                        <td></td>
+
+                    </tr>
+                    <tr class = "par-row">
+                        <td>Par</td>
+                        <ng-container *ngFor = "let score of player.rounds[2].nines[0].scores">
+                            <td>{{score.parScore}}</td>
+                        </ng-container>
+                        <td>{{totalParScore(player.rounds[2].nines[0].scores)}}</td>
+                        <ng-container *ngFor = "let score of player.rounds[2].nines[1].scores">
+                            <td>{{score.parScore}}</td>
+                        </ng-container>
+                        <td>{{totalParScore(player.rounds[2].nines[1].scores)}}</td>
+                        <td>{{totalParScore(player.rounds[2].nines[0].scores,player.rounds[2].nines[1].scores)}}</td>
+                        </tr>
+                    <tr>
+                        <td>Gross</td>
+                        <ng-container *ngFor = "let score of player.rounds[2].nines[0].scores">
+                            <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
+                        </ng-container>
+                        <td [ngClass] = "deriveParClass(player.rounds[2].outTotal)">{{player.rounds[2].outTotal}}</td>
+                        <ng-container *ngFor = "let score of player.rounds[2].nines[1].scores">
+                            <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
+                        </ng-container>
+                        <td [ngClass] = "deriveParClass(player.rounds[2].inTotal)">{{player.rounds[2].inTotal}}</td>
+                        <td [ngClass] = "deriveTotalClass(player.rounds[2].inTotal+player.rounds[2].outTotal)">
+                            {{player.rounds[2].outTotal+player.rounds[2].inTotal}}
+                        </td>
+
+                    </tr>
+                </ng-container>
+                <ng-container *ngIf = "player.rounds[3]">
+                    <tr class = "index-row">
+                        <td class = "round-group" rowspan = "3">R4</td>
+                        <td>Index</td>
+                        <ng-container *ngFor = "let score of player.rounds[3].nines[0].scores">
+                            <td>{{score.index}}</td>
+                        </ng-container>
+                        <td></td>
+                        <ng-container *ngFor = "let score of player.rounds[3].nines[1].scores">
+                            <td>{{score.index}}</td>
+                        </ng-container>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr class = "par-row">
+                        <td>Par</td>
+                        <ng-container *ngFor = "let score of player.rounds[3].nines[0].scores">
+                            <td>{{score.parScore}}</td>
+                        </ng-container>
+                        <td>{{totalParScore(player.rounds[3].nines[0].scores)}}</td>
+                        <ng-container *ngFor = "let score of player.rounds[3].nines[1].scores">
+                            <td>{{score.parScore}}</td>
+                        </ng-container>
+                        <td>{{totalParScore(player.rounds[3].nines[1].scores)}}</td>
+                        <td>{{totalParScore(player.rounds[3].nines[0].scores,player.rounds[3].nines[1].scores)}}</td>
+                    </tr>
+                    <tr>
+                        <td>Gross</td>
+                        <ng-container *ngFor = "let score of player.rounds[3].nines[0].scores">
+                            <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
+                        </ng-container>
+                        <td [ngClass] = "deriveParClass(player.rounds[3].outTotal)">{{player.rounds[3].outTotal}}</td>
+                        <ng-container *ngFor = "let score of player.rounds[3].nines[1].scores">
+                            <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
+                        </ng-container>
+                        <td [ngClass] = "deriveParClass(player.rounds[3].inTotal)">{{player.rounds[3].inTotal}}</td>
+                        <td [ngClass] = "deriveTotalClass(player.rounds[3].inTotal+player.rounds[3].outTotal)">
+                            {{player.rounds[3].outTotal+player.rounds[3].inTotal}}
+                        </td>
+
+                    </tr>
+                </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>

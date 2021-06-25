@@ -1,0 +1,15 @@
+competition-player-list .player {
+  vertical-align: middle;
+  text-overflow: ellipsis; }
+  competition-player-list .player .player-image {
+    height: 30px;
+    width: 30px;
+    float: left; }
+  competition-player-list .player .player-name {
+    line-height: 30px;
+    margin-left: 3px;
+    white-space: normal; }
+    competition-player-list .player .player-name:hover {
+      text-decoration: underline;
+      cursor: pointer;
+      cursor: hand; }

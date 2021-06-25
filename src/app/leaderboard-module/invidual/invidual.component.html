@@ -1,0 +1,114 @@
+<p-dataTable [value]="playersToDisplay"
+        expandableRows="true"
+        rowExpandMode="single"
+        styleClass="primary-table"
+        (onRowCollapse)="onPlayerRowCollapsed($event)"
+        (onRowExpand)="onPlayerRowExpand($event)">
+  <p-headerColumnGroup>
+    <p-row>
+      <p-column expander="true" header="" rowspan="2" [style]="{'width':'3%'}"></p-column>
+      <p-column header="Pos" [hidden]="isColumnHidden('position')"
+              rowspan="2" [style]="{'width':'5%'}"></p-column>
+      <p-column header="Hcp" rowspan="2" [hidden]="isColumnHidden('handicap')"
+              [style]="{'width':'5%'}"></p-column>
+      <p-column header="Player" rowspan="2" [style]="{'width':'29%'}"></p-column>
+      <p-column header="Team" rowspan="2" [hidden]="!competition?.teamEvent || isColumnHidden('team')"
+              [style]="{'width': '10%'}">
+      </p-column>
+      <p-column header="(+/-)" rowspan="2" [style]="{'width':'5%'}"></p-column>
+      <p-column header="On" rowspan="2" [hidden]="isColumnHidden('on')"
+              [style]="{'width':'3%'}"></p-column>
+      <p-column header="Thru" rowspan="2" [hidden]="isColumnHidden('thru')"
+              [style]="{'width':'4%'}"></p-column>
+      <p-column colspan="3" header="Gross" [hidden]="isGrossHidden()"
+              styleClass="gross-column" [style]="{'width':'15%'}">
+      </p-column>
+      <p-column header="Net" colspan="3" [hidden]="isNetHidden()"
+              styleClass="net-column" [style]="{'width':'15%'}"></p-column>
+      <p-column header="OCB"
+              [hidden]="isColumnHidden('ocb')"
+              rowspan="2" [style]="{'width':'7%'}"></p-column>
+    </p-row>
+    <p-row>
+      <p-column header="Out" styleClass="gross-column" [hidden]="isGrossHidden()" ></p-column>
+      <p-column header="In" styleClass="gross-column"   [hidden]="isGrossHidden()" ></p-column>
+      <p-column header="Total" styleClass="gross-column"   [hidden]="isGrossHidden()" ></p-column>
+      <p-column header="Out" styleClass="net-column"  [hidden]="isNetHidden()" ></p-column>
+      <p-column header="In"  styleClass="net-column" [hidden]="isNetHidden()" ></p-column>
+      <p-column header="Total" styleClass="net-column"  [hidden]="isNetHidden()" ></p-column>
+    </p-row>
+  </p-headerColumnGroup>
+  <p-column expander="true"></p-column>
+  <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
+    <ng-template let-col let-player="rowData" pTemplate="body">
+      <div [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+    </ng-template>
+  </p-column>
+  <p-column field="handicap" header="Hcp" [hidden]="isColumnHidden('handicap')"  [style]="{'textAlign': 'center'}"></p-column>
+  <p-column header="Player">
+    <ng-template let-col let-player="rowData" pTemplate="body">
+      <div class = "player-name vertical-align-center" (click)="expandRow(team)">
+        <img [src] = "player.imageURL"
+                onerror="this.src = 'assets/images/default_user.png'"
+                style = "width:40px; margin-right: 10px">
+        <span>{{player.playerName}}</span>
+      </div>
+    </ng-template>
+  </p-column>
+  <p-column header="Team" [hidden]="!competition?.teamEvent || isColumnHidden('team')">
+    <ng-template let-player="rowData" pTemplate="body">
+      <div fxLayout="row nowrap"
+              fxLayoutAlign="space-between center"
+              fxLayoutAlign.lt-md="center center"
+              fxLayoutGap="3px">
+        <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="player.teamLogo">
+        <div fxFlex="1 1 auto" fxHide.lt-md="true">{{player.teamName}}</div>
+      </div>
+    </ng-template>
+  </p-column>
+  <p-column header="(+/-)"   [style]="{'textAlign': 'center'}">
+    <ng-template let-col let-player="rowData" pTemplate="body">
+      <div *ngIf="!byNet" [class.under-par]="player.toPar<0">{{player.toPar}}</div>
+      <div *ngIf="byNet && player.modifiedTotalNet">
+        <span class="strike-out"  [class.under-par]="player.toPar<0">{{player.toPar}}</span>
+        <span  [class.under-par]="player.parCap<0">{{player.parCap}}</span>
+      </div>
+      <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="player.toPar<0">
+        {{player.toPar}}
+      </div>
+    </ng-template>
+  </p-column>
+
+  <p-column field="onHole" [hidden]="isColumnHidden('on')"  [style]="{'textAlign': 'center'}"></p-column>
+  <p-column field="thru" [hidden]="isColumnHidden('thru')" [style]="{'textAlign': 'center'}"></p-column>
+  <p-column field="outTotalGross" header="Out" styleClass="gross-column"  [hidden]="isGrossHidden()"
+          [style]="{'textAlign': 'center'}">
+  </p-column>
+  <p-column field="inTotalGross" styleClass="gross-column"  [hidden]="isGrossHidden()"
+          [style]="{'textAlign': 'center'}"></p-column>
+  <p-column field="totalGross" styleClass="gross-column" [hidden]="isGrossHidden()"  [style]="{'textAlign': 'center'}"></p-column>
+  <p-column field="outTotalNet"  styleClass="net-column" [hidden]="isNetHidden()"   [style]="{'textAlign': 'center'}"></p-column>
+  <p-column field="inTotalNet"  styleClass="net-column"  [hidden]="isNetHidden()"   [style]="{'textAlign': 'center'}"></p-column>
+  <p-column field="totalNet"  styleClass="net-column"  [hidden]="isNetHidden()"   [style]="{'textAlign': 'center'}">
+    <ng-template let-col let-player="rowData" pTemplate="body">
+      <div>
+        <span [class.strike-out]="player.modifiedTotalNet"  [class.under-par]="player.toPar<0">{{player.totalNet}}</span>
+        <span *ngIf="player.modifiedTotalNet" [class.under-par]="player.toPar<0">{{player.modifiedTotalNet}}</span>
+      </div>
+
+    </ng-template>
+  </p-column>
+  <p-column field="ocb" header="OCB"
+          [hidden]="isColumnHidden('ocb')"
+          [style]="{'textAlign': 'center'}"></p-column>
+  <!--<ng-template let-player pTemplate="rowexpansion">-->
+    <!--<player-scorecard-display-->
+            <!--[competitionId]="competitionId"-->
+            <!--[colorSet]="settings?.colorSet"-->
+            <!--[hideNetRow]="settings?.scoreType === 'gross' && settings?.hideNetColumns"-->
+            <!--[playerId]="playerRowExpanded.playerId"-->
+            <!--[rounds]="playerRowExpanded.rounds">-->
+
+    <!--</player-scorecard-display>-->
+  <!--</ng-template>-->
+</p-dataTable>

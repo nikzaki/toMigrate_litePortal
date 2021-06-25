@@ -1,0 +1,13 @@
+<div class = "container" *ngIf = "feed" [ngStyle]="styleObj()">
+    <div class = "media" *ngFor = "let item of (feed|async)?.items">
+        <img *ngIf = "item.thumbnail" class = "mr-3"
+                [src] = "item.thumbnail" alt = "Generic placeholder image">
+        <div class = "media-body">
+            <h4 class = "mt-0 header">
+                <a [href]="item.link" target="_blank">{{item.title}}</a>
+            </h4>
+            <p class="description">{{getDescription(item)}}</p>
+            <p>{{item.pubDate}}</p>
+        </div>
+    </div>
+</div>

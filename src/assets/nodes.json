@@ -1,0 +1,42 @@
+[
+  {
+    "label": "Shetty",
+    "children": [
+      {
+        "data": {
+          "lastName": "Shetty",
+          "firstName": "Ashok"
+        }
+      },
+      {
+        "data": {
+          "lastName": "Shetty",
+          "firstName": "Anil"
+        }
+      },
+      {
+        "data": {
+          "lastName": "Shetty",
+          "firstName": "Arun"
+        }
+      }
+    ]
+  },
+  {
+    "label": "Dodwad",
+    "children": [
+      {
+        "data": {
+          "lastName": "Dodwad",
+          "firstName": "Raghu"
+        }
+      },
+      {
+        "data": {
+          "lastName": "Dodwad",
+          "firstName": "Guru"
+        }
+      }
+    ]
+  }
+]

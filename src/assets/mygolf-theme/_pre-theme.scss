@@ -1,0 +1,9 @@
+/**
+This file will be imported by the theme file before defining theme specific variables and setup.
+ */
+//Main angular2 material theming constructs
+@import "../../../node_modules/@angular/material/theming";
+@import "mixins";
+@import "fonts";
+//Import typography too
+@import "typography";

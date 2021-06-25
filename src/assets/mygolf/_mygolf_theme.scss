@@ -1,0 +1,49 @@
+@import "../sass/theme/theme";
+@import "../../theme-ext";
+@import "../sass/layout/layout";
+@import "../../../node_modules/mdi/scss/materialdesignicons";
+
+@import "overrides";
+//Set the font size of the html element so that we can control
+//Font sizes using REM units
+html, body {
+    font-size: $fontSize
+}
+
+@media screen and  (max-width: 599px){
+    html, body {
+        font-size: $fontSize - 6px;
+    }
+}
+@media screen and (min-width: 600px) and (max-width: 959px){
+    html, body {
+        font-size: $fontSize - 2px;
+    }
+}
+.withdrawn {
+    color: map-get($app-warn, 'default');
+}
+.material-design-icons{
+    font-family: 'Material Design Icons';
+    font-weight: normal;
+    font-style: normal;
+    font-size: 1.5rem;
+    /* Preferred icon size */
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga';
+}

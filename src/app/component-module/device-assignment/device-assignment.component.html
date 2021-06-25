@@ -1,0 +1,78 @@
+<p-dataTable [value] = "competitionScorers" sortField = "flight"
+        styleClass = "device-assignments"
+        rowGroupMode = "rowspan">
+    <p-header>
+        <button pButton label = "Auto Assign Devices" icon = "ui-icon-flash-auto" class = "ui-button-info"
+                (click) = "autoAssignDevices()" tooltipPosition = "left"
+                pTooltip = "Click here to automatically assign devices"></button>
+        <button pButton label = "Start Devices" icon = "ui-icon-play-circle-outline" class = "ui-button-danger"
+                (click) = "showStartDevice($event)"
+                pTooltip = "Initiate the auto login and select scorers in devices"
+                tooltipPosition = "left"></button>
+    </p-header>
+    <p-column field = "flight" header = "Flight"></p-column>
+    <p-column field = "playerName" header = "playerName"></p-column>
+    <p-column header = "Device">
+        <ng-template let-scorer = "rowData" pTemplate = "body">
+            <span *ngIf = "scorer.device">
+                {{scorer.device.deviceName}}
+                <button *ngIf = "!scorer.loggedIn" pButton icon = "ui-icon-remove" style = "float:right"
+                        label = "Remove" class = "ui-button-danger"
+                        pTooltip = "Remove the device assignment" tooltipPosition = "left"
+                        (click) = "removeAssignments($event,scorer)"></button>
+                <i class="material-icons" *ngIf = "scorer.loggedIn" style = "color:green;font-weight: bold">done</i>
+                <button *ngIf = "scorer.loggedIn" pButton label = "Log Off" style = "float:right"
+                        (click) = "logoffDevice($event, scorer)"
+                        pTooltip = "Log off the device" tooltipPosition = "left"
+                        class = "ui-button-danger"
+                        icon = "fa-sign-out"></button>
+                <br *ngIf = "scorer.device.userTags" />
+                <span *ngIf = "scorer.device.userTags">{{scorer.device.userTags}}</span>
+            </span>
+            <button pButton *ngIf = "!scorer.device" label = "Assign Device"
+                    pTooltip = "Manually assign a device" tooltipPosition = "left"
+                    (click) = "showDeviceAssignmentDialog($event, scorer)"
+                    icon = "ui-icon-desktop-mac"></button>
+        </ng-template>
+    </p-column>
+</p-dataTable>
+<p-overlayPanel #assignable [dismissable] = "true" [showCloseIcon] = "true"
+        (onAfterHide) = "_afterAssignmentHide($event)"  class='assignOverlay'>
+    <p-dataTable [value] = "availableDevices" selectionMode = "single"
+            (onRowSelect) = "_onSelectDevice($event)"
+            [style] = "{'width':'650px'}">
+        <p-column field = "deviceName" header = "Name" [filter] = "true" filterMode = "contains"></p-column>
+        <p-column field = "platform" header = "Platform" [filter] = "true" filterMode = "contains"></p-column>
+        <p-column field = "manufacturer" header = "Manufacturer" [filter] = "true" filterMode = "contains"></p-column>
+        <p-column field = "model" header = "Model" [filter] = "true" filterMode = "contains"></p-column>
+        <p-column field = "userTags" header = "Tags" [filter] = "true" filterMode = "contains"></p-column>
+    </p-dataTable>
+</p-overlayPanel>
+<p-overlayPanel #startdevices [dismissable] = "true">
+    <div class = "ui-grid ui-grid-responsive ui-fluid" style = "min-width: 600px">
+        <div class = "ui-grid-row">
+            <div class = "ui-grid-col-4">UserId/Email</div>
+            <div class = "ui-grid-col-8" style = "text-align: right">
+                <input type = "email" pInputText [(ngModel)] = "userEmail" style = "width: 90%;">
+            </div>
+        </div>
+        <div class = "ui-grid-row" style = "min-height: 5px"></div>
+        <div class = "ui-grid-row">
+            <div class = "ui-grid-col-4">Password</div>
+            <div class = "ui-grid-col-8" style = "text-align: right">
+                <input type = "password" pInputText [(ngModel)] = "password" style = "width: 90%;">
+            </div>
+        </div>
+        <div class = "ui-grid-row" style = "min-height: 5px"></div>
+        <div class = "ui-grid-row">
+            <div class = "ui-grid-col-5" style = "text-align: right">
+                <button pButton label = "Cancel" icon = "ui-icon-cancel" (click) = "_cancelStart()"></button>
+            </div>
+            <div class = "ui-grid-col-2"></div>
+            <div class = "ui-grid-col-5" style = "text-align: right">
+                <button pButton label = "Start Devices" icon = "ui-icon-play-circle-outline" (click) = "_startDevices()"></button>
+            </div>
+        </div>
+    </div>
+</p-overlayPanel>
+<p-confirmDialog header = "Confirmation" icon="fa ui-icon-warning" width = "425"></p-confirmDialog>

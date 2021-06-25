@@ -1,0 +1,192 @@
+<!-- <div class="pos-f-t fixed-top header">
+    <nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md pre-header">
+        <button class="navbar-toggler navbar-toggler-right" (click)="toggleSidebar()">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="javascript:void(0)">myGolf2u</a>
+        <div class="collapse navbar-collapse">
+            <form class="form-inline my-2 my-lg-0">
+                <input class="form-control mr-sm-2" type="text" placeholder="{{ 'Search' | translate }}" >
+            </form>
+            <ul class="navbar-nav ml-auto mt-2 mt-md-0">
+                <li class="nav-item hidden-lg-down">
+                    <a href="https://github.com/start-angular/SB-Admin-BS4-Angular-2/archive/master.zip" class="nav-link btn mt-1" role="button" style="padding: .375rem 1rem !important; border-color: #999;">{{ 'Download Now' | translate }}</a>
+                </li> &nbsp;
+                <li class="nav-item">
+                    <a href="javascript:void(0)" class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;" (click)="rltAndLtr()">RTL/LTR</a>
+                </li> &nbsp;
+                <li class="nav-item dropdown" ngbDropdown>
+                    <div class="dropdown">
+                    <a class="nav-link" href="javascript:void(0)" ngbDropdownToggle>
+                        <i class="fa fa-envelope"></i> <b class="caret"></b><span class="sr-only">(current)</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right messages">
+                        <li class="media">
+                            <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <h5 class="mt-0 mb-1">John Smith</h5>
+                                <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
+                            </div>
+                        </li>
+                        <li class="media">
+                            <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <h5 class="mt-0 mb-1">John Smith</h5>
+                                <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
+                            </div>
+                        </li>
+                        <li class="media">
+                            <img class="d-flex align-self-center mr-3" src="http://i.huffpost.com/gadgets/slideshows/461162/slide_461162_6224974_sq50.jpg" alt="Generic placeholder image">
+                            <div class="media-body">
+                                <h5 class="mt-0 mb-1">John Smith</h5>
+                                <p class="small text-muted"><i class="fa fa-clock-o"></i> Yesterday at 4:32 PM</p>
+                                <p class="last"> Lorem ipsum dolor sit amet, consectetur...</p>
+                            </div>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown" ngbDropdown>
+                    <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
+                        <i class="fa fa-bell"></i> <b class="caret"></b><span class="sr-only">(current)</span>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-right">
+                        <a href="javascript:void(0)" class="dropdown-item">Pending Task <span class="badge badge-info">6</span></a>
+                        <a href="javascript:void(0)" class="dropdown-item">In queue <span class="badge badge-info"> 13</span></a>
+                        <a href="javascript:void(0)" class="dropdown-item">Mail <span class="badge badge-info"> 45</span></a>
+                        <li class="dropdown-divider"></li>
+                        <a href="javascript:void(0)" class="dropdown-item">View All</a>
+                    </ul>
+                </li>
+                <li class="nav-item dropdown" ngbDropdown>
+                    <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
+                        <i class="fa fa-language"></i> {{ 'Language' | translate }} <b class="caret"></b>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('en')">{{ 'English' | translate }}</a>
+                        <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('fr')">{{ 'French' | translate }}</a>
+                        <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('ur')">{{ 'Urdu' | translate }}</a>
+                        <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('es')">{{ 'Spanish' | translate }}</a>
+                        <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('it')">{{ 'Italian' | translate }}</a>
+                        <a class="dropdown-item" href="javascript:void(0)" (click)="changeLang('fa')">{{ 'Farsi' | translate }}</a>
+                    </div>
+                </li>
+                <li class="nav-item dropdown" ngbDropdown>
+                    <a href="javascript:void(0)" class="nav-link" ngbDropdownToggle>
+                        <i class="fa fa-user"></i> John Smith <b class="caret"></b>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-fw fa-user"></i> {{ 'Profile' | translate }}</a>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-fw fa-envelope"></i> {{ 'Inbox' | translate }}</a>
+                        <a class="dropdown-item" href="javascript:void(0)"><i class="fa fa-fw fa-gear"></i> {{ 'Settings' | translate }}</a>
+                        <a class="dropdown-item" [routerLink]="['/login']" (click)="onLoggedout()"><i class="fa fa-fw fa-power-off"></i> {{ 'Log Out' | translate }} </a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+    </nav>
+    <nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md main-header" style="background:rgba(0, 99, 44, 1) !important">
+    <div class="collapse navbar-collapse">
+      <ul class="navbar-nav ml-auto mt-2 mt-md-0">
+        <li class="nav-item">
+            <a href="javascript:void(0)" class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;" (click)="rltAndLtr()">Home</a>
+        </li> &nbsp;
+        <li class="nav-item">
+            <a href="javascript:void(0)" class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;" (click)="rltAndLtr()">About Us</a>
+        </li> &nbsp;
+        <li class="nav-item">
+            <a href="javascript:void(0)" class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;" (click)="rltAndLtr()">FAQ</a>
+        </li> &nbsp;
+        <li class="nav-item">
+            <a href="javascript:void(0)" class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;" (click)="rltAndLtr()">Contact Us</a>
+        </li> &nbsp;
+    </ul></div>
+  </nav>
+  <nav class="navbar navbar-inverse bg-inverse navbar-toggleable-md post-header" style="background:rgba(0, 71, 32, 1) !important">
+    <div style="color:white !important" class="collapse navbar-collapse">
+      <i class="fa fa-facebook"></i>&nbsp;
+      <i class="fa fa-twitter"></i>&nbsp;
+      <i class="fa fa-globe"></i>
+  </div>
+  </nav>
+</div> -->
+<!--<link rel="stylesheet" href="assets/layout/fonts/font-awesome/css/font-awesome.min.css">-->
+<div class=" chunkfive-typography" id="footer">
+<footer class="main-footer">
+  <div class="container">
+    <!-- Start Row -->
+    <div class="row">
+      <div class="col-md-3">
+        <div class="widget widget-contact">
+          <h3>Contact Us</h3>
+          <ul class="list-styled list-bordered">
+            <li><strong>Telephone Enquiry:</strong><br/>+603 6211 4444</li>
+            <li><strong>Facsimile:</strong><br/>+603 6206 4444</li>
+            <li><a href="#">mygolf2u@britesoftcorp.com</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="widget widget-text">
+          <h3>Download App</h3>
+            <a href="https://play.google.com/store/apps/details?id=com.brite.mygolf2u">
+              <img style="padding-top:0.5em" src="assets/images/app-icons/android.icon.png" />
+            </a>
+            <a href="https://itunes.apple.com/my/app/mygolf2u/id1092380543?mt=8">
+              <img style="padding-top:0.5em" src="assets/images/app-icons/ios.icon.png"/>
+            </a>
+            <a href="http://m.mygolf2u.com">
+              <img style="padding-top:0.5em" src="assets/images/app-icons/link.icon.png"/>
+            </a>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div>
+          <h3>Join Us Now</h3>
+          <ul class="list-paired">
+            <li><em class="fa fa-caret-right scale-80 feat-color"></em> Player registration</li>
+            <li><em class="fa fa-caret-right scale-80 feat-color"></em> Organizer registration </li>
+            <li><em class="fa fa-caret-right scale-80 feat-color"></em> Club registration</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div >
+          <h3><img class="navbar-brand img-fluid mx-auto d-block" src="assets/images/new_mygolf2u_logo.png" style="max-height:10em !important" /></h3>
+          <!-- <h3><img class="logo-img" src="img/logo@2x.png" alt="Logo" /></h3> -->
+          <ul class="list-styled list-bordered">
+            <li><strong>Address:</strong><br/>
+              E-3-9, Plaza Damas, No. 60, Jalan Sri Hartamas 1, Taman Sri Hartamas, 50480 Kuala Lumpur, Malaysia</li>
+            <!-- <li><a href="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15935.223152707318!2d101.6536033738177!3d3.145895778679068!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0xaf8300746d8ef80d!2sBriteSoft+Solutions+(M)+Sdn+Bhd!5e0!3m2!1sen!2smy!4v1507890843219"
+                class="fancybox fancybox.iframe">View on map</a></li> -->
+                <li><a href="https://goo.gl/maps/xCSodYX5HAwZAFmEA"
+                  class="fancybox fancybox.iframe">View on map</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <!--/.row -->
+  </div>
+  
+</footer>
+<footer class="post-footer">
+  <div class="container">
+    <div class="foot-left">
+      <div>&copy; myGolf2u <span class="copy-year">{{date_year | date:'yyyy'}}</span>. All rights reserved.</div>
+    </div>
+
+    <div class="foot-right">
+      <!-- <ul class="social-links"> -->
+        <a href="#"><i class="fa fa-facebook"></i></a>
+        <!-- <a href="#"><i class="fa fa-twitter"></i></a> -->
+        <a href="#"><i class="fa fa-globe"></i></a>
+      <!-- </ul> -->
+    </div>
+  </div>
+</footer>
+</div>

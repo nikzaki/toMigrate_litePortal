@@ -1,0 +1,33 @@
+prize-list {
+    .name-column{
+        width: 30%;
+    }
+    .prize-name-column{
+        width: 25%;
+    }
+    .prize-title-column{
+        width:25%
+    }
+    .prize-money-column {
+        width: 20%;
+    }
+    .column-header {
+        width: 100%;
+        text-align: left;
+        font-weight: bold;
+        &.money-column-header {
+            text-align: right;
+        }
+    }
+    .column-body{
+        width: 100%;
+        text-align: left;
+        &.name-column-body{
+
+        }
+        &.money-column-body {
+            text-align: right;
+        }
+    }
+
+}

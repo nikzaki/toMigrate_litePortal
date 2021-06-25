@@ -1,0 +1,138 @@
+@import "sass-material-colors-placeholders";
+
+@function set-text-color($color) {
+    @if (lightness($color) > 50) {
+        @return #000000; // Lighter backgorund, return dark color
+    } @else {
+        @return #ffffff; // Darker background, return light color
+    }
+}
+$golf-colors: (
+        'amateur': (
+                'eagle': (
+                        'background': #ff4343,
+                        'icon': #ff4343
+                ),
+                'birdie': (
+                        'background': #6da9d3,
+                        'icon':#6da9d3
+                ),
+                'par': (
+                        'background': #fcee93,
+                        'icon': #fcee93
+                ),
+                'bogey': (
+                        'background': #FFFFFF,
+                        'icon': #000000
+                ),
+                'double-bogey': (
+                        'background': #FFFFFF,
+                        'icon': #000000
+                ),
+                'tripple-bogey': (
+                        'background': #FFFFFF,
+                        'icon': #000000
+                )
+        ),
+        'professional': (
+                'eagle':(
+                        'background': map-get(map-get($material-colors, 'blue'), '900'),
+                        'icon': map-get(map-get($material-colors, 'blue'), '900')
+                ),
+                'birdie': (
+                        'background': map-get(map-get($material-colors, 'blue'), '600'),
+                        'icon': map-get(map-get($material-colors, 'blue'), '600')
+                ),
+                'par': (
+                        'background': #FFFFFF, //map-get(map-get($material-colors, 'grey'), '600'),
+                        'icon': #000000 //map-get(map-get($material-colors, 'grey'), '600')
+                ),
+                'bogey': (
+                        'background': map-get(map-get($material-colors, 'amber'), 'a700'),
+                        'icon': map-get(map-get($material-colors, 'amber'), 'a700'),
+                ),
+                'double-bogey': (
+                        'background': map-get(map-get($material-colors, 'red'), '600'),
+                        'icon': map-get(map-get($material-colors, 'red'), '600'),
+                ),
+                'triple-bogey': (
+                        'background': map-get(map-get($material-colors, 'red'), '900'),
+                        'icon': map-get(map-get($material-colors, 'red'), '900'),
+                )
+        )
+);
+@function golf-color($set, $scoretype) {
+    $color: map-get(map-get($golf-colors, $set),$scoretype);
+    @if $color {
+        @return $color;
+    } @else {
+        // Libsass still doesn't seem to support @error
+        @warn "=> ERROR: COLOR NOT FOUND! <= | Your $set-name, $scoretype-variant combination did not match any of the values in the $material-colors map.";
+    }
+}
+@each $set, $scoretypes in $golf-colors {
+    .#{$set} {
+        @each $scoretype, $colormap in $scoretypes {
+            .#{$scoretype}-score{
+                background-color: map-get($colormap, 'background');
+                color: set-text-color(map-get($colormap, 'background'));
+            }
+            .#{$scoretype}-score-icon{
+                color: map-get($colormap, 'icon');
+            }
+        }
+    }
+}
+
+$eagleColor: map-get(map-get($material-colors, 'blue'), '600');
+$birdieColor: map-get(map-get($material-colors, 'blue'), '300');
+$parColor: #fcee93;
+$bogeyColor: map-get(map-get($material-colors, 'red'), '300');
+$doubleBogeyColor: map-get(map-get($material-colors, 'red'), '600');
+$tripleBogeyColor: map-get(map-get($material-colors, 'red'), '900');
+
+.success-text {
+    @extend %color-green-800;
+}
+
+.success-text-bold {
+    @extend %color-green-800;
+    font-weight: bold;
+}
+
+.completed-text {
+    @extend %color-blue-500;
+}
+
+.completed-text-bold {
+    @extend %color-blue-500;
+    font-weight: bold;
+}
+
+.inprogess-text {
+    @extend %color-red-500;
+}
+
+.inprogess-text-bold {
+    @extend %color-red-500;
+    font-weight: bold;
+}
+.upcoming-text {
+    @extend %color-green-500;
+}
+.upcoming-text-bold {
+    @extend %color-green-500;
+    font-weight: bold;
+}
+
+
+.ui-widget-content {
+    &.par-row {
+        background-color: $parColor !important;
+        color: black;
+    }
+    &.index-row {
+        background-color: black !important;
+        color: white;
+    }
+}

@@ -1,0 +1,7 @@
++ @angular/core@4.4.7
++ @angular/common@4.4.7
++ @angular/common@2.2.3
++ zone.js@0.7.2
+added 1 package from 1 contributor, updated 3 packages and audited 16345 packages in 55.109s
+found 30 vulnerabilities (16 low, 7 moderate, 7 high)
+  run `npm audit fix` to fix them, or `npm audit` for details

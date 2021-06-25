@@ -1,0 +1,9 @@
+Dockerfile
+Dockerfile-Old2
+Dockerfile-old
+.sass-cache
+.svn
+.vscode
+node_modules
+node_modules_
+node_modules_working

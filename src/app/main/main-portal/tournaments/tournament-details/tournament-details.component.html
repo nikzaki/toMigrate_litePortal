@@ -1,0 +1,153 @@
+<!-- <div [@routerTransition]> -->
+<!--<link rel="stylesheet" href="assets/layout/fonts/font-awesome/css/font-awesome.min.css">-->
+
+<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css"-->
+<!--integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">-->
+
+    <div class="row" *ngIf="competition">
+        <div class="col-xl-8 text-xs-center ml-md-auto">
+            <div class="page-header">
+                <h2>{{competition?.competitionName}}</h2>
+            </div>
+            <div class="row">
+                <div class="col-xl-9">
+                    <h3>Tournament Description</h3>
+                    <div class="hover-box-container hb-effect-fade text-center img-container">
+                      <div class="fancybox hover-box" title="Insert Your Titles">
+                        <img class="img-fluid " [src]="competition?.imageUrl?competition.imageUrl:competition.thumbnail"
+                                alt="alt" style="max-height: 37.5em;height: auto" />
+                      </div>
+                    </div>
+                    <h3>{{competition?.competitionName}}</h3>
+                    <p class="lead" [innerHtml]="competition?.description"></p>
+
+                    <div class="statistics">
+                      <h4>Statistics</h4>
+                        <ul class="list-bordered list-group justify-content-around">
+                            <li class="list-group-item list-group-item-action list-statistics d-flex justify-content-between">
+                                <div class="col-xl-9"><span class="icn-box"><i class="s-icon material-icons feat-color">info_outline</i></span>Status</div>
+                                <div class="col-xl-3"><span class="float-right">{{competition?.status}}</span></div>
+                            </li>
+                            <li class="list-group-item list-group-item-action list-statistics d-flex justify-content-between ">
+                                <div class="col-xl-9"><span class="icn-box">
+                                  <!-- <i class="s-icon fa fa-2x fa-fw fa-bullhorn" aria-hidden="true"></i> -->
+                                  <i class="s-icon material-icons feat-color">account_balance</i>
+                                </span>Sponsors</div>
+                                <div class="col-xl-3 feat-color"><span class="float-right">{{details?.sponsors.length}} sponsor(s)</span></div>
+                            </li>
+                            <li class="list-group-item list-group-item-action list-statistics d-flex justify-content-between ">
+                                <div class="col-xl-9">
+                                  <!-- <span class="s-icon icon-tree feat-color"></span> -->
+                                  <span class="icn-box"><i class="s-icon material-icons">contacts</i></span>
+                                  Player Categories</div>
+                                <div class="col-xl-3 feat-color"><span class="float-right">{{details?.categories.length}} categories</span></div>
+                            </li>
+                            <li class="list-group-item list-group-item-action list-statistics d-flex justify-content-between ">
+                                <div class="col-xl-9">
+                                  <!-- <span class="s-icon icon-trophy feat-color"></span> -->
+                                  <span class="icn-box">
+                                    <!-- <i class="s-icon fa fa-2x fa-fw fa-trophy"></i> -->
+                                    <i class="s-icon material-icons feat-color">card_giftcard</i>
+                                  </span>Prizes</div>
+                                <div class="col-xl-3 feat-color"><span class="float-right">{{details?.prizes.length}} prize(s)</span></div>
+                            </li>
+                            <li class="list-group-item list-group-item-action list-statistics d-flex justify-content-between ">
+                                <div class="col-xl-9">
+                                  <!-- <i class="s-icon fa fa-user-o feat-color" aria-hidden="true"></i> -->
+                                  <span class="icn-box"><i class="s-icon material-icons">person_outline</i></span>
+                                  Players</div>
+                                <div class="col-xl-3 feat-color"><span class="float-right">{{details?.players.length}} Registered</span></div>
+                            </li>
+                            <li class="list-group-item list-group-item-action list-statistics d-flex justify-content-between ">
+                                <div class="col-xl-8">
+                                  <span class="icn-box"><i class="material-icons s-icon ">flag</i></span>
+                                  Flights / T-Boxes</div>
+                                <div class="col-xl-4 feat-color"><span class="float-right"> {{details?.players.length}} Players ({{flights.length}} Flights)</span></div>
+                            </li>
+                            <li class="list-group-item list-group-item-action list-statistics d-flex justify-content-between "
+                             routerLink="{{getLeaderboardURL()}}">
+                                <div class="col-xl-12" >
+                                  <!-- <a href = "/leaderboard/{{competitionId}}"> -->
+                                  <span class="icn-box">
+                                    <!-- <i class="s-icon feat-color fa fa-2x fa-fw fa-th" aria-hidden="true"></i> -->
+                                    <i class="s-icon material-icons feat-color">grid_on</i>
+                                  </span>
+                                  Leaderboard
+                                <!-- </a> -->
+                              </div>
+                                <!-- <div class="col-xl-2"><span class="pull-right"> 12 Players (3 Flights)</span></div> -->
+                            </li>
+
+                            <li class="list-group-item list-group-item-action list-statistics d-flex justify-content-between ">
+                                <div class="col-xl-12">
+                                  <!-- <span class="s-icon icon-clipboard feat-color"></span> -->
+                                  <span class="icn-box">
+                                    <!-- <i class="s-icon fa fa-2x fa-fw fa-pencil-square-o"></i> -->
+                                    <i class="s-icon material-icons feat-color">library_books</i>
+                                  </span>
+                                  Scorecards</div>
+                                <!-- <div class="col-xl-2"><span class="pull-right"> 12 Players (3 Flights)</span></div> -->
+                            </li>
+
+                        </ul>
+                    </div><br/>
+                    <div class="rules">
+                      <h4>Rules</h4>
+                      <p class="lead" [innerHtml]="competition?.rules"></p>
+                    </div>
+                </div>
+                <div class="col-xl-3 event-details">
+                  <h4>Tournament Details</h4>
+                  <dl>
+                    <dt>Start</dt>
+                    <dd class="text-muted">{{competition?.startDate| date:'MMMM d, y'}}</dd>
+                    <dt>End</dt>
+                    <dd class="text-muted">{{competition?.endDate| date:'MMMM d, y'}}</dd><br>
+                    <dt>Registration Open</dt>
+                    <dd class="text-muted">{{competition?.openDate| date:'MMMM d, y'}}</dd>
+                    <dt>Closing Date</dt>
+                    <dd class="text-muted">{{competition?.closeDate| date:'MMMM d, y'}}</dd>
+                    <!-- <dt>Publish Date</dt>
+                    <dd class="text-muted">{{competition?.publishDate| date:'MMMM d, y'}}</dd> -->
+                  </dl>
+
+                  <h4>Club Details</h4>
+                  <dl>
+                    <dt>Venue</dt>
+                    <dd class="text-muted">{{competition?.clubName}} ({{competition?.clubTag}})</dd>
+                    <dt>Address</dt>
+                    <dd class="text-muted">{{club?.address}} +
+                        <a [href]="'https://www.google.com/maps/?q=' + club?.latitude + ',' + club?.longitude">Google Map</a>
+                        <!--<a href="https://www.google.com/maps/embed?pb=!1m14!1m8!1m3!1d28369.415587766056!2d152.98820641500242!3d-27.276331333808365!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x6b93fb9c9442c901%3A0x10b5aa2f23d9e4e1!2sAshford+Circuit%2C+Petrie+QLD+4502!5e0!3m2!1sen!2sau!4v1406620130126" class="fancybox fancybox.iframe">Google Map</a>-->
+                    </dd>
+                    <dt>Phone</dt>
+                    <dd class="text-muted">{{club?.phone1 || club?.phone2}}</dd>
+                    <dt>URL</dt>
+                    <dd class="text-muted"><a [href]="club?.website ? club.website: '#'">{{club?.website?club.website:''}}</a></dd>
+                  </dl>
+
+                  <h4>More Details</h4>
+                  <dl>
+                    <dt>Scoring Format</dt>
+                    <dd class="text-muted">{{competition?.scoringFormat}}</dd>
+                    <dt>No. Of Round(s)</dt>
+                    <dd class="text-muted">{{details?.gameRounds.length}} ({{details?.gameRounds.length * 18 + ' holes'}})</dd>
+                  </dl>
+
+                  <!-- <div class="btn-group dropdown">
+                    <button type="button" class="btn btn-success">Register</button>
+                  </div> -->
+                </div>
+            </div>
+
+        </div>
+        <div class="col-xl-2 text-xs-center">
+          <ul>
+          <li><img src="assets/images/fj-myjoys.png" class="img-fluid" /></li>
+          <li><img src="assets/images/austads.gif" class="img-fluid" /></li>
+          <li><img src="assets/images/gigagolf.gif" class="img-fluid" /></li>
+        </ul>
+        </div>
+    </div>
+
+<!-- </div> -->

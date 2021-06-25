@@ -1,0 +1,126 @@
+<p-dataTable *ngIf = "displayMode==='table'" [value] = "groupedFlights" sortField = "sortField"
+        [rowStyleClass] = "rowStyleClass"
+        rowGroupMode = "rowspan" [style] = "{'margin-top':'5px'}">
+    <p-column field = "sortField" header = "Flight / Scorer" sortable = "true"
+            [style] = "{'width':'20%'}">
+        <ng-template let-player = "rowData" pTemplate = "body">
+            <span style = "font-weight: bold">
+                <div>{{player.flightNumber}} </div>
+                <div>{{player.scorerName}}</div>
+                <div *ngIf = "player.deviceId" [class.battery-ok] = "player.batteryLevel >= 60"
+                        [class.battery-low] = "player.batteryLevel < 60 && player.batteryLevel >= 35"
+                        [class.battery-critical] = "player.batteryLevel < 35">
+                    {{player.deviceName}} <span>({{player.batteryLevel}}%)</span>
+                </div>
+            </span>
+        </ng-template>
+    </p-column>
+    <p-column field = "playerName" header = "Player" [style] = "{'width':'30%'}" styleClass = "flight-monitor-column">
+        <ng-template let-player = "rowData" pTemplate = "body">
+            <span style = "text-decoration: underline;cursor: pointer;cursor: hand"
+                    [class.withdrawn] = "player.withdrawn"
+                    [class.submitted] = "player.submitted" (click) = "showPlayerScores($event, player)">
+                {{player.playerName}}
+            </span>
+        </ng-template>
+    </p-column>
+    <p-column field = "buggyNumber" header = "Buggy" [style] = "{'width':'10%'}" styleClass = "flight-monitor-column">
+        <ng-template let-player = "rowData" pTemplate = "body">
+            <span [class.withdrawn] = "player.withdrawn"
+                    [class.submitted] = "player.submitted">{{player.buggyNumber}}</span>
+        </ng-template>
+    </p-column>
+    <p-column field = "holesPlayed" header = "Holes" [style] = "{'width':'10%'}"
+            styleClass = "flight-monitor-column">
+        <ng-template let-player = "rowData" pTemplate = "body">
+            <span #totalHoles
+                    [class.withdrawn] = "player.withdrawn"
+                    [class.submitted] = "player.submitted"
+                    [class.blink] = "blinkOn">{{player.holesPlayed}}</span>
+        </ng-template>
+    </p-column>
+    <p-column field = "grossScore" header = "Gross" [style] = "{'width':'10%'}" styleClass = "flight-monitor-column">
+        <ng-template let-player = "rowData" pTemplate = "body">
+            <span #grossScore [class.withdrawn] = "player.withdrawn"
+                    [class.submitted] = "player.submitted" [class.blink] = "blinkOn">{{player.grossScore}}</span>
+        </ng-template>
+    </p-column>
+    <p-column header = "Current Hole" [style] = "{'width':'10%'}" styleClass = "flight-monitor-column">
+        <ng-template let-player = "rowData" pTemplate = "body">
+            <span #currentHole [class.withdrawn] = "player.withdrawn"
+                    [class.submitted] = "player.submitted" [class.blink] = "blinkOn">{{player.currentHole}}</span>
+        </ng-template>
+    </p-column>
+</p-dataTable>
+<p-dataGrid *ngIf = "displayMode === 'grid'" [value] = "byFlight" styleClass = "noheader-grid">
+    <ng-template let-flight pTemplate = "item">
+        <div class="ui-md-12 ui-lg-6">
+            <p-dataTable [value] = "flight.players" sortField = "scorerName" rowGroupMode = "rowspan">
+                <p-header>
+                    <div style = "text-align: center" class = "flight">Flight: <b>{{flight.flight}}</b></div>
+                </p-header>
+                <p-column header = "Player" (click) = "showPlayerScores($event, player)"
+                        [style] = "{'width':'30%'}" styleClass = "align-left flight-monitor-column">
+                    <ng-template let-player = "rowData" pTemplate = "body">
+                        <span (click) = "showPlayerScores($event, player)"
+                                style = "text-decoration: underline;cursor:hand;cursor: pointer">
+                            {{player.playerName}}
+                        </span>
+                    </ng-template>
+                </p-column>
+                <p-column header = "Buggy" field = "buggy" [style] = "{'width': '5%'}" styleClass = "align-left flight-monitor-column">
+                </p-column>
+                <p-column header = "Total" [style] = "{'width':'5%'}" styleClass = "align-right flight-monitor-column">
+                    <ng-template let-player = "rowData" pTemplate = "body">
+                        <span [class.withdrawn] = "player.withdrawn"
+                                [class.submitted] = "player.submitted"
+                                [class.blink] = "blinkOn">{{player.holesPlayed}}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header = "Score" [style] = "{'width':'5%'}" styleClass = "align-right flight-monitor-column">
+                    <ng-template let-player = "rowData" pTemplate = "body">
+                        <span [class.withdrawn] = "player.withdrawn"
+                                [class.submitted] = "player.submitted"
+                                [class.blink] = "blinkOn">{{player.grossScore}}</span>
+                    </ng-template>
+                </p-column>
+                <p-column header = "Last Hole" [style] = "{'width':'5%'}" styleClass = "align-right flight-monitor-column">
+                    <ng-template let-player = "rowData" pTemplate = "body">
+                        <span [class.withdrawn] = "player.withdrawn"
+                                [class.submitted] = "player.submitted"
+                                [class.blink] = "blinkOn">{{player.lastHoleScored}}</span>
+                    </ng-template>
+                </p-column>
+                <p-column field = "scorerName" header = "Scorer" [style] = "{'width':'20%'}" styleClass = "align-left flight-monitor-column">
+                    <ng-template let-player = "rowData" pTemplate = "body">
+                        <div>{{player.scorerName}}</div>
+                        <div *ngIf = "player.deviceName">{{player.deviceName}}
+                            <span *ngIf = "player?.batteryLevel" class = "battery-level" style = "float: right"
+                                    [class.blink] = "blinkOn"
+                                    [class.battery-ok] = "player.batteryLevel >= 60"
+                                    [class.battery-low] = "player.batteryLevel < 60 && player.batteryLevel >= 35"
+                                    [class.battery-critical] = "player.batteryLevel < 35">{{player.batteryLevel}}%</span>
+                        </div>
+                    </ng-template>
+                </p-column>
+            </p-dataTable>
+        </div>
+
+    </ng-template>
+</p-dataGrid>
+<p-overlayPanel #playerScoreOverlay
+        [showCloseIcon] = "true"
+        [style] = "{'maxWidth': '600px'}">
+    <p-dataTable [value] = "playerScores">
+        <p-column field = "nine" header = "nine" [style] = "{'textAlign': 'center'}"></p-column>
+        <p-column field = "1" header = "1" [style] = "{'textAlign': 'center'}"></p-column>
+        <p-column field = "2" header = "2" [style] = "{'textAlign': 'center'}"></p-column>
+        <p-column field = "3" header = "3" [style] = "{'textAlign': 'center'}"></p-column>
+        <p-column field = "4" header = "4" [style] = "{'textAlign': 'center'}"></p-column>
+        <p-column field = "5" header = "5" [style] = "{'textAlign': 'center'}"></p-column>
+        <p-column field = "6" header = "6" [style] = "{'textAlign': 'center'}"></p-column>
+        <p-column field = "7" header = "7" [style] = "{'textAlign': 'center'}"></p-column>
+        <p-column field = "8" header = "8" [style] = "{'textAlign': 'center'}"></p-column>
+        <p-column field = "9" header = "9" [style] = "{'textAlign': 'center'}"></p-column>
+    </p-dataTable>
+</p-overlayPanel>

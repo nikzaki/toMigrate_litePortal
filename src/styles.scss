@@ -1,0 +1,200 @@
+/* You can add global styles to this file, and also import other style files */
+@import "../node_modules/compass-mixins/lib/compass";
+@import "../node_modules/compass-mixins/lib/compass/css3/box-sizing";
+@import "assets/colors/sass-material-colors";
+@import "../node_modules/bootstrap/scss/mixins";
+@import "../node_modules/bootstrap/scss/functions";
+@import "../node_modules/bootstrap/scss/variables";
+$topbarHeight: 50px;
+
+.splash-screen {
+  background-color: #2E7D32;
+
+  .logo {
+    display: inline-block;
+    vertical-align: middle;
+    width: 229px;
+    height: 54px;
+    // background: url('assets/images/mygolf2u_logo.png') top left no-repeat;
+    background: url("assets/images/new_mygolf2u_logo.png") top left no-repeat;
+    background-size: 229px 54px;
+  }
+}
+
+.card {
+  padding: 0.3em;
+
+  &.card-w-title {
+    padding-bottom: 0.5em;
+  }
+}
+
+.ui-inputgroup {
+  .ui-inputgroup-addon {
+    border-color: #bdbdbd;
+    border-style: none;
+    border-bottom-style: solid;
+  }
+}
+
+input[type="search"] {
+  -webkit-appearance: none;
+}
+
+.hidden {
+  display: none !important;
+}
+
+.ng-busy-default-wrapper {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ui-button {
+  &.ui-button-icon-only {
+    &.ui-button-rect {
+      border-radius: 5%;
+    }
+  }
+}
+
+.layout-wrapper.layout-compact {
+  .layout-container {
+    .ultima-menu li a i:last-child {
+      font-size: 1.5rem !important;
+    }
+  }
+}
+
+.layout-container {
+  .topbar {
+    height: $topbarHeight;
+
+    .topbar-left {
+      cursor: pointer;
+      cursor: hand;
+      background-color: #fff;
+      padding-top: ($topbarHeight - 40px);
+      height: $topbarHeight;
+
+      .logo {
+        background: url('assets/images/mygolf2uLogo.png') top left no-repeat;
+        background-size: 200px 30px;
+      }
+    }
+
+    .topbar-right {
+      padding-top: ($topbarHeight - 45px);
+      margin-left: 200px;
+
+      #topbar-menu-button {
+        top: 3px;
+      }
+    }
+  }
+
+  .layout-menu {
+    top: $topbarHeight;
+  }
+
+  .layout-main {
+    padding: ($topbarHeight + 5px) 0 0 0;
+  }
+
+  .footer {
+    padding: 0.5em 0;
+  }
+
+  .ultima-menu li a i:last-child {
+    font-size: 1.7rem !important;
+  }
+}
+
+.vertical-align-center {
+  display: flex;
+  align-items: center;
+}
+
+.topbar-items {
+  .login-item {
+    float: left;
+
+    input {
+      background-color: transparent;
+      border-width: 0 0 1px 0;
+      padding: 2px 2px 1px;
+      border-color: #ffffff;
+      color: #ffffff;
+
+      &:focus {
+        outline: 0 none;
+        border-bottom-width: 2px;
+      }
+    }
+
+    input:focus ~ label {
+      top: -5px;
+      font-size: 12px;
+    }
+
+    .login-icon {
+      font-size: 24px !important;
+    }
+
+    input.ui-state-filled ~ label {
+      display: none;
+    }
+
+    label {
+      color: #ffffff;
+      left: 35px;
+    }
+  }
+}
+@media (min-width: 1025px) {
+  .login-link-item {
+    display: none;
+  }
+
+  .layout-container {
+    .topbar-items {
+      > li.login-item {
+        float: left;
+      }
+    }
+
+    &.menu-layout-horizontal {
+      .layout-menu {
+        top: $topbarHeight;
+      }
+    }
+  }
+}
+@media (max-width: 1024px) {
+  .login-item {
+    display: none;
+  }
+}
+//Small Screen
+@media screen and (max-width: 40em) {
+  .ui-sm-hide {
+    display: none;
+  }
+}
+//Mediuam Screen
+@media screen and (min-width: 40.063em) {
+  .ui-md-hide {
+    display: none;
+  }
+}
+@media screen and (min-width: 64.063em) {
+  .ui-lg-hide {
+    display: none;
+  }
+}
+
+.mat-headline {
+  margin-top: 16px;
+}

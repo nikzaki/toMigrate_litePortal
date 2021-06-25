@@ -1,0 +1,130 @@
+<div class = "ui-g ui-fluid">
+    <div class = "ui-g-12 card card-w-title">
+        <h3>Advertisement Details</h3>
+        <div class = "ui-g form-group">
+            <div class = "ui-g-12">
+                <div class = "md-inputfield">
+                    <div class="ui-inputgroup">
+                        <b class="ui-inputgroup-addon">Name:</b>
+                        <input type = "text" pInputText [formControl] = "name" [readonly] = "mode === 'short'">
+                    </div>
+                    <div [hidden] = "name.valid || name.untouched">
+                        <div [class.hidden] = "!name.hasError('required')"
+                                class = "ui-message ui-messages-error ui-corner-all">
+                            Advertisement name is mandatory
+                        </div>
+                        <div [class.hidden] = "!name.hasError('minlength')"
+                                class = "ui-message ui-messages-error ui-corner-all">
+                            Advertisement name cannot be shorter than 5 character
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class = "ui-g-12">
+                <span class = "md-inputfield">
+                    <div class="ui-inputgroup">
+                        <b class="ui-inputgroup-addon">Company</b>
+                        <input type = "text" pInputText [formControl] = "companyName" [readonly] = "mode === 'short'">
+
+                    </div>
+                    <div [hidden] = "companyName.valid || companyName.untouched">
+                        <div [class.hidden] = "!companyName.hasError('required')" class = "ui-message ui-messages-error ui-corner-all">
+                            Company name is mandatory
+                        </div>
+                        <div [class.hidden] = "!companyName.hasError('minlength')" class = "ui-message ui-messages-error ui-corner-all">
+                            Company name cannot be shorter than 3 character
+                        </div>
+                    </div>
+                </span>
+            </div>
+            <div class = "ui-g-12">
+                <div class="ui-inputgroup">
+                    <b class="ui-inputgroup-addon">Website</b>
+                    <input type = "url" pInputText [formControl] = "externalUrl" [readonly] = "mode === 'short'">
+                </div>
+
+            </div>
+            <div *ngIf = "advertisement && mode === 'edit'" class = "ui-g-12 ui-md-3">Active ?</div>
+            <div *ngIf = "advertisement && mode === 'edit'" class = "ui-g-12 ui-md-9">
+                <p-checkbox [binary] = "true" [formControl] = "active"></p-checkbox>
+            </div>
+            <ng-container *ngIf = "mode !== 'short'">
+                <div class = "ui-g-12 ui-md-3">Active From</div>
+                <div class = "ui-g-12 ui-md-3">
+                    <p-calendar [formControl] = "startDate" dateFormat = "dd-M-yy" [showIcon] = "true"></p-calendar>
+                </div>
+                <div class = "ui-g-12 ui-md-2">Until</div>
+                <div class = "ui-g-12 ui-md-4">
+                    <p-calendar [formControl] = "endDate" dateFormat = "dd-M-yy" [showIcon] = "true"></p-calendar>
+                </div>
+            </ng-container>
+            <div class = "ui-g-12 ui-md-3">Display Length</div>
+            <div class = "ui-g-12 ui-md-3">
+                <p-spinner [formControl] = "displayPeriod" [min] = "1" [max] = "4"></p-spinner>
+            </div>
+            <div class = "ui-g-12 ui-md-3">Display Rank</div>
+            <div class = "ui-g-12 ui-md-3">
+                <p-spinner [formControl] = "rank" [min] = "1" [max] = "100"></p-spinner>
+            </div>
+            <ng-container *ngIf = "mode !== 'short'">
+                <div class = "ui-g-12 ui-md-3">
+                    Portal Use
+                </div>
+                <div class = "ui-g-12 ui-md-4">
+                    <p-checkbox name = "useIn" value = "PG" label = "Portal" [formControl] = "useIn"
+                            pTooltip = "Use in portal except competition specific screens"></p-checkbox>
+                </div>
+                <div class = "ui-g-12 ui-md-5">
+                    <p-checkbox name = "useIn" value = "PC" label = "Competition (Portal)"
+                            pTooltip = "Use in competition specific pages in portal"
+                            [formControl] = "useIn"></p-checkbox>
+                </div>
+                <div class = "ui-g-12 ui-md-3">
+                    APP Use
+                </div>
+                <div class = "ui-g-12 ui-md-4">
+                    <p-checkbox name = "useIn" value = "AG" label = "APP" [formControl] = "useIn"
+                            pTooltip = "Use in APP except competition specific screens"></p-checkbox>
+                </div>
+                <div class = "ui-g-12 ui-md-5">
+                    <p-checkbox name = "useIn" value = "AC" label = "Competition (APP)"
+                            pTooltip = "Use in competition specific pages in APP and scorer"
+                            [formControl] = "useIn"></p-checkbox>
+                </div>
+            </ng-container>
+            <ng-container *ngIf = "mode==='create'">
+                <div class = "ui-g-12">
+                    Select an image for this advertisement
+                </div>
+                <div class = "ui-g-12">
+                    <p-fileUpload #imageFileUpload [customUpload] = "true" (onSelect) = "onSelect($event)"
+                            [showUploadButton] = "false"
+                            accept = "image/*"></p-fileUpload>
+                </div>
+            </ng-container>
+            <ng-container *ngIf = "mode==='edit'">
+                <div class = "ui-g-3">
+                    <img [src] = "advertisement?.imageUrl" style = "max-width: 100px;max-height: 100%">
+                </div>
+                <div class = "ui-g-9">
+                    <p-fileUpload #imageFileUpload [customUpload] = "true" (onSelect) = "onSelect($event)"
+                            [showUploadButton] = "false"
+                            accept = "image/*"></p-fileUpload>
+                </div>
+            </ng-container>
+            <div *ngIf = "showButtons" class = "ui-g-12 button-panel ui-fluid">
+                <button *ngIf = "mode==='create'" pButton label = "Create" icon = "save"
+                        (click) = "onCreateClick($event)"
+                        class = "ui-button-success"></button>
+                <button *ngIf = "mode==='edit' || mode === 'short'" pButton label = "Update" icon = "save"
+                        (click) = "onUpdateClick($event)"
+                        class = "ui-button-success"></button>
+                <button *ngIf = "mode==='create'" pButton label = "Clear" icon = "delete"
+                        (click) = "onClear()"
+                        class = "ui-button-danger"></button>
+            </div>
+        </div>
+    </div>
+</div>
+
+

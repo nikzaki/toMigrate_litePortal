@@ -1,0 +1,139 @@
+<div class="card card-w-title dashboard">
+    <h2 style="text-align: center;">Details for {{competition?.competitionName}}</h2>
+    <section *ngIf="competition">
+        <div  class="ui-g">
+            <div class="ui-g-3 ui-md-1 vertical-align-center">
+                <img [src]="competition.imageUrl?competition.imageUrl:competition.thumbnail"
+                        style="height:60px;width: 60px"
+                        onerror="this.src='assets/images/default_competition.png'">
+            </div>
+            <div class="ui-g-9 ui-md-11">
+                <div class="ui-g">
+                    <p class="ui-g-12">
+                        Competition <b>{{competition.competitionName}}</b> organized by
+                        <b>{{competition.organizerName || competition.clubName}}</b>
+                        between <b>{{competition.startDate|date:'mediumDate'}}</b> and
+                        <b>{{competition.endDate|date:'mediumDate'}}</b>
+                        at club <b>{{competition.clubName}}({{competition.clubTag}})</b>.<br/>
+                        <b *ngIf="competition.teamEvent">This is a team event</b>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <md-tab-group *ngIf="competition && details">
+        <!--<md-tab label="Details">-->
+            <!--<div  class="ui-g">-->
+                <!--<div class="ui-g-3 ui-md-1">-->
+                    <!--<img [src]="competition.imageUrl?competition.imageUrl:competition.thumbnail"-->
+                            <!--style="height:60px;width: 60px"-->
+                            <!--onerror="this.src='assets/images/default_competition.png'">-->
+                <!--</div>-->
+                <!--<div class="ui-g-9 ui-md-11">-->
+                    <!--<div class="ui-g">-->
+                        <!--<p class="ui-g-12">-->
+                            <!--Competition <b>{{competition.competitionName}}</b> organized by <b>{{competition.organizerName}}</b>-->
+                            <!--between <b>{{competition.startDate|date:'mediumDate'}}</b> and-->
+                            <!--<b>{{competition.endDate|date:'mediumDate'}}</b>-->
+                            <!--at club <b>{{competition.clubName}}({{competition.clubTag}})</b>.<br/>-->
+                            <!--<b *ngIf="competition.teamEvent">This is a team event</b>-->
+                        <!--</p>-->
+                        <!--&lt;!&ndash;<div class="ui-g-3 label">Competition Name</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="ui-g-9">{{competition.competitionName}}</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="ui-g-3 label">Held Between</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="ui-g-9">{{competition.startDate|date:'mediumDate'}} and&ndash;&gt;-->
+                            <!--&lt;!&ndash;{{competition.endDate|date:'mediumDate'}}</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="ui-g-3 label">Held At</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="ui-g-9">{{competition.clubName}} ({{competition.clubTag}})</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="ui-g-3 label">Organized By</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="ui-g-9">{{competition.organizerName}}</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div *ngIf="competition.teamEvent" class="ui-g-3"></div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div *ngIf="competition.teamEvent" class="ui-g-9 label">This is a team event</div>&ndash;&gt;-->
+                    <!--</div>-->
+                <!--</div>-->
+
+            <!--</div>-->
+        <!--</md-tab>-->
+        <md-tab label="Rounds">
+            <md-card>
+                <md-card-content>
+                    <md-table [dataSource]="roundDataSource">
+                        <ng-container mdColumnDef="roundNo">
+                            <md-header-cell *mdHeaderCellDef [style]="{'width':'10%'}">Round</md-header-cell>
+                            <md-cell *mdCellDef="let round">{{round.roundNo}} </md-cell>
+                        </ng-container>
+                        <ng-container mdColumnDef="courseNames">
+                            <md-header-cell *mdHeaderCellDef>Courses</md-header-cell>
+                            <md-cell *mdCellDef="let round">{{round.courseNames}} </md-cell>
+                        </ng-container>
+                        <ng-container mdColumnDef="roundDate">
+                            <md-header-cell *mdHeaderCellDef>Held On</md-header-cell>
+                            <md-cell *mdCellDef="let round">{{round.roundDate|date:'mediumDate'}} </md-cell>
+                        </ng-container>
+                        <ng-container mdColumnDef="status">
+                            <md-header-cell *mdHeaderCellDef>Status</md-header-cell>
+                            <md-cell *mdCellDef="let round"
+                                    [class.inprogess-text-bold]="round.status === 'InProgress'"
+                                    [class.completed-text-bold]="round.status === 'Completed'">{{round.status }} </md-cell>
+                        </ng-container>
+                        <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+                        <md-row *mdRowDef="let round; columns: displayedColumns;"></md-row>
+                    </md-table>
+                </md-card-content>
+            </md-card>
+
+        </md-tab>
+        <md-tab label="Players">
+            <competition-player-list
+                    *ngIf="details?.players && details?.players.length"
+                    [competition]="competition"
+                    [teams]="teams?.competitionTeams"
+                    [competitionPlayers]="details.players"
+                    [grouped]="true"></competition-player-list>
+            <div *ngIf="!details || !details.players || !details.players.length"
+                class="missing-data">No players registered to this competition</div>
+        </md-tab>
+        <md-tab label="Sponsors">
+            <sponsor-list *ngIf="details && details.sponsors && details.sponsors.length"
+                    [sponsors]="details.sponsors"></sponsor-list>
+            <div *ngIf="!details || !details.sponsors || !details.sponsors.length"
+                    class="missing-data">No sponsors for this competition</div>
+        </md-tab>
+        <md-tab label="Prizes">
+            <prize-list [prizeList]="details.prizes" [showHeader]="false"></prize-list>
+        </md-tab>
+    </md-tab-group>
+
+    <!--<div class="ui-g-12">-->
+        <!--<div *ngIf="competition" class="card ui-fluid">-->
+            <!--<h3 i18n="Basic Competition Info|Title for the section displaying basic competition infor@@compBasicInfoHeader">-->
+                <!--Basic Information-->
+            <!--</h3>-->
+            <!---->
+        <!--</div>-->
+        <!--<div *ngIf="details && details.gameRounds && details.gameRounds.length" class="card ui-fluid">-->
+            <!--<h3 i18n="Competition Rounds Header| Title for section displaying competition rounds@@compRoundListHeader">-->
+                <!--Competition Rounds-->
+            <!--</h3>-->
+        <!--</div>-->
+        <!--<div *ngIf="details && details.players && details.players.length" class="card ui-fluid">-->
+            <!--<h3 i18n="Players Registered Header| Title of players registered in a competition@@playersRegisteredHeader">-->
+                <!--Players Registered-->
+            <!--</h3>-->
+            <!---->
+        <!--</div>-->
+        <!--<div *ngIf="details && details.sponsors && details.sponsors.length" class="card ui-fluid">-->
+            <!--<h3 i18n="Competition Sponsors|Title for the @@compSponsorListHeader">-->
+                <!--Competition Sponsors-->
+            <!--</h3>-->
+            <!---->
+        <!--</div>-->
+        <!--<div *ngIf="details && details.prizes && details.prizes.length" class="card ui-fluid">-->
+            <!--<h3>Competition Prizes</h3>-->
+            <!---->
+        <!--</div>-->
+    <!--</div>-->
+</div>
+<div [ngBusy]="busy" class="loading"></div>
+

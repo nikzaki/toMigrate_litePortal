@@ -1,0 +1,140 @@
+<ng-container *ngIf = "competition.considerScoreType==='O'">
+</ng-container>
+<ng-container *ngIf = "competition.considerScoreType==='R'">
+    <section style = "padding: 20px 10px">
+        <section class = "mat-typography" style = "padding: 10px 5px"
+                fxLayout = "row wrap"
+                fxLayoutGap = "10px"
+                fxLayout.lt-sm = "column nowrap"
+                [class.professional] = "colorSet === 'professional'"
+                [class.amateur] = "colorSet === 'amateur'">
+            <section fxFlex = "0 1 auto">
+                <!--<label>View By</label>-->
+                <md-radio-group [(ngModel)] = "view">
+                    <md-radio-button value = "round">View By Round</md-radio-button>
+                    <md-radio-button value = "overall">View Overall</md-radio-button>
+                </md-radio-group>
+            </section>
+            <ng-container *ngIf = "view === 'round'">
+                <section fxFlex = "1 1 auto" *ngIf = "roundScores && roundScores.length > 1">
+                    <label style = "margin-right: 10px">Round</label>
+                    <md-radio-group [(ngModel)] = "selectedRound">
+                        <md-radio-button *ngFor = "let round of roundScores" style = "margin-right: 10px"
+                                [value] = "round.roundNumber">{{round.roundNumber}}
+                        </md-radio-button>
+                    </md-radio-group>
+                </section>
+            </ng-container>
+            <legend-display fxFlex = "0 1 auto" [items] = "scoreLegends" *ngIf = "view ==='round'"
+                    icon = "bookmark"
+                    displayMode = "horizontal"></legend-display>
+        </section>
+        <ng-container *ngIf = "view==='round'">
+            <div *ngFor = "let round of roundScores" class = "mat-elevation-z4">
+                <p-dataTable *ngIf = "round.roundNumber === selectedRound"
+                        sortField = "sequence" rowGroupMode = "rowspan"
+                        [value] = "playerScoreDisplay(round.playerScores)"
+                        [rowStyleClass] = "deriveRowClass"
+                        [styleClass] = "'accent-table '+colorSet">
+                    <p-column header = "Player" field = "sequence"
+                            [style] = "{'width': '20%','textAlign': 'left'}">
+                        <ng-template let-row = "rowData" pTemplate = "body">
+                            <div *ngIf = "row.rowType !== 'Par'"
+                                    fxLayout = "row nowrap"
+                                    fxLayoutGap = "10px"
+                                    fxLayoutAlign = "space-between center">
+                                <img fxFlex = "0 0 40px" [src] = "row.image || 'assets/images/default_user.png'"
+                                        style = "width:40px;margin-right: 5px"
+                                        onerror = "this.src='assets/images/default_user.png'">
+                                <div fxFlex = "1 1 auto" style = "white-space: normal">{{row.playerName}}</div>
+                                <i fxFlex = "0 0 20px" class = "material-icons" style = "color:#FDD835"
+                                        *ngIf = "row.qualified && row.rowType !== 'Par'">start_rate</i>
+                            </div>
+                        </ng-template>
+                    </p-column>
+                    <p-column field = "rowType" [style] = "{'width': '5%'}"></p-column>
+                    <p-column *ngFor = "let col of firstNineCols" [header] = "col.header">
+                        <ng-template let-colum let-row = "rowData" pTemplate = "body">
+                            <div [class] = "getScoreClass(row, col.header)">
+                                {{row.rowType==='(+/-)'?(row[col.field]|topar):row[col.field]}}
+                            </div>
+                        </ng-template>
+                    </p-column>
+                    <p-column header = "OUT" field = "out" styleClass = "total-col out-total"></p-column>
+                    <p-column *ngFor = "let col of secondNineCols" [header] = "col.header">
+                        <ng-template let-colum let-row = "rowData" pTemplate = "body">
+                            <div [class] = "getScoreClass(row, col.header)">
+                                {{row.rowType==='(+/-)'?(row[col.field]|topar):row[col.field]}}
+                            </div>
+                        </ng-template>
+                    </p-column>
+                    <p-column header = "IN" field = "in" styleClass = "total-col in-total"></p-column>
+                    <p-column header = "TOT" field = "tot" styleClass = "total-col overall-total"></p-column>
+                </p-dataTable>
+            </div>
+        </ng-container>
+        <ng-container *ngIf = "view==='overall'">
+            <p-dataTable [value] = "coachView"
+                    [rowStyleClass] = "getCoachViewRowClass"
+                    styleClass = "accent-table">
+                <p-headerColumnGroup>
+                    <p-row>
+                        <p-column rowspan = "2" header = "Player"
+                                [style] = "{'width':'30%','textAlign': 'left'}"></p-column>
+                        <p-column rowspan = "2" header = "(+/-)"></p-column>
+                        <p-column rowspan = "1" colspan = "2" *ngFor = "let round of rounds"
+                                [header] = "'R'+round.roundNo"></p-column>
+                        <p-column rowspan = "2" header = "Total"></p-column>
+                    </p-row>
+                    <p-row>
+                        <ng-container *ngFor = "let round of rounds">
+                            <p-column header = "(+/-)"></p-column>
+                            <p-column header = "score"></p-column>
+                        </ng-container>
+                    </p-row>
+                </p-headerColumnGroup>
+                <p-column header = "Player" field = "playerName" [style] = "{'width':'30%','textAlign': 'left'}">
+                    <ng-template let-row = "rowData" pTemplate = "body">
+                        <div class = "vertical-align-center">
+                            <img [src] = "row.image||'assets/images/default_user.png'" style = "height: 30px"
+                                    onerror = "this.src='assets/images/default_user.png'">
+                            <span>{{row.playerName}}</span>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column header = "(+/-)" field = "toParTotal" styleClass = "topar-total-column">
+                    <ng-template let-row="rowData" pTemplate="body">
+                        {{row.toParTotal | topar}}
+                    </ng-template>
+                </p-column>
+                <ng-container *ngFor = "let round of rounds">
+                    <p-column [header] = "'R'+round.roundNo" styleClass="topar-column">
+                        <ng-template let-row = "rowData" pTemplate = "body">
+                            <div class = "vertical-align-center"
+                                    style = "text-align: center;justify-content: center">
+                                <span [class.qualified] = "row['q'+round.roundNo] && !row['totals']"
+                                        [class.unqualified] = "!row['q'+round.roundNo] && !row['totals']">
+                                    {{row['g'+round.roundNo] | topar}}
+                                </span>
+                            </div>
+                        </ng-template>
+                    </p-column>
+                    <p-column [header] = "'R'+round.roundNo" styleClass="score-column">
+                        <ng-template let-row = "rowData" pTemplate = "body">
+                            <div class = "vertical-align-center"
+                                    style = "text-align: center;justify-content: center">
+                                <span [class.qualified] = "row['q'+round.roundNo] && !row['totals']"
+                                        [class.unqualified] = "!row['q'+round.roundNo] && !row['totals']">
+                                    {{row['gt'+round.roundNo]}}
+                                </span>
+
+                            </div>
+                        </ng-template>
+                    </p-column>
+                </ng-container>
+                <p-column header = "Total" field = "grossTotal" styleClass="score-total-column"></p-column>
+            </p-dataTable>
+        </ng-container>
+    </section>
+</ng-container>
+

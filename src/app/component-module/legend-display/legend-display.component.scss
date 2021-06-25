@@ -1,0 +1,25 @@
+legend-display {
+    .legend {
+
+        .legend-item{
+            display: inline-flex;
+        }
+        &.vertical {
+            .legend-item {
+                display: flex;
+            }
+        }
+        .legend-item {
+            align-items: center;
+            margin-left: 5px;
+            &:first-child {
+                margin-left: 0px;
+            }
+            .item-icon {
+                display: inline-block;
+                height: 16px;width:16px;
+            }
+
+        }
+    }
+}

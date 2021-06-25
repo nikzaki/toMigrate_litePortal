@@ -1,0 +1,562 @@
+<div [ngBusy]="busyConfig"></div>
+<section *ngIf="!embedded" class="mat-typography" fxLayout="row nowrap" fxLayout.lt-sm="column nowrap"
+    fxLayoutAlign="space-between" style="margin-top:1.5em">
+
+    <!-- <div fxFlex [ngClass.lt-sm]="'mat-subheading-2 heading-xs'" class="mat-headline vertical-align-center heading">
+        <img class="mx-auto d-block img-fluid"  *ngIf="compDetails"
+            style="max-width: 24vh"
+            [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''">
+             
+        <img *ngIf="competition"  style="height:5em; margin-right: 10px; min-width: 7em"
+            [src]="competition.thumbnail?competition.thumbnail:competition.imageUrl"
+            onerror="this.src='assets/images/default_competition.png'">
+            <!-- [fxHide.xs]="true" -->
+        <!-- {{competition?.competitionName}} -->
+    <!-- </div> -->
+    <div class="card-title ui-g align-items-center" *ngIf="competition">
+            <div class="ui-md-3" *ngIf="compDetails">
+                <img class="mx-auto d-block img-fluid"
+                style="max-width: 24vh; max-height: 48vh"
+                [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''">
+                            <!-- [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:'assets/images/MALGA_logo.png'" -->
+                <!-- fxFlex="0 1 12vh" -->
+                <!-- *ngIf="compDetails&&compDetails.sponsors[0]" -->
+                <!-- [src]="competition && competition.imageUrl?competition.imageUrl:'assets/images/default_competition.png'" -->
+        </div>
+          <div class="ui-md-3" >
+            <img class="mx-auto d-block img-fluid lb-logo"
+                    [src]="competition && competition.imageUrl?competition.imageUrl:'assets/images/default_competition.png'"
+                    onerror="assets/images/default_competition.png">
+          </div>
+          <div class="ui-g-12 vertical-align-center competition-name">
+            <h1 class="mga-font">{{competition?.competitionName}}</h1>
+          </div>
+          <div *ngIf="competition.status == 'In Progress'" class="ui-md-12 ui-sm-12 vertical-align-center competition-name">
+            <p class="under-par" style="font-style: italic; padding-left: 1em;">*** Competition is still in progress</p>
+          </div>
+        </div>
+
+</section>
+
+<leaderboard-settings #settingsComp [competition]="competition" [teamLeaderBoard]="false" [hideColorSet]="true"
+    [settings]="settings" (settingsChange)="onLeaderboardSettingsChange($event)"
+    [styleClass]="showSettings && !fullScreen?'show-settings':'hide-settings'" [totalPlayers]="totalPlayers"
+    [scrollPaused]="pauseScroll || paused" (onNextPage)="nextPage($event)" (onRefresh)="refresh($event)"
+    [details]="compDetails">
+</leaderboard-settings>
+<!-- <p *ngIf="!showSettings">You can change settings by clicking on <md-icon (click)="onToggleShowSettings()" class="mdi mdi-settings"></md-icon> icon.</p> -->
+<section *ngIf="!embedded" class="mat-typography" fxLayout="row nowrap" fxLayout.lt-sm="column nowrap"
+fxLayoutAlign="space-between" style="margin-top:1.5em">
+        <div fxFlex="0 0 auto" fxFlex.lt-sm="1 1 auto" fxLayoutAlign.lt-sm="end">
+                <button md-icon-button mdTooltip="View Leaderboard in full screen view" color="primary"
+                    (click)="enterFullScreen()">
+                    <md-icon class="mdi mdi-fullscreen"></md-icon>
+                </button>
+                <button md-icon-button [mdTooltip]="showSettings?'Hide Settings':'Show Settings'"
+                    [color]="showSettings?'warn':'primary'" (click)="onToggleShowSettings()">
+                    <md-icon class="mdi mdi-settings"></md-icon>
+                </button>
+                <button md-icon-button mdTooltip="Change column visibility" color="primary" (click)="visibilityDialog=true">
+                    <md-icon class="mdi mdi-eye"></md-icon>
+                </button>
+            </div>
+</section>
+<div *ngIf="refreshParams && showAutoScrollDetail()" fxLayout="row nowrap" fxLayoutGap="30px" fxLayout.lt-sm="10px"
+    fxLayoutAlign="center center" class="mat-typography">
+    <div fxFlex="0 1 auto" class="mat-title" (click)="toggleDialog(true)">
+        Round : {{refreshParams.round.roundNo?refreshParams.round.roundNo:'All'}}
+    </div>
+    <div fxFlex="0 1 auto" class="mat-title" *ngIf="refreshParams.category.categoryName">
+        Category: {{refreshParams.category.categoryName}}
+    </div>
+    <div fxFlex="0 1 auto" class="mat-title">
+        By: {{refreshParams.scoreType === 'gross'?'Gross':'Net'}} Score
+    </div>
+</div>
+<section #leaderboardSection class="competition-leaderboard">
+
+    <section class="fullscreen-header">
+        <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-between center">
+            <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="10px" fxLayoutAlign="space-evenly center">
+                <!-- style="margin-left: -100px" -->
+                <img class="comp-logo" fxFlex="0 0 auto" *ngIf="competition"
+                    [src]="competition.thumbnail?competition.thumbnail:competition.imageUrl"
+                    onerror="this.src='assets/images/default_competition.png'">
+                <span class="mat-display-1 comp-name" style="text-align: center"
+                    fxFlex="0 0 auto">{{competition?.competitionName}}</span>
+                <ng-container *ngIf="competition&&!competition.teamEvent">
+                    <img class="m2u-logo" fxFlex="0 1 16vw" src="assets/images/mygolf2uLogo.png">
+                    </ng-container>
+
+            </div>
+            <div fxFlex="0 0 auto" *ngIf="refreshParams" fxLayout="row nowrap" fxLayoutGap="30px"
+                fxLayoutAlign="center center" class="mat-typography">
+
+                <ng-container *ngIf="competition?.totalRounds>1">
+                    <div fxFlex="1 1 22vw" class="mat-title" (click)="toggleDialog(true)">
+                        Round : {{refreshParams.round.roundNo?refreshParams.round.roundNo:'All'}}<br>
+                        <span *ngIf="refreshParams.category.categoryName">Category:
+                            {{refreshParams.category.categoryName}}</span><br>
+                        By: {{refreshParams.scoreType === 'gross'?'Gross':'Net'}} Score
+                    </div>
+                </ng-container>
+                <!-- <div fxFlex="0 1 auto" class="mat-title" >
+
+                </div>
+                <div fxFlex="0 1 auto" class="mat-title" >
+
+                </div> -->
+            </div>
+        </div>
+        <scoring-notifications [notifications]="scoringNotifications|async"></scoring-notifications>
+    </section>
+    <!--<div *ngIf="autoScroll && !fullScreen">Showing Page <b>{{currentPage}} of {{totalPages}}</b></div>-->
+    <p-dataTable [hidden]="true" [value]="topNplayersDisplay" #topNleaderboard styleClass="primary-table" class="main-table">
+            <p-headerColumnGroup>
+                    <p-row>
+                        <p-column expander="true" header="" rowspan="2" [style]="{'width':'3%'}" [hidden]="isExpanderHidden()"></p-column>
+                        <p-column header="Pos" [hidden]="isColumnHidden('position')" rowspan="2" [style]="{'width':'5%'}">
+                        </p-column>
+                        <p-column header="Hcp" rowspan="2" [hidden]="isColumnHidden('handicap') || isMobileScreen()"
+                            [style]="{'width':'5%'}"></p-column>
+                        <p-column header="Player" rowspan="2" [style]="{'width':'24%'}"></p-column>
+                        <p-column header="Nationality" rowspan="2" [hidden]="competition?.teamEvent || isColumnHidden('nationality')"
+                            [style]="{'width': '10%'}">
+                        </p-column>
+                        <p-column header="Team" rowspan="2" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')"
+                            [style]="{'width': '14%'}">
+                        </p-column>
+                        <p-column header="(+/-)" rowspan="2" [style]="{'width':'5%'}"></p-column>
+                        <p-column header="On" rowspan="2" [hidden]="isColumnHidden('on')|| isMobileScreen()"
+                            [style]="{'width':'3%'}"></p-column>
+                            <!-- || isMobileScreen() -->
+                        <p-column header="Thru" rowspan="2" [hidden]="isColumnHidden('thru')"
+                            [style]="{'width':'5%'}"></p-column>
+                        <p-column colspan="{{colspan()}}" header="Gross" [hidden]="isGrossHidden()" styleClass="gross-column"
+                            [style]="{'width':'15%'}">
+                        </p-column>
+                        <!-- && competition.scoringFormat === 'Stableford' -->
+                        <p-column [header]="competition?deriveScoringFormat():'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-column"
+                            [style]="{'width':'15%'}"></p-column>
+                        <!-- <p-column  colspan="{{colspan()}}" [hidden]="isNetHidden() && competition.scoringFormat !== 'Stableford'" styleClass="net-column"
+                            [style]="{'width':'15%'}">Point</p-column> -->
+                        <p-column header="OCB" [hidden]="isColumnHidden('ocb')" rowspan="2" [style]="{'width':'7%'}"></p-column>
+                    </p-row>
+                    <p-row>
+                        <p-column header="R1" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
+                        <p-column header="R2" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
+                        <p-column header="R3" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
+                        <p-column header="R4" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
+                        <p-column header="Out" styleClass="gross-column" [hidden]="isGrossHidden() || isAllRoundHidden()"></p-column>
+                        <p-column header="In" styleClass="gross-column" [hidden]="isGrossHidden() || isAllRoundHidden()"></p-column>
+                        <p-column header="Total" styleClass="gross-column" [hidden]="isGrossHidden()"></p-column>
+                        <p-column header="R1" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
+                        <p-column header="R2" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
+                        <p-column header="R3" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
+                        <p-column header="R4" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
+                        <p-column header="Out" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
+                        <p-column header="In" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
+                        <p-column header="Total" styleClass="net-column" [hidden]="isNetHidden()"></p-column>
+                    </p-row>
+                </p-headerColumnGroup>
+                <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
+                <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
+                    <ng-template let-col let-player="rowData" pTemplate="body">
+                        <div [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+                    </ng-template>
+                </p-column>
+                <p-column field="handicap" header="Hcp" [hidden]="isColumnHidden('handicap')|| isMobileScreen()"
+                    [style]="{'textAlign': 'center'}"></p-column>
+                <p-column header="Player">
+                    <ng-template let-col let-player="rowData" pTemplate="body">
+                        <div class="player-name vertical-align-center one-line" (click)="playerLeaderboard.toggleRow(player)">
+                            <img [src]="player.imageURL" *ngIf="!isMobileScreen()"
+                                onerror="this.src = 'assets/images/default_user.png'" style="width:40px; margin-right: 10px">
+                            <span>{{player.playerName}}</span>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column header="Nationality" [hidden]="competition?.teamEvent || isColumnHidden('nationality')">
+                        <ng-template let-player="rowData" pTemplate="body">
+                            <div fxLayout="row nowrap" fxLayoutAlign="space-between center" fxLayoutAlign.lt-md="center center"
+                                fxLayoutGap="3px">
+                                <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="player.flagUrl">
+                                <div fxFlex="1 1 auto" fxHide.lt-md="true">{{player.sportCode}}</div>
+                            </div>
+                        </ng-template>
+                    </p-column>
+                <p-column header="Team" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')">
+                    <ng-template let-player="rowData" pTemplate="body">
+                        <div fxLayout="row nowrap" fxLayoutAlign="space-between center" fxLayoutAlign.lt-md="center center"
+                            fxLayoutGap="3px">
+                            <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="player.teamLogo">
+                            <div fxFlex="1 1 auto" fxHide.lt-md="true">{{player.teamName}}</div>
+                        </div>
+                    </ng-template>
+                </p-column>
+                <p-column header="(+/-)" [style]="{'textAlign': 'center'}">
+                    <ng-template let-col let-player="rowData" pTemplate="body">
+                        <div *ngIf="!byNet" [class.under-par]="player.toPar<0">{{player.toPar}}</div>
+                        <div *ngIf="byNet && player.modifiedTotalNet">
+                            <span class="strike-out" [class.under-par]="player.toPar<0">{{player.toPar}}</span>
+                            <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
+                        </div>
+                        <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="player.toPar<0">
+                            {{player.toPar}}
+                        </div>
+                    </ng-template>
+                </p-column>
+        
+                <p-column field="onHole" [hidden]="isColumnHidden('on')|| isMobileScreen()" [style]="{'textAlign': 'center'}">
+                </p-column>
+                <!-- checkThru(playersToDisplay) -->
+                <!-- || isMobileScreen() -->
+                <p-column 
+                field="thru" 
+                [hidden]="isColumnHidden('thru')" [style]="{'textAlign': 'center'}">
+                <ng-template let-car="rowData" let-i="rowIndex" pTemplate="body">
+                    {{checkThru(playersToDisplay[i])}}
+                    </ng-template>
+                </p-column>
+                <p-column field="round1Gross" header="R1" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(1)"
+                    [style]="{'textAlign': 'center'}">
+                </p-column>
+                <p-column field="round2Gross" header="R2" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(2)"
+                    [style]="{'textAlign': 'center'}">
+                </p-column>
+                <p-column field="round3Gross" header="R3" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(3)"
+                    [style]="{'textAlign': 'center'}">
+                </p-column>
+                <p-column field="round4Gross" header="R4" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(4)"
+                    [style]="{'textAlign': 'center'}">
+                </p-column>
+        
+                <p-column field="outTotalGross" header="Out" styleClass="gross-column"
+                    [hidden]="isGrossHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
+                </p-column>
+                <p-column field="inTotalGross" styleClass="gross-column"
+                    [hidden]="isGrossHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}"></p-column>
+                <p-column field="totalGross" styleClass="gross-column" [hidden]="isGrossHidden()"
+                    [style]="{'textAlign': 'center'}"></p-column>
+        
+                    <p-column field="round1Net" header="R1" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(1)"
+                    [style]="{'textAlign': 'center'}">
+                </p-column>
+                <p-column field="round2Net" header="R2" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(2)"
+                    [style]="{'textAlign': 'center'}">
+                </p-column>
+                <p-column field="round3Net" header="R3" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(3)"
+                    [style]="{'textAlign': 'center'}">
+                </p-column>
+                <p-column field="round4Net" header="R4" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(4)"
+                    [style]="{'textAlign': 'center'}">
+                </p-column>
+                <p-column field="outTotalNet" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"
+                    [style]="{'textAlign': 'center'}"></p-column>
+                <p-column field="inTotalNet" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
+                </p-column>
+                <p-column field="totalNet" styleClass="net-column" [hidden]="isNetHidden()" [style]="{'textAlign': 'center'}">
+                    <ng-template let-col let-player="rowData" pTemplate="body">
+                        <div>
+                            <span [class.strike-out]="player.modifiedTotalNet"
+                                [class.under-par]="player.toPar<0">{{player.totalNet}}</span>
+                            <span *ngIf="player.modifiedTotalNet"
+                                [class.under-par]="player.toPar<0">{{player.modifiedTotalNet}}</span>
+                        </div>
+        
+                    </ng-template>
+                </p-column>
+                <p-column field="ocb" header="OCB" [hidden]="isColumnHidden('ocb')" [style]="{'textAlign': 'center'}">
+                </p-column>
+                <ng-template let-player pTemplate="rowexpansion">
+                    <!--<player-scorecard-display-->
+                    <!--[competitionId]="competitionId"-->
+                    <!--[colorSet]="settings?.colorSet"-->
+                    <!--[hideNetRow]="settings?.scoreType === 'gross' && settings?.hideNetColumns"-->
+                    <!--[playerId]="playerRowExpanded.playerId"-->
+                    <!--[rounds]="playerRowExpanded.rounds">-->
+        
+                    <!--</player-scorecard-display>-->
+                    <app-individual-expand [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
+                </ng-template>
+    </p-dataTable>
+    <p-dataTable [value]="playersToDisplay" #playerLeaderboard expandableRows="true" rowExpandMode="single"
+        styleClass="primary-table" (onRowCollapse)="onPlayerRowCollapsed($event)"
+        (onRowExpand)="onPlayerRowExpand($event)" class="main-table">
+        <p-headerColumnGroup>
+            <p-row>
+                <p-column expander="true" header="" rowspan="2" [style]="{'width':'3%'}" [hidden]="isExpanderHidden()"></p-column>
+                <p-column header="Pos" [hidden]="isColumnHidden('position')" rowspan="2" [style]="{'width':'5%'}">
+                </p-column>
+                <p-column header="Hcp" rowspan="2" [hidden]="isColumnHidden('handicap') || isMobileScreen()"
+                    [style]="{'width':'5%'}"></p-column>
+                <p-column header="Player" rowspan="2" [style]="{'width':'24%'}"></p-column>
+                <p-column header="Nationality" rowspan="2" [hidden]="competition?.teamEvent || isColumnHidden('nationality')"
+                    [style]="{'width': '10%'}">
+                </p-column>
+                <p-column header="Team" rowspan="2" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')"
+                    [style]="{'width': '14%'}">
+                </p-column>
+                <p-column header="(+/-)" rowspan="2" [style]="{'width':'5%'}"></p-column>
+                <p-column header="On" rowspan="2" [hidden]="isColumnHidden('on')|| isMobileScreen()"
+                    [style]="{'width':'3%'}"></p-column>
+                    <!-- || isMobileScreen() -->
+                <p-column header="Thru" rowspan="2" [hidden]="isColumnHidden('thru')"
+                    [style]="{'width':'5%'}"></p-column>
+                <p-column colspan="{{colspan()}}" header="Gross" [hidden]="isGrossHidden()" styleClass="gross-column"
+                    [style]="{'width':'15%'}">
+                </p-column>
+                <p-column [header]="competition?deriveScoringFormat():'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-column"
+                    [style]="{'width':'15%'}"></p-column>
+                <p-column header="OCB" [hidden]="isColumnHidden('ocb')" rowspan="2" [style]="{'width':'7%'}"></p-column>
+            </p-row>
+            <p-row>
+                <p-column header="R1" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
+                <p-column header="R2" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
+                <p-column header="R3" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
+                <p-column header="R4" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
+                <p-column header="Out" styleClass="gross-column" [hidden]="isGrossHidden() || isAllRoundHidden()"></p-column>
+                <p-column header="In" styleClass="gross-column" [hidden]="isGrossHidden() || isAllRoundHidden()"></p-column>
+                <p-column header="Total" styleClass="gross-column" [hidden]="isGrossHidden()"></p-column>
+                <p-column header="R1" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
+                <p-column header="R2" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
+                <p-column header="R3" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
+                <p-column header="R4" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
+                <p-column header="Out" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
+                <p-column header="In" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
+                <p-column header="Total" styleClass="net-column" [hidden]="isNetHidden()"></p-column>
+            </p-row>
+        </p-headerColumnGroup>
+        <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
+        <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body">
+                <div [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+            </ng-template>
+        </p-column>
+        <p-column field="handicap" header="Hcp" [hidden]="isColumnHidden('handicap')|| isMobileScreen()"
+            [style]="{'textAlign': 'center'}"></p-column>
+        <p-column header="Player">
+            <ng-template let-col let-player="rowData" pTemplate="body">
+                <div class="player-name vertical-align-center one-line" (click)="playerLeaderboard.toggleRow(player)">
+                    <img [src]="player.imageURL" *ngIf="!isMobileScreen()"
+                        onerror="this.src = 'assets/images/default_user.png'" style="width:40px; margin-right: 10px">
+                    <span>{{player.playerName}}</span>
+                </div>
+            </ng-template>
+        </p-column>
+        <p-column header="Nationality" [hidden]="competition?.teamEvent || isColumnHidden('nationality')">
+                <ng-template let-player="rowData" pTemplate="body">
+                    <div fxLayout="row nowrap" fxLayoutAlign="space-between center" fxLayoutAlign.lt-md="center center"
+                        fxLayoutGap="3px">
+                        <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="getFlagUrl(player.flagUrl)">
+                        <div fxFlex="1 1 auto" fxHide.lt-md="true">{{player.sportCode}}</div>
+                    </div>
+                </ng-template>
+            </p-column>
+        <p-column header="Team" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')">
+            <ng-template let-player="rowData" pTemplate="body">
+                <div fxLayout="row nowrap" fxLayoutAlign="space-between center" fxLayoutAlign.lt-md="center center"
+                    fxLayoutGap="3px">
+                    <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="player.teamLogo">
+                    <div fxFlex="1 1 auto" fxHide.lt-md="true">{{player.teamName}}</div>
+                </div>
+            </ng-template>
+        </p-column>
+        <p-column header="(+/-)" [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body">
+                <div *ngIf="!byNet" [class.under-par]="player.toPar<0">{{player.toPar}}</div>
+                <div *ngIf="byNet && player.modifiedTotalNet">
+                    <span class="strike-out" [class.under-par]="player.toPar<0">{{player.toPar}}</span>
+                    <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
+                </div>
+                <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="player.toPar<0">
+                    {{player.toPar}}
+                </div>
+            </ng-template>
+        </p-column>
+
+        <p-column field="onHole" [hidden]="isColumnHidden('on')|| isMobileScreen()" [style]="{'textAlign': 'center'}">
+        </p-column>
+        <!-- checkThru(playersToDisplay) -->
+        <!-- || isMobileScreen() -->
+        <p-column 
+        field="thru" 
+        [hidden]="isColumnHidden('thru')" [style]="{'textAlign': 'center'}">
+        <ng-template let-car="rowData" let-i="rowIndex" pTemplate="body">
+            {{checkThru(playersToDisplay[i])}}
+            </ng-template>
+        </p-column>
+        <p-column field="round1Gross" header="R1" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(1)"
+            [style]="{'textAlign': 'center'}">
+        </p-column>
+        <p-column field="round2Gross" header="R2" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(2)"
+            [style]="{'textAlign': 'center'}">
+        </p-column>
+        <p-column field="round3Gross" header="R3" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(3)"
+            [style]="{'textAlign': 'center'}">
+        </p-column>
+        <p-column field="round4Gross" header="R4" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(4)"
+            [style]="{'textAlign': 'center'}">
+        </p-column>
+
+        <p-column field="outTotalGross" header="Out" styleClass="gross-column"
+            [hidden]="isGrossHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
+        </p-column>
+        <p-column field="inTotalGross" styleClass="gross-column"
+            [hidden]="isGrossHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}"></p-column>
+        <p-column field="totalGross" styleClass="gross-column" [hidden]="isGrossHidden()"
+            [style]="{'textAlign': 'center'}"></p-column>
+
+            <p-column field="round1Net" header="R1" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(1)"
+            [style]="{'textAlign': 'center'}">
+        </p-column>
+        <p-column field="round2Net" header="R2" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(2)"
+            [style]="{'textAlign': 'center'}">
+        </p-column>
+        <p-column field="round3Net" header="R3" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(3)"
+            [style]="{'textAlign': 'center'}">
+        </p-column>
+        <p-column field="round4Net" header="R4" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(4)"
+            [style]="{'textAlign': 'center'}">
+        </p-column>
+        <p-column field="outTotalNet" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"
+            [style]="{'textAlign': 'center'}"></p-column>
+        <p-column field="inTotalNet" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
+        </p-column>
+        <p-column field="totalNet" styleClass="net-column" [hidden]="isNetHidden()" [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body">
+                <div>
+                    <span [class.strike-out]="player.modifiedTotalNet"
+                        [class.under-par]="player.toPar<0">{{player.totalNet}}</span>
+                    <span *ngIf="player.modifiedTotalNet"
+                        [class.under-par]="player.toPar<0">{{player.modifiedTotalNet}}</span>
+                </div>
+
+            </ng-template>
+        </p-column>
+        <p-column field="ocb" header="OCB" [hidden]="isColumnHidden('ocb')" [style]="{'textAlign': 'center'}">
+        </p-column>
+        <ng-template let-player pTemplate="rowexpansion">
+            <!--<player-scorecard-display-->
+            <!--[competitionId]="competitionId"-->
+            <!--[colorSet]="settings?.colorSet"-->
+            <!--[hideNetRow]="settings?.scoreType === 'gross' && settings?.hideNetColumns"-->
+            <!--[playerId]="playerRowExpanded.playerId"-->
+            <!--[rounds]="playerRowExpanded.rounds">-->
+
+            <!--</player-scorecard-display>-->
+            <app-individual-expand [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
+        </ng-template>
+    </p-dataTable>
+    <footer class="fullscreen-footer" [hidden]="!this.settings.showSponsor">
+            <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-evenly" >
+                    <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="10px" fxLayoutAlign="space-evenly center" style="margin-bottom: 1em">
+                            <img *ngIf="compDetails&&compDetails.sponsors[0]"
+                            [src]="compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''"
+                            fxFlex="0 1 12vh">
+                            <img *ngIf="compDetails&&compDetails.sponsors[1]"
+                            [src]="compDetails.sponsors[1]?compDetails.sponsors[1].imageUrl:''"
+                            fxFlex="0 1 12vh">
+                            <div class="qr-code">
+                                Scan for live scoring : <img [src]="url_qrCode" fxFlex="0 1 12vh" alt="" title="" />
+                            </div>
+            
+                            <ng-container  *ngIf="competition&&competition.teamEvent" >
+                                    <img class="m2u-logo" fxFlex="0 1 12vh" src="assets/images/mygolf2uLogo.png">
+                            </ng-container>
+        
+                    </div>
+                    <!-- <div fxFlex="0 0 auto" *ngIf="refreshParams" fxLayout="row nowrap" fxLayoutGap="30px"
+                        fxLayoutAlign="center center" class="mat-typography" style="margin-right:2em">
+
+                    </div> -->
+                </div>
+            </footer>
+</section>
+
+<scoring-notifications [notifications]="scoringNotifications|async"></scoring-notifications>
+<p-dialog #columnVisibility [visible]="visibilityDialog" [closable]="false" showHeader="false"
+    [contentStyle]="{'overflow':'visible'}" height="200" width="400"
+    (onHide)="columnVisibilityChanged(visibilityComp.hiddenColumns)">
+    <div style="width: auto">
+        <h3>Select Columns to Hide</h3>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <leaderboard-column-visibility #visibilityComp [columnDetails]="leaderboardColumns">
+                </leaderboard-column-visibility>
+            </div>
+        </div>
+        <p-footer>
+                
+            <div style="text-align: right">
+                <button md-button (click)="visibilityDialog=false" color="primary">
+                    <md-icon class="mdi mdi-check"></md-icon>
+                    OK
+                </button>
+            </div>
+
+        </p-footer>
+    </div>
+</p-dialog>
+
+<p-dialog [visible]="display" height="640" width="800" header="Selection Dialog">
+    <div>Round Selection</div>
+
+    <section class = "mat-typography ui-fluid settings-line"
+    fxLayout = "row nowrap"
+    fxLayout.lt-md = "column nowrap"
+    fxLayoutGap="20px" fxLayoutGap.lt-md="5px"
+    fxLayoutAlign = "space-between center"
+    fxLayoutAlign.lt-md = "start stretch" style = "padding:5px">
+<section fxFlex = "0 0 370px"
+        fxFlex.lt-md="0 0 auto"
+        fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
+        fxLayout = "row nowrap"
+        fxLayoutGap.lt-md="column nowrap"
+        fxLayoutAlign = "start center"
+        fxLayoutAlign.lt-md="start stretch">
+    <ng-container *ngIf="validRounds && validRounds.length > 1">
+        <label fxFlex="0 0 auto">Round</label>
+        <!-- (change)="settingsChanged()" -->
+        <!-- (change)="settingsChanged()" -->
+        <md-select fxFlex="1 1 auto" 
+                [(ngModel)]="settings.selectedRound">&nbsp;&nbsp;&nbsp;
+            <md-option *ngFor="let round of validRounds"  [value]="round.roundNo">
+                {{round.roundNo?'Round '+round.roundNo:'All Rounds'}}
+            </md-option>
+        </md-select>
+    </ng-container>
+    <ng-container *ngIf="validRounds?.length===1">
+        <h3 fxFlex="1 1 auto">Single Round Competition</h3>
+    </ng-container>
+</section>
+<section fxFlex="1 1 auto" fxLayout="row nowrap"
+        fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
+        fxLayoutAlign="space-between center"
+        fxLayoutAlign.lt-md="space-between stretch">
+    <ng-container *ngIf="validCategories && validCategories.length > 1">
+        <md-checkbox fxFlex="0 0 auto"
+                [disabled]="settings.autoScroll && settings.scrollCategories"
+                [(ngModel)]="settings.byCategory">By Category</md-checkbox>
+        <md-select fxFlex="1 1 100%" [disabled]="!settings.byCategory"
+                [(ngModel)]="settings.selectedCategory" name="category">
+            <md-option *ngFor="let catg of validCategories" [value]="catg.categoryId">
+                {{catg.categoryName}}
+            </md-option>
+        </md-select>
+    </ng-container>
+    <ng-container *ngIf="validCategories && validCategories.length === 1">
+        <div  class="mat-subheader-2" fxFlex="1 1 auto">Category: {{validCategories[0].categoryName}}</div>
+    </ng-container>
+    <ng-container *ngIf="!validCategories || !validCategories.length">
+        <div class="mat-subheader-2" fxFlex="1 1 auto">No player categories for this competition</div>
+    </ng-container>
+</section>
+</section><br>
+
+
+    <button md-button (click)="display=false" color="primary">
+                    <md-icon class="mdi mdi-check"></md-icon>
+                    OK
+                </button>
+</p-dialog>

@@ -1,0 +1,106 @@
+<div class = "container-fluid" *ngIf = "teamScores">
+    <div class = "ui-g">
+        <div class = "ui-md-4 ui-sm-12" *ngIf="teamScores.roundScores.length > 1">
+            <ul class = "list-inline nav">
+                <li *ngFor = "let round of teamScores.roundScores"
+                        [class.active] = "selectedRound === round.roundNumber"
+                        class = "nav-link list-inline-item"
+                        (click) = "selectedRound=round.roundNumber"><a>{{round.roundNumber}}</a></li>
+            </ul>
+        </div>
+        <div class = "ui-md-8 ui-sm-12 vertical-align-center">
+            <i class = "material-icons eagle-score-icon  align-bottom">bookmark</i>Eagle
+            <i class = "material-icons birdie-score-icon  align-bottom">bookmark</i>Birdie
+            <i class = "material-icons par-score-icon  align-bottom">bookmark</i>Par
+            <i class = "material-icons bogey-score-icon  align-bottom">bookmark</i>Bogey
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-hover">
+                <thead class = "thead text-white bg-success">
+                    <tr class = "expand-header">
+                        <th class="player-name-column">Player</th>
+                        <th></th>
+                        <ng-container *ngFor="let col of getCols(); let i=index">
+                            <th>{{col.header}}</th>
+                            <th *ngIf="i===8 && (isMobile() && whichNine === 1)">Out</th>
+                            <th *ngIf="i===8 && (isMobile() && whichNine === 2)">In</th>
+                            <th *ngIf="i===8 && !isMobile()">OUT</th>
+                            <th *ngIf="i===17">IN</th>
+                        </ng-container>
+                        <th style="padding: .75rem 0;"><span>Tot</span>
+                            <ng-container *ngIf="isMobile()">
+                                <i class="material-icons"
+                                        *ngIf="whichNine === 1"
+                                        (click)="whichNine=2">keyboard_arrow_right</i>
+                                <i class="material-icons"
+                                        *ngIf="whichNine === 2"
+                                        (click)="whichNine=1">keyboard_arrow_left</i>
+                            </ng-container>
+                        </th>
+                    </tr>
+                    <tr class = "expand-header">
+                        <th class="player-name-column"></th>
+                        <th>Par</th>
+                        <ng-container *ngFor="let par of getParScores(); let i=index">
+                            <th>{{par}}</th>
+                            <th *ngIf="i===8 || i===17"></th>
+                        </ng-container>
+                        <th></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let pr of teamScores.roundScores[selectedRound-1].playerScores; let i=index">
+                        <tr [class.alternate-row] = "i%2">
+                            <td rowspan = "2" class="player-name-column"
+                                    [class.mobile]="isMobile()"
+                                    style = "background-color:white">
+                                <img *ngIf="!isMobile()" [src] = "pr.thumbnail?pr.thumbnail:'assets/images/default-user.jpg'"
+
+                                        onerror = "this.src = 'assets/images/default-user.jpg'" />
+                                <div>{{pr.playerName}}
+                                    <i  class = "material-icons" style = "color:#FDD835"
+                                            *ngIf = "pr.qualified">start_rate</i>
+                                </div>
+                            </td>
+                            <td>Gross</td>
+                            <ng-container *ngFor="let score of getPlayerScores(pr);let s=index">
+                                <td><span [ngClass] = "deriveScoreClass(score)">
+                                          {{score.grossScore}}</span>
+                                </td>
+                                <td class = "total-column"
+                                        *ngIf="s===8 && isMobile() && whichNine === 1">{{pr.outTotalGross}}</td>
+                                <td class = "total-column"
+                                        *ngIf="s===8 && isMobile() && whichNine === 2">{{pr.inTotalGross}}</td>
+                                <td class = "total-column"
+                                        *ngIf="s===8 && !isMobile()">{{pr.outTotalGross}}</td>
+                                <td class = "total-column"
+                                        *ngIf="s===17 && !isMobile()">{{pr.inTotalGross}}</td>
+                            </ng-container>
+                            <td>{{pr.totalGross}}</td>
+                        </tr>
+                        <tr [class.alternate-row] = "i%2">
+                            <td>(+/-)</td>
+                            <ng-container *ngFor="let score of getPlayerScores(pr);let s=index">
+                                <td><span>
+                                   <!-- [ngClass] = "deriveScoreClass(score)" -->
+                                          {{score.toPar}}</span>
+                                </td>
+                                <td class = "total-column"
+                                        *ngIf="s===8 && isMobile() && whichNine === 1">{{pr.outTotalGross - 36}}</td>
+                                <td class = "total-column"
+                                        *ngIf="s===8 && isMobile() && whichNine === 2">{{pr.inTotalGross - 36}}</td>
+                                <td class = "total-column"
+                                        *ngIf="s===8 && !isMobile()">{{pr.outTotalGross - 36}}</td>
+                                <td class = "total-column"
+                                        *ngIf="s===17 && !isMobile()">{{pr.inTotalGross - 36}}</td>
+                            </ng-container>
+                            <td>{{pr.toPar}}</td>
+                        </tr>
+                    </ng-container>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

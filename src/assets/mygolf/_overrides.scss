@@ -1,0 +1,18 @@
+body {
+    .ui-button-text-icon-left {
+        .fa {
+            &.mdi {
+                margin: -0.7em 0px 0px 0px;
+            }
+        }
+
+    }
+    .ui-datatable {
+        .ui-datatable-thead > tr th {
+            padding: .25em .25em;
+        }
+    }
+    .mat-icon {
+        height: 20px;
+    }
+}

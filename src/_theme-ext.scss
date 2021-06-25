@@ -1,0 +1,33 @@
+
+@import "assets/colors/named-colors";
+@mixin table-type($bgColor) {
+    .ui-datatable-header {
+        &.ui-widget-header {
+            background-color: $bgColor;
+            color: set-text-color($bgColor);
+        }
+    }
+    .ui-datatable-thead > tr th {
+        background-color: $bgColor;
+        color: set-text-color($bgColor);
+    }
+}
+.icon-primary {
+    color: $primaryColor;
+}
+.icon-accent {
+    color: $accentColor;
+}
+.ui-datatable{
+    &.primary-table {
+        @include table-type($primaryColor);
+    }
+    &.accent-table {
+       @include table-type($accentColor);
+    }
+}
+
+
+
+
+

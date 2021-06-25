@@ -1,0 +1,189 @@
+/* Main Content Headings*/
+.main-content h1,
+.main-content h2,
+.main-content h3,
+.fancybox-skin h1,
+.fancybox-skin h2,
+.fancybox-skin h3 {
+	color: #004720;
+}
+
+/* Secondary Content Headings*/
+.main-content h4,
+.main-content h5,
+.main-content h6,
+.fancybox-skin h4,
+.fancybox-skin h5,
+.fancybox-skin h6{
+	color: #004720;
+}
+h1{
+	font-family: 'chunkfive_exregular';
+}
+
+h2{
+	font-family: 'chunkfive_exregular';
+}
+
+h3,
+.list-stats h4.counter,
+div.table-price-cell div.price-plan{
+	font-family: 'chunkfive_exregular';
+}
+
+h4,
+.review-tally{
+	font-family: 'robotobold';
+}
+
+h5{
+	font-family: 'robotobold';
+}
+
+h6{
+	font-family: 'robotobold';
+}
+
+/* MAIN-CONTENT */
+/* Main Content Borders */
+.page-header,
+.main-content ul.list-bordered li,
+.main-content ul.sitemap li li,
+.main-content pre,
+.main-content .user-rating,
+.main-content .post-section,
+.main-content ul.comments > li,
+.main-content ul.comments > li ul li,
+.main-content .review-bars,
+.main-content .review-tally,
+.main-content aside.sidebar .widget,
+.main-content .team-member-details .social-links,
+.main-content .team-page .grid-item,
+.main-content .list-stats li,
+.main-content table th,
+.main-content table td,
+.main-content table.table-striped td:first-child,
+.main-content table.table-striped th:first-child,
+.main-content .table-fixtures td,
+.main-content .table-fixtures th,
+.main-content div.grid-item.product,
+.main-content .widget-shop-cart .sub-total,
+.main-content .cart-subtotal .cart-total,
+.main-content .cart-payment,
+.main-content .events-filter,
+.main-content .event-details dl,
+.main-content .table-bordered > tbody > tr > td,
+.main-content .table-bordered > tbody > tr > th,
+.main-content .table-bordered > tfoot > tr > td,
+.main-content .table-bordered > tfoot > tr > th,
+.main-content .table-bordered > thead > tr > td,
+.main-content .table-bordered > thead > tr > th,
+.main-content .data-row-cell,
+.table-price > div[class*="col-"] .table-price-cell,
+.table-price > div[class*="col-"] .table-price-cell > div,
+.table-price > div[class*="col-"] .table-price-cell > ul,
+.main-content form fieldset + fieldset,
+.rule-icon:before,
+.rule-icon:after,
+.section-bordered,
+.main-content .widget-player-profile h1,
+.main-content .widget-countdown .meta-text,
+.main-content .widget-countdown  .versus,
+.main-content .widget-player-profile + p,
+.main-content .toggle-btn:before,
+.main-content .accordion-btn:before,
+.main-content .list-stats {
+	border-color: #eaeaea;
+}
+
+.main-content,
+ul.tab-nav li.active,
+.review-bars .progress,
+.table-striped.time-table > tbody > tr:nth-of-type(2n+1) td:first-child,
+.table-striped.time-table > tbody > tr:nth-of-type(2n+1) th:first-child,
+.fancybox-skin,
+.hr-title,
+.table-price-cell > ul li:nth-child(odd),
+.main-content form .radio i,
+.main-content form .checkbox i,
+.main-content form .toggle i,
+.widget-player-profile,
+.section-neg-margin,
+.widget-countdown  .versus > span{
+	background: #fff;
+}
+
+/* Main Content Meta */
+.main-content blockquote footer,
+.main-content cite,
+.main-content .list-post-thumbs li div p + em,
+.main-content .list-product-thumbs li div p + em,
+.main-content .post-meta,
+.main-content .post-meta a,
+.main-content .post-tags::before,
+.main-content .author-meta,
+.main-content .comment-reply-link,
+.main-content .comment-edit-link,
+.main-content #cancel-comment-reply-link,
+.main-content .meta-text,
+.main-content .meta-text a,
+.main-content .table-events td b:first-child,
+.main-content small.price.discount,
+.fancybox-skin small.price.discount,
+.table-tops tr td:first-child:after,
+form .icon_append,
+form .icon_prepend,
+.rule-icon{
+    color: #bdbdbd;
+}
+
+.feat-color,
+.feat-color *{
+	color: #ffae00!important;
+}
+
+ul.list-styled li::before{
+	content:"\f054"; /* http://fontawesome.bootstrapcheatsheets.com/ */
+	font-family: "FontAwesome";
+	font-size: .65rem;
+	top: 4px;
+	margin-right: 1em;
+}
+
+ul.list-styled-alt li::before,
+ul.list-filter li a::before{
+	content:"\f067";
+	font-family: "FontAwesome";
+	font-size: .65rem;
+	top: 4px;
+}
+
+ul.list-styled li::before,
+ul.list-styled-alt li::before,
+ul.list-filter li a::before,
+.main-content ul.list-filter li a.active,
+.main-content a.feat-color,
+.read-more::before,
+.main-content .tab-nav li.active,
+.main-content .hover-box-content a:hover,
+.main-content .hover-box-content a:hover *,
+.main-content .widget-stats .counter,
+.main-content .widget-stats .stat-icon,
+.icons-list > li span.glyphicon,
+.icons-list > li span.fa,
+.icons-list [class^="icon-"],
+.main-content .table-events td.current-day b:first-child,
+.main-content .table-events td.active-time b:first-child,
+.data-row-cell:after,
+.table-data-row td:after,
+.data-row-cell span.interval,
+table.table-data-row tr:nth-child(odd) td:first-child span.interval,
+.table-data-row tr.featured td:first-child:before,
+div.table-price-cell div.price-plan,
+.table-price > div[class*="col-"] .table-price-cell.featured:before,
+.main-content form .rating input + label:hover,
+.main-content form .rating input + label:hover ~ label,
+.widget-countdown  .versus > span,
+.fa-heart.active {
+	color: #ffae00;
+}

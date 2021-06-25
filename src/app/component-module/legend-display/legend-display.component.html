@@ -1,0 +1,8 @@
+<div class="legend" [class.vertical]="displayMode==='vertical'">
+  <div class="legend-item" *ngFor="let item of items">
+      <i *ngIf="item.icon" class="material-icons" [ngStyle]="setStyle(item)" [ngClass]="setClass(item)">{{item.icon}}</i>
+      <i *ngIf="!item.icon && icon" class="material-icons" [ngStyle]="setStyle(item)" [ngClass]="setClass(item)">{{icon}}</i>
+      <div *ngIf="!item.icon && !icon" class="item-icon" [ngStyle]="setStyle(item)" [ngClass]="setClass(item)"></div>
+      {{item.label}}
+  </div>
+</div>

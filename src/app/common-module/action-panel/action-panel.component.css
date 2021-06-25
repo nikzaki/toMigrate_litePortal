@@ -1,0 +1,10 @@
+action-panel .action-panel {
+  display: flex; }
+  action-panel .action-panel.horizontal-items {
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: flex-start; }
+  action-panel .action-panel.vertical-items {
+    flex-direction: column;
+    align-items: center; }

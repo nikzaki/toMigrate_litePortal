@@ -1,0 +1,61 @@
+<md-card>
+    <md-card-header>
+        <md-icon md-card-avatar class="mdi-account-multiple"></md-icon>
+        <md-card-title>Registered Players</md-card-title>
+        <md-card-subtitle>{{stillRegistered.length}} Players Registered</md-card-subtitle>
+    </md-card-header>
+    <md-card-content>
+            <ng-container *ngFor="let group of groups" >
+                <section class="mat-elevation-z1">
+                    <h4 *ngIf="grouped">Category: {{group}}</h4>
+                    <div *ngIf="competition.teamEvent" class="vertical-align-center">
+                        <img [src]="teamsMap[group]?.teamLogo" class="team-logo">
+                        <h3 class="subheading-2">{{group}}</h3>
+                    </div>
+                    <md-table [dataSource]="playerDatabase.getDataSource(group)">
+                        <ng-container mdColumnDef="player">
+                            <md-header-cell *mdHeaderCellDef>Player</md-header-cell>
+                            <md-cell *mdCellDef="let player">
+                                <div class = "vertical-align-center" (click) = "onPlayerClick($event, player)">
+                                    <img class = "player-image" [src] = "player.photoUrl"
+                                            onerror = "this.src='assets/images/default_user.png'">
+                                    {{player.playerName}}
+                                </div>
+                            </md-cell>
+                        </ng-container>
+                        <ng-container mdColumnDef="handicap">
+                            <md-header-cell *mdHeaderCellDef>Handicap</md-header-cell>
+                            <md-cell *mdCellDef="let player">{{player.handicap}}</md-cell>
+                        </ng-container>
+                        <ng-container mdColumnDef="status">
+                            <md-header-cell *mdHeaderCellDef>Status</md-header-cell>
+                            <md-cell *mdCellDef="let player"
+                                    [class.withdrawn]="player.playerStatus === 'Withdrawn'">{{player.playerStatus}}</md-cell>
+                        </ng-container>
+                        <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+                        <md-row *mdRowDef="let player; columns: displayedColumns;">
+
+                        </md-row>
+                    </md-table>
+                </section>
+
+            </ng-container>
+
+        <!--</ng-container>-->
+    </md-card-content>
+</md-card>
+<p-overlayPanel #playerInfo [dismissable]="true" [showCloseIcon]="true" (onBeforeHide)="onHide()">
+    <div *ngIf="currentPlayer" class="card ui-fluid" style="width: auto">
+        <h3>Player Info</h3>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-5">Name</div>
+            <div class="ui-g-7">{{currentPlayer.playerName}}</div>
+            <div class="ui-g-5">Handicap</div>
+            <div class="ui-g-7">{{currentPlayer.handicap}}</div>
+            <div class="ui-g-5">Member Account</div>
+            <div class="ui-g-7">{{currentPlayer.memberAccount}}</div>
+            <div class="ui-g-5">Registered On</div>
+            <div class="ui-g-7">{{currentPlayer.registeredOn|date:'mediumDate'}}</div>
+        </div>
+    </div>
+</p-overlayPanel>

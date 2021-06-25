@@ -1,0 +1,224 @@
+app-individual-expand {
+    font-size: 1em !important;
+    font-weight: normal;
+
+    .container-fluid {
+        padding-left: 1em;
+        padding-right: 1em;
+    }
+    th {
+        text-align: center !important;
+        font-size: 0.7em !important;
+    }
+
+    td {
+        vertical-align: middle;
+        font-size: 0.7em !important;
+        text-align: center !important;
+        margin-left: auto !important;
+        height: auto !important;
+        > span {
+            display: block;
+            text-align: center;
+            margin: 0 auto;
+        }
+        &:last-child {
+            width:100%;
+        }
+    }
+
+    .player-name {
+        width: 10em;
+        text-align: left;
+    }
+
+    .par-column {
+        // width: 3em;
+        text-align: center;
+    }
+
+    .total-column {
+        // width: 1.5em;
+        text-align: center;
+    }
+
+    .score-column {
+        // width: 1em;
+        text-align: center;
+    }
+    .select-nine {
+        margin-top: 1em;
+        span {
+
+            &.active {
+                border-bottom-style: solid;
+            }
+        }
+    }
+    .birdie-score {
+        background-color: #b9d1ff;
+        width: 1.5em;
+        height: 1.5em;
+        //display: table-cell;
+        vertical-align: middle;
+        border-radius: 50%;
+    }
+
+    .par-score {
+        background-color: #e9d35c;
+        width: 1.5em;
+        height: 1.5em;
+        //display: table-cell;
+        vertical-align: middle;
+        border-radius: 50%;
+    }
+
+    .bogey-score {
+        background-color: rgba(57, 71, 56, 1);
+        width: 1.5em;
+        height: 1.5em;
+        //display: table-cell;
+        vertical-align: middle;
+        border-radius: 50%;
+    }
+
+    .eagle-score {
+        background-color: #e8575c;
+        color: white;
+        width: 1.5em;
+        height: 1.5em;
+        //display: table-cell;
+        vertical-align: middle;
+        border-radius: 50%;
+    }
+
+    .lb-ply-thmb {
+        max-width: 6em;
+    }
+
+    .hole-row {
+        background-color: #fff5b8;
+    }
+
+    .index-row {
+        background-color: rgba(57, 71, 56, 1);
+        color: white;
+    }
+
+    .par-row {
+        background-color: #ebd25c;
+    }
+
+    .round-group {
+        background-color: white;
+        color: black;
+    }
+
+    .birdie-score {
+        background-color: #b9d1ff;
+        color: white;
+    }
+
+    .par-score {
+        background-color: #e9d35c;
+    }
+
+    .bogey-score {
+        background-color: rgba(57, 71, 56, 1);
+        color: white;
+    }
+
+    .eagle-score {
+        background-color: #e8575c;
+        color: white;
+    }
+
+    .no-border {
+        border: none !important;
+    }
+
+    .lb-ply-thmb {
+        max-width: 6em;
+    }
+
+    .birdie-score-icon {
+        color: #b9d1ff;
+    }
+
+    .par-score-icon {
+        color: #e9d35c;
+    }
+
+    .bogey-score-icon {
+        color: rgba(57, 71, 56, 1);
+    }
+
+    .eagle-score-icon {
+        color: #e8575c;
+    }
+
+    .on-par {
+        text-align: center;
+        // background-color: black;
+        background-color: blue; //rgba(70, 70, 70, 1);
+        color: white;
+    }
+
+    .under-par {
+        text-align: center;
+        color: white;
+        background-color: rgba(233, 86, 92, 1);
+    }
+
+    .above-par {
+        text-align: center;
+        color: white;
+        background-color: rgba(57, 71, 56, 1); //rgba(70, 70, 70, 1);
+    }
+
+    @media only screen and (max-width: 375px) {
+        .hide-responsive {
+            display: none;
+        }
+
+        td {
+            font-size: smaller;
+        }
+
+        .tlogo-responsive {
+            max-width: 80%;
+        }
+
+        .table td,
+        .table th {
+            padding: 0;
+        }
+        th {
+            font-size: smaller;
+        }
+
+        .legend-responsive {
+            font-size: x-small;
+        }
+    }
+    @media (min-width: 375px) and (max-width: 600px) {
+        .hide-responsive {
+            display: none;
+        }
+
+        td {
+            font-size: smaller;
+        }
+
+        th {
+            font-size: smaller;
+        }
+
+        .tlogo-responsive {
+            max-width: 80%;
+        }
+        .legend-responsive {
+            font-size: x-small;
+        }
+    }
+}

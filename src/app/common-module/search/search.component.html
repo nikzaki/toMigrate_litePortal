@@ -1,0 +1,13 @@
+<div class = "ui-g ui-fluid">
+    <div class = "ui-g-12 ui-inputgroup">
+        <i class = "fa fa-search ui-inputgroup-addon"></i>
+        <input  pInputText [placeholder] = "prompt"
+                type="search"
+                (ngModelChange) = "onTextChange($event)"
+                [class.full-width] = "!showRefersh"
+                [(ngModel)] = "filterText" class = "filter-text">
+        <button *ngIf="showRefersh" type = "button" pButton icon = "ui-icon-refresh"
+                class = "ui-inputgroup-addon flat" icon-only
+                (click) = "onClick($event)"></button>
+    </div>
+</div>

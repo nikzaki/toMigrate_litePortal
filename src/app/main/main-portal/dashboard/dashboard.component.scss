@@ -1,0 +1,893 @@
+.carousel-caption {
+	padding-bottom: 10px;
+}
+.carousel-head-caption {
+	background-color: rgba(0, 0, 0, 0.44) !important;
+	margin: 0.5em;
+	padding: 0.5em;
+}
+@media only screen and (max-width: 1149px) {
+	.carousel-head-caption h3 {
+		font-size: 2.7em !important;
+	}
+
+	.carousel-body-caption {
+		display: none;
+	}
+}
+@media only screen and (max-width: 375px) {
+
+}
+@media only screen and (min-width: 1150px) {
+	.carousel-head-caption h3 {
+		font-size: -webkit-xxx-large !important;
+	}
+}
+
+.carousel-body-caption {
+	background-color: rgba(0, 0, 0, 0.44) !important;
+	padding: 0.5em;
+	margin: 0.5em;
+}
+
+.card-borderless {
+	border: none !important;
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+}
+/* Main Content Headings*/
+
+.fancybox-skin h1,
+.fancybox-skin h2,
+.fancybox-skin h3,
+.main-content h1,
+.main-content h2,
+.main-content h3 {
+	color: #004720;
+}
+/* Secondary Content Headings*/
+
+.fancybox-skin h4,
+.fancybox-skin h5,
+.fancybox-skin h6,
+.main-content h4,
+.main-content h5,
+.main-content h6 {
+	color: #004720;
+}
+
+h1 {
+	font-family: 'chunkfive_exregular' !important;
+}
+
+h2 {
+	font-family: 'chunkfive_exregular' !important;
+}
+
+.list-stats h4.counter,
+div.table-price-cell div.price-plan,
+h3 {
+	font-family: 'chunkfive_exregular' !important;
+}
+
+.review-tally,
+h4 {
+	font-family: 'robotobold' !important;
+}
+
+h5 {
+	font-family: 'robotobold' !important;
+}
+
+h5.comp-date {
+	font-family: 'robotolight' !important;
+	font-size: 0.8em;
+}
+.comp-countdown {
+	font-size: 0.9em;
+	color: #004720;
+	// padding-left:0 !important;
+	// padding-right:0 !important;
+}
+.course-left {
+
+}
+.course-right {
+
+}
+h6 {
+	font-family: 'robotobold' !important;
+}
+
+p {
+	font-family: 'robotolight' !important;
+}
+/* MAIN-CONTENT */
+/* Main Content Borders */
+
+.main-content .accordion-btn:before,
+.main-content .cart-payment,
+.main-content .cart-subtotal .cart-total,
+.main-content .data-row-cell,
+.main-content .event-details dl,
+.main-content .events-filter,
+.main-content .list-stats,
+.main-content .list-stats li,
+.main-content .post-section,
+.main-content .review-bars,
+.main-content .review-tally,
+.main-content .table-bordered > tbody > tr > td,
+.main-content .table-bordered > tbody > tr > th,
+.main-content .table-bordered > tfoot > tr > td,
+.main-content .table-bordered > tfoot > tr > th,
+.main-content .table-bordered > thead > tr > td,
+.main-content .table-bordered > thead > tr > th,
+.main-content .table-fixtures td,
+.main-content .table-fixtures th,
+.main-content .team-member-details .social-links,
+.main-content .team-page .grid-item,
+.main-content .toggle-btn:before,
+.main-content .user-rating,
+.main-content .widget-countdown .meta-text,
+.main-content .widget-countdown .versus,
+.main-content .widget-player-profile + p,
+.main-content .widget-player-profile h1,
+.main-content .widget-shop-cart .sub-total,
+.main-content aside.sidebar .widget,
+.main-content div.grid-item.product,
+.main-content form fieldset + fieldset,
+.main-content pre,
+.main-content table td,
+.main-content table th,
+.main-content table.table-striped td:first-child,
+.main-content table.table-striped th:first-child,
+.main-content ul.comments > li,
+.main-content ul.comments > li ul li,
+.main-content ul.list-bordered li,
+.main-content ul.sitemap li li,
+.page-header,
+.rule-icon:after,
+.rule-icon:before,
+.section-bordered,
+.table-price > div[class*="col-"] .table-price-cell,
+.table-price > div[class*="col-"] .table-price-cell > div,
+.table-price > div[class*="col-"] .table-price-cell > ul {
+	border-color: #eaeaea;
+}
+
+.fancybox-skin,
+.hr-title,
+.main-content,
+.main-content form .checkbox i,
+.main-content form .radio i,
+.main-content form .toggle i,
+.review-bars .progress,
+.section-neg-margin,
+.table-price-cell > ul li:nth-child(odd),
+.table-striped.time-table > tbody > tr:nth-of-type(2n+1) td:first-child,
+.table-striped.time-table > tbody > tr:nth-of-type(2n+1) th:first-child,
+.widget-countdown .versus > span,
+.widget-player-profile,
+ul.tab-nav li.active {
+	background: #fff;
+}
+/* Main Content Meta */
+
+.fancybox-skin small.price.discount,
+.main-content #cancel-comment-reply-link,
+.main-content .author-meta,
+.main-content .comment-edit-link,
+.main-content .comment-reply-link,
+.main-content .list-post-thumbs li div p + em,
+.main-content .list-product-thumbs li div p + em,
+.main-content .meta-text,
+.main-content .meta-text a,
+.main-content .post-meta,
+.main-content .post-meta a,
+.main-content .post-tags::before,
+.main-content .table-events td b:first-child,
+.main-content blockquote footer,
+.main-content cite,
+.main-content small.price.discount,
+.rule-icon,
+.table-tops tr td:first-child:after,
+form .icon_append,
+form .icon_prepend {
+	color: #bdbdbd;
+}
+
+.feat-color,
+.feat-color * {
+	color: #ffae00!important;
+}
+
+.by-author {
+	font-style: italic;
+	line-height: 1.3;
+	color: #aab6aa;
+}
+
+.main-list {
+	padding-left: 0.5em;
+}
+
+.main-list .media {
+	padding-bottom: 1.1em;
+	border-bottom: 1px solid #e8e8e8;
+}
+
+ul li:hover .media-list {
+	background-color: green;
+}
+
+.media-object {
+	max-width: 6em;
+	padding-right: 1em;
+}
+
+li {
+	cursor: pointer;
+}
+
+.list-same-indent {
+	text-indent: -1.1em !important;
+}
+
+.card-footer {
+	background-color: transparent;
+}
+
+.btn-wide {
+	padding-left	: 5em;
+	padding-right	: 5em;
+}
+@media (max-width: 320px) {
+	// .main-phone {
+	// 	display: none !important;
+	// }
+}
+
+
+@media (max-width: 768px) {
+
+}
+
+// @media (min-width: 769px) and (max-width: 992px) {
+// .btn-responsive {
+// 	padding:4px 9px;
+// 	font-size:90%;
+// 	line-height: 1.2;
+// }
+// }
+
+/* ----------- iPhone 4 and 4S ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+
+}
+
+/* Portrait */
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+		.carousel-head-caption h3 {
+			// font-size: 2em !important;
+			    font-size: xx-small;
+		}
+
+		.carousel-body-caption {
+			display: none;
+		}
+		.main-phone {
+			height:20em;
+		}
+}
+
+/* Landscape */
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 480px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+
+}
+
+/* ----------- iPhone 5, 5S, 5C and 5SE ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+		.btn-responsive {
+			padding:2px 4px;
+			font-size:70%;
+			line-height: 2;
+			border-radius:3px;
+		}
+		.carousel-head-caption h3 {
+			font-size: 1.8em !important;
+		}
+
+		.carousel-body-caption {
+			display: none;
+		}
+		.main-phone {
+			height:20em;
+		}
+}
+
+/* Portrait */
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+		.btn-responsive {
+			padding:2px 4px;
+			font-size:70%;
+			line-height: 2;
+			border-radius:3px;
+		}
+		.carousel-head-caption h3 {
+			font-size: 1.8em !important;
+		}
+
+		.carousel-body-caption {
+			display: none;
+		}
+		.main-phone {
+			height:20em;
+		}
+}
+
+/* Landscape */
+@media only screen
+  and (min-device-width: 320px)
+  and (max-device-width: 568px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+
+}
+
+/* ----------- iPhone 6, 6S, 7 and 8 ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 667px)
+  and (-webkit-min-device-pixel-ratio: 2) {
+		.btn-responsive {
+			padding:2px 4px;
+			font-size:70%;
+			line-height: 2;
+			border-radius:3px;
+		}
+		.carousel-head-caption h3 {
+			font-size: 1.8em !important;
+		}
+
+		.carousel-body-caption {
+			display: none;
+		}
+		.main-phone {
+			height:20em;
+		}
+
+}
+
+/* Portrait */
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 667px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: portrait) {
+		.btn-responsive {
+			padding:2px 4px;
+			font-size:70%;
+			line-height: 2;
+			border-radius:3px;
+		}
+		.carousel-head-caption h3 {
+			font-size: 1.8em !important;
+		}
+
+		.carousel-body-caption {
+			display: none;
+		}
+		.main-phone {
+			height:20em;
+		}
+}
+
+/* Landscape */
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 667px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (orientation: landscape) {
+
+}
+
+/* ----------- iPhone 6+, 7+ and 8+ ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+  and (min-device-width: 414px)
+  and (max-device-width: 736px)
+  and (-webkit-min-device-pixel-ratio: 3) {
+		.btn-responsive {
+			padding:2px 4px;
+			font-size:70%;
+			line-height: 2;
+			border-radius:3px;
+		}
+		.carousel-head-caption h3 {
+			font-size: 1.8em !important;
+		}
+
+		.carousel-body-caption {
+			display: none;
+		}
+		.main-phone {
+			height:20em;
+		}
+}
+
+/* Portrait */
+@media only screen
+  and (min-device-width: 414px)
+  and (max-device-width: 736px)
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) {
+		.btn-responsive {
+			padding:2px 4px;
+			font-size:70%;
+			line-height: 2;
+			border-radius:3px;
+		}
+		.carousel-head-caption h3 {
+			font-size: 1.8em !important;
+		}
+
+		.carousel-body-caption {
+			display: none;
+		}
+		.main-phone {
+			height:20em;
+		}
+}
+
+/* Landscape */
+@media only screen
+  and (min-device-width: 414px)
+  and (max-device-width: 736px)
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: landscape) {
+
+}
+
+/* ----------- iPhone X ----------- */
+
+/* Portrait and Landscape */
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 812px)
+  and (-webkit-min-device-pixel-ratio: 3) {
+
+}
+
+/* Portrait */
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 812px)
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: portrait) {
+		.btn-responsive {
+			padding:2px 4px;
+			font-size:70%;
+			line-height: 2;
+			border-radius:3px;
+		}
+		.carousel-head-caption h3 {
+			font-size: 1.8em !important;
+		}
+
+		.carousel-body-caption {
+			display: none;
+		}
+		.main-phone {
+			height:20em;
+		}
+}
+
+/* Landscape */
+@media only screen
+  and (min-device-width: 375px)
+  and (max-device-width: 812px)
+  and (-webkit-min-device-pixel-ratio: 3)
+  and (orientation: landscape) {
+
+}
+
+/* ----------- Non-Retina Screens ----------- */
+@media screen
+  and (min-device-width: 1200px)
+  and (max-device-width: 1600px)
+  and (-webkit-min-device-pixel-ratio: 1) {
+}
+
+/* ----------- Retina Screens ----------- */
+@media screen
+  and (min-device-width: 1200px)
+  and (max-device-width: 1600px)
+  and (-webkit-min-device-pixel-ratio: 2)
+  and (min-resolution: 192dpi) {
+}
+
+.feat-color *{
+	color: #ffae00 !important;
+}
+
+footer.main-footer {
+    padding-top: 1em;
+    padding-bottom: 1em;
+}
+
+ul li {
+  list-style-type: none;
+}
+ul.list-bordered li{
+  border-bottom: 1px solid #eaeaea;
+  padding-bottom: .25em;
+  padding-top: .25em;
+}
+
+.page-header, .page-title, .post-title {
+    margin: 40px 0 20px;
+}
+
+.page-header {
+    padding-bottom: 9px;
+    margin: 40px 0 20px;
+    border-bottom: 1px solid #eee;
+}
+
+strong, b, .main-content .post-tags, cite {
+    font-family: 'robotobold';
+    font-weight: normal;
+}
+
+ul.list-styled li::before{
+	content:"\f054"; /* http://fontawesome.bootstrapcheatsheets.com/ */
+	font-family: "FontAwesome";
+	font-size: .65rem;
+	top: 4px;
+	margin-right: 1em;
+}
+
+ul.list-styled-alt li::before,
+ul.list-filter li a::before{
+	content:"\f067";
+	font-family: "FontAwesome";
+	font-size: .65rem;
+	top: 4px;
+}
+
+ul.list-styled li::before,
+ul.list-styled-alt li::before,
+ul.list-filter li a::before,
+.main-content ul.list-filter li a.active,
+.main-content a.feat-color,
+.read-more::before,
+.main-content .tab-nav li.active,
+.main-content .hover-box-content a:hover,
+.main-content .hover-box-content a:hover *,
+.main-content .widget-stats .counter,
+.main-content .widget-stats .stat-icon,
+.icons-list > li span.glyphicon,
+.icons-list > li span.fa,
+.icons-list [class^="icon-"],
+.main-content .table-events td.current-day b:first-child,
+.main-content .table-events td.active-time b:first-child,
+.data-row-cell:after,
+.table-data-row td:after,
+.data-row-cell span.interval,
+table.table-data-row tr:nth-child(odd) td:first-child span.interval,
+.table-data-row tr.featured td:first-child:before,
+div.table-price-cell div.price-plan,
+.table-price > div[class*="col-"] .table-price-cell.featured:before,
+.main-content form .rating input + label:hover,
+.main-content form .rating input + label:hover ~ label,
+.widget-countdown  .versus > span,
+.fa-heart.active {
+	color: #ffae00;
+}
+
+a, a h1, a h2, a h3, a h4, a h5, a h6, a strong {
+    -webkit-transition: color 200ms ease-in-out;
+    -moz-transition: color 200ms ease-in-out;
+    -ms-transition: color 200ms ease-in-out;
+    -o-transition: color 200ms ease-in-out;
+    transition: color 200ms ease-in-out;
+    outline: none!important;
+    cursor: pointer;
+    text-decoration: none!important;
+}
+
+.main-content a, .fancybox-skin a {
+    color: #3d4942;
+}
+
+a {
+    color: #337ab7;
+    text-decoration: none;
+}
+
+ul.list-filter li a.active::before{
+	content:"\f068";
+}
+
+blockquote .small::before,
+blockquote footer::before,
+blockquote small::before {
+    content: "— ";
+    display: none;
+}
+
+
+/* Main Content Borders */
+.page-header,
+.main-content ul.list-bordered li,
+.main-content ul.sitemap li li,
+.main-content pre,
+.main-content .user-rating,
+.main-content .post-section,
+.main-content ul.comments > li,
+.main-content ul.comments > li ul li,
+.main-content .review-bars,
+.main-content .review-tally,
+.main-content aside.sidebar .widget,
+.main-content .team-member-details .social-links,
+.main-content .team-page .grid-item,
+.main-content .list-stats li,
+.main-content table th,
+.main-content table td,
+.main-content table.table-striped td:first-child,
+.main-content table.table-striped th:first-child,
+.main-content .table-fixtures td,
+.main-content .table-fixtures th,
+.main-content div.grid-item.product,
+.main-content .widget-shop-cart .sub-total,
+.main-content .cart-subtotal .cart-total,
+.main-content .cart-payment,
+.main-content .events-filter,
+.main-content .event-details dl,
+.main-content .table-bordered > tbody > tr > td,
+.main-content .table-bordered > tbody > tr > th,
+.main-content .table-bordered > tfoot > tr > td,
+.main-content .table-bordered > tfoot > tr > th,
+.main-content .table-bordered > thead > tr > td,
+.main-content .table-bordered > thead > tr > th,
+.main-content .data-row-cell,
+.table-price > div[class*="col-"] .table-price-cell,
+.table-price > div[class*="col-"] .table-price-cell > div,
+.table-price > div[class*="col-"] .table-price-cell > ul,
+.main-content form fieldset + fieldset,
+.rule-icon:before,
+.rule-icon:after,
+.section-bordered,
+.main-content .widget-player-profile h1,
+.main-content .widget-countdown .meta-text,
+.main-content .widget-countdown  .versus,
+.main-content .widget-player-profile + p,
+.main-content .toggle-btn:before,
+.main-content .accordion-btn:before,
+.main-content .list-stats {
+	border-color: #eaeaea;
+}
+
+/* Main Content Headings*/
+.main-content h1,
+.main-content h2,
+.main-content h3,
+.fancybox-skin h1,
+.fancybox-skin h2,
+.fancybox-skin h3 {
+	color: #004720;
+}
+
+/* Secondary Content Headings*/
+.main-content h4,
+.main-content h5,
+.main-content h6,
+.fancybox-skin h4,
+.fancybox-skin h5,
+.fancybox-skin h6{
+	color: #004720;
+}
+
+/* Main Content Headings Span/Small*/
+.h1 .small, .h1 small, h1 .small, h1 small, .h1 span, h1 span,
+.h2 .small, .h2 small, h2 .small, h2 small, .h2 span, h2 span,
+.h3 .small, .h3 small, h3 .small, h3 small, .h3 span, h3 span,
+.h4 .small, .h4 small, h4 .small, h4 small, .h4 span, h4 span,
+.h5 .small, .h5 small, h5 .small, h5 small, .h5 span, h5 span,
+.h6 .small, .h6 small, h6 .small, h6 small, .h6 span, h6 span{
+	color: #00632c;
+}
+
+/* Main Content Links Hover */
+.main-content a:hover,
+.main-content a.toggle-btn.active,
+.main-content a.accordion-btn.active,
+.main-content a:hover h1,
+.main-content a:hover h2,
+.main-content a:hover h3,
+.main-content a:hover h4,
+.main-content a:hover h5,
+.main-content a:hover h6,
+.main-content a:hover strong,
+.main-content .post-meta a:hover,
+.main-content .meta-text a:hover,
+.main-content .product  a:hover small.price.discount,
+.fancybox-skin a:hover,
+.parallax-background a:hover,
+.parallax-background a:active,
+.parallax-background a:focus{
+	color: #ffae00;
+}
+
+/* Main Content Lead text */
+.main-content .lead{
+	color: #1c2721;
+	font-family: "robotolight";
+}
+h1{
+	font-family: 'chunkfive_exregular';
+}
+
+h2{
+	font-family: 'chunkfive_exregular';
+}
+
+h3,
+.list-stats h4.counter,
+div.table-price-cell div.price-plan{
+	font-family: 'chunkfive_exregular';
+}
+
+h4,
+.review-tally{
+	font-family: 'robotobold';
+}
+h4
+{
+	font-family: 'chunkfive_exregular' !important;
+}
+h4 .media-heading {
+	font-family: 'robotolight' !important;
+}
+
+h5{
+	font-family: 'robotobold';
+}
+
+h6{
+	font-family: 'robotobold';
+}
+
+input,
+textarea,
+select{
+	font-family: 'robotoregular';
+}
+
+
+/* --------------------------------------------------
+ Font Sizes
+-------------------------------------------------- */
+//html, body{
+//	font-size: 1em;
+//	line-height: 1.333333;
+//}
+
+.pre-header{
+	font-size: .8rem;
+}
+
+.main-header{
+	font-size: .9rem;
+}
+
+.post-header{
+	font-size: .8rem;
+}
+
+.logo-text,
+.menuzord-brand{
+	font-size: 1.75rem;
+}
+
+.tag-line{
+	font-size: .5rem;
+}
+
+.side-header{
+	font-size: .8rem;
+}
+
+.sidr{
+	font-size: .8rem;
+}
+
+.h1, h1{
+	font-size: 2.25rem;
+}
+
+.h2, h2{
+	font-size: 1.75rem;
+}
+
+.h3, h3{
+	font-size: 1.4rem;
+}
+
+.h4, h4{
+	font-size: 1.125rem;
+}
+
+.h5, h5{
+	font-size: .875rem;
+}
+
+.h6, h6{
+	font-size: .75rem;
+}
+
+.btn,
+.button{
+ 	font-size: 1rem;
+}
+
+.form-control{
+	font-size: .9rem;
+}
+
+.lead,
+.jumbotron p{
+	font-size: 1.375rem;
+}
+
+blockquote{
+	font-size: 1.25rem;
+}
+
+.jumbotron h1,
+.jumbotron .h1 {
+  font-size: 4rem;
+}
+
+.pre-footer{
+	font-size: .8rem;
+}
+
+.main-footer{
+	font-size: 1rem;
+}
+
+.post-footer{
+	font-size: .8rem;
+}
+
+app-feed {
+	.mr-3 {
+		max-height: 5em;
+	}
+}

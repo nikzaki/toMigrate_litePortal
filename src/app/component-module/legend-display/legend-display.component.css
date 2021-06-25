@@ -1,0 +1,13 @@
+legend-display .legend .legend-item {
+  display: inline-flex; }
+legend-display .legend.vertical .legend-item {
+  display: flex; }
+legend-display .legend .legend-item {
+  align-items: center;
+  margin-left: 5px; }
+  legend-display .legend .legend-item:first-child {
+    margin-left: 0px; }
+  legend-display .legend .legend-item .item-icon {
+    display: inline-block;
+    height: 16px;
+    width: 16px; }

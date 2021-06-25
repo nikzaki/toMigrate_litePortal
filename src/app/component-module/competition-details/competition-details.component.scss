@@ -1,0 +1,29 @@
+competition-details {
+    .label {
+        font-weight: bolder;
+    }
+    .card {
+        padding: 5px;
+        h1, h2,h3,h4 {
+            text-decoration: underline;
+            margin: 5px 0px;
+        }
+    }
+    .missing-data {
+        margin-top: 25px;
+        font-weight: bold;
+        font-size: large;
+    }
+    .mat-column-roundNo {
+        flex: 1 0 10%
+    }
+    .mat-column-courseNames {
+        flex: 1 0 50%
+    }
+    .mat-column-roundDate {
+        flex: 1 0 20%
+    }
+    .mat-column-status {
+        flex: 1 0 20%
+    }
+}

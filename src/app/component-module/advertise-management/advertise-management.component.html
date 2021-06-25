@@ -1,0 +1,73 @@
+<section class="mat-typography">
+    <div style="text-align: center" class="mat-headline">Advertisement Management</div>
+    <section fxLayout="row nowrap"
+            fxLayout.lt-sm="column nowrap"
+            fxLayoutAlign="space-between center"
+            fxLayoutAlign.lt-sm="start stretch"
+            fxLayoutGap="10px"
+            class="mat-typography">
+        <section fxFlex="0 0 auto" class="ad-option-section">
+            <label class="ad-option-margin">List:</label>
+            <md-radio-group [(ngModel)]="activeType" name="activeType" (change)="onFilterChange()">
+                <md-radio-button class="ad-option-margin" value="active">Active</md-radio-button>
+                <md-radio-button class="ad-option-margin" value="inactive">Inactive</md-radio-button>
+                <md-radio-button class="ad-option-margin"  value="both">Both</md-radio-button>
+            </md-radio-group>
+        </section>
+        <md-checkbox fxFlex="0 0 auto" [(ngModel)]="includeExpired"  class="ad-option-margin"
+                (change)="onFilterChange()">Include Expired</md-checkbox>
+        <md-form-field fxFlex="1 1 auto">
+            <md-icon class="mdi mdi-magnify" mdPrefix></md-icon>
+            <input type="search" mdInput placeholder="Enter filter text"
+                    (ngModelChange)="onSearchStringChange($event)"
+                    [(ngModel)]="searchString">
+        </md-form-field>
+
+    </section>
+    <advertisement-list *ngIf="advertisementList"
+            displayMode="compact"
+            (onItemAction)="onAdAction($event)"
+            (onListAction)="onAdListAction($event)"
+            (onPageRequest)="onPageRequest($event)"
+            [itemActions]="itemActions"
+            [actions]="actions"
+            listHeader="Advertisements"
+            [pageSize]="pageSize"
+        [advertisements]="advertisementList.advertisements"
+        [totalAdvertisements]="advertisementList.totalItems"
+        [showPaginator]="advertisementList.totalPages > 1" [selectable]="true"
+        [lazyLoad]="true"></advertisement-list>
+</section>
+
+<p-dialog #adInfoDialog [(visible)]="displayAdInfo"
+        [showHeader]="false"
+        [resizable]="true" [style]="{'maxWidth': '740px'}">
+    <advertisement-display displayMode="detail" [advertisement]="displayAdInfo"></advertisement-display>
+    <p-footer>
+        <button type="button" pButton icon="fa-check" (click)="displayAdInfo=null" label="OK"></button>
+    </p-footer>
+</p-dialog>
+<p-dialog #addEditDialog [visible]="editMode !== 'none'"
+        [closable]="false"
+        [showHeader]="false"
+        [header]="editMode==='create'?'New Advertisement':editingAdvertisement?.name"
+        [modal]="true" [style]="{'maxWidth': '740px'}">
+    <advertisement-form #adForm [mode]="editMode"
+            [showButtons]="false"
+            [advertisement]="editingAdvertisement">
+    </advertisement-form>
+    <p-footer>
+        <button type="button" *ngIf="editMode==='create'" pButton icon="ui-icon-save" class="ui-button-success"
+                [disabled]="!adForm.isFormValid()"
+                (click)="createAdvertisement(adForm)" label="Create"></button>
+        <button type="button" *ngIf="editMode==='edit'" pButton icon="ui-icon-save" class="ui-button-success"
+                [disabled]="!adForm.isFormValid()"
+                (click)="updateAdvertisement(adForm)" label="Update"></button>
+        <button *ngIf="editMode==='create'" type="reset"  pButton icon="ui-icon-clear" class="ui-button-danger"
+                (click)="adForm.resetForm()" label="Reset"></button>
+        <button type="button"  pButton icon="ui-icon-cancel" class="ui-button-danger"
+                (click)="editMode='none';editingAdvertisement=null" label="Cancel"></button>
+    </p-footer>
+</p-dialog>
+<p-confirmDialog header="Confirmation" icon="ui-icon-delete-forever" width="425"></p-confirmDialog>
+

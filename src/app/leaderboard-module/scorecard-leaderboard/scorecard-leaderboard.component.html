@@ -1,0 +1,238 @@
+<div [ngBusy]="busyConfig"></div>
+<section *ngIf="!embedded" class="mat-typography" fxLayout = "row nowrap"
+        fxLayout.lt-sm="column nowrap" fxLayoutAlign = "space-between">
+
+    <div fxFlex [ngClass.lt-sm] = "'mat-subheading-2 heading-xs'"
+            class="mat-headline vertical-align-center heading">
+        <img *ngIf = "competition" [fxHide.xs] = "true"
+                style = "height:40px; margin-right: 10px"
+                [src] = "competition.thumbnail?competition.thumbnail:competition.imageUrl"
+                onerror = "this.src='assets/images/default_competition.png'">
+        {{competition?.competitionName}}
+    </div>
+    <div fxFlex = "0 0 auto" fxFlex.lt-sm="1 1 auto" fxLayoutAlign.lt-sm="end">
+        <button md-icon-button mdTooltip="View Leaderboard in full screen view" color="primary"
+                (click)="enterFullScreen()">
+            <md-icon class="mdi mdi-fullscreen"></md-icon>
+        </button>
+        <button md-icon-button [mdTooltip]="showSettings?'Hide Settings':'Show Settings'"
+                [color]="showSettings?'warn':'primary'"
+                (click)="onToggleShowSettings()">
+            <md-icon class="mdi mdi-settings"></md-icon>
+        </button>
+        <button md-icon-button mdTooltip="Change column visibility" color="primary"
+            (click)="visibilityDialog=true">
+            <md-icon class="mdi mdi-eye"></md-icon>
+        </button>
+    </div>
+</section>
+
+<leaderboard-settings #settingsComp [competition]="competition"
+        [teamLeaderBoard]="false"
+        [hideColorSet]="true"
+        [settings]="settings"
+        (settingsChange)="onLeaderboardSettingsChange($event)"
+        [styleClass]="showSettings && !fullScreen?'show-settings':'hide-settings'"
+        [totalPlayers]="totalPlayers"
+        [scrollPaused]="pauseScroll || paused"
+        (onNextPage)="nextPage($event)"
+        (onRefresh)="refresh($event)"
+        [details]="compDetails">
+</leaderboard-settings>
+<div *ngIf="refreshParams && showAutoScrollDetail()" fxLayout="row nowrap"
+        fxLayoutGap="30px" fxLayout.lt-sm="10px"
+        fxLayoutAlign="center center" class="mat-typography">
+    <div fxFlex="0 1 auto" class="mat-title">
+        Round : {{refreshParams.round.roundNo?refreshParams.round.roundNo:'All'}}
+    </div>
+    <div fxFlex="0 1 auto" class="mat-title" *ngIf="refreshParams.category.categoryName">
+        Category: {{refreshParams.category.categoryName}}
+    </div>
+    <div fxFlex="0 1 auto" class="mat-title" >
+        By: {{refreshParams.scoreType === 'gross'?'Gross':'Net'}} Score
+    </div>
+</div>
+<section #leaderboardSection class="competition-leaderboard">
+
+    <section class="fullscreen-header">
+        <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-between center">
+            <div fxFlex="1 1 auto" fxLayout = "row nowrap" fxLayoutGap = "10px" fxLayoutAlign = "space-between center"
+                >
+                <!-- style="margin-left: -100px" -->
+                <img class="comp-logo" fxFlex = "0 0 auto" *ngIf = "competition"
+                        [src] = "competition.thumbnail?competition.thumbnail:competition.imageUrl"
+                        onerror = "this.src='assets/images/default_competition.png'">
+                <span class="mat-display-1 comp-name" style="text-align: center"
+                        fxFlex = "0 0 auto">{{competition?.competitionName}}</span>
+                        <img class="m2u-logo" fxFlex="0 1 16vw" src="assets/images/mygolf2uLogo.png">
+
+            </div>
+            <div  fxFlex="0 0 auto" *ngIf="refreshParams" fxLayout="row nowrap"
+                    fxLayoutGap="30px"
+                    fxLayoutAlign="center center" class="mat-typography">
+
+                <ng-container *ngIf="competition?.totalRounds>1">
+                    <div fxFlex="1 1 22vw" class="mat-title">
+                        Round : {{refreshParams.round.roundNo?refreshParams.round.roundNo:'All'}}<br>
+                        <span *ngIf="refreshParams.category.categoryName">Category: {{refreshParams.category.categoryName}}</span><br>
+                        By: {{refreshParams.scoreType === 'gross'?'Gross':'Net'}} Score
+                    </div>
+                </ng-container>
+                <!-- <div fxFlex="0 1 auto" class="mat-title" >
+
+                </div>
+                <div fxFlex="0 1 auto" class="mat-title" >
+
+                </div> -->
+            </div>
+        </div>
+        <scoring-notifications
+        [notifications]="scoringNotifications|async"></scoring-notifications>
+    </section>
+    <!--<div *ngIf="autoScroll && !fullScreen">Showing Page <b>{{currentPage}} of {{totalPages}}</b></div>-->
+    <p-dataTable [value]="playersToDisplay" #playerLeaderboard
+            expandableRows="true"
+            rowExpandMode="single"
+            styleClass="primary-table"
+            (onRowCollapse)="onPlayerRowCollapsed($event)"
+            (onRowExpand)="onPlayerRowExpand($event)">
+        <p-headerColumnGroup>
+            <p-row>
+                <p-column expander="true" header="" rowspan="2" [style]="{'width':'3%'}"></p-column>
+                <p-column header="Pos" [hidden]="isColumnHidden('position')"
+                        rowspan="2" [style]="{'width':'5%'}"></p-column>
+                <p-column header="Hcp" rowspan="2" [hidden]="isColumnHidden('handicap') || isMobileScreen()"
+                        [style]="{'width':'5%'}"></p-column>
+                <p-column header="Player" rowspan="2" [style]="{'width':'29%'}"></p-column>
+                <p-column header="Team" rowspan="2" [hidden]="!competition?.teamEvent || isColumnHidden('team')"
+                        [style]="{'width': '10%'}">
+                </p-column>
+                <p-column header="(+/-)" rowspan="2" [style]="{'width':'5%'}"></p-column>
+                <p-column header="On" rowspan="2" [hidden]="isColumnHidden('on')|| isMobileScreen()"
+                        [style]="{'width':'3%'}"></p-column>
+                <p-column header="Thru" rowspan="2" [hidden]="isColumnHidden('thru')|| isMobileScreen()"
+                        [style]="{'width':'4%'}"></p-column>
+                <p-column colspan="3" header="Gross" [hidden]="isGrossHidden()"
+                        styleClass="gross-column" [style]="{'width':'15%'}">
+                </p-column>
+                <p-column header="Net" colspan="3" [hidden]="isNetHidden()"
+                        styleClass="net-column" [style]="{'width':'15%'}"></p-column>
+                <p-column header="OCB"
+                        [hidden]="isColumnHidden('ocb')"
+                        rowspan="2" [style]="{'width':'7%'}"></p-column>
+            </p-row>
+            <p-row>
+                <p-column header="Out" styleClass="gross-column" [hidden]="isGrossHidden()" ></p-column>
+                <p-column header="In" styleClass="gross-column"   [hidden]="isGrossHidden()" ></p-column>
+                <p-column header="Total" styleClass="gross-column"   [hidden]="isGrossHidden()" ></p-column>
+                <p-column header="Out" styleClass="net-column"  [hidden]="isNetHidden()" ></p-column>
+                <p-column header="In"  styleClass="net-column" [hidden]="isNetHidden()" ></p-column>
+                <p-column header="Total" styleClass="net-column"  [hidden]="isNetHidden()" ></p-column>
+            </p-row>
+        </p-headerColumnGroup>
+        <p-column expander="true"></p-column>
+        <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body">
+                <div [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+            </ng-template>
+        </p-column>
+        <p-column field="handicap" header="Hcp" [hidden]="isColumnHidden('handicap')|| isMobileScreen()"
+                [style]="{'textAlign': 'center'}"></p-column>
+        <p-column header="Player">
+            <ng-template let-col let-player="rowData" pTemplate="body">
+                <div class = "player-name vertical-align-center" (click)="playerLeaderboard.toggleRow(player)">
+                    <img [src] = "player.imageURL" *ngIf="!isMobileScreen()"
+                            onerror="this.src = 'assets/images/default_user.png'"
+                            style = "width:40px; margin-right: 10px">
+                    <span>{{player.playerName}}</span>
+                </div>
+            </ng-template>
+        </p-column>
+        <p-column header="Team" [hidden]="!competition?.teamEvent || isColumnHidden('team')">
+            <ng-template let-player="rowData" pTemplate="body">
+                <div fxLayout="row nowrap"
+                        fxLayoutAlign="space-between center"
+                        fxLayoutAlign.lt-md="center center"
+                        fxLayoutGap="3px">
+                    <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="player.teamLogo">
+                    <div fxFlex="1 1 auto" fxHide.lt-md="true">{{player.teamName}}</div>
+                </div>
+            </ng-template>
+        </p-column>
+        <p-column header="(+/-)"   [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body">
+                <div *ngIf="!byNet" [class.under-par]="player.toPar<0">{{player.toPar}}</div>
+                <div *ngIf="byNet && player.modifiedTotalNet">
+                    <span class="strike-out"  [class.under-par]="player.toPar<0">{{player.toPar}}</span>
+                    <span  [class.under-par]="player.parCap<0">{{player.parCap}}</span>
+                </div>
+                <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="player.toPar<0">
+                    {{player.toPar}}
+                </div>
+            </ng-template>
+        </p-column>
+
+        <p-column field="onHole" [hidden]="isColumnHidden('on')|| isMobileScreen()"  [style]="{'textAlign': 'center'}"></p-column>
+        <p-column field="thru" [hidden]="isColumnHidden('thru')|| isMobileScreen()" [style]="{'textAlign': 'center'}"></p-column>
+        <p-column field="outTotalGross" header="Out" styleClass="gross-column"  [hidden]="isGrossHidden()"
+                [style]="{'textAlign': 'center'}">
+        </p-column>
+        <p-column field="inTotalGross" styleClass="gross-column"  [hidden]="isGrossHidden()"
+                [style]="{'textAlign': 'center'}"></p-column>
+        <p-column field="totalGross" styleClass="gross-column" [hidden]="isGrossHidden()"  [style]="{'textAlign': 'center'}"></p-column>
+        <p-column field="outTotalNet"  styleClass="net-column" [hidden]="isNetHidden()"   [style]="{'textAlign': 'center'}"></p-column>
+        <p-column field="inTotalNet"  styleClass="net-column"  [hidden]="isNetHidden()"   [style]="{'textAlign': 'center'}"></p-column>
+        <p-column field="totalNet"  styleClass="net-column"  [hidden]="isNetHidden()"   [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body">
+                <div>
+                    <span [class.strike-out]="player.modifiedTotalNet"  [class.under-par]="player.toPar<0">{{player.totalNet}}</span>
+                    <span *ngIf="player.modifiedTotalNet" [class.under-par]="player.toPar<0">{{player.modifiedTotalNet}}</span>
+                </div>
+
+            </ng-template>
+        </p-column>
+        <p-column field="ocb" header="OCB"
+                [hidden]="isColumnHidden('ocb')"
+                [style]="{'textAlign': 'center'}"></p-column>
+        <ng-template let-player pTemplate="rowexpansion">
+            <!--<player-scorecard-display-->
+                    <!--[competitionId]="competitionId"-->
+                    <!--[colorSet]="settings?.colorSet"-->
+                    <!--[hideNetRow]="settings?.scoreType === 'gross' && settings?.hideNetColumns"-->
+                    <!--[playerId]="playerRowExpanded.playerId"-->
+                    <!--[rounds]="playerRowExpanded.rounds">-->
+
+            <!--</player-scorecard-display>-->
+            <app-individual-expand [competitionId]="competitionId"
+                    [player]="playerRowExpanded"></app-individual-expand>
+        </ng-template>
+    </p-dataTable>
+
+</section>
+<scoring-notifications
+        [notifications]="scoringNotifications|async"></scoring-notifications>
+<p-dialog #columnVisibility [visible]="visibilityDialog"
+        [closable]="false"
+        showHeader="false"
+        [contentStyle]="{'overflow':'visible'}"
+        height="200" width="400"
+        (onHide)="columnVisibilityChanged(visibilityComp.hiddenColumns)">
+    <div style="width: auto">
+        <h3>Select Columns to Hide</h3>
+        <div class="ui-g ui-fluid">
+            <div class="ui-g-12">
+                <leaderboard-column-visibility #visibilityComp [columnDetails]="leaderboardColumns">
+                </leaderboard-column-visibility>
+            </div>
+        </div>
+        <p-footer>
+            <div style="text-align: right">
+                <button md-button (click)="visibilityDialog=false" color="primary">
+                    <md-icon class="mdi mdi-check"></md-icon>
+                    OK
+                </button>
+            </div>
+
+        </p-footer>
+    </div>
+</p-dialog>

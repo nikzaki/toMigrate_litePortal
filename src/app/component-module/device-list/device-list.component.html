@@ -1,0 +1,111 @@
+
+<p-dataGrid #devicelist [value]="deviceList" [paginator]="showPaginator"
+        [totalRecords]="totalItems" [lazy]="showing === 'devices'"
+        [paginatorPosition]="paginatorPosition"
+        (onPage)="onPageEvent($event)"
+        (onLazyLoad)="onLazyLoad($event)"
+        [rows]="rowsPerPage">
+    <p-header>
+        <p-toolbar>
+            <div class="ui-toolbar-group-right">
+                <button pButton *ngIf="showing === 'devices' && totalSelected()" label="Add Selected to Favorites"
+                        (click)="onAddToFavoriteClick()"
+                        icon="ui-icon-favorite" class="ui-button-success"></button>
+                <button pButton *ngIf="showing === 'favorites' && totalSelectedInPage()" label="Remove Selected from Favorites"
+                        (click)="onRemoveFromFavoriteClick()"
+                        icon="ui-icon-favorite" class="ui-button-danger"></button>
+                <button *ngIf="selectable" pButton label="Select All" icon="ui-icon-check-circle"
+                        (click)="selectAll()"
+                    class="ui-button-success"></button>
+                <button *ngIf="selectable" pButton label="Clear Selection" icon="ui-icon-clear" (click)="clearSelection()"
+                class="ui-button-warning"></button>
+            </div>
+        </p-toolbar>
+    </p-header>
+    <ng-template let-device let-idx="index" pTemplate="item" >
+        <div class="ui-g-12 ui-md-6 ui-lg-4" style="padding: 2px" *ngIf="displayMode==='grid'">
+            <p-panel  [style]="{'text-align':'center'}" [class.selected]="device.selected">
+                <div class="ui-grid ui-grid-responsive device-info">
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4 attribute-label">Device ID</div>
+                        <div class="ui-grid-col-6">{{device.deviceId}}</div>
+                        <div class="ui-grid-col-2">
+                            <i *ngIf="isFavoriteDevice(device)" class="material-icons"
+                                    style="color:deeppink;float: right">favorite</i>
+                            <button icon-only pButton icon="ui-icon-info"
+                                    style="float: right"
+                                    pTooltip="Identify this device"
+                                    (click)="identifyDevice(device)"></button>
+
+                        </div>
+                    </div>
+                    <div class="ui-grid-row"> <!-- Name Row -->
+                        <div class="ui-grid-col-4 attribute-label">Name</div>
+                        <div class="ui-grid-col-8" *ngIf="!allowEdit">{{device.deviceName}}</div>
+                        <div class="ui-grid-col-8" *ngIf="allowEdit">
+                            <p-inplace [closable]="true" (onActivate)="onNameContentActivate()" #nameditor>
+                                <span pInplaceDisplay style="text-decoration: underline">
+                                    {{device.deviceName?device.deviceName: 'Click here to edit'}}
+                                </span>
+                                <span pInplaceContent>
+                                    <input type="text" [(ngModel)]="device.deviceName" class="editor-input"
+                                            #nametext
+                                        (change)="onNameChange(device, index)">
+                                </span>
+                            </p-inplace>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row" *ngIf="isBrowser(device)">
+                        <div class="ui-grid-col-4 attribute-label">Browser</div>
+                        <div class="ui-grid-col-8">Yes</div>
+                    </div>
+                    <div class="ui-grid-row" *ngIf="isBrowser(device)">
+                        <div class="ui-grid-col-4 attribute-label">Browser Name</div>
+                        <div class="ui-grid-col-7">{{browserName(device)}}</div>
+                        <div class="ui-grid-col-1">
+                            <p-checkbox *ngIf="selectable" [binary]="true"
+                                    [(ngModel)]="device.selected"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row" *ngIf="!isBrowser(device)">
+                        <div class="ui-grid-col-4 attribute-label">Device Model</div>
+                        <div class="ui-grid-col-8">{{device.manufacturer}} {{device.model}} - {{device.serial}}</div>
+                    </div>
+                    <div class="ui-grid-row" *ngIf="!isBrowser(device)">
+                        <div class="ui-grid-col-4 attribute-label">Platform</div>
+                        <div class="ui-grid-col-7">{{device.platform}} - {{device.platformVersion}}</div>
+                        <div class="ui-grid-col-1">
+                            <p-checkbox *ngIf="selectable" [binary]="true"
+                                    [(ngModel)]="device.selected"></p-checkbox>
+                        </div>
+                    </div>
+                    <div class="ui-grid-row">
+                        <div class="ui-grid-col-4 attribute-label">Tags</div>
+                        <div class="ui-grid-col-8" *ngIf="!allowEdit">{{device.userTags}}</div>
+                        <div class="ui-grid-col-8" *ngIf="allowEdit">
+                            <p-inplace [closable]="true" (onActivate)="onUserTagContentActivate()" #tageditor>
+                                <span pInplaceDisplay style="text-decoration: underline">
+                                    {{device.userTags?device.userTags: 'Click here to edit'}}
+                                </span>
+                                <span pInplaceContent>
+                                    <input type="text" [(ngModel)]="device.userTags" class="editor-input" #tagtext
+                                            (change)="onUserTagChange(device, index)">
+                                </span>
+                            </p-inplace>
+                        </div>
+
+                    </div>
+                </div>
+            </p-panel>
+        </div>
+        <div class="ui-g-12 ui-md-3 ui-lg-2" *ngIf="displayMode==='compact'"
+                (click)="toggleSelection(device, idx)">
+            <p-panel [class.selected]="device.selected">
+                <div>{{device.deviceName}}</div>
+                <div *ngIf="!isBrowser(device)">{{device.manufacturer}} {{device.model}}</div>
+                <div *ngIf="isBrowser(device)">{{browserName(device)}}</div>
+                <div>{{device.userTags}}</div>
+            </p-panel>
+        </div>
+    </ng-template>
+</p-dataGrid>
