@@ -274,13 +274,13 @@
                             Black Tee:
                         </div>
                         <div *ngIf="tb.name === 'Black' && blackMgHcp" class="ui-g-2  player-field">
-                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{blackMgHcp}}<span *ngIf="this.clubNhsHandicap.handicapIndex"><br>NHS : {{blackHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-black"></i>
+                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{blackMgHcp}}<span *ngIf="this.clubNhsHandicap && this.clubNhsHandicap.handicapIndex"><br>NHS : {{blackHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-black"></i>
                         </div>
                         <div *ngIf="tb.name === 'Blue' && blueMgHcp" class="ui-g-4  player-param">
                             Blue Tee:
                         </div>
                         <div *ngIf="tb.name === 'Blue' && blueMgHcp" class="ui-g-2 player-field">
-                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{blueMgHcp}}<span *ngIf="this.clubNhsHandicap.handicapIndex"><br>NHS : {{blueHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-blue"></i>
+                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{blueMgHcp}}<span *ngIf="this.clubNhsHandicap && this.clubNhsHandicap.handicapIndex"><br>NHS : {{blueHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-blue"></i>
                         </div>
                         <!-- <div class="ui-xl-3 d-none d-xl-block">&nbsp;</div>
                     <div class="ui-xl-3 d-none d-xl-block">&nbsp;</div> -->
@@ -288,20 +288,20 @@
                             Red Tee:
                         </div>
                         <div *ngIf="tb.name === 'Red' && redMgHcp" class="ui-g-2  player-field">
-                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{redMgHcp}}<span *ngIf="this.clubNhsHandicap.handicapIndex"><br>NHS :  {{redHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-red"></i>
+                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{redMgHcp}}<span *ngIf="this.clubNhsHandicap && this.clubNhsHandicap.handicapIndex"><br>NHS :  {{redHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-red"></i>
                         </div>
                         <div *ngIf="tb.name === 'White' && whiteMgHcp" class="ui-g-4  player-param">
                             White Tee:
                         </div>
                         <div *ngIf="tb.name === 'White' && whiteMgHcp" class="ui-g-2 player-field">
-                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{whiteMgHcp}}<span *ngIf="this.clubNhsHandicap.handicapIndex"><br>NHS : {{whiteHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-white"></i>
+                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{whiteMgHcp}}<span *ngIf="this.clubNhsHandicap && this.clubNhsHandicap.handicapIndex"><br>NHS : {{whiteHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-white"></i>
                         </div>
                         <!-- <div class="ui-xl-3 d-none d-xl-block">&nbsp;</div> -->
                         <div *ngIf="tb.name === 'Gold' && goldMgHcp" class="ui-g-4 player-param">
                             Gold Tee:
                         </div>
                         <div *ngIf="tb.name === 'Gold' && goldMgHcp" class="ui-g-2  player-field">
-                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{goldMgHcp}}<span *ngIf="this.clubNhsHandicap.handicapIndex"><br>NHS : {{goldHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-gold"></i>
+                            {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{goldMgHcp}}<span *ngIf="this.clubNhsHandicap && this.clubNhsHandicap.handicapIndex"><br>NHS : {{goldHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-gold"></i>
                         </div>
                     </ng-container>
                     <div class="ui-g-12">
