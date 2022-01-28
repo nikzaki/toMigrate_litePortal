@@ -817,7 +817,7 @@ export class MygolfHandicapComponent implements OnInit {
             for (let i = 0; i < loop.length; i++) {
                 this.selectedCourse1.teeBoxes.forEach((tb: TeeBoxInfo) => {
                     this.clubService.getCourseHandicap(this.player.playerId, tb.name, 
-                    selCourseId1, selCourseId2, loop[i], this.selectedHcpCalc.id)
+                    selCourseId1, selCourseId2, this.calcPlayerHcpIdx, this.selectedHcpCalc.id)
                                             .subscribe((ch: number) => {
                                                 console.log("TB : ", tb.name)
                                                 console.log("x : ", loop[i])
@@ -844,7 +844,7 @@ export class MygolfHandicapComponent implements OnInit {
                                                     else this.goldMgHcp = ch;
                                                 }
                                                 this.clubService.getPlayerCourseHandicapDetails(this.player.playerId, tb.name, 
-                                                    selCourseId1, selCourseId2, loop[i], this.selectedHcpCalc.id)
+                                                    selCourseId1, selCourseId2, this.calcPlayerHcpIdx, this.selectedHcpCalc.id)
                                                     .subscribe((data: any)=>{
                                                         if (data) {
                                                             console.debug("get player course handicap details : ", i, tb.name, " - ", data)
@@ -889,7 +889,7 @@ export class MygolfHandicapComponent implements OnInit {
              for (let i = 0; i < loop.length; i++) {
                 this.selectedCourse2.teeBoxes.forEach((tb: TeeBoxInfo) => {
                     this.clubService.getCourseHandicap(this.player.playerId, tb.name, 
-                        selCourseId1, selCourseId2, loop[i],this.selectedHcpCalc.id)
+                        selCourseId1, selCourseId2, this.calcPlayerHcpIdx,this.selectedHcpCalc.id)
                                             .subscribe((ch: number) => {
                                                 if(tb.name=== 'Black') {
                                                     if(i === 0) this.blackHcp = ch
@@ -912,7 +912,7 @@ export class MygolfHandicapComponent implements OnInit {
                                                     else this.goldMgHcp = ch;
                                                 }
                                                 this.clubService.getPlayerCourseHandicapDetails(this.player.playerId, tb.name, 
-                                                    selCourseId1, selCourseId2, loop[i], this.selectedHcpCalc.id)
+                                                    selCourseId1, selCourseId2, this.calcPlayerHcpIdx, this.selectedHcpCalc.id)
                                                     .subscribe((data: any)=>{
                                                         if (data) {
                                                             console.debug("get player course handicap details : ", i, tb.name, " - ", data)
