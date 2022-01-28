@@ -25,6 +25,8 @@ export const RestUrl: any = {
         updatePlayerProfile: '/update/player/profile',
         getPlayerById : "/players/get-by-id", //?playerId
         getPlayerByEmail : "/player/getbyemail", //?email*
+        getCourseSlopeRating: "​/club/course-slope-rating",
+        getPlayerCourseHandicapDetails: "/handicap/player-course-handicap-details",
 
     },
     clubOrgService: {

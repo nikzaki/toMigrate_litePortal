@@ -80,7 +80,7 @@ export class ClubService {
     }
 
 
-    public getCourseHandicap(playerId: number,teeBox?: string,firstNineCourse?: number,secondNineCourse?: number, handicapIndex?: number): Observable<number> {
+    public getCourseHandicap(playerId: number,teeBox?: string,firstNineCourse?: number,secondNineCourse?: number, handicapIndex?: number, handicapSystem?: string): Observable<number> {
         let hdrs = {};
         let url = this.configService.getRestApiUrl(RestUrl.playerService.getCourseHandicap);
         hdrs['Player-Id'] = playerId;
@@ -92,12 +92,36 @@ export class ClubService {
         params['firstNineCourse'] = firstNineCourse;
         params['secondNineCourse'] = secondNineCourse;
         if(handicapIndex) params['handicapIndex'] = handicapIndex;
+        if(handicapSystem) params['handicapSystem'] = handicapSystem;
         let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA, params);
         return this.remoteHttp.execute(req)
         .map((resp: Response)=>{
             let courseHandicap: number = resp.json();
 
             return courseHandicap;
+        });
+
+    }
+
+    public getPlayerCourseHandicapDetails(playerId: number,teeBox?: string,firstNineCourse?: number,secondNineCourse?: number, handicapIndex?: number, handicapSystem?: string): Observable<number> {
+        let hdrs = {};
+        let url = this.configService.getRestApiUrl(RestUrl.playerService.getPlayerCourseHandicapDetails);
+        hdrs['Player-Id'] = playerId;
+        console.log("get handicap history : ", playerId);
+        console.log("get handicap history : ", hdrs);
+        let params = {};
+        params['playerId'] = playerId;
+        params['teeBox'] = teeBox;
+        params['firstNineCourse'] = firstNineCourse;
+        params['secondNineCourse'] = secondNineCourse;
+        if(handicapIndex) params['handicapIndex'] = handicapIndex;
+        if(handicapSystem) params['handicapSystem'] = handicapSystem;
+        let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA, params);
+        return this.remoteHttp.execute(req)
+        .map((resp: Response)=>{
+            let courseHandicapDetails: any = resp.json();
+
+            return courseHandicapDetails;
         });
 
     }

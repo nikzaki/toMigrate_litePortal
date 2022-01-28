@@ -80,6 +80,14 @@ import { HandicapSystem,
     PlayerInfo,
     ClubHandicap} from 'app/models/mygolf.data';
 
+
+    
+
+export interface CourseRatings {
+    courseRating ? : number;
+    slopeRating? : number;
+    totalPar ? : number;
+}
 @Component({
     selector: 'mygolf-handicap',
     templateUrl: './mygolf-handicap.component.html',
@@ -87,6 +95,7 @@ import { HandicapSystem,
     providers: [MessageService],
     // encapsulation: ViewEncapsulation.None,
 })
+
 export class MygolfHandicapComponent implements OnInit {
     @Input() competitions: Competition[];
     @Input() totalCompetitions: number;
@@ -134,6 +143,12 @@ export class MygolfHandicapComponent implements OnInit {
     goldMgHcp: number;
     hasPlayer: boolean = false;
     listMode: boolean = false;
+
+    blackRatings: CourseRatings;
+    blueRatings: CourseRatings;
+    whiteRatings: CourseRatings;
+    redRatings: CourseRatings;
+    goldRatings: CourseRatings;
 
     displayPlayer: boolean = false;
     displayDetail: boolean = false;
@@ -751,6 +766,12 @@ export class MygolfHandicapComponent implements OnInit {
         //     })
         //     console.log("selected course tee box:", selCourse)
         // }
+        console.debug("player course handicap : ", whichCourse)
+        console.debug("player course handicap : ",this.selectedCourse1)
+        console.debug("player course handicap : ", handicapIndex)
+        console.debug("player course handicap : ", this.player)
+        console.debug("player course handicap : ",  this.clubNhsHandicap)
+        console.debug("player course handicap : ",  this.selectedHcpCalc)
         
         this.getTeeBox();
         this.blueHcp = null;
@@ -796,7 +817,7 @@ export class MygolfHandicapComponent implements OnInit {
             for (let i = 0; i < loop.length; i++) {
                 this.selectedCourse1.teeBoxes.forEach((tb: TeeBoxInfo) => {
                     this.clubService.getCourseHandicap(this.player.playerId, tb.name, 
-                    selCourseId1, selCourseId2, loop[i])
+                    selCourseId1, selCourseId2, loop[i], this.selectedHcpCalc.id)
                                             .subscribe((ch: number) => {
                                                 console.log("TB : ", tb.name)
                                                 console.log("x : ", loop[i])
@@ -822,6 +843,34 @@ export class MygolfHandicapComponent implements OnInit {
                                                     if(i === 0) this.goldHcp = ch;
                                                     else this.goldMgHcp = ch;
                                                 }
+                                                this.clubService.getPlayerCourseHandicapDetails(this.player.playerId, tb.name, 
+                                                    selCourseId1, selCourseId2, loop[i], this.selectedHcpCalc.id)
+                                                    .subscribe((data: any)=>{
+                                                        if (data) {
+                                                            console.debug("get player course handicap details : ", i, tb.name, " - ", data)
+                                                            if(tb.name=== 'Black') {
+                                                                if(i === 0) this.blackRatings = data.rating
+                                                                else this.blackRatings = data.rating
+                                                                }
+                                                            else if(tb.name === 'Blue') {
+                                                                if(i === 0) this.blueRatings = data.rating
+                                                                else this.blueRatings = data.rating
+                                                            }
+                                                            else if(tb.name === 'Red') {
+                                                                if(i === 0) this.redRatings = data.rating
+                                                                else this.redRatings = data.rating
+                                                            }
+                                                            else if(tb.name === 'White') {
+                                                                if(i === 0) this.whiteRatings = data.rating
+                                                                else this.whiteRatings = data.rating
+                                                            }
+                                                            else if(tb.name === 'Gold') {
+                                                                if(i === 0) this.goldRatings = data.rating
+                                                                else this.goldRatings = data.rating
+                                                            }
+
+                                                        }
+                                                    })
                                             }, (error) => {
                                                 if(error) this.firstNineSuccess = false;
                                             })
@@ -840,7 +889,7 @@ export class MygolfHandicapComponent implements OnInit {
              for (let i = 0; i < loop.length; i++) {
                 this.selectedCourse2.teeBoxes.forEach((tb: TeeBoxInfo) => {
                     this.clubService.getCourseHandicap(this.player.playerId, tb.name, 
-                        selCourseId1, selCourseId2, loop[i])
+                        selCourseId1, selCourseId2, loop[i],this.selectedHcpCalc.id)
                                             .subscribe((ch: number) => {
                                                 if(tb.name=== 'Black') {
                                                     if(i === 0) this.blackHcp = ch
@@ -862,6 +911,34 @@ export class MygolfHandicapComponent implements OnInit {
                                                     if(i === 0) this.goldHcp = ch;
                                                     else this.goldMgHcp = ch;
                                                 }
+                                                this.clubService.getPlayerCourseHandicapDetails(this.player.playerId, tb.name, 
+                                                    selCourseId1, selCourseId2, loop[i], this.selectedHcpCalc.id)
+                                                    .subscribe((data: any)=>{
+                                                        if (data) {
+                                                            console.debug("get player course handicap details : ", i, tb.name, " - ", data)
+                                                            if(tb.name=== 'Black') {
+                                                                if(i === 0) this.blackRatings = data.rating
+                                                                else this.blackRatings = data.rating
+                                                                }
+                                                            else if(tb.name === 'Blue') {
+                                                                if(i === 0) this.blueRatings = data.rating
+                                                                else this.blueRatings = data.rating
+                                                            }
+                                                            else if(tb.name === 'Red') {
+                                                                if(i === 0) this.redRatings = data.rating
+                                                                else this.redRatings = data.rating
+                                                            }
+                                                            else if(tb.name === 'White') {
+                                                                if(i === 0) this.whiteRatings = data.rating
+                                                                else this.whiteRatings = data.rating
+                                                            }
+                                                            else if(tb.name === 'Gold') {
+                                                                if(i === 0) this.goldRatings = data.rating
+                                                                else this.goldRatings = data.rating
+                                                            }
+
+                                                        }
+                                                    })
                                             }, (error)=> {
                                                 if(error) this.secondNineSuccess = false;
                                             })
@@ -870,7 +947,7 @@ export class MygolfHandicapComponent implements OnInit {
             }
             
          }
-        
+
 
 
 

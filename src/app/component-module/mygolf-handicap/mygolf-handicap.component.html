@@ -275,12 +275,22 @@
                         </div>
                         <div *ngIf="tb.name === 'Black' && blackMgHcp" class="ui-g-2  player-field">
                             {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{blackMgHcp}}<span *ngIf="this.clubNhsHandicap && this.clubNhsHandicap.handicapIndex"><br>NHS : {{blackHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-black"></i>
+                            <span *ngIf="blackRatings">
+                                <br>CR : {{blackRatings.courseRating}}
+                                <br>SR : {{blackRatings.slopeRating}}
+                                <br>Par : {{blackRatings.totalPar}}
+                            </span>
                         </div>
                         <div *ngIf="tb.name === 'Blue' && blueMgHcp" class="ui-g-4  player-param">
                             Blue Tee:
                         </div>
                         <div *ngIf="tb.name === 'Blue' && blueMgHcp" class="ui-g-2 player-field">
                             {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{blueMgHcp}}<span *ngIf="this.clubNhsHandicap && this.clubNhsHandicap.handicapIndex"><br>NHS : {{blueHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-blue"></i>
+                            <span *ngIf="blueRatings">
+                                <br>CR : {{blueRatings.courseRating}}
+                                <br>SR : {{blueRatings.slopeRating}}
+                                <br>Par : {{blueRatings.totalPar}}
+                            </span>
                         </div>
                         <!-- <div class="ui-xl-3 d-none d-xl-block">&nbsp;</div>
                     <div class="ui-xl-3 d-none d-xl-block">&nbsp;</div> -->
@@ -289,12 +299,22 @@
                         </div>
                         <div *ngIf="tb.name === 'Red' && redMgHcp" class="ui-g-2  player-field">
                             {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{redMgHcp}}<span *ngIf="this.clubNhsHandicap && this.clubNhsHandicap.handicapIndex"><br>NHS :  {{redHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-red"></i>
+                            <span *ngIf="redRatings">
+                                <br>CR : {{redRatings.courseRating}}
+                                <br>SR : {{redRatings.slopeRating}}
+                                <br>Par : {{redRatings.totalPar}}
+                            </span>
                         </div>
                         <div *ngIf="tb.name === 'White' && whiteMgHcp" class="ui-g-4  player-param">
                             White Tee:
                         </div>
                         <div *ngIf="tb.name === 'White' && whiteMgHcp" class="ui-g-2 player-field">
                             {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{whiteMgHcp}}<span *ngIf="this.clubNhsHandicap && this.clubNhsHandicap.handicapIndex"><br>NHS : {{whiteHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-white"></i>
+                            <span *ngIf="whiteRatings">
+                                <br>CR : {{whiteRatings.courseRating}}
+                                <br>SR : {{whiteRatings.slopeRating}}
+                                <br>Par : {{whiteRatings.totalPar}}
+                            </span>
                         </div>
                         <!-- <div class="ui-xl-3 d-none d-xl-block">&nbsp;</div> -->
                         <div *ngIf="tb.name === 'Gold' && goldMgHcp" class="ui-g-4 player-param">
@@ -302,6 +322,12 @@
                         </div>
                         <div *ngIf="tb.name === 'Gold' && goldMgHcp" class="ui-g-2  player-field">
                             {{getPlayerHcpSystem(selectedHcpCalc,'shortCode')}} : {{goldMgHcp}}<span *ngIf="this.clubNhsHandicap && this.clubNhsHandicap.handicapIndex"><br>NHS : {{goldHcp}}</span>&nbsp;<i class="mdi mdi-flag-variant tbox-gold"></i>
+                            <span *ngIf="goldRatings">
+                                <br>CR : {{goldRatings.courseRating}}
+                                <br>SR : {{goldRatings.slopeRating}}
+                                <br>Par : {{goldRatings.totalPar}}
+                            </span>
+
                         </div>
                     </ng-container>
                     <div class="ui-g-12">
