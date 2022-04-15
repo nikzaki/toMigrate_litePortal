@@ -1,3 +1,4 @@
+import { PlayerDataLite } from './../../models/mygolf.data';
 import {
     Component,
     OnInit,
@@ -121,7 +122,7 @@ export class MygolfHandicapComponent implements OnInit {
     allHandicapList: Array < HandicapCalculation > = [];
     handicapRounds: Array < HandicapGameRound > = [];
     localRound: any = [];
-    player: PlayerInfo;
+    player: PlayerDataLite; // PlayerInfo;
     searchPlayerId: number;
     searchPlayer: string = '';
     clubDropdown: SelectItem[] = [];
@@ -1111,7 +1112,7 @@ export class MygolfHandicapComponent implements OnInit {
         expandImage() {
         // this.selectedCar = car;
         this.displayImage = true;
-        // this.fullImageUrl = p.photoUrl;
+        // this.fullImageUrl = p.playerPhoto;
         // overlaypanel.toggle(event);
     }
 

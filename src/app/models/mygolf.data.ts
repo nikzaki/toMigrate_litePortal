@@ -3218,6 +3218,29 @@ export class CourseDisplay{
     indexToUse?: number;
 }
 
+export class ClubMemberLite {
+    club?: ClubDataLite;
+    player?: PlayerDataLite;
+    homeClub?: boolean;
+    membershipNumber?: string;
+    status?: string;
+    m2uHandicap?: string;
+    membershipType?: string;
+}
+
+export class ClubDataLite {
+    clubId?: number;
+    clubName?: string;
+    clubImage?: string;
+    clubThumbnail?: string;
+    clubLogo?: string;
+}
+
+export class PlayerDataLite {
+    playerId?: number;
+    playerName?: string;
+    playerPhoto?: string;
+}
 export function createClubList(): ClubList {
     return {
         totalPages: 0,
