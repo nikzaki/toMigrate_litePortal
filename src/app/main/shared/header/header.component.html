@@ -76,21 +76,23 @@
       <!-- <i class = "fa fa-twitter"></i>&nbsp; -->
       <i class="fa fa-globe"></i>
     </div>
-    <ul class="navbar-inline navbar-nav ml-auto mt-2 mt-md-0" *ngIf="(userType | async) === 'Admin' || (userType | async) === 'Britesoft' ">
+    <ul class="navbar-inline navbar-nav ml-auto mt-2 mt-md-0" 
+    *ngIf="(userType | async) === 'Admin' || (userType | async) === 'Britesoft'
+    || (userType | async) === 'Club' ">
         <!-- *ngIf="(userType | async) === 'Admin'" -->
-      <li [routerLink]="['/admin']">
+      <li *ngIf="(userType | async) === 'Admin' || (userType | async) === 'Britesoft'" [routerLink]="['/admin']">
         <a class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;">Admin Home</a>
       </li>
       <li [routerLink]="['/admin/importplayers']">
         <a class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;">Import Players</a>
       </li>
-      <li [routerLink]="['/admin/playermerge']">
+      <li *ngIf="(userType | async) === 'Admin' || (userType | async) === 'Britesoft'" [routerLink]="['/admin/playermerge']">
         <a class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;">Merge Players</a>
       </li>
-      <li [routerLink]="['/admin/devicemanagement']">
+      <li *ngIf="(userType | async) === 'Admin' || (userType | async) === 'Britesoft'" [routerLink]="['/admin/devicemanagement']">
         <a class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;">Device Management</a>
       </li>
-      <li [routerLink]="['/admin/advertisements']">
+      <li *ngIf="(userType | async) === 'Admin' || (userType | async) === 'Britesoft'" [routerLink]="['/admin/advertisements']">
         <a class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;">Ads Management</a>
       </li>
     </ul>

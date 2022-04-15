@@ -10,10 +10,13 @@ export class AdminGuard implements CanActivate {
     constructor(private sessionService: SessionService, private router: Router){}
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> | Promise<boolean> | boolean {
         return this.sessionService.getSession()
-            .map(session=>session.userInfo)
+            .map((session)=>{
+                console.log("activate session : ", session)
+                return session.userInfo
+            })
             .map(userInfo=>{
+                console.log("activate user info: ", userInfo)
                 let activate = userInfo && ( userInfo.userType === 'Admin' || userInfo.userType === 'Club' || userInfo.userType === 'Britesoft');
-                console.log("activate : ", userInfo)
                 if(!activate){
                     //Navigate to Error page
                     // this.router.navigate(['/access-denied']);

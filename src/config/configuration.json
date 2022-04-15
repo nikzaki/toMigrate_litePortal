@@ -1,7 +1,7 @@
 {
-  "serverRoot": "http://clslet.mygolf2u.com",
+  "serverRoot": "https://clslet.mygolf2u.com",
   "webSocketDebug": false,
-  "webSocketProtocol": "ws",
-  "webSocketPort": 80,
+  "webSocketProtocol": "wss",
+  "webSocketPort": 433,
   "serverPort": 80
 }

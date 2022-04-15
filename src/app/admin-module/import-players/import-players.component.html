@@ -67,6 +67,14 @@
 
 
         </div>
+        <!-- <br>
+            <ng-container *ngIf="selectedClubId">
+                <div class = "ui-g-12 ui-md-6">Active From</div>
+                <div class = "ui-g-12 ui-md-6">
+                    <p-calendar [formControl] = "dateJoined" dateFormat = "dd-M-yy" [showIcon] = "true"></p-calendar>
+                </div>
+            </ng-container> -->
+            
         <p><label pTooltip="If leave blank, server will send random password to each player's email.">
             * Set password for imported players (optional) : </label>
         <input type="text" [(ngModel)]="globalPassword" pTooltip="If leave blank, server will send random password to each player's email."

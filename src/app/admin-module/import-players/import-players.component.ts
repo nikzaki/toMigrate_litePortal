@@ -1,3 +1,4 @@
+import { FormControl } from '@angular/forms';
 import {Component, OnInit, ViewEncapsulation, ViewChild} from '@angular/core';
 import {RestUrl} from "../../models/config/rest-api-url";
 import {ConfigurationService} from "../../services/configuration.service";
@@ -49,6 +50,7 @@ export class ImportPlayersComponent implements OnInit {
     authToken: string;
 
     clubApproveAll: boolean = false;
+    dateJoined: FormControl;
     constructor(private configService: ConfigurationService,
         private playerService: PlayerService,
         private http: Http,
@@ -68,6 +70,7 @@ export class ImportPlayersComponent implements OnInit {
         //                console.log("import player - get session : ", session)
         //     this.httpHeaders['X-AUTH-TOKEN'] = session.authToken;
         //    });
+        this.dateJoined = new FormControl(new Date());
     }
 
     ngOnInit() {
@@ -137,10 +140,11 @@ export class ImportPlayersComponent implements OnInit {
                     if(player.membership) {
                         this.playerService.getPlayerByEmail(player.email)
                         .subscribe((playerInfo: any)=>{
-                            if(playerInfo  && playerInfo.length > 0)
+                            if(playerInfo  && playerInfo.length > 0) {
                                 if(playerInfo[0]) {
                                     playerInfo[0].membership = player.membership
                                     this.playerService.updateClubMembership(playerInfo[0],this.selectedClubId)
+                                    // this.dateJoined.value
                                     .subscribe((data: any) => {
                                         console.log("[update club member] existing data ", data)
                                         console.log("[update club member] existing player", player, playerInfo)
@@ -156,6 +160,51 @@ export class ImportPlayersComponent implements OnInit {
                                         this.registerPlayer(players, count+1, total);
                                     })
                                 }
+                            } else {
+                                let playerInfo = Object.assign({},player, {
+                                    password: this.globalPassword,
+                                    token: 'portal',
+                                    teeoff: _teebox,
+                                    nationality: player.nationalityId,
+                                    country: player.countryId
+                                });
+                                this.playerService.registerPlayer(playerInfo, true, _admin)
+                                    .subscribe((p: Player)=>{
+                                        console.log("Player registering : ", player)
+                                        console.log("Player registering [2] : ", p)
+                                        console.log("Player registering [3] : ", playerInfo)
+                                        player.created = true;
+                                        player.error = '';
+                                        p.handicapIndex = player.handicapIndex;
+                                        if(p.membership) console.log("Player : ", p.membership, p)
+                                        if(!p.membership) p.membership = player.membership;
+                                        if(player.membership)
+                                            this.playerService.updateClubMembership(p,this.selectedClubId)
+                                                .subscribe((data: any) => {
+                                                    
+                                                console.log("[update club member] new data", data)
+                                                console.log("[update club member] new player", player, p)
+                                                if(data && this.clubApproveAll) {
+                                                    this.clubService.updateClubMemberStatus(this.selectedClubId, p.playerId, 'approve', data.membershipNumber)
+                                                    .subscribe((data)=>{
+                                                        console.log("update club member status : ", data)
+                                                    })
+                                                }
+                                                })
+                                        if(player.handicapIndex)
+                                            this.playerService.updatePlayerProfile(p)
+                                                .subscribe((p:any)=>{
+                                                    console.log("done updating player info ", p)
+                                                })
+                                        this.registerPlayer(players, count+1, total);
+            
+                                    },(error)=>{
+                                        console.log("register error : ", error)
+                                        player.created = false;
+                                        player.error = Util.getErrorMessage(error, 'Error registering the player');
+                                        this.registerPlayer(players, count+1, total);
+                                    });
+                            }
                         })
                     }
                                 

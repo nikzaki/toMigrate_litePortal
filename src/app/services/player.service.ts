@@ -10,7 +10,7 @@ import {Util} from '../util';
 import {PlayerList} from '../models/mygolf/player/player-list';
 import {ServerResult} from '../models/server-result';
 import { PlayerInfo } from 'app/models/mygolf.data';
-
+import * as moment from 'moment';
 /**
  * Created by ashok on 02/05/17.
  */
@@ -65,7 +65,7 @@ export class PlayerService {
                    });
     }
 
-    public updateClubMembership(playerInfo: any, clubId?: number): Observable<Player> {
+    public updateClubMembership(playerInfo: any, clubId?: number, dateJoined?: string): Observable<Player> {
         let url          = this.configService.getRestApiUrl(RestUrl.playerService.updateClubMembership);
         // let token        = this.configService.getConfig()['registrationToken'] || 'portal';
         // playerInfo.token = token;
@@ -77,7 +77,8 @@ export class PlayerService {
             ContentType.URL_ENCODED_FORM_DATA, {
                 clubId: clubId,
                 membershipNumber: playerInfo.membership,
-                homeClub: true
+                homeClub: true,
+                joinedDate: moment().format("YYYY-MM-DD")
             }, hdrs);
         return this.remoteHttp.execute(request)
                    .map((resp: Response) => {
