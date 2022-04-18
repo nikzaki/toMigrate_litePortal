@@ -14,6 +14,7 @@ export const RestUrl: any = {
         registerFriend: '/register/friend',
         playerInfo: '/player/get',
         searchPlayers: '/players/search',
+        searchPlayersOpen: '/players/search/open',
         movePlayerData: '/player/move',
         importPlayersAnalyze: '/player/import-players/analyze',
         importPlayers: '/player/import-players/import',
@@ -21,6 +22,7 @@ export const RestUrl: any = {
         getCourseHandicap: '/handicap/player-course-handicap',
         getCountryList: '/countries',
         getClubMembership: '/player/clubmemberships',
+        getClubMembershipOpen: '/player/clubmemberships/open',
         getTeeBox: '/tee-boxes',
         updatePlayerProfile: '/update/player/profile',
         getPlayerById : "/players/get-by-id", //?playerId
@@ -34,6 +36,7 @@ export const RestUrl: any = {
         clubCompetitionList: '/club/competitions/search',
         clubActiveCompetitions: '/club/competitions/active',
         clubList: '/clubs/search',
+        clubListOpen: '/clubs/search/open',
         getOrganizerInfo: '/organizer/get',
         organizerCompetitionList: '/organizer/competitions/search',
         organizerActiveCompetitions: '/organizer/competitions/active',

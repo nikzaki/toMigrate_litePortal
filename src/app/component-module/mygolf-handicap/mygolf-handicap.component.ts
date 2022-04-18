@@ -153,7 +153,7 @@ export class MygolfHandicapComponent implements OnInit {
 
     displayPlayer: boolean = false;
     displayDetail: boolean = false;
-    playerList: PlayerList;
+    playerList: any;
     players: Array < Player > ;
 
     selectedPlayer: Player;
@@ -407,8 +407,8 @@ export class MygolfHandicapComponent implements OnInit {
                             else return 0;
                         });
                         this.hasPlayer = true;
-                        this.playerService.getClubMembership(playerId).subscribe((clubMembership: any) =>{
-                            console.log('get club membership',clubMembership)
+                        // this.playerService.getClubMembership(playerId).subscribe((clubMembership: any) =>{
+                            // console.log('get club membership',clubMembership)
                             this.handicapService.getClubHandicap(playerId)
                             .subscribe((clubHandicap: Array<ClubHandicap>) =>{
                                 if(clubHandicap.length > 0) {
@@ -424,7 +424,7 @@ export class MygolfHandicapComponent implements OnInit {
                                 console.log('club handicap', clubHandicap)
                                 console.log('club handicap', this.clubHandicap)
                             })
-                        })
+                        // })
                         this.msgId = [];
                     } else {
                         console.log('HandicapList else : ',handicapList)
@@ -510,12 +510,12 @@ export class MygolfHandicapComponent implements OnInit {
             this.errorMessage = true;
             return false;
         }
-        this.playerService.searchPlayers(searchPlayer, true, 1, 1000)
-            .subscribe((playerList: PlayerList) => {
+        this.handicapService.searchPlayersOpen(searchPlayer, true, 1, 1000)
+            .subscribe((playerList: any) => {
                 console.log('Player List', playerList)
                 this.playerList = playerList;
                 if (this.playerList.totalItems > 0)
-                    this.players = this.playerList.players;
+                    this.players = this.playerList.items;
                 this.refreshPlayerAttempt = true;
             }, (error)=> {
                 if(error) this.msgs.push({
@@ -664,12 +664,12 @@ export class MygolfHandicapComponent implements OnInit {
         let clubItem;
         this.courseList = [];
         this.clubSuccess = true;
-        this.clubService.searchClubs()
-            .subscribe((c: ClubList) => {
+        this.clubService.searchClubsOpen()
+            .subscribe((c: any) => {
                 console.log('[Club List] c : ', c)
                 // this.clubDropdown = {label:'',value:{}}
                 if (c.totalItems > 0)
-                    this.clubList = c.clubs;
+                    this.clubList = c.items;
                 let i = 0;
 
                 this.clubList.forEach((c: Club) => {
@@ -805,9 +805,11 @@ export class MygolfHandicapComponent implements OnInit {
         if(handicapIndex) {
             mgHcpIdx = handicapIndex
         } else {
-            if(this.player && this.player.mygolfHandicapIndex) mgHcpIdx = this.calcPlayerHcpIdx; // this.playerHcpIdx;// this.player.mygolfHandicapIndex;
+            if(this.player ) mgHcpIdx = this.calcPlayerHcpIdx; // this.playerHcpIdx;// this.player.mygolfHandicapIndex;
+            // && this.player.mygolfHandicapIndex
         }
-        if(this.player && this.player.handicapIndex) hcpIdx = this.clubNhsHandicap.handicapIndex; //this.player.handicapIndex;
+        if(this.player ) hcpIdx = this.clubNhsHandicap.handicapIndex; //this.player.handicapIndex;
+        // && this.player.handicapIndex
         
         let loop: Array<number> = [hcpIdx,mgHcpIdx];
 

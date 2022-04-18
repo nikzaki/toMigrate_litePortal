@@ -84,7 +84,7 @@
                 [modal]="true" [dismissableMask]="true" [responsive]="true" [width]="500"
                 (onHide)="displayImage = false">
                 <img class="mx-auto d-block img-fluid"
-                    [src]="player && player.playerPhoto?player.playerPhoto:'assets/images/default_user.png'"
+                    [src]="player && player.playerPhoto?player.playerPhoto:player.photoUrl?player.photoUrl:'assets/images/default_user.png'"
                     onerror="this.src = 'assets/images/default_user.png'">
             </p-dialog>
             <!-- [positionTop]="150" -->
@@ -101,7 +101,7 @@
                 <div class="ui-g-3 avatar" style="text-align:center;">
                     <!-- (click)="expandImage($event,player,op1)" -->
                     <img (click)="expandImage()" class="mx-auto d-block img-fluid lb-logo"
-                        [src]="player && player.playerPhoto?player.playerPhoto:'assets/images/default_user.png'"
+                        [src]="player && player.playerPhoto?player.playerPhoto:player.photoUrl?player.photoUrl:'assets/images/default_user.png'"
                         onerror="this.src = 'assets/images/default_user.png'">
                     <br>{{getPlayerHcpSystem(selectedHcpSystem,'shortCode')}} INDEX
                     <h1>{{latestPlayerHcpIdx | number: '1.1-1'}}</h1>
@@ -387,7 +387,7 @@
         <!-- *ngIf="!listMode" -->
         <!-- class="main-table"  -->
         <!-- & playerList && playerList.totalItems > 0 -->
-        <p-dataTable *ngIf="displayPlayer && refreshPlayerAttempt && playerList" #dt [value]="playerList.players"
+        <p-dataTable *ngIf="displayPlayer && refreshPlayerAttempt && playerList" #dt [value]="playerList.items"
             styleClass="primary-table" (onRowSelect)="onSelectPlayer($event)" [(selection)]="selectedPlayer"
             selectionMode="single" paginatorPosition="both" [paginator]="true" [rows]="10" [scrollable]="true">
             <!-- [scrollable]="true" -->

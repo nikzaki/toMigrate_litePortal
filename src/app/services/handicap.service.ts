@@ -83,6 +83,26 @@ export class HandicapService {
                    });
     }
 
+    public searchPlayersOpen(searchString: string, onlyActive: boolean,
+        pageNumber: number, pageSize: number): Observable<PlayerList> {
+        let url = this.configService.getRestApiUrl(RestUrl.playerService.searchPlayersOpen);
+        let req = RemoteRequest.createGetRemoteRequest(url, {
+            searchText: searchString,
+            activeOnly: onlyActive,
+            pageNumber: pageNumber,
+            pageSize  : pageSize
+        });
+        return this.remoteHttp.execute(req)
+                   .map((resp: Response) => {
+                       let playerList: any = resp.json();
+                       playerList.items.forEach(player => {
+                           this.configService.deriveFulImageURL(player, ['playerPhoto', 'thumbnail']);
+                           ConfigurationService.deriveDates(player, ['birthdate', 'dateJoined']);
+                       });
+                       return playerList;
+                   });
+    }
+
     /**
      * Gets Player Info
      * @param playerId

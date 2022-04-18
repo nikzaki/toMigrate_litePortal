@@ -62,6 +62,23 @@ export class ClubService {
                    });
     }
 
+    public searchClubsOpen(searchText?: string, pageNumber?: number, pageSize: number = 999) {
+        let url = this.configService.getRestApiUrl(RestUrl.clubOrgService.clubListOpen);
+        let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA, {
+            searchText: searchText,
+            pageNumber: pageNumber,
+            pageSize: pageSize
+        });
+        return this.remoteHttp.execute(req)
+                   .map((resp: Response)=>{
+                       let clubList: any = resp.json();
+                       clubList.items.forEach(club=>{
+                           this.configService.deriveFulImageURL(club, ['clubImage']);
+                       });
+                       return clubList;
+                   });
+    }
+
     public getCourses(clubId:number, pageNumber?: number, pageSize: number = 999) {
         let url = this.configService.getRestApiUrl(RestUrl.clubOrgService.courseList);
         let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA, {

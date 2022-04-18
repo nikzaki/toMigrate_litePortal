@@ -3218,28 +3218,37 @@ export class CourseDisplay{
     indexToUse?: number;
 }
 
+export interface ClubDataLitePage extends PagedData<ClubDataLite> {
+}
+
 export class ClubMemberLite {
     club?: ClubDataLite;
     player?: PlayerDataLite;
     homeClub?: boolean;
     membershipNumber?: string;
     status?: string;
-    m2uHandicap?: string;
+    clubHandicap?: number;
+    m2uHandicap?: number;
     membershipType?: string;
 }
 
-export class ClubDataLite {
+export interface ClubDataLite {
     clubId?: number;
     clubName?: string;
     clubImage?: string;
     clubThumbnail?: string;
     clubLogo?: string;
+    countryId?: string;
+    countryName?: string;
 }
 
-export class PlayerDataLite {
+export interface PlayerDataLite {
     playerId?: number;
     playerName?: string;
     playerPhoto?: string;
+    photoUrl?: string;
+    countryId?: string;
+    countryName?: string;
 }
 export function createClubList(): ClubList {
     return {
