@@ -147,10 +147,11 @@ export class HandicapService {
         let request = new RemoteRequest(url, RequestMethod.Get,
             ContentType.URL_ENCODED_FORM_DATA, '', hdrs);
         return this.remoteHttp.execute(request)
-                   .map((resp: Response) => {
+                   .map((resp: Response) => { 
                     let handicapCalc: Array<HandicapCalculation> = resp.json();
                     handicapCalc.forEach((hcp: HandicapCalculation)=>{
                         this.configService.deriveFulImageURL(hcp.player, ['photoUrl']);
+                        this.configService.deriveFulImageURL(hcp.player, ['playerPhoto']);
                         // console.log("p photo", hcp.player)
                     })
                         
