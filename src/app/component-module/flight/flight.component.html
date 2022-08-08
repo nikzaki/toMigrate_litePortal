@@ -2,7 +2,8 @@
   <p-header>
       <div class="ui-g-4 ui-sm-12 flight-number">{{flight.flightNumber}}</div>
       <div class="ui-g-4 ui-sm-hide start-hole"><b>Hole:</b> {{flight.startHole}}</div>
-      <div class="ui-g-4 ui-sm-hide start-time"><b>T.Off:</b> {{flight.startTime|date:'mediumTime'}}</div>
+      <div class="ui-g-4 ui-sm-hide start-time"><b>T.Off:</b> {{parseTime(flight.startTime)}}</div> 
+      <!-- {{flight.startTime|date:'mediumTime'}} -->
   </p-header>
     <p-dataList [value]="flight.flightMembers" styleClass="flight-content">
         <ng-template let-flightMember pTemplate="item">

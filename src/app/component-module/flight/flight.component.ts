@@ -1,6 +1,8 @@
 import {Component, OnInit, ViewEncapsulation, Input, Output, EventEmitter} from '@angular/core';
 import {Flight} from '../../models/mygolf/competition/competition-flight';
 import {FlightMember} from '../../models/mygolf/competition/flight-member';
+
+import * as moment from 'moment';
 @Component({
     selector     : 'flight',
     templateUrl  : './flight.component.html',
@@ -22,5 +24,11 @@ export class FlightComponent implements OnInit {
 
     memberClicked(member: FlightMember) {
         this.onMemberClick.emit(member);
+    }
+
+    parseTime(time: string)  {
+        console.debug("parse time : ", time);
+        console.debug("parse time [2] : ", this.flight);
+        return moment(time,'HH:mm:ss').format('hh:mm A') 
     }
 }

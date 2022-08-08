@@ -6,7 +6,7 @@ import {FlightMember} from './flight-member';
 export interface Flight
 {
     flightNumber?: string;
-    startTime?: Date;
+    startTime?: string;
     startHole?: number;
     groupName?: string;
     playerFlight: boolean;

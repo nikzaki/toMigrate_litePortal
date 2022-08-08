@@ -131,7 +131,7 @@ export class CompetitionService {
                            flight.flightMembers.forEach(fm => {
                                this.configService.deriveFulImageURL(fm, ['photoUrl']);
                            });
-                           ConfigurationService.deriveTime(flight, ['startTime']);
+                        //    ConfigurationService.deriveTime(flight, ['startTime']);
                        });
                        return flights;
                    }).catch(Util.handleError);

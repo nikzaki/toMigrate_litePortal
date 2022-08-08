@@ -13,7 +13,9 @@ export class OrganizerManualScoringGuard implements CanActivate {
                    .map(userInfo => {
                        // let activate = userInfo && (userInfo.userType === 'Admin' || (userInfo.userType === 'Organizer' && userInfo.admin)
                        //  ||(userInfo.userType === 'Club' && userInfo.admin)) ;
-                       let activate = userInfo && (userInfo.userType === 'Admin' || (userInfo.organizerId && userInfo.admin)) ;
+                       
+                       let activate = userInfo && (userInfo.userType === 'Admin' ||(userInfo.userType === 'Organizer' && userInfo.admin)) ;
+                    //    let activate = userInfo && (userInfo.userType === 'Admin' || (userInfo.organizerId && userInfo.admin)) ;
                        if (!activate) {
                            //Navigate to Error page
                            // this.router.navigate(['/access-denied']);
