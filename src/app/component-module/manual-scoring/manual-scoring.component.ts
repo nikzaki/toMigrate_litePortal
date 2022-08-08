@@ -63,14 +63,16 @@ export class ManualScoringComponent implements OnInit {
                             //Check whether the competition is valid
                             this.sessionService.getUser()
                                 .subscribe(usr=>{
+                                    console.debug("manual scoring : comp ", comp);
+                                    console.debug("manual scoring : usr ", usr);
                                     if(usr.userType === 'Admin') {
                                         this.compInfo = comp;
                                         this.refresh();
                                     }
-                                   else if(usr.organizerId && comp.organizerId === usr.organizerId){
+                                   else if(usr.userType === 'Organizer' && usr.organizerId && comp.organizerId === usr.organizerId){
                                        this.compInfo = comp;
                                        this.refresh();
-                                   } else if(usr.clubId && comp.clubId === usr.clubId){
+                                   } else if(usr.userType === 'Club' && usr.clubId && comp.clubId === usr.clubId){
                                         this.compInfo = comp;
                                         this.refresh();
                                     } else {
@@ -270,6 +272,7 @@ export class ManualScoringComponent implements OnInit {
     }
 
     private _filter() {
+        console.debug("flights : ", this.flights)
         this.filteredFlights = this.flights.filter(flight => {
             if (flight.flightNumber.toLowerCase().indexOf(this.searchString.toLocaleLowerCase()) >= 0)
                 return true;
