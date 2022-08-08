@@ -808,7 +808,7 @@ export class MygolfHandicapComponent implements OnInit {
             if(this.player ) mgHcpIdx = this.calcPlayerHcpIdx; // this.playerHcpIdx;// this.player.mygolfHandicapIndex;
             // && this.player.mygolfHandicapIndex
         }
-        if(this.player ) hcpIdx = this.clubNhsHandicap.handicapIndex; //this.player.handicapIndex;
+        if(this.player && this.clubNhsHandicap) hcpIdx = this.clubNhsHandicap.handicapIndex; //this.player.handicapIndex;
         // && this.player.handicapIndex
         
         let loop: Array<number> = [hcpIdx,mgHcpIdx];
