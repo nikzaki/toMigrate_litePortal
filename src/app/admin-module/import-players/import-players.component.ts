@@ -240,11 +240,11 @@ export class ImportPlayersComponent implements OnInit {
                                         })
                                     }
                                     })
-                            if(player.handicapIndex)
-                                this.playerService.updatePlayerProfile(p)
-                                    .subscribe((p:any)=>{
-                                        console.log("done updating player info ", p)
-                                    })
+                            // if(player.handicapIndex)
+                            //     this.playerService.updatePlayerProfile(p)
+                            //         .subscribe((p:any)=>{
+                            //             console.log("done updating player info ", p)
+                            //         })
                             this.registerPlayer(players, count+1, total);
 
                         },(error)=>{
