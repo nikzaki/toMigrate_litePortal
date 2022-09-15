@@ -1,85 +1,169 @@
 <p-panel header="Import Players">
-    <div>
-
-    </div>
+    <!-- <div> -->
+        <button  type="button" (click)="onToggleImportVersion(true)">NEW</button>
+        <button  type="button" (click)="onToggleImportVersion(false)">OLD</button>
+    <!-- </div> -->
     <br>
-    <h3>Select a file to import or &nbsp;<button pButton type="button" (click)="downloadFile()"
-            label="Click here to download the template" icon="fa-arrow-down">
-            <!-- <i class="far fa-arrow-alt-circle-down"></i> -->
+    <p-panel header="New Import" *ngIf="importVersionNew">
+        <h3>Click here to download template in format : &nbsp;
+            <button pButton type="button" (click)="downloadFileNew()" 
+            label="XLS" icon="fa-arrow-down"></button>
+            Or &nbsp;
+            <button pButton type="button" (click)="downloadFileNew('xlsx')" 
+            label="XLSX" icon="fa-arrow-down"> 
         </button>
-        <!-- <button pButton type="button" (click)="getClubList()" label="Refresh Club List"></button>  -->
     </h3>
-    <!-- <ng-container *ngIf="clubList"> -->
-    <!-- <label>Set password for imported players : </label> -->
-    <!-- <p-dropdown *ngIf="clubList" [options]="clubList" [(ngModel)]="selectedClub" placeholder="Select a club"
-        [style]="{'width':'50em'}" optionField="clubName" appendTo="body">
-        <ng-template let-club pTemplate="item">
-            <p>{{club.clubId}} - {{club.clubName}}</p>
-        </ng-template>
-    </p-dropdown> -->
+    <h3 >
+        Selected Club : {{selectedClub?selectedClub+' ('+selectedClubId+')':''}}
+        &nbsp;
+        <button *ngIf="!playersToImport || !playersToImport.length" pButton type="button" (click)="showClubListDialog($event)" label="Click here for club list">
+        </button>
+    </h3>
+    <p-fileUpload name="fileToImport" [url]="url" (onUpload)="onUploadCompleteNew($event)"
+    (onBeforeSend)="onBeforeSend($event)" (onChange)="onChangeUpload($event)"
+    *ngIf="!playersToImport || !playersToImport.length"
+            accept=".xls,.xlsx"></p-fileUpload>
+        <hr />
+
+        
+        <div *ngIf="playersToImport && playersToImport.length">
+            <div class="button-panel">
+                <!-- *ngIf="!hasMembership || (hasMembership && selectedClubId)"  -->
+                <button *ngIf="!needClub()" pButton type="button" (click)="registerPlayersNew()" label="Register"
+                    icon="fa-check"></button>
+                <!-- *ngIf="hasMembership && !selectedClubId" -->
+                <button *ngIf="needClub()" pButton type="button" (click)="showClubListDialog($event)"
+                    label="Please select a club to proceed" icon="fa-exclamation-triangle"></button>
+                <button pButton type="button" (click)="reset()" icon="fa-trash-o" class="ui-button-danger"
+                    label="Clear all"></button>
+                <p-checkbox *ngIf="selectedClubId" [(ngModel)]="clubApproveAll" name="have-header"
+                    label="Approve All Members" binary="false">
+                    <!-- (onChange) = "refreshPlayers()" -->
+                </p-checkbox>
+
+            </div>
+
+            <p><label pTooltip="If leave blank, server will send random password to each player's email.">
+                    * Set password for imported players (optional) : </label>
+                <input type="text" [(ngModel)]="globalPassword"
+                    pTooltip="If leave blank, server will send random password to each player's email."
+                    class="ui-inputtext ui-corner-all ui-state-default ui-widget ui-state-filled"></p>
+            <p></p>
+            <div *ngIf="creating">{{creating}}</div>
+            <p></p>
+            <p>Sample up to 10 rows</p>
+            <p-dataTable [value]="playersToImport" [editable]="true" [resizableColumns]="true" columnResizeMode="expand"
+                (onEditComplete)="onMembershipEdit($event)" (onEditInit)="onMembershipEdit($event)"
+                (onEdit)="onMembershipEdit($event)" scrollable="true" scrollWidth="100%">
+
+                <!-- (onEditCancel)="onMembershipEdit($event)" -->
+                <!-- [responsive]="true" -->
+                <p-column field="email" header="Email" [editable]="true" [style]="{'width': '200px'}"></p-column>
+                <p-column field="firstName" header="First Name" [style]="{'width': '100px'}" [editable]="true">
+                </p-column>
+                <p-column field="lastName" header="Last Name" [style]="{'width': '100px'}" [editable]="true"></p-column>
+                <p-column field="gender" header="Gender" [editable]="true" [style]="{'width': '35px'}"></p-column>
+                <!-- <p-column field="handicap" header="HCP" [editable]="true" [style]="{'width': '35px'}"></p-column> -->
+                <p-column field="handicapIndex" header="HCP Idx" [editable]="true" [style]="{'width': '35px'}">
+                </p-column>
+                <p-column field="countryId" header="Resident" [editable]="true" [style]="{'width': '50px'}"></p-column>
+                <p-column field="nationalityId" header="Nationality" [editable]="true" [style]="{'width': '50px'}">
+                </p-column>
+                <p-column field="nhsNumber" header="NHS" [editable]="true" [style]="{'width': '75px'}"></p-column>
+                <p-column field="phone" header="Phone" [editable]="true" [style]="{'width': '75px'}"></p-column>
+                <p-column field="membership" header="Membership" [editable]="true" [style]="{'width': '100px'}">
+                </p-column>
+                <p-column field="insuranceName" header="Policy Name" [editable]="true" [style]="{'width': '100px'}">
+                </p-column>
+                <p-column field="insuranceNumber" header="Policy #" [editable]="true" [style]="{'width': '100px'}">
+                </p-column>
+                <p-column field="insuranceFrom" header="Ins. Valid From" [editable]="true" [style]="{'width': '100px'}">
+                </p-column>
+                <p-column field="insuranceUntil" header="Ins. Expiry" [editable]="true" [style]="{'width': '100px'}">
+                </p-column>
+                <p-column field="created" header="Created?" [editable]="true"
+                    [style]="{'width': '35px', 'textAlign': 'center'}">
+                    <ng-template let-player="rowData" pTemplate="body">
+                        <i class="fa fa-check-circle fa-2x" style="color: green" *ngIf="player.created"></i>
+                    </ng-template>
+                </p-column>
+                <p-column field="error" header="Error" [editable]="true" [style]="{'width': '100px'}"></p-column>
+            </p-dataTable>
+        </div>
 
 
-    <!-- (click) = "showDeviceAssignmentDialog($event, scorer)" -->
-    <!-- <p *ngIf="hasMembership">Please select a club</p> -->
-    <h3>
-    Selected Club : {{selectedClub?selectedClub+' ('+selectedClubId+')':''}}
-&nbsp;
-<button pButton type="button" (click)="showClubListDialog($event)" label="Click here for club list">
-</button>
-</h3>
+    </p-panel>
+    <p-panel header="Old Import" #oldImport *ngIf="!importVersionNew">
+        <h3>Select a file to import or &nbsp;<button pButton type="button" (click)="downloadFile()"
+                label="Click here to download the template" icon="fa-arrow-down">
+                <!-- <i class="far fa-arrow-alt-circle-down"></i> -->
+            </button>
+            <!-- <button pButton type="button" (click)="getClubList()" label="Refresh Club List"></button>  -->
+        </h3>
+        <h3>
+            Selected Club : {{selectedClub?selectedClub+' ('+selectedClubId+')':''}}
+            &nbsp;
+            <button pButton type="button" (click)="showClubListDialog($event)" label="Click here for club list">
+            </button>
+        </h3>
 
- 
 
 
 
 
-    <!-- <select>
+
+        <!-- <select>
     <option *ngFor="let club of clubList" [(ngModel)]="selectedClub" [value]="club.clubId">
       {{club.clubName}}
     </option>
   </select> -->
-    <!-- </ng-container> -->
+        <!-- </ng-container> -->
 
-    <!-- <p>Selected Club: {{selectedClub}}</p> -->
-    <p-fileUpload name="fileToImport" [url]="url" (onUpload)="onUploadComplete($event)" (onBeforeSend)="onBeforeSend($event)"
-        *ngIf="!playersToImport || !playersToImport.length" accept=".csv,.txt"></p-fileUpload>
-    <hr />
-    <div *ngIf="playersToImport && playersToImport.length">
-        <div class="button-panel">
+        <!-- <p>Selected Club: {{selectedClub}}</p> -->
+        <p-fileUpload name="fileToImport" [url]="url" (onUpload)="onUploadComplete($event)"
+            (onBeforeSend)="onBeforeSend($event)" *ngIf="!playersToImport || !playersToImport.length"
+            accept=".csv,.txt"></p-fileUpload>
+        <hr />
+        <div *ngIf="playersToImport && playersToImport.length">
+            <div class="button-panel">
                 <!-- *ngIf="!hasMembership || (hasMembership && selectedClubId)"  -->
-            <button *ngIf="!needClub()" pButton type="button" (click)="registerPlayers()" label="Register" icon="fa-check"></button>
-            <!-- *ngIf="hasMembership && !selectedClubId" -->
-            <button *ngIf="needClub()" pButton type="button" (click)="showClubListDialog($event)" label="Please select a club to proceed" icon="fa-exclamation-triangle"></button>
-            <button pButton type="button" (click)="reset()" icon="fa-trash-o" class="ui-button-danger"
-                label="Clear all"></button>
-            <p-checkbox *ngIf="selectedClubId" [(ngModel)]="clubApproveAll" name="have-header" label="Approve All Members" binary="false">
-            <!-- (onChange) = "refreshPlayers()" -->
-             </p-checkbox>&nbsp;
-            <p-checkbox pTooltip="If the checkbox is ticked, the first row will be excluded from import"
-            [(ngModel)]="excludeHeader" name="have-header" label="Exclude header"
-                (onChange)="toggleHeader()" binary="false">
-                <!-- (onChange) = "refreshPlayers()" -->
-            </p-checkbox>&nbsp;
-            <!-- <label pTooltip="If leave blank, server will send random password to each player's email.">
+                <button *ngIf="!needClub()" pButton type="button" (click)="registerPlayers()" label="Register"
+                    icon="fa-check"></button>
+                <!-- *ngIf="hasMembership && !selectedClubId" -->
+                <button *ngIf="needClub()" pButton type="button" (click)="showClubListDialog($event)"
+                    label="Please select a club to proceed" icon="fa-exclamation-triangle"></button>
+                <button pButton type="button" (click)="reset()" icon="fa-trash-o" class="ui-button-danger"
+                    label="Clear all"></button>
+                <p-checkbox *ngIf="selectedClubId" [(ngModel)]="clubApproveAll" name="have-header"
+                    label="Approve All Members" binary="false">
+                    <!-- (onChange) = "refreshPlayers()" -->
+                </p-checkbox>&nbsp;
+                <p-checkbox pTooltip="If the checkbox is ticked, the first row will be excluded from import"
+                    [(ngModel)]="excludeHeader" name="have-header" label="Exclude header" (onChange)="toggleHeader()"
+                    binary="false">
+                    <!-- (onChange) = "refreshPlayers()" -->
+                </p-checkbox>&nbsp;
+                <!-- <label pTooltip="If leave blank, server will send random password to each player's email.">
                 * Set password for imported players (optional) : </label>
             <input type="text" [(ngModel)]="globalPassword" pTooltip="If leave blank, server will send random password to each player's email."
                 class="ui-inputtext ui-corner-all ui-state-default ui-widget ui-state-filled"> -->
 
 
-        </div>
-        <!-- <br>
+            </div>
+            <!-- <br>
             <ng-container *ngIf="selectedClubId">
                 <div class = "ui-g-12 ui-md-6">Active From</div>
                 <div class = "ui-g-12 ui-md-6">
                     <p-calendar [formControl] = "dateJoined" dateFormat = "dd-M-yy" [showIcon] = "true"></p-calendar>
                 </div>
             </ng-container> -->
-            
-        <p><label pTooltip="If leave blank, server will send random password to each player's email.">
-            * Set password for imported players (optional) : </label>
-        <input type="text" [(ngModel)]="globalPassword" pTooltip="If leave blank, server will send random password to each player's email."
-            class="ui-inputtext ui-corner-all ui-state-default ui-widget ui-state-filled"></p>
-        <!-- <br><br>
+
+            <p><label pTooltip="If leave blank, server will send random password to each player's email.">
+                    * Set password for imported players (optional) : </label>
+                <input type="text" [(ngModel)]="globalPassword"
+                    pTooltip="If leave blank, server will send random password to each player's email."
+                    class="ui-inputtext ui-corner-all ui-state-default ui-widget ui-state-filled"></p>
+            <!-- <br><br>
         <p>
             <span class = "md-inputfield"  style="color: ghostwhite">
                 <input type = "text"  [(ngModel)]="globalPassword"
@@ -87,52 +171,53 @@
                 <label>Set password for imported players</label>
             </span>
         </p> -->
-        <p></p>
-        <div *ngIf="creating">{{creating}}</div>
-        <p></p>
-        <p-dataTable [value]="playersToImport" [editable]="true" [resizableColumns]="true" columnResizeMode="expand"
-        (onEditComplete)="onMembershipEdit($event)"
-        (onEditInit)="onMembershipEdit($event)"
-        (onEdit)="onMembershipEdit($event)"
-            scrollable="true" scrollWidth="100%">
+            <p></p>
+            <div *ngIf="creating">{{creating}}</div>
+            <p></p>
+            <p-dataTable [value]="playersToImport" [editable]="true" [resizableColumns]="true" columnResizeMode="expand"
+                (onEditComplete)="onMembershipEdit($event)" (onEditInit)="onMembershipEdit($event)"
+                (onEdit)="onMembershipEdit($event)" scrollable="true" scrollWidth="100%">
 
-                    <!-- (onEditCancel)="onMembershipEdit($event)" -->
-            <!-- [responsive]="true" -->
-            <p-column field="email" header="Email" [editable]="true" [style]="{'width': '200px'}"></p-column>
-            <p-column field="firstName" header="First Name" [style]="{'width': '100px'}" [editable]="true"></p-column>
-            <p-column field="lastName" header="Last Name" [style]="{'width': '100px'}" [editable]="true"></p-column>
-            <p-column field="gender" header="Gender" [editable]="true" [style]="{'width': '35px'}"></p-column>
-            <!-- <p-column field="handicap" header="HCP" [editable]="true" [style]="{'width': '35px'}"></p-column> -->
-            <p-column field="handicapIndex" header="HCP Idx" [editable]="true" [style]="{'width': '35px'}"></p-column>
-            <p-column field="countryId" header="Resident" [editable]="true" [style]="{'width': '50px'}"></p-column>
-            <p-column field="nationalityId" header="Nationality" [editable]="true" [style]="{'width': '50px'}"></p-column>
-            <p-column field="nhsNumber" header="NHS" [editable]="true" [style]="{'width': '75px'}"></p-column>
-            <p-column field="phone" header="Phone" [editable]="true" [style]="{'width': '75px'}"></p-column>
-            <p-column field="membership" header="Membership" [editable]="true" [style]="{'width': '100px'}" ></p-column>
-            <p-column field="created" header="Created?" [editable]="true"
-                [style]="{'width': '35px', 'textAlign': 'center'}">
-                <ng-template let-player="rowData" pTemplate="body">
-                    <i class="fa fa-check-circle fa-2x" style="color: green" *ngIf="player.created"></i>
-                </ng-template>
-            </p-column>
-            <p-column field="error" header="Error" [editable]="true" [style]="{'width': '100px'}"></p-column>
-        </p-dataTable>
-    </div>
+                <!-- (onEditCancel)="onMembershipEdit($event)" -->
+                <!-- [responsive]="true" -->
+                <p-column field="email" header="Email" [editable]="true" [style]="{'width': '200px'}"></p-column>
+                <p-column field="firstName" header="First Name" [style]="{'width': '100px'}" [editable]="true">
+                </p-column>
+                <p-column field="lastName" header="Last Name" [style]="{'width': '100px'}" [editable]="true"></p-column>
+                <p-column field="gender" header="Gender" [editable]="true" [style]="{'width': '35px'}"></p-column>
+                <!-- <p-column field="handicap" header="HCP" [editable]="true" [style]="{'width': '35px'}"></p-column> -->
+                <p-column field="handicapIndex" header="HCP Idx" [editable]="true" [style]="{'width': '35px'}">
+                </p-column>
+                <p-column field="countryId" header="Resident" [editable]="true" [style]="{'width': '50px'}"></p-column>
+                <p-column field="nationalityId" header="Nationality" [editable]="true" [style]="{'width': '50px'}">
+                </p-column>
+                <p-column field="nhsNumber" header="NHS" [editable]="true" [style]="{'width': '75px'}"></p-column>
+                <p-column field="phone" header="Phone" [editable]="true" [style]="{'width': '75px'}"></p-column>
+                <p-column field="membership" header="Membership" [editable]="true" [style]="{'width': '100px'}">
+                </p-column>
+                <p-column field="created" header="Created?" [editable]="true"
+                    [style]="{'width': '35px', 'textAlign': 'center'}">
+                    <ng-template let-player="rowData" pTemplate="body">
+                        <i class="fa fa-check-circle fa-2x" style="color: green" *ngIf="player.created"></i>
+                    </ng-template>
+                </p-column>
+                <p-column field="error" header="Error" [editable]="true" [style]="{'width': '100px'}"></p-column>
+            </p-dataTable>
+        </div>
+
+
 
 </p-panel>
-
-<p-overlayPanel #club [dismissable]="true" [showCloseIcon]="true" 
-modal="true" autoZIndex="true"
-class='assignOverlay'>
-<!-- (onAfterHide)="_afterAssignmentHide($event)" -->
-<p-dataTable [value] = "clubList" selectionMode = "single"
-    [style] = "{'width':'650px'}"
-    (onRowSelect) = "onSelectClub($event)">
-<!-- <p-column field = "clubId" header = "Club ID" [filter] = "true" filterMode = "contains"></p-column> -->
-<p-column field = "clubName" header = "Club Name" [filter] = "true" filterMatchMode = "contains"></p-column>
-<p-column field = "address" header = "Club Address" [filter] = "true" filterMatchMode = "contains"></p-column>
-<!-- <p-column field = "manufacturer" header = "Manufacturer" [filter] = "true" filterMode = "contains"></p-column>
+</p-panel>
+<p-overlayPanel #club [dismissable]="true" [showCloseIcon]="true" modal="true" autoZIndex="true" class='assignOverlay'>
+    <!-- (onAfterHide)="_afterAssignmentHide($event)" -->
+    <p-dataTable [value]="clubList" selectionMode="single" [style]="{'width':'650px'}"
+        (onRowSelect)="onSelectClub($event)">
+        <!-- <p-column field = "clubId" header = "Club ID" [filter] = "true" filterMode = "contains"></p-column> -->
+        <p-column field="clubName" header="Club Name" [filter]="true" filterMatchMode="contains"></p-column>
+        <p-column field="address" header="Club Address" [filter]="true" filterMatchMode="contains"></p-column>
+        <!-- <p-column field = "manufacturer" header = "Manufacturer" [filter] = "true" filterMode = "contains"></p-column>
 <p-column field = "model" header = "Model" [filter] = "true" filterMode = "contains"></p-column>
 <p-column field = "userTags" header = "Tags" [filter] = "true" filterMode = "contains"></p-column> -->
-</p-dataTable>
+    </p-dataTable>
 </p-overlayPanel>

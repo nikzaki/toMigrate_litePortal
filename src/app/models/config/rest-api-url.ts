@@ -103,10 +103,10 @@ export const RestUrl: any = {
     
     },
     playerImport: {
-        downloadTemplateXLS: '/players/import/instances/xls-template',
-        downloadTemplateXLSX: '/players/import/instances/xlsx-template',
+        downloadTemplateXLS: '/players/import/xls-template',
+        downloadTemplateXLSX: '/players/import/xlsx-template',
         getInstancesList: '/players/import/instances', //[GET]
-        uploadFileAndCreateInstance: '/players/import/instances/:importInstance', //[POST]
+        uploadFileAndCreateInstance: '/players/import/instances/', //[POST]
         submitInstance: '/players/import/instances/:importInstance', //[POST]
         deleteInstance: '/players/import/instances/:importInstance', //[DELETE]
         getInstance: '/players/import/instances/:instanceId', 

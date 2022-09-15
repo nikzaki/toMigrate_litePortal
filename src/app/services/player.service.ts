@@ -241,6 +241,42 @@ export class PlayerService {
                    });
     }
 
+    public downloadImportFile(format?: string) {
+        let url = this.configService.getRestApiUrl(RestUrl.playerImport.downloadTemplateXLS);
+        if(format === 'xlsx')
+            url = this.configService.getRestApiUrl(RestUrl.playerImport.downloadTemplateXLSX);
+
+        let request = new RemoteRequest(url, RequestMethod.Get,
+            ContentType.JSON);
+        return this.remoteHttp.execute(request)
+                   .map((resp: any) => {
+                       let file: any = resp.json();
+                       return resp;
+                   });
+    }
+
+    public submitProcessImportInstance(instanceId: number, password?: string, approveMembership?: boolean): Observable<any> {
+        let url          = this.configService.getRestApiUrl(RestUrl.playerImport.submitInstance);
+        // let token        = this.configService.getConfig()['registrationToken'] || 'portal';
+
+
+        let _params = {};
+        if(password) _params['password'] = password;
+        if(approveMembership) _params['approveMembership'] = approveMembership;
+        
+        let reInstanceId = /:importInstance/gi;
+        let reMembership = /:membershipId/gi;
+        
+        url = url.replace(reInstanceId, String(instanceId));
+        let request      = new RemoteRequest(url, RequestMethod.Post,
+            ContentType.URL_ENCODED_FORM_DATA, _params);
+        return this.remoteHttp.execute(request)
+                   .map((resp: Response) => {
+                       let data: any = resp.json();
+                       return data;
+                   });
+    }
+
     // public updatePlayerProfile(player: PlayerInfo): Observable<boolean> {
     //     console.log("[teebox] player home action calling playre service : ", player)
     //     return this.playerService.updatePlayerProfile(player.email,

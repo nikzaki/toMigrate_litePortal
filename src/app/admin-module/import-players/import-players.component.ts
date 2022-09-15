@@ -1,3 +1,4 @@
+import { PlayerImportInstance } from './../../models/mygolf.data';
 import { FormControl } from '@angular/forms';
 import {Component, OnInit, ViewEncapsulation, ViewChild} from '@angular/core';
 import {RestUrl} from "../../models/config/rest-api-url";
@@ -51,6 +52,8 @@ export class ImportPlayersComponent implements OnInit {
 
     clubApproveAll: boolean = false;
     dateJoined: FormControl;
+
+    importVersionNew: boolean = true;
     constructor(private configService: ConfigurationService,
         private playerService: PlayerService,
         private http: Http,
@@ -74,12 +77,16 @@ export class ImportPlayersComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.url = this.configService.getRestApiUrl(RestUrl.playerService.importPlayersAnalyze);
+        if(this.importVersionNew) {
+            this.url = this.configService.getRestApiUrl(RestUrl.playerImport.uploadFileAndCreateInstance);
+        } else this.url = this.configService.getRestApiUrl(RestUrl.playerService.importPlayersAnalyze);
         this.getClubList();
     }
 
     onBeforeSend(event) {
         event.xhr.setRequestHeader("X-AUTH-TOKEN", this.authToken);
+        if(this.selectedClubId) this.url += "?clubId="+this.selectedClubId;
+        console.debug("on before send : ", this.url, this.selectedClubId)
         // event.formData.append('DocumentID', 'A123');
     }
 
@@ -361,6 +368,9 @@ export class ImportPlayersComponent implements OnInit {
         if (this.clubList && event.data) {
             this.selectedClub = event.data.clubName;
             this.selectedClubId = event.data.clubId;
+            if(this.importVersionNew) {
+                this.url = this.configService.getRestApiUrl(RestUrl.playerImport.uploadFileAndCreateInstance) + "?clubId=" + this.selectedClubId
+            }
         }
         this.clubOverlay.hide();
     }
@@ -371,5 +381,77 @@ export class ImportPlayersComponent implements OnInit {
             this.hasMembership = true;
             else this.hasMembership = false;
             console.log('hasMembership', this.hasMembership, event.column.field, event.data.membership)
+    }
+
+    onToggleImportVersion(mode?: boolean) {
+        if(mode === null || mode === undefined)
+            this.importVersionNew = !this.importVersionNew
+        else if(mode === true) {
+            this.importVersionNew = true
+            this.url = this.configService.getRestApiUrl(RestUrl.playerImport.uploadFileAndCreateInstance);    
+        }
+            
+        else if(mode === false) {
+            this.importVersionNew = false
+        this.url = this.configService.getRestApiUrl(RestUrl.playerService.importPlayersAnalyze);
+        }
+            
+    }
+
+    downloadFileNew(format?: string) {
+        let _url = this.configService.getRestApiUrl(RestUrl.playerImport.downloadTemplateXLS);
+        if(format === 'xlsx')
+            _url= this.configService.getRestApiUrl(RestUrl.playerImport.downloadTemplateXLSX);
+        window.open(_url, '_blank');
+
+    }
+
+    playerImportInstance: PlayerImportInstance;
+    onUploadCompleteNew(event){
+        console.debug("on upload complete new : ", event)
+        if(event.xhr && event.xhr.responseText){
+            let result = JSON.parse(event.xhr.responseText);
+            console.debug("on upload complete new : ", result)
+            if(result) {
+                this.playerImportInstance = result;
+                this.playersToImport = [];
+                if(this.playerImportInstance &&  this.playerImportInstance.sampleData && this.playerImportInstance.sampleData.length > 0) {
+                    this.playersToImport = this.playerImportInstance.sampleData;
+                }
+            }
+            if(result.success){
+                // this.playersToImport = [];
+                // this.filteredPlayers = [];
+                // let players = [];
+                // result.players.forEach(player=>{
+                //     players.push(Object.assign({}, player, {
+                //         created: false,
+                //         error:'',
+                //         country: player.countryId,
+                //         nationality: player.nationalityId,
+                //     }));
+                //     if(player.membership && player.membership === 'Membership_Number') this.hasMembership = true;
+                // });
+                // this.playersToImport = players;
+                // this.filteredPlayers = players;
+            }
+
+        }
+    }
+
+    onChangeUpload(event) {
+        console.debug("on change upload : ", event)
+    }
+
+    registerPlayersNew() {
+        if(!this.playerImportInstance) return;
+
+        let _instanceId = this.playerImportInstance.id;
+        let _password = this.globalPassword;
+        let _approve = this.clubApproveAll;
+        this.playerService.submitProcessImportInstance(_instanceId, _password, _approve)
+        .subscribe((data)=>{
+            console.debug("process import instance : ", data)
+        })
     }
 }
