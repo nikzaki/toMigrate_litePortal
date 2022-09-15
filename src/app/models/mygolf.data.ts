@@ -1,7 +1,6 @@
 /* tslint:disable */
-// Generated using typescript-generator version 2.9.456 on 2020-05-20 13:55:50.
+// Generated using typescript-generator version 2.9.456 on 2022-09-15 11:53:29.
 
-// import * as global from "../globals";
 export interface AddressData {
     id?: number;
     address1?: string;
@@ -15,7 +14,6 @@ export interface AddressData {
     phoneNumbers?: PhoneNumbers;
     fax?: string;
     webSite?: string;
-    addressHTML?: string;
     email?: string;
 }
 
@@ -34,27 +32,14 @@ export interface AddressInfo {
     website?: string;
 }
 
-export interface AdvertisementData {
-    id?: number;
-    name?: string;
-    company?: string;
-    active?: boolean;
-    startDate?: Date;
-    endDate?: Date;
-    displayPeriod?: number;
-    rank?: number;
-    externalUrl?: string;
-    image?: string;
-    useIn?: string;
-    updateCounter?: number;
-}
-
 export interface AuthenticationResult {
     success?: boolean;
     name?: string;
     user?: UserInfo;
     authToken?: string;
     exception?: string;
+    failureType?: AuthFailureType;
+    clubMembership?: ClubMembership;
 }
 
 export interface BaseResult {
@@ -98,21 +83,11 @@ export interface ClubInfo {
     countryId?: string;
     countryName?: string;
     country?: CountryData;
+    clubAddresses?: ClubAddress[];
 }
 
 export interface ClubList extends PagedResult {
     clubs?: ClubInfo[];
-}
-
-export interface ClubMembership {
-    homeClub?: boolean;
-    membershipNumber?: string;
-    status?: ClubMembershipStatus;
-    clubHandicap?: number;
-    club?: ClubInfo;
-    player?: PlayerData;
-    hcpDetail?: ClubHandicap;
-    nhsHcpDetail?: ClubHandicap;
 }
 
 export interface Country {
@@ -132,7 +107,7 @@ export interface CountryData {
     name?: string;
     iso2Code?: string;
     iso3Code?: string;
-    dialoCode?: string;
+    dialCode?: string;
     currencyCode?: string;
     currencyName?: string;
     currencySymbol?: string;
@@ -195,6 +170,10 @@ export interface CurrencyData {
     symbol?: string;
 }
 
+export interface DaySpecification {
+    dayIds?: number[];
+}
+
 export interface DocumentList {
     documents?: string[];
 }
@@ -206,6 +185,23 @@ export interface ErrorInfo {
     timestamp?: Date;
 }
 
+export interface FlightData {
+    sequence?: number;
+    flightNumber?: string;
+    startHole?: number;
+    startTime?: Date;
+    actualStartTime?: Date;
+    groupName?: string;
+    roundSessionId?: number;
+    roundSessionSequence?: number;
+    competition?: CompetitionData;
+    gameRound?: GameRoundData;
+    flightMembers?: PlayerInFlightData[];
+    gender?: string;
+    minHandicap?: number;
+    maxHandicap?: number;
+}
+
 export interface FriendRequest {
     requestByPlayer?: boolean;
     player?: PlayerInfo;
@@ -213,6 +209,29 @@ export interface FriendRequest {
 
 export interface FriendRequestList extends PagedResult {
     friendRequests?: FriendRequest[];
+}
+
+export interface GameRoundCourseData {
+    id?: number;
+    name?: string;
+    whichNine?: number;
+    indexSetToUse?: number;
+    course?: ClubCourseData;
+}
+
+export interface GameRoundData {
+    id?: number;
+    name?: string;
+    roundNo?: number;
+    description?: string;
+    roundDate?: Date;
+    roundDateTime?: Date;
+    status?: GameRoundStatus;
+    deriveHandicap?: boolean;
+    createdOn?: Date;
+    createdBy?: string;
+    club?: ClubData;
+    gameRoundCourses?: GameRoundCourseData[];
 }
 
 export interface GameRoundInfo {
@@ -234,6 +253,23 @@ export interface HoleDistance {
     teebox?: string;
     distance?: number;
     unit?: string;
+}
+
+export interface Holiday {
+    holidayOn?: Date;
+    name?: string;
+    nationalHoliday?: boolean;
+    states?: State[];
+}
+
+export interface HolidayCalendar {
+    fromDate?: Date;
+    toDate?: Date;
+    holidays?: Holiday[];
+}
+
+export interface IPersistenceEnum<T> {
+    value?: T;
 }
 
 export interface ItemRating {
@@ -392,32 +428,9 @@ export interface PaymentCollectionList extends PagedResult {
     paymentCollections?: PaymentCollectionInfo[];
 }
 
-export interface PaymentGatewayInfo {
-    id?: string;
-    type?: string;
-    name?: string;
-    description?: string;
-    country_id?: string;
-    currency_id?: string;
-    http_server?: string;
-    api_key?: string;
-    x_signature?: string;
-    merchant_code?: string;
-    merchant_key?: string;
-    callback_url?: string;
-    redirect_url?: string;
-    payment_url?: string;
-    internal_payment_url?: string;
-    signature_algorithm?: string;
-    signature_format?: string;
-}
-
 export interface PaymentLogoInfo {
     thumb_url?: string;
     avatar_url?: string;
-}
-
-export interface PaymentMethods {
 }
 
 export interface PaymentPhotoInfo {
@@ -466,7 +479,7 @@ export interface PlainScoreCard extends BaseResult {
     roundNumber?: number;
     clubId?: number;
     clubName?: string;
-    playedOn?: string; //Date;
+    playedOn?: Date;
     startTime?: string;
     flightNumber?: string;
     participants?: string;
@@ -481,168 +494,52 @@ export interface PlainScoreCard extends BaseResult {
     totalScore?: number;
     playerTotals?: string;
     roundDateTime?: Date;
-    currentHole?: number;
-    
-    dirty?: boolean;
+    bookingId?: number;
 }
 
-export interface PlayerGroup {
+export interface PlainScorecardPage extends PagedData<PlainScoreCard> {
+}
+
+export interface PlayerInFlightData {
     id?: number;
     groupName?: string;
-    players?: PlayerInfo[];
-}
-
-export interface PlayerGroupList extends PagedResult {
-    playerGroups?: PlayerGroup[];
-}
-
-export interface PlayerHomeInfo {
-    playerId?: number;
-    playerName?: string;
-    totalScoreCards?: number;
-    totalFriends?: number;
-    activeCompetitions?: number;
-    error?: boolean;
-    errorMessage?: string;
-    player?: PlayerInfo;
-    testUser?: boolean;
-    compsActiveToday?: CompetitionInfo[];
-}
-
-export interface PlayerInfo {
-    userId?: number;
-    playerId?: number;
-    playerName?: string;
-    firstName?: string;
-    lastName?: string;
-    nickName?: string;
-    email?: string;
-    phone?: string;
+    startingHole?: number;
+    player?: PlayerData;
+    team?: TeamData;
+    buggy?: string;
+    scorer?: PlayerData;
     handicap?: number;
     handicapIndex?: number;
-    mygolfHandicapIndex?: number;
-    handicapIn?: string;
-    gender?: string;
-    countryId?: string;
-    countryName?: string;
-    sportCode?: string;
-    flagUrl?: string;
-    photoUrl?: string;
-    thumbnail?: string;
-    dateJoined?: Date;
-    birthdate?: Date;
-    friendSince?: Date;
-    teeOffFrom?: string;
-    nhsNumber?: string;
-    status?: string;
-    errorMessage?: string;
-    addressInfo?: AddressInfo;
-    allowEdit?: boolean;
-    membership?: string;
-    nationalityId?: string;
-    nationalityName?: string;
-    nationalityFlag?: string;
+    handicapStatus?: string;
+    status?: PlayerRoundStatus;
+    keepFlight?: boolean;
+    actualStartTime?: Date;
+    ocbApplication?: OcbAppliedData;
+    categoryOcbApplication?: OcbAppliedData;
+    teeBox?: TeeBoxData;
+    playerTotals?: PlayerTotalData[];
+    scores?: PlayerScoreData[];
+    completed?: boolean;
+    inProgress?: boolean;
+    withdrawn?: boolean;
+    pending?: boolean;
+}
+
+export interface PlayerScoreData {
     id?: number;
-}
-
-export interface PlayerList extends PagedResult {
-    players?: PlayerInfo[];
-}
-
-export interface PlayerPerformance {
-    success?: boolean;
-    errorMessage?: string;
-    bestScore?: number;
-    totalGrossScore?: number;
-    totalScorecards?: number;
-    averageScore?: number;
-    playerPerformances?: PlayerPerformanceInfo[];
-}
-
-export interface PlayerPerformanceDetail {
-    success?: boolean;
-    errorMessage?: string;
-    scoreStatistic?: ScoreStatistic;
-    playerPerformanceDetails?: PlayerPerformanceDetailInfo[];
-}
-
-export interface PlayerPerformanceDetailInfo {
-    gameRoundId?: number;
-    playeRoundId?: number;
-    gameType?: string;
-    competitionId?: number;
-    roundNo?: number;
-    firstNineCourseName?: string;
-    secondNineCourseName?: string;
-    roundDate?: Date;
-    inTotalGross?: number;
-    outTotalGross?: number;
-    totalGross?: number;
-    inTotalNet?: number;
-    outTotalNet?: number;
-    totalNet?: number;
-}
-
-export interface PlayerPerformanceInfo {
-    score?: number;
-}
-
-export interface PlayerRegistrationResult {
-    success?: boolean;
-    email?: string;
-    userId?: number;
-    playerId?: number;
-    errorMessage?: string;
-}
-
-// export interface PlayerRoundScores {
-//     playerRoundId?: number;
-//     playerId?: number;
-//     playerName?: string;
-//     nickName?: string;
-//     teamName?: string;
-//     gender?: string;
-//     photoUrl?: string;
-//     thumbnail?: string;
-//     teeOffFrom?: string;
-//     playerHandicap?: number;
-//     courseRating?: number;
-//     slopeRating?: number;
-//     scoringPlayerId?: number;
-//     scorerName?: string;
-//     frontNineTotal?: number;
-//     backNineTotal?: number;
-//     totalScore?: number;
-//     diffGrossToPar?: number;
-//     status?: string;
-//     startTime?: Date;
-//     actualStartTime?: Date;
-//     frontNineNetTotal?: number;
-//     backNineNetTotal?: number;
-//     totalNetScore?: number;
-//     totalNetAdjustedScore?: number;
-//     diffNetToPar?: number;
-//     scores?: PlayerScore[];
-//     totals?: PlayerTotals[];
-
-// }
-
-export interface PlayerScore {
-    scorecardId?: number;
-    whichNine?: number;
-    gameCourseId?: number;
-    courseHoleId?: number;
-    courseId?: number;
-    holeNumber?: number;
-    courseName?: string;
-    holeIndex?: number;
-    parScore?: number;
+    course?: GameRoundCourseData;
+    hole?: ClubCourseHoleData;
+    holeNo?: number;
     actualScore?: number;
-    netScore?: number;
     adjustedScore?: number;
+    netScore?: number;
+    parScore?: number;
+    pointScore?: number;
+    holeIndex?: number;
+    remarks?: string;
 }
 
-export interface PlayerTotals {
+export interface PlayerTotalData {
     whichNine?: number;
     grossTotal?: number;
     netTotal?: number;
@@ -677,7 +574,6 @@ export interface RefundInstance {
     playerRefunded?: PlayerData;
     club?: ClubData;
     refundIssuedBy?: UserAuthentication;
-    booking?: TeeTimeBooking;
     transaction?: ClubTransaction;
 }
 
@@ -699,7 +595,22 @@ export interface ScoreStatistic {
 }
 
 export interface ScorecardList extends PagedResult {
-    scorecards?: Array<PlainScoreCard>;//[];
+    scorecards?: PlainScoreCard[];
+}
+
+export interface ScorecardSearchForm {
+    search?: string;
+    handicapStatus?: string[];
+    statuses?: PlayerRoundStatus[];
+    startDate?: Date;
+    endDate?: Date;
+    startTime?: Date;
+    endTime?: Date;
+    competitionId?: number;
+    searchType?: string;
+    clubId?: number;
+    playedBy?: string;
+    playedAt?: string;
 }
 
 export interface SearchCriteria {
@@ -707,6 +618,7 @@ export interface SearchCriteria {
     onlyParticipating?: boolean;
     onlyFavorites?: boolean;
     searchWithinDistance?: boolean;
+    clubId?: number;
     maxDistance?: number;
     clubsWithMembership?: boolean;
     searchText?: string;
@@ -724,17 +636,38 @@ export interface ServerInfo {
     webSocketPort?: number;
     botsOut?: boolean;
     enablePlayerAppBooking?: boolean;
+    hidxRequiresSubscription?: boolean;
+}
+
+export interface SponsorData {
+    id?: number;
+    name?: string;
+    registerNo?: string;
+    status?: string;
+    contactEmail?: string;
+    contactPerson?: string;
+    image?: string;
+    description?: string;
+    createdBy?: string;
+    createdOn?: Date;
+    dateJoined?: Date;
+    address?: AddressData;
+    organizer?: OrganizerData;
+    country?: CountryData;
 }
 
 export interface SponsorInfo {
     id?: string;
 }
 
-export interface TeeBoxData {
-    id?: number;
-    name?: string;
-    image?: string;
-    description?: string;
+export interface State {
+    stateCode?: string;
+    stateName?: string;
+}
+
+export interface TimeRange {
+    start?: Date;
+    end?: Date;
 }
 
 export interface TimeZoneData {
@@ -756,12 +689,25 @@ export interface UserInfo {
     playerId?: number;
     organizerId?: number;
     caddieId?: number;
+    partnerId?: string;
     roles?: string[];
 }
 
 export interface ValidationResult {
     valid?: boolean;
     validationMessage?: string;
+}
+
+export interface AdFormData {
+    name?: string;
+    companyName?: string;
+    startDate?: Date;
+    endDate?: Date;
+    displayPeriod?: number;
+    rank?: number;
+    useIn?: string;
+    externalUrl?: string;
+    adImageFile?: MultipartFile;
 }
 
 export interface Advertisement {
@@ -780,8 +726,53 @@ export interface Advertisement {
     autoInclude?: boolean;
 }
 
+export interface AdvertisementData {
+    id?: number;
+    name?: string;
+    company?: string;
+    active?: boolean;
+    startDate?: Date;
+    endDate?: Date;
+    displayPeriod?: number;
+    rank?: number;
+    externalUrl?: string;
+    image?: string;
+    useIn?: string;
+    updateCounter?: number;
+}
+
 export interface AdvertisementList extends PagedResult {
     advertisements?: Advertisement[];
+}
+
+export interface Advertisements extends PagedData<Advertisement> {
+}
+
+export interface AuditChanges {
+    entityName?: string;
+    changeType?: AuditChangeType;
+    propertyChanges?: AuditPropertyChange[];
+}
+
+export interface AuditPropertyChange {
+    propertyName?: string;
+    prevValue?: any;
+    newValue?: any;
+}
+
+export interface AuditRevision {
+    revision?: string;
+    timestamp?: Date;
+    username?: string;
+    action?: string;
+    totalChanges?: number;
+    auditChanges?: AuditChanges;
+}
+
+export interface AuditedEntity {
+    name?: string;
+    table?: string;
+    jpaClass?: string;
 }
 
 export interface Availability {
@@ -811,12 +802,17 @@ export interface BuggyData extends IAvailableOnDay {
     make?: string;
     model?: string;
     status?: string;
+    seater?: number;
     buggyImage?: string;
     buggyQCode?: string;
     description?: string;
     lastAssigned?: Date;
     lastCompleted?: Date;
+    available?: boolean;
     availabilityDays?: { [index: string]: boolean };
+}
+
+export interface BuggyDataPage extends PagedData<BuggyData> {
 }
 
 export interface BuggyDayDetails {
@@ -836,11 +832,23 @@ export interface CaddieRating {
     playerName?: string;
     assignment?: CaddyAssignment;
 }
-export interface BuggyUnavailability {
-    id?: number;
-    startDate?: Date;
-    endDate?: Date;
-    remarks?: string;
+
+export interface CaddieUpdate {
+    staffId?: string;
+    nickName?: string;
+    firstName?: string;
+    lastName?: string;
+    gender?: string;
+    dateOfBirth?: Date;
+    identificationNo?: string;
+    status?: string;
+    grade?: number;
+    dateJoined?: Date;
+    qcode?: string;
+    description?: string;
+    nationality?: string;
+    photo?: MultipartFile;
+    availability?: boolean[];
 }
 
 export interface CaddyAssignment {
@@ -874,7 +882,14 @@ export interface CaddyData extends IAvailableOnDay {
     authentication?: UserAuthentication;
     lastAssigned?: Date;
     lastCompleted?: Date;
+    available?: boolean;
     availabilityDays?: { [index: string]: boolean };
+}
+
+export interface ValidateSave {
+}
+
+export interface CaddyDataPage extends PagedData<CaddyData> {
 }
 
 export interface CaddyDayDetails {
@@ -889,6 +904,22 @@ export interface CaddyGrade {
     id?: number;
     name?: string;
     price?: number;
+}
+
+export interface ChargeToClub {
+    transactionDate?: Date;
+    reference?: string;
+    referenceDate?: Date;
+    chargeType?: string;
+    description?: string;
+    amount?: number;
+    chargingPlayer?: number;
+}
+
+export interface ClubAddress {
+    name?: string;
+    defaultAddress?: boolean;
+    address?: AddressData;
 }
 
 export interface ClubAgreement {
@@ -913,20 +944,31 @@ export interface ClubBank {
     referenceNo?: string;
     routingNo?: string;
     primaryAccount?: boolean;
+    beneficiary?: string;
     address?: AddressData;
     club?: ClubData;
 }
-export interface CaddyUnavailability {
-    id?: number;
-    startDate?: Date;
-    endDate?: Date;
+
+export interface ClubBankPage extends PagedData<ClubBank> {
+}
+
+export interface ClubCaddieSchedule {
+    flightTime?: Date;
+    bookingReference?: string;
+    staffId?: string;
+    identificationNo?: string;
+    caddieImage?: string;
+    caddieName?: string;
+    caddieId?: number;
+    buggyNo?: string;
     remarks?: string;
+    status?: string;
 }
 
 export interface ClubCourseData {
     id?: number;
     name?: string;
-    type?: number;
+    numberOfHoles?: number;
     par?: number;
     rating?: number;
     slope?: number;
@@ -935,8 +977,9 @@ export interface ClubCourseData {
     courseThumbnail?: string;
     shortCode?: string;
     displayOrder?: number;
+    complete?: boolean;
     holes?: ClubCourseHoleData[];
-    teeBoxes?: TeeBoxData[];
+    teeBoxes?: CourseTeeBoxData[];
 }
 
 export interface ClubCourseHoleData {
@@ -952,13 +995,16 @@ export interface ClubCourseHoleData {
     distanceBlue?: number;
     distanceRed?: number;
     distanceWhite?: number;
+    distances?: { [index: string]: number };
     image?: string;
+    thumbnail?: string;
 }
 
 export interface ClubCredit {
     club?: ClubData;
     currency?: CurrencyData;
     balance?: number;
+    walletBalance?: number;
 }
 
 export interface ClubData {
@@ -968,6 +1014,7 @@ export interface ClubData {
     tag?: string;
     description?: string;
     status?: string;
+    active?: boolean;
     address?: AddressData;
     contactPerson?: string;
     contactEmail?: string;
@@ -979,8 +1026,276 @@ export interface ClubData {
     clubThumbnail?: string;
     clubLogo?: string;
     averageRating?: number;
+    validClub?: boolean;
+    defaultHandicapSystem?: HandicapSystem;
     courses?: ClubCourseData[];
+    clubAddresses?: ClubAddress[];
     organizer?: OrganizerData;
+    bookingReferencePrefix?: string;
+}
+
+export interface ClubDataLite {
+    clubId?: number;
+    clubName?: string;
+    clubImage?: string;
+    clubThumbnail?: string;
+    clubLogo?: string;
+    countryId?: string;
+    countryName?: string;
+}
+
+export interface ClubDataLitePage extends PagedData<ClubDataLite> {
+}
+
+export interface ClubDataPage extends PagedData<ClubData> {
+}
+
+export interface ClubFacility {
+    clubId?: number;
+    clubName?: string;
+    facilityId?: string;
+    facilityName?: string;
+    description?: string;
+    facilityImage?: string;
+    active?: boolean;
+}
+
+export interface ClubMember {
+    id?: number;
+    homeClub?: boolean;
+    membershipNumber?: string;
+    status?: MembershipStatus;
+    dateJoined?: Date;
+    dateExpired?: Date;
+    dateRequested?: Date;
+    clubHandicap?: number;
+    m2uHandicap?: number;
+    club?: ClubInfo;
+    player?: PlayerData;
+}
+
+export interface ClubMemberInfoForBooking {
+    member?: boolean;
+    membershipNo?: string;
+    suspended?: boolean;
+    playerType?: string;
+    maxGuests?: number;
+}
+
+export interface ClubMemberLite {
+    club?: ClubDataLite;
+    player?: PlayerDataLite;
+    homeClub?: boolean;
+    membershipNumber?: string;
+    status?: string;
+    clubHandicap?: number;
+    m2uHandicap?: number;
+    membershipType?: string;
+}
+
+export interface ClubMemberPage extends PagedData<ClubMember> {
+}
+
+export interface ClubMemberStatementOption {
+    autoGeneration?: boolean;
+    autoApprove?: boolean;
+    sendEmail?: boolean;
+    frequency?: StatementFrequency;
+    dayOfMonth?: number;
+}
+
+export interface ClubMembership {
+    id?: number;
+    club?: ClubData;
+    membershipType?: ClubMembershipType;
+    membershipNo?: string;
+    player?: PlayerData;
+    joinedOn?: Date;
+    validUntil?: Date;
+    depositAmountPaid?: number;
+    primaryMembership?: boolean;
+    status?: MembershipStatus;
+    playerApproval?: boolean;
+    active?: boolean;
+    playerHomeClub?: boolean;
+    statementEmail?: boolean;
+    supplementaryContext?: string;
+    correspondenceEmail?: string;
+    lastUpdatedBy?: UserAuthentication;
+    lastUpdatedAt?: Date;
+    onSuspension?: OnMembershipSuspension;
+    playerTypeApplied?: string;
+    guestsWhenSuspended?: number;
+    deniedFacilities?: string[];
+    suspensionRemarks?: string;
+    memberImage?: string;
+    additionalProperties?: { [index: string]: any };
+    statusHistories?: ClubMembershipStatusHistory[];
+    additionalCharges?: ClubMembershipAddlChg[];
+}
+
+export interface ClubMembershipAddlChg {
+    id?: number;
+    clubMembershipCharge?: ClubMembershipCharge;
+    startDate?: Date;
+    endDate?: Date;
+    lastChargeDate?: Date;
+    totalApplied?: number;
+    active?: boolean;
+    amount?: number;
+}
+
+export interface ClubMembershipCharge {
+    membershipType?: ClubMembershipType;
+    chargeId?: string;
+    name?: string;
+    description?: string;
+    amount?: number;
+    recurringCharge?: boolean;
+    periodType?: RecurringChargerPeriod;
+    periodLength?: number;
+    transactionType?: TransactionType;
+    active?: boolean;
+    optionalCharge?: boolean;
+}
+
+export interface ClubMembershipChargePage extends PagedData<ClubMembershipCharge> {
+}
+
+export interface ClubMembershipOption {
+    statementOption?: ClubMemberStatementOption;
+    paymentOption?: MemberPaymentOption;
+}
+
+export interface ClubMembershipPage extends PagedData<ClubMembership> {
+}
+
+export interface ClubMembershipProperty {
+    propertyId?: string;
+    propertyName?: string;
+    description?: string;
+}
+
+export interface ClubMembershipStatusHistory {
+    id?: number;
+    startDate?: Date;
+    endDate?: Date;
+    status?: MembershipStatus;
+    active?: boolean;
+    remarks?: string;
+    onSuspension?: OnMembershipSuspension;
+    playerTypeApplied?: string;
+    deniedFacilities?: string[];
+}
+
+export interface ClubMembershipType {
+    typeId?: string;
+    typeName?: string;
+    allowSupplementary?: boolean;
+    termMembership?: boolean;
+    bookingPlayerType?: BookingPlayerType;
+    introduction?: boolean;
+    maxMembers?: number;
+    membersCanIntroduce?: boolean;
+    maximumIntroduction?: number;
+    maxGuests?: number;
+    facilities?: ClubMembershipTypeFacility[];
+}
+
+export interface ClubMembershipTypeFacility {
+    id?: number;
+    clubFacility?: ClubFacility;
+    availableToSupplementaryMember?: boolean;
+}
+
+export interface ClubOutlet {
+    id?: number;
+    name?: string;
+    description?: string;
+    outletType?: string;
+    active?: boolean;
+    address?: AddressData;
+    club?: ClubData;
+    outletUsers?: UserAuthentication[];
+}
+
+export interface ClubOutletForm extends AddressForm {
+    name?: string;
+    description?: string;
+    outletType?: string;
+    active?: boolean;
+}
+
+export interface ClubOutletPage extends PagedData<ClubOutlet> {
+}
+
+export interface ClubPaymentCode {
+    paymentCode?: string;
+    club?: ClubData;
+    name?: string;
+    description?: string;
+    active?: boolean;
+}
+
+export interface ClubPaymentCodePage extends PagedData<ClubPaymentCode> {
+}
+
+export interface ClubPos {
+    id?: number;
+    name?: string;
+    posCode?: string;
+    description?: string;
+    active?: boolean;
+    club?: ClubData;
+    clubOutlet?: ClubOutlet;
+}
+
+export interface ClubPosPage extends PagedData<ClubPos> {
+}
+
+export interface ClubPosPayment {
+    sequence?: number;
+    paymentCode?: string;
+    paymentReference?: string;
+    paymentAmount?: number;
+    localAmount?: number;
+    paymentCurrency?: string;
+    exchangeRate?: number;
+    tipAmount?: number;
+    localTipAmount?: number;
+    changeAmount?: number;
+    localChangeAmount?: number;
+    cardName?: string;
+    commissionRate?: number;
+    commission?: number;
+}
+
+export interface ClubPosSale {
+    id?: number;
+    salesDate?: Date;
+    salesTime?: Date;
+    billNo?: string;
+    remarks?: string;
+    grossAmount?: number;
+    discountAmount?: number;
+    taxApplied?: number;
+    netAmount?: number;
+    salesMode?: string;
+    club?: ClubData;
+    pos?: ClubPos;
+    posCode?: string;
+    cashierId?: string;
+    salesSource?: string;
+    syncedToFinancial?: boolean;
+    financialSyncReference?: string;
+    financialSyncAt?: Date;
+    serviceCharge?: number;
+    adjustedAmount?: number;
+    amountPayable?: number;
+    payments?: ClubPosPayment[];
+}
+
+export interface ClubPosSalePage extends PagedData<ClubPosSale> {
 }
 
 export interface ClubRating {
@@ -995,7 +1310,86 @@ export interface ClubRating {
     itemizedRatings?: ItemRating[];
 }
 
+export interface ClubSalesForm {
+    salesDate?: Date;
+    salesTime?: Date;
+    billNo?: string;
+    remarks?: string;
+    grossAmount?: number;
+    discountAmount?: number;
+    taxApplied?: number;
+    netAmount?: number;
+    salesMode?: string;
+    posCode?: string;
+    cashierId?: string;
+    salesSource?: string;
+}
+
+export interface ClubSalesPaymentForm {
+    paymentCode?: string;
+    paymentReference?: string;
+    paymentAmount?: number;
+    paymentCurrency?: string;
+    exchangeRate?: number;
+    localAmount?: number;
+    tipAmount?: number;
+    localTipAmount?: number;
+    changeAmount?: number;
+    localChangeAmount?: number;
+    cardName?: string;
+}
+
+export interface ClubStaff {
+    id?: number;
+    name?: string;
+    designation?: string;
+    staffId?: string;
+    user?: UserAuthentication;
+}
+
+export interface ClubSupplementaryMembership {
+    id?: number;
+    primaryMembership?: ClubMembership;
+    supplementaryMembership?: ClubMembership;
+    relation?: string;
+    billToPrimaryAccount?: boolean;
+}
+
+export interface CourseRating {
+    id?: number;
+    name?: string;
+    firstCourse?: ClubCourseData;
+    secondCourse?: ClubCourseData;
+    teeBox?: TeeBoxData;
+    gender?: string;
+    courseRating?: number;
+    slopeRating?: number;
+    groupName?: string;
+}
+
+export interface CourseTeeBoxData extends TeeBoxData {
+    courseRating?: number;
+    slopeRating?: number;
+}
+
+export interface EffectiveMemberCharge {
+    chargeId?: string;
+    chargeName?: string;
+    description?: string;
+    chargeType?: MemberChargeType;
+    standardAmount?: number;
+    chargedAmount?: number;
+}
+
 export interface IAvailableOnDay {
+}
+
+export interface MemberPaymentOption {
+    suspendOnPaymentDefault?: boolean;
+    playerTypeOnSuspension?: string;
+    gracePeriod?: PeriodType;
+    gracePeriodLength?: number;
+    deductFromDeposit?: boolean;
 }
 
 export interface NearbyClub {
@@ -1004,16 +1398,147 @@ export interface NearbyClub {
     distanceInKm?: number;
 }
 
+export interface PlayerAccountStat {
+    player?: PlayerDataLite;
+    yearMonth?: string;
+    statementAmount?: number;
+}
+
+export interface PlayerBookingStat {
+    totalBookings?: number;
+    cancelledBookings?: number;
+    bookingAmount?: number;
+    cancelledBookingAmount?: number;
+    payment?: number;
+}
+
+export interface PlayerBookingStats {
+    player?: PlayerDataLite;
+    membershipNumber?: string;
+    overall?: PlayerBookingStat;
+    monthly?: { [index: string]: PlayerBookingStat };
+}
+
+export interface PlayerClubAccount {
+    id?: number;
+    balanceAmount?: number;
+    balanceType?: DebitOrCredit;
+    allowCredit?: boolean;
+    creditLimitApplicable?: boolean;
+    creditLimit?: number;
+    currency?: CurrencyData;
+    club?: ClubData;
+    player?: PlayerData;
+    effectiveBalance?: number;
+}
+
+export interface PlayerClubAccountPage extends PagedData<PlayerClubAccount> {
+}
+
+export interface PlayerClubAccountStatement {
+    id?: number;
+    name?: string;
+    statementDate?: Date;
+    includeTransactionUntil?: Date;
+    balanceBroughtForward?: number;
+    paymentReceived?: number;
+    totalDebits?: number;
+    totalCredits?: number;
+    closingBalance?: number;
+    approved?: boolean;
+    createdAt?: Date;
+    approvedAt?: Date;
+    approvedBy?: UserAuthentication;
+    club?: ClubData;
+    player?: PlayerData;
+    transactions?: PlayerClubAccountTransaction[];
+}
+
+export interface PlayerClubAccountStatementPage extends PagedData<PlayerClubAccountStatement> {
+}
+
+export interface PlayerClubAccountTransaction {
+    id?: number;
+    transactionDate?: Date;
+    status?: TransactionStatus;
+    reference?: string;
+    debitOrCredit?: DebitOrCredit;
+    referenceDate?: Date;
+    chargeType?: string;
+    description?: string;
+    amount?: number;
+    createdAt?: Date;
+    postedDate?: Date;
+    reversedDate?: Date;
+    playerClubAccount?: PlayerClubAccount;
+    chargeByPlayer?: PlayerData;
+    includedInStatement?: boolean;
+    statementId?: number;
+    statementDate?: Date;
+    chargeId?: string;
+    transactionGenerated?: boolean;
+    transactionId?: string;
+}
+
+export interface PlayerClubAccountTransactionPage extends PagedData<PlayerClubAccountTransaction> {
+}
+
 export interface PlayerCredit {
     player?: PlayerData;
     currency?: CurrencyData;
     balance?: number;
+    walletBalance?: number;
+}
+
+export interface PlayerTransactionChargeTypes {
+}
+
+export interface PlayerVehicle {
+    playerId?: number;
+    playerName?: string;
+    clubId?: number;
+    clubName?: string;
+    registrationNumber?: string;
+    vehicleName?: string;
+    yearOfModel?: number;
+    parkingAllotted?: boolean;
+    parkingSticker?: string;
+    parkingBay?: string;
+}
+
+export interface PlayerVehicleForm {
+    registrationNumber?: string;
+    vehicleName?: string;
+    yearOfModel?: number;
+    parkingAllotted?: boolean;
+    parkingSticker?: string;
+    parkingBay?: string;
+}
+
+export interface PlayerVehiclePage extends PagedData<PlayerVehicle> {
+}
+
+export interface RefundFromClub {
+    transactionDate?: Date;
+    reference?: string;
+    referenceDate?: Date;
+    chargeType?: string;
+    description?: string;
+    amount?: number;
 }
 
 export interface Schedule {
     startDate?: Date;
     endDate?: Date;
     availabilities?: Availability[];
+}
+
+export interface TeeBoxData {
+    id?: number;
+    name?: string;
+    image?: string;
+    description?: string;
+    teeBoxColor?: string;
 }
 
 export interface Unavailability {
@@ -1031,6 +1556,21 @@ export interface AddPlayerRoundData {
     buggy?: string;
 }
 
+export interface CompRoundSessionData {
+    id?: number;
+    roundId?: number;
+    startTime?: Date;
+    maxSlots?: number;
+    compPlayers?: CompetitionPlayerData[];
+    registered?: number;
+}
+
+export interface CompetitionAdData {
+    advertisement?: AdvertisementData;
+    displayPeriod?: number;
+    rank?: number;
+}
+
 export interface CompetitionCategory {
     sequence?: number;
     categoryId?: number;
@@ -1039,6 +1579,77 @@ export interface CompetitionCategory {
     forGrouping?: boolean;
     fromHandicap?: number;
     toHandicap?: number;
+}
+
+export interface CompetitionCategoryData {
+    id?: number;
+    sequence?: number;
+    playerCategory?: PlayerCategoryData;
+    createdOn?: Date;
+    createdBy?: string;
+}
+
+export interface CompetitionData {
+    id?: number;
+    name?: string;
+    description?: string;
+    image?: string;
+    thumbnail?: string;
+    startDate?: Date;
+    endDate?: Date;
+    publishDate?: Date;
+    openDate?: Date;
+    closeDate?: Date;
+    fee?: number;
+    totalPrize?: number;
+    rules?: string;
+    tieBreaker?: string;
+    maxPlayers?: number;
+    totalRounds?: number;
+    totalHoles?: number;
+    type?: string;
+    multiplePrizes?: boolean;
+    scoringFormat?: ScoringFormatData;
+    handicapFormat?: ScoringFormatData;
+    teeBoxMen?: TeeBoxData;
+    teeBoxWomen?: TeeBoxData;
+    status?: string;
+    createdOn?: Date;
+    createdBy?: string;
+    allowGps?: boolean;
+    considerScoreType?: string;
+    autoStart?: number;
+    maxMaleHandicap?: number;
+    maxFemaleHandicap?: number;
+    underParCap?: number;
+    useInHandicap?: boolean;
+    showLeaderBoard?: boolean;
+    allowChangeScorer?: boolean;
+    privateCompetition?: boolean;
+    teamEvent?: boolean;
+    downloadHandicap?: boolean;
+    topNPlayersToConsider?: number;
+    paymentMandatory?: boolean;
+    paymentUrl?: string;
+    handicapIndexPreference?: string;
+    handicapSystems?: HandicapSystem[];
+    club?: ClubData;
+    organizer?: OrganizerData;
+    invitation?: CompetitionInvitationData;
+    gameRounds?: GameRoundData[];
+    categories?: CompetitionCategoryData[];
+    prizes?: CompetitionPrizeData[];
+    sponsors?: CompetitionSponsorData[];
+    players?: CompetitionPlayerData[];
+    advertisements?: CompetitionAdData[];
+    ocbs?: CompetitionOcbData[];
+    invitees?: CompetitionInviteeData[];
+}
+
+export interface BuildFactory {
+}
+
+export interface CompetitionDataPage extends PagedData<CompetitionData> {
 }
 
 export interface CompetitionDetails {
@@ -1094,12 +1705,81 @@ export interface CompetitionInfo {
     totalHoles?: number;
     countryId?: string;
     countryName?: string;
+    useInHandicap?: boolean;
     private?: boolean;
     teamEvent?: boolean;
 }
 
+export interface CompetitionInvitationData {
+    subject?: string;
+    body?: string;
+    revokeSubject?: string;
+    revokeBody?: string;
+}
+
+export interface CompetitionInviteeData {
+    id?: number;
+    email?: string;
+    name?: string;
+    player?: PlayerData;
+    invitationSent?: boolean;
+    invitationSentAt?: Date;
+}
+
 export interface CompetitionList extends PagedResult {
     competitions?: CompetitionInfo[];
+}
+
+export interface CompetitionOcb {
+    id?: number;
+    sequence?: number;
+    ocb?: Ocb;
+    name?: string;
+    scoreType?: string;
+    createdBy?: string;
+    createdOn?: Date;
+    highHandicap?: boolean;
+    holes?: number[];
+    rounds?: number[];
+    playerIndexes?: number[];
+}
+
+export interface CompetitionOcbData {
+    id?: number;
+    roundInfo?: CompetitionRoundData;
+    sequence?: number;
+    ocb?: OcbData;
+    details?: string;
+    status?: string;
+    scoreType?: string;
+    ocbType?: string;
+    createdBy?: string;
+    createdOn?: Date;
+}
+
+export interface CompetitionPlayerData {
+    id?: number;
+    player?: PlayerData;
+    category?: PlayerCategoryData;
+    teeBox?: TeeBoxData;
+    status?: CompetitionPlayerStatus;
+    paymentMade?: boolean;
+    paymentDate?: Date;
+    paymentVia?: string;
+    paymentRef?: string;
+    paymentAmount?: number;
+    nhsHandicap?: number;
+    handicap?: number;
+    handicapIndex?: number;
+    netTotal?: number;
+    grossTotal?: number;
+    netPosition?: number;
+    grossPosition?: number;
+    createOn?: Date;
+    createdBy?: string;
+    ocbApplication?: OcbAppliedData;
+    ocbCategoryApplication?: OcbAppliedData;
+    clubMemberAccount?: string;
 }
 
 export interface CompetitionPlayerInfo {
@@ -1121,6 +1801,16 @@ export interface CompetitionPlayerInfo {
     nationalSportCode?: string;
 }
 
+export interface CompetitionPrizeData {
+    id?: number;
+    category?: PlayerCategoryData;
+    roundInfo?: CompetitionRoundData;
+    order?: number;
+    prizePosition?: number;
+    prize?: PrizeData;
+    winnerData?: PrizeWinnerData;
+}
+
 export interface CompetitionPrizeInfo {
     categoryName?: string;
     categoryDisplaySequence?: number;
@@ -1138,6 +1828,12 @@ export interface CompetitionPrizeInfo {
     teamPos?: string;
 }
 
+export interface CompetitionRoundData {
+    roundId?: number;
+    roundNo?: number;
+    status?: GameRoundStatus;
+}
+
 export interface CompetitionSearchCriteria {
     searchType?: string;
     onlyParticipating?: boolean;
@@ -1149,12 +1845,105 @@ export interface CompetitionSearchCriteria {
     periodType?: string;
 }
 
+export interface CompetitionSponsorData {
+    id?: number;
+    sponsorship?: string;
+    status?: string;
+    createdBy?: string;
+    createdOn?: Date;
+    image?: string;
+    sponsorDate?: Date;
+    sponsor?: SponsorData;
+}
+
 export interface CompetitionSponsorInfo {
-    sponsor?: any;
+    sponsor?: SponsorData;
     imageUrl?: string;
     sponsorDate?: Date;
     sponsorship?: string;
     status?: string;
+}
+
+export interface CompetitionStatusData {
+    competitionId?: number;
+    competitionName?: string;
+    description?: string;
+    allowGps?: boolean;
+    showLeaderBoard?: boolean;
+    allowChangeScorer?: boolean;
+    considerTopN?: number;
+    considerScoreType?: string;
+    rules?: string;
+    startDate?: Date;
+    endDate?: Date;
+    publishDate?: Date;
+    openDate?: Date;
+    closeDate?: Date;
+    closedForRegistration?: boolean;
+    status?: string;
+    totalRounds?: number;
+    imageUrl?: string;
+    thumbnail?: string;
+    type?: string;
+    registered?: boolean;
+    maxPlayers?: number;
+    totalRegistered?: number;
+    clubName?: string;
+    clubId?: number;
+    organizerId?: number;
+    organizerName?: string;
+    clubTag?: string;
+    scoringFormat?: string;
+    fee?: number;
+    totalPrize?: number;
+    totalHoles?: number;
+    autoStart?: number;
+    private?: boolean;
+    teamEvent?: boolean;
+}
+
+export interface CompetitionTeamData {
+    id?: number;
+    team?: TeamData;
+    teamPositionNet?: number;
+    teamPositionGross?: number;
+    totalGross?: number;
+    totalNet?: number;
+    status?: string;
+    onCountBackNet?: string;
+    onCountBackGross?: string;
+    onCountBackNetStat?: string;
+    onCountBackGrossStat?: string;
+    teamPlayers?: CompetitionTeamPlayerData[];
+}
+
+export interface CompetitionTeamPlayerData {
+    id?: number;
+    captain?: boolean;
+    considered?: boolean;
+    competitionPlayer?: CompetitionPlayerData;
+}
+
+export interface FlightGenerationOption {
+    competition?: number;
+    playerOrderBy?: string;
+    genderSeparation?: boolean;
+    flightSize?: number;
+    startTime?: string;
+    minsApart?: number;
+    flightType?: FlightType;
+    retainGroups?: boolean;
+    cutoffRounds?: number[];
+    beyond18Holes?: number[];
+    advanceType?: PlayerAdvanceType;
+    cutOffScore?: number;
+    topNPlayers?: number;
+    scoreToUse?: string;
+    playersPerBuggy?: number;
+    scorerType?: ScorerType;
+    scorerSwapType?: ScorerSwapType;
+    maxSameTeamPlayers?: number;
+    flightTeam?: boolean;
 }
 
 export interface FlightInfo {
@@ -1243,6 +2032,42 @@ export interface LeaderBoardTeam {
     onHole?: string;
 }
 
+export interface Ocb {
+    id?: number;
+    name?: string;
+    type?: OcbType;
+    teamEvent?: boolean;
+    active?: boolean;
+}
+
+export interface OcbAppliedData {
+    ocbGross?: boolean;
+    ocbGrossDetails?: string;
+    ocbNet?: boolean;
+    ocbNetDetails?: string;
+}
+
+export interface OcbData {
+    id?: number;
+    name?: string;
+    details?: string;
+    status?: string;
+    ocbType?: string;
+    createdBy?: string;
+    createdOn?: Date;
+}
+
+export interface PlayerCategoryData {
+    id?: number;
+    name?: string;
+    displaySequence?: number;
+    forGrouping?: boolean;
+    fromHandicap?: number;
+    toHandicap?: number;
+    gender?: string;
+    organizer?: OrganizerData;
+}
+
 export interface PlayerScoreInfo {
     playerRoundId?: number;
     playerId?: number;
@@ -1260,6 +2085,53 @@ export interface PlayerScoreInfo {
     lastHoleScored?: number;
     currentHole?: number;
     scores?: { [index: string]: number };
+}
+
+export interface PrizeData {
+    title?: string;
+    prizeName?: string;
+    scoreType?: string;
+    teamPrize?: boolean;
+    prizeMoney?: number;
+}
+
+export interface PrizeWinnerData {
+    playerWinnerPos?: PlayerData;
+    playerWinnerMon?: PlayerData;
+    teamWinnerPos?: TeamData;
+    teamWinnerMon?: TeamData;
+}
+
+export interface ScoringFormatData {
+    id?: number;
+    name?: string;
+    adjustmentFactor?: number;
+    usedFor?: string;
+    description?: string;
+    createdOn?: Date;
+    createdBy?: string;
+    scoringFormatPoints?: ScoringFormatPointData[];
+}
+
+export interface ScoringFormatPointData {
+    id?: number;
+    name?: string;
+    pointScore?: number;
+    pointValue?: number;
+    peoriaHoles?: number[];
+}
+
+export interface TeamData {
+    id?: number;
+    name?: string;
+    logo?: string;
+    description?: string;
+    teamCaptain?: PlayerData;
+    club?: ClubData;
+    teamMembers?: PlayerData[];
+}
+
+export interface TeamDataPage extends PagedData<TeamData> {
 }
 
 export interface TeamInfo {
@@ -1327,10 +2199,14 @@ export interface DeviceInfo {
     ownedBy?: number;
     batterLevel?: number;
     lastActive?: Date;
+    favorite?: boolean;
 }
 
 export interface DeviceList extends PagedResult {
     deviceList?: DeviceInfo[];
+}
+
+export interface DevicePage extends PagedData<DeviceInfo> {
 }
 
 export interface DiscountAudit {
@@ -1354,8 +2230,21 @@ export interface DiscountCompany {
     id?: string;
     name?: string;
     description?: string;
+    partnerImage?: string;
+    partnerServices?: PartnerService[];
+    country?: CountryData;
     address?: AddressData;
-    discountPrograms?: DiscountCompanyProgram[];
+}
+
+export interface DiscountCompanyForm extends AddressForm {
+    id?: string;
+    name?: string;
+    description?: string;
+    partnerServices?: PartnerService[];
+    partnerImage?: MultipartFile;
+}
+
+export interface DiscountCompanyPage extends PagedData<DiscountCompany> {
 }
 
 export interface DiscountCompanyProgram {
@@ -1368,6 +2257,9 @@ export interface DiscountCompanyProgram {
     validUntil?: Date;
     amountType?: AmountType;
     discountAmount?: number;
+}
+
+export interface DiscountCompanyProgramPage extends PagedData<DiscountCompanyProgram> {
 }
 
 export interface DiscountPlayerClub {
@@ -1399,9 +2291,28 @@ export interface DiscountProgramMember {
     rowIdx?: number;
 }
 
+export interface DiscountRateByComp {
+    pricingComponent?: string;
+    amPrice?: number;
+    amPriceNineHoles?: number;
+    pmPrice?: number;
+    pmPriceNineHoles?: number;
+}
+
 export interface PlayerDiscountApprovalSpec {
     clubId?: number;
     applications?: PlayerDiscountProgramApplication[];
+}
+
+export interface PlayerDiscountClubApproval {
+    playerDiscountProgram?: PlayerDiscountProgram;
+    club?: ClubData;
+    approved?: boolean;
+    validFrom?: Date;
+    validUntil?: Date;
+    dateApplied?: Date;
+    dateApproved?: Date;
+    approvedBy?: UserAuthentication;
 }
 
 export interface PlayerDiscountProgram {
@@ -1421,6 +2332,9 @@ export interface PlayerDiscountProgramApplication {
     programId?: string;
     validFrom?: Date;
     validUntil?: Date;
+}
+
+export interface PlayerDiscountProgramPage extends PagedData<PlayerDiscountProgram> {
 }
 
 export interface TeeTimeClubVoucher {
@@ -1470,6 +2384,11 @@ export interface TeeTimeClubVoucherSeries {
     voucherImage?: string;
     validFrom?: Date;
     validUntil?: Date;
+    includesTax?: boolean;
+    taxPercent?: number;
+    applyBeforeTax?: boolean;
+    maxFlightSize?: number;
+    maxVouchersPerPlayer?: number;
     priceComps?: TeeTimeVoucherPriceComp[];
     maxValidDays?: number;
 }
@@ -1487,6 +2406,7 @@ export interface TeeTimeDiscount {
     autoApply?: boolean;
     availableForClubOnly?: boolean;
     usableWithOtherRewards?: boolean;
+    discountBeforeTax?: boolean;
     applicableRate?: TeeTimeDiscountRate;
     club?: ClubData;
     discountProgram?: DiscountCompanyProgram;
@@ -1495,14 +2415,23 @@ export interface TeeTimeDiscount {
     discountRates?: TeeTimeDiscountRate[];
 }
 
+export interface TeeTimeDiscountPage extends PagedData<TeeTimeDiscount> {
+}
+
 export interface TeeTimeDiscountRate {
     id?: number;
     dayId?: number;
     dayName?: string;
     amRateType?: AmountType;
     amRate?: number;
+    amRateNineHole?: number;
     pmRateType?: AmountType;
     pmRate?: number;
+    pmRateNineHole?: number;
+    taxable?: boolean;
+    includesTax?: boolean;
+    taxPercent?: number;
+    discountRateByComps?: DiscountRateByComp[];
 }
 
 export interface TeeTimePlayerTypeDiscount {
@@ -1518,6 +2447,10 @@ export interface TeeTimePriceCompDiscount {
 export interface TeeTimeVoucherPriceComp {
     id?: number;
     priceComponent?: TeeTimePriceComponent;
+    price?: number;
+}
+
+export interface VoucherSeriesPage extends PagedData<TeeTimeClubVoucherSeries> {
 }
 
 export interface EmailAddress {
@@ -1533,7 +2466,7 @@ export interface EmailAttachment {
 
 export interface EmailMessage {
     subject?: string;
-    message?: string;    
+    message?: string;
     copyBritesoft?: string;
     from?: EmailAddress;
     toList?: EmailAddress[];
@@ -1620,6 +2553,83 @@ export interface ExcelPlayerCategory {
     categoryName?: string;
 }
 
+export interface ClubExternalInterface {
+    clubId?: number;
+    clubName?: string;
+    system?: ExternalSystem;
+    authenticationDetails?: string;
+    connection?: OAuth2Connection;
+    basicAuthentication?: BasicAuthentication;
+    generateExport?: boolean;
+    syncDirection?: SyncDirection;
+    currencyMappings?: CurrencyMapping[];
+    apiBaseUrl?: string;
+    importFinancials?: boolean;
+    exportFinancials?: boolean;
+    exportScheduledAt?: Date;
+}
+
+export interface ClubExternalInterfacePage extends PagedData<ClubExternalInterface> {
+}
+
+export interface CurrencyMapping {
+    currencyCode?: string;
+    externalCurrencyCode?: string;
+}
+
+export interface ExternalCurrency {
+    id?: string;
+    code?: string;
+    name?: string;
+}
+
+export interface ExternalInterfaceForm {
+    generateExport?: boolean;
+    exportScheduledAt?: Date;
+    apiBaseUrl?: string;
+    importFinancials?: boolean;
+    exportFinancials?: boolean;
+}
+
+export interface ExternalSystem {
+    id?: string;
+    name?: string;
+    description?: string;
+    systemType?: string;
+    authenticationPolicy?: string;
+}
+
+export interface FnbProduct {
+    code?: string;
+    name?: string;
+    description?: string;
+    category?: string;
+    category2?: string;
+    unitPrice?: number;
+    productImage?: string;
+}
+
+export interface FnbSales {
+    posId?: string;
+    billNo?: string;
+    bizDate?: Date;
+    salesMode?: string;
+    referenceNo?: string;
+    returnBillNo?: string;
+    currCode?: string;
+    grossAmount?: number;
+    discountAmount?: number;
+    netAmount?: number;
+    remarks?: string;
+}
+
+export interface ClubFeatureSubscription extends FeatureSubscription {
+    club?: ClubData;
+}
+
+export interface ClubFeatureSubscriptionPage extends PagedData<ClubFeatureSubscription> {
+}
+
 export interface FeatureSubscription {
     id?: number;
     active?: boolean;
@@ -1628,12 +2638,19 @@ export interface FeatureSubscription {
     quantityBought?: number;
     unlimited?: boolean;
     subscription?: boolean;
-    subscriptionType?: string;
+    subscriptionType?: SubscriptionType;
     boughtOn?: Date;
     startDate?: Date;
     endDate?: Date;
     graceDays?: number;
     quantityUsed?: number;
+}
+
+export interface PlayerFeatureSubscription extends FeatureSubscription {
+    player?: PlayerData;
+}
+
+export interface PlayerFeatureSubscriptionPage extends PagedData<PlayerFeatureSubscription> {
 }
 
 export interface PremiumFeature {
@@ -1643,7 +2660,7 @@ export interface PremiumFeature {
     availableToClubs?: boolean;
     availableToOrganizers?: boolean;
     description?: string;
-    basePeriod?: string;
+    basePeriod?: BasePeriod;
 }
 
 export interface PremiumFeatureBundle {
@@ -1652,7 +2669,6 @@ export interface PremiumFeatureBundle {
     bundleSize?: number;
     bundlePeriod?: number;
     unlimited?: boolean;
-    prices?: PremiumFeaturePrice[];
 }
 
 export interface PremiumFeaturePrice {
@@ -1662,7 +2678,8 @@ export interface PremiumFeaturePrice {
     startDate?: Date;
     endDate?: Date;
     price?: number;
-    pricingType?: string;
+    pricingType?: FeatureBundlePriceType;
+    tiers?: { [index: string]: number };
 }
 
 export interface Feedback {
@@ -1682,6 +2699,649 @@ export interface FeedbackCategory {
     id?: string;
     name?: string;
     displayOrder?: number;
+}
+
+export interface DayAndTimeSpecification {
+    availability?: { [index: string]: TimeRange[] };
+}
+
+export interface FnbOutlet {
+    outletCode?: string;
+    outletName?: string;
+    outletMapping?: string;
+    description?: string;
+    externalSystem?: ExternalSystem;
+    syncTransactions?: boolean;
+    operatingTimings?: DayAndTimeSpecification;
+    authDetails?: string;
+}
+
+export interface FnbOutletProduct {
+    outlet?: FnbOutlet;
+    product?: Product;
+    available?: boolean;
+    availability?: DayAndTimeSpecification;
+    unitPrice?: number;
+    availableForBuggy?: boolean;
+}
+
+export interface Product {
+    group?: ProductGroup;
+    productId?: string;
+    name?: string;
+    description?: string;
+    available?: boolean;
+    availability?: DayAndTimeSpecification;
+    unitPrice?: number;
+    availableForBuggy?: boolean;
+    allowParcel?: boolean;
+}
+
+export interface ProductCategory {
+    id?: string;
+    name?: string;
+    description?: string;
+    available?: boolean;
+}
+
+export interface ProductGroup {
+    category?: ProductCategory;
+    id?: string;
+    name?: string;
+    description?: string;
+    available?: boolean;
+}
+
+export interface AddressForm {
+    address1?: string;
+    address2?: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+    fax?: string;
+    phoneNumbers?: string[];
+    website?: string;
+    email?: string;
+    country?: string;
+    phone1?: string;
+    phone2?: string;
+    primaryPhone?: string;
+}
+
+export interface GameCourseForm {
+    whichNine?: number;
+    name?: string;
+    courseId?: number;
+    courseIndexSet?: number;
+}
+
+export interface PlayerImportForm {
+    clubId?: number;
+    fileToImport?: MultipartFile;
+}
+
+export interface PlayerRegistrationForm extends RegistrationForm {
+    nhsNo?: string;
+    handicapSystem?: string;
+    mg2uIndex?: number;
+    teeBoxName?: string;
+}
+
+export interface ProfileForm {
+    salutation?: string;
+    firstName?: string;
+    lastName?: string;
+    gender?: string;
+    dateOfBirth?: Date;
+    maritalStatus?: MaritalStatus;
+    marriageDate?: Date;
+    nationality?: string;
+    religion?: string;
+    race?: string;
+    occupation?: string;
+    phoneNumber?: string;
+    staffId?: string;
+    designation?: string;
+    photo?: MultipartFile;
+}
+
+export interface RegistrationForm extends ProfileForm {
+    email?: string;
+    loginName?: string;
+    password?: string;
+    address1?: string;
+    address2?: string;
+    city?: string;
+    state?: string;
+    postalCode?: string;
+    fax?: string;
+    phoneNumbers?: string[];
+    website?: string;
+    country?: string;
+}
+
+export interface SponsorForm extends AddressForm {
+    name?: string;
+    status?: string;
+    registerNo?: string;
+    contactEmail?: string;
+    contactPerson?: string;
+    description?: string;
+    dateJoined?: Date;
+    image?: MultipartFile;
+}
+
+export interface BuggyForm {
+    buggyNo?: string;
+    name?: string;
+    properties?: string;
+    physicalId?: string;
+    dateStart?: Date;
+    maintenanceDate?: Date;
+    seater?: number;
+    make?: string;
+    model?: string;
+    status?: string;
+    buggyQCode?: string;
+    description?: string;
+    availability?: boolean[];
+    buggyImage?: MultipartFile;
+    buggyDate?: BuggyData;
+}
+
+export interface CaddieRegistrationForm {
+    nickName?: string;
+    identificationNo?: string;
+    staffId?: string;
+    dateJoined?: Date;
+    grade?: number;
+    qcode?: string;
+    description?: string;
+    firstName?: string;
+    lastName?: string;
+    gender?: string;
+    dateOfBirth?: Date;
+    nationality?: string;
+    availability?: boolean[];
+    photo?: MultipartFile;
+}
+
+export interface ClubBankForm extends AddressForm {
+    name?: string;
+    branch?: string;
+    accountNo?: string;
+    beneficiary?: string;
+    swiftCode?: string;
+    referenceNo?: string;
+    routingNo?: string;
+    primaryAccount?: boolean;
+}
+
+export interface ClubCourseForm {
+    name?: string;
+    displayOrder?: number;
+    totalHoles?: number;
+    coursePar?: number;
+    description?: string;
+    shortCode?: string;
+    courseRating?: number;
+    slopeRating?: number;
+    courseImage?: MultipartFile;
+}
+
+export interface ClubCreateForm extends AddressForm {
+    name?: string;
+    virtualClub?: boolean;
+    clubType?: any;
+    contactPerson?: string;
+    contactEmail?: string;
+    clubLogo?: MultipartFile;
+    clubImage?: MultipartFile;
+}
+
+export interface ClubEditForm extends ClubCreateForm {
+    registerNo?: string;
+    clubTag?: string;
+    clubDescription?: string;
+    gpsLatitude?: number;
+    gpsLongitude?: number;
+    handicapSystem?: string;
+    timezone?: string;
+    bookingReferencePrefix?: string;
+}
+
+export interface ClubFacilityForm {
+    id?: string;
+    name?: string;
+    description?: string;
+    active?: boolean;
+    image?: MultipartFile;
+}
+
+export interface ClubMemberForm extends RegistrationForm {
+    nhsNo?: string;
+    handicapSystem?: string;
+    mg2uIndex?: number;
+    teeBoxName?: string;
+    membershipNo?: string;
+    membershipType?: string;
+    dateJoined?: Date;
+    dateExpired?: Date;
+}
+
+export interface ClubMembershipChargeForm {
+    chargeId?: string;
+    name?: string;
+    description?: string;
+    amount?: number;
+    recurringCharge?: boolean;
+    periodType?: RecurringChargerPeriod;
+    periodLength?: number;
+    transactionType?: string;
+    active?: boolean;
+    optionalCharge?: boolean;
+}
+
+export interface ClubMembershipForm {
+    membershipNo?: string;
+    membershipType?: string;
+    joinedOn?: Date;
+    validUntil?: Date;
+    depositAmountPaid?: number;
+    statementEmail?: boolean;
+    correspondenceEmail?: string;
+    memberImage?: MultipartFile;
+    homeClub?: boolean;
+}
+
+export interface ClubMembershipTypeForm {
+    typeId?: string;
+    typeName?: string;
+    allowSupplementary?: boolean;
+    bookingPlayerType?: string;
+    introduction?: boolean;
+    maxMembers?: number;
+    membersCanIntroduce?: boolean;
+    maximumIntroduction?: number;
+    maxGuests?: number;
+    term?: boolean;
+}
+
+export interface ClubRegistrationForm extends AddressForm {
+    name?: string;
+    shortName?: string;
+    virtualClub?: boolean;
+    handicapSystem?: string;
+    timezone?: string;
+    clubLogo?: MultipartFile;
+    firstName?: string;
+    lastName?: string;
+    contactEmail?: string;
+    representativePhone?: string;
+    password?: string;
+    representativePhoto?: MultipartFile;
+}
+
+export interface ClubStaffForm extends RegistrationForm {
+}
+
+export interface CourseHoleForm {
+    holeNo?: number;
+    holePar?: number;
+    holeIndexOut?: number;
+    holeIndexIn?: number;
+    latitude?: number;
+    longitude?: number;
+    teeBoxDistances?: string[];
+    description?: string;
+    holeImage?: MultipartFile;
+}
+
+export interface CourseRatingForm {
+    name?: string;
+    firstCourse?: number;
+    secondCourse?: number;
+    teeBoxName?: string;
+    gender?: string;
+    courseRating?: number;
+    slopeRating?: number;
+}
+
+export interface MembershipUpdateForm {
+    membershipNo?: string;
+    membershipType?: string;
+    dateJoined?: Date;
+    dateExpired?: Date;
+    homeClub?: boolean;
+}
+
+export interface UnavailabilityForm {
+    startDate?: Date;
+    endDate?: Date;
+    remarks?: string;
+}
+
+export interface CompetitionCopyForm {
+    playerCategories?: boolean;
+    ocbs?: boolean;
+    prizes?: boolean;
+    sponsors?: boolean;
+    players?: boolean;
+}
+
+export interface CompetitionForm {
+    clubId?: number;
+    organizerId?: number;
+    name?: string;
+    type?: string;
+    privateTournament?: boolean;
+    teamEvent?: boolean;
+    maxPlayers?: number;
+    startDate?: Date;
+    endDate?: Date;
+    publishDate?: Date;
+    openDate?: Date;
+    closeDate?: Date;
+    totalRounds?: number;
+    showLeaderBoard?: boolean;
+    allowChangeScorer?: boolean;
+    allowGps?: boolean;
+    useInHandicap?: boolean;
+    totalPrizeAmount?: number;
+    allowMultiplePrizes?: boolean;
+    description?: string;
+    rules?: string;
+    tieBreaker?: string;
+    considerScoreType?: string;
+    underParCap?: number;
+    scoringFormat?: number;
+    handicapFormat?: number;
+    teeBoxForMen?: string;
+    teeBoxForWomen?: string;
+    maxHandicapMen?: number;
+    maxHandicapWomen?: number;
+    paymentMandatory?: boolean;
+    competitionCharge?: number;
+    handicapPreference?: string[];
+    downloadHandicap?: boolean;
+    autoStart?: boolean;
+    autoStartBefore?: number;
+    logo?: MultipartFile;
+}
+
+export interface CompetitionOcbForm {
+    ocbId?: number;
+    sequence?: number;
+    ocbDetail?: string;
+}
+
+export interface CompetitionPrizeForm {
+    position?: number;
+    title?: string;
+    prizes?: string;
+    monetaryValue?: number;
+    order?: number;
+}
+
+export interface CompetitionRoundForm {
+    roundDate?: Date;
+    name?: string;
+    description?: string;
+    deriveHandicap?: boolean;
+    totalNines?: number;
+    courses?: GameCourseForm[];
+}
+
+export interface CompetitionSponsorForm {
+    sponsorId?: number;
+    sponsorship?: string;
+    sponsorDate?: Date;
+    status?: string;
+    image?: MultipartFile;
+}
+
+export interface OcbForm {
+    name?: string;
+    details?: string;
+    ocbType?: string;
+    status?: string;
+}
+
+export interface PlayerCategoryForm {
+    name?: string;
+    displaySequence?: number;
+    forGrouping?: boolean;
+    fromHandicap?: number;
+    toHandicap?: number;
+    gender?: string;
+}
+
+export interface TeamForm {
+    name?: string;
+    description?: string;
+    captain?: number;
+    teamLogo?: MultipartFile;
+}
+
+export interface DiscProgMemRegForm {
+    verified?: boolean;
+    verifiedOn?: Date;
+    validFrom?: Date;
+    validUntil?: Date;
+    membershipNumber?: string;
+    document?: MultipartFile;
+}
+
+export interface DiscountProgramForm {
+    id?: string;
+    name?: string;
+    description?: string;
+    launchedOn?: Date;
+    validFrom?: Date;
+    validUntil?: Date;
+    amountType?: AmountType;
+    amount?: number;
+}
+
+export interface PackagePriceForm {
+    priceComponent?: string;
+    price?: number;
+}
+
+export interface PlayerAndDiscMemRegForm extends PlayerRegistrationForm {
+    verified?: boolean;
+    verifiedOn?: Date;
+    validFrom?: Date;
+    validUntil?: Date;
+    membershipNumber?: string;
+    document?: MultipartFile;
+}
+
+export interface TeeTimeDiscountForm {
+    discountProgram?: string;
+    description?: string;
+    discountType?: AmountType;
+    discountAmount?: number;
+    validFrom?: Date;
+    validUntil?: Date;
+    appliesToBooking?: boolean;
+    autoApply?: boolean;
+    availableForClubOnly?: boolean;
+    usableWithOtherRewards?: boolean;
+    discountBeforeTax?: boolean;
+    applicablePricingComponents?: string[];
+    applicablePlayerTypes?: string[];
+}
+
+export interface TeeTimeDiscountRateComponentForm {
+    pricingComponent?: string;
+    amRate9Holes?: number;
+    amRate18Holes?: number;
+    pmRate9Holes?: number;
+    pmRate18Holes?: number;
+}
+
+export interface TeeTimeDiscountRateForm {
+    dayId?: number;
+    rateType?: AmountType;
+    amRate9Holes?: number;
+    amRate18Holes?: number;
+    pmRate9Holes?: number;
+    pmRate18Holes?: number;
+    taxable?: boolean;
+    includesTax?: boolean;
+    taxPercent?: number;
+    componentPrices?: TeeTimeDiscountRateComponentForm[];
+}
+
+export interface TeeTimeVoucherSeriesForm {
+    voucherSeries?: string;
+    description?: string;
+    amountType?: AmountType;
+    amount?: number;
+    totalVouchers?: number;
+    validityDays?: number;
+    validFrom?: Date;
+    validUntil?: Date;
+    transferable?: boolean;
+    includeTax?: boolean;
+    taxPercent?: number;
+    voucherImage?: MultipartFile;
+    appliesToBookingAmount?: boolean;
+    appliesToFlight?: boolean;
+    applyBeforeTax?: boolean;
+    maxFlightSize?: number;
+    usableWithOtherRewards?: boolean;
+    allowOnWeekdays?: boolean;
+    allowOnWeekends?: boolean;
+    allowOnPublicHolidays?: boolean;
+    maxVouchersPerPlayer?: number;
+}
+
+export interface FeatureBundlePriceForm {
+    currency?: string;
+    priceType?: FeatureBundlePriceType;
+    price?: number;
+    startDate?: Date;
+    endDate?: Date;
+}
+
+export interface MygolfCommissionRateForm {
+    commissionType?: AmountType;
+    commission?: number;
+    commissionTypeForClubPayment?: AmountType;
+    commissionForClubPayment?: number;
+    onCancelCommissionType?: AmountType;
+    onCancelCommission?: number;
+    minCommissionAmount?: number;
+    maxCommissionAmount?: number;
+    taxAmountType?: AmountType;
+    taxAmount?: number;
+    calculateByPlayer?: boolean;
+    commissionBeforeTax?: boolean;
+}
+
+export interface MygolfPlayerTypeCommissionForm {
+    commissionType?: AmountType;
+    commission?: number;
+    commissionTypeForClubPayment?: AmountType;
+    commissionForClubPayment?: number;
+}
+
+export interface PricingComponentForm {
+    name?: string;
+    description?: string;
+    systemSeeded?: boolean;
+    printSequence?: number;
+    componentType?: PricingComponentType;
+}
+
+export interface PricingPlanAdditionalChargeForm {
+    name?: string;
+    amountType?: AmountType;
+    amount?: number;
+    printSequence?: number;
+    applicablePricingComponents?: string[];
+    applicablePlayerTypes?: string[];
+}
+
+export interface PricingPlanForm {
+    name?: string;
+    description?: string;
+    currency?: string;
+    promotional?: boolean;
+    allowDiscounts?: boolean;
+}
+
+export interface SlotGenerationRuleForm {
+    name?: string;
+    daysInAdvanceToGenerate?: number;
+    daysInAdvanceToOpen?: number;
+    published?: boolean;
+}
+
+export interface SlotGenerationSpecificationForm {
+    startTime?: Date;
+    gapInMinutes?: number;
+    slotsToGenerate?: number;
+}
+
+export interface SlotRuleDayForm {
+    displaySequence?: number;
+    name?: string;
+    holiday?: boolean;
+    bookingDisabled?: boolean;
+    minPlayersPerSlot?: number;
+    maxPlayersPerSlot?: number;
+    buggyMandatory?: boolean;
+    maxPlayersPerBuggy?: number;
+    caddieMandatory?: boolean;
+    maxPlayersPerCaddie?: number;
+    pricingPlan?: number;
+    promotionalPricingPlan?: number;
+    specialDayName?: string;
+}
+
+export interface TeeTimePriceForm {
+    pricingComponent?: string;
+    appliesTo?: any;
+    mandatory?: boolean;
+    addToDisplayPrice?: boolean;
+    nineHolePrice?: number;
+    eighteenHolePrice?: number;
+    packageName?: string;
+}
+
+export interface TeeTimeSlotForm {
+    minPlayers?: number;
+    maxPlayers?: number;
+    waitingListSize?: number;
+    availableForBooking?: boolean;
+    membersOnly?: boolean;
+    reasonForBlocking?: string;
+    pricingPlan?: number;
+    pricingPlanPromotional?: number;
+    pricingPlanJumbo?: number;
+    buggyMandatory?: boolean;
+    maxPlayersPerBuggy?: number;
+    caddyMandatory?: boolean;
+    maxPlayersPerCaddy?: number;
+    maxPlayersPerBuggyJumbo?: number;
+    maxPlayersPerCaddyJumbo?: number;
+    nineHolesAllowed?: boolean;
+    eighteenHolesAllowed?: boolean;
+}
+
+export interface TransactionTypeForm {
+    id?: string;
+    name?: string;
+    debitOrCredit?: string;
+    description?: string;
+    transactionGroup?: string;
+    clubTransactionType?: string;
+    debitAccountCode?: string;
+    creditAccountCode?: string;
+    usedFor?: TransactionTypeUsedFor;
 }
 
 export interface CourseHole {
@@ -1747,6 +3407,7 @@ export interface CourseHandicapDetails {
     handicap?: number;
     rating?: CourseSlopeRating;
     nineHoleHandicap?: boolean;
+    handicapIndexEstablished?: boolean;
 }
 
 export interface CourseSlopeRating {
@@ -1765,7 +3426,7 @@ export interface HandicapCalculation {
     handicapSystem?: string;
     handicapIndexDate?: Date;
     calculatedOn?: Date;
-    player?: PlayerInfo;
+    player?: PlayerDataLite;
     totalRoundsRead?: number;
     totalAverageDifferentialsUsed?: number;
     averageValue?: number;
@@ -1802,7 +3463,6 @@ export interface HandicapGameRound {
     totalActualGrossScore?: number;
     totalGrossScore?: number;
     totalAdjustedScore?: number;
-    averageDifferential?: number;
     pccAdjustment?: number;
     scoreDifferential?: number;
     esr?: number;
@@ -1828,6 +3488,7 @@ export interface HandicapSystem {
     description?: string;
     defaultSystem?: boolean;
     derivedByMygolf?: boolean;
+    logoUrl?: string;
 }
 
 export interface HandicapSystemConfig {
@@ -1853,6 +3514,100 @@ export interface ScoreDifferentialCount {
     numberOfDifferentials?: number;
     numberOfDifferentialsToUse?: number;
     adjustment?: number;
+}
+
+export interface EclecticPlayerRound {
+    id?: number;
+    position?: number;
+    participating?: boolean;
+    playerId?: number;
+    playerName?: string;
+    photo?: string;
+    teeBoxName?: string;
+    roundNo?: number;
+    handicapIndex?: number;
+    handicap?: number;
+    handicapDecimal?: number;
+    courseRating?: number;
+    slopeRating?: number;
+    totalGrossOut?: number;
+    totalGrossIn?: number;
+    totalGross?: number;
+    totalNetOut?: number;
+    totalNetIn?: number;
+    totalNet?: number;
+    actualTotalGross?: number;
+    actualTotalNet?: number;
+    totalNetAdj?: number;
+    playerScores?: EclecticPlayerScore[];
+}
+
+export interface EclecticPlayerScore {
+    eprId?: number;
+    holeNo?: number;
+    holePar?: number;
+    holeIndex?: number;
+    grossScore?: number;
+    netScore?: number;
+    actualGrossScore?: number;
+    actualNetScore?: number;
+}
+
+export interface LeagueLeaderboard {
+    leagueRound?: LeagueRound;
+    playerRounds?: EclecticPlayerRound[];
+}
+
+export interface LeagueRound {
+    seasonName?: string;
+    roundNo?: number;
+    roundDate?: Date;
+    competitionId?: number;
+    competitionName?: string;
+    status?: string;
+}
+
+export interface LeagueRoundDetails {
+    holePars?: number[];
+    holeIndexes?: number[];
+}
+
+export interface LeagueScorecards {
+    leagueRound?: LeagueRound;
+    leagueRoundDetails?: LeagueRoundDetails;
+    playerRounds?: EclecticPlayerRound[];
+}
+
+export interface LeagueSeason {
+}
+
+export interface LowestAverageGrossLeaderboard {
+    leagueSeason?: string;
+    totalRounds?: number;
+    totalFinished?: number;
+    players?: PlayerLowestAverageGross[];
+}
+
+export interface PlayerGrossScoreByRound {
+    playerId?: number;
+    roundNo?: number;
+    roundDate?: Date;
+    status?: string;
+    totalGross?: number;
+    considered?: boolean;
+}
+
+export interface PlayerLowestAverageGross {
+    position?: number;
+    playerId?: number;
+    playerName?: string;
+    photo?: string;
+    teeBoxName?: string;
+    teeBoxImage?: string;
+    qualifyingRounds?: number;
+    averageGross?: number;
+    eligible?: boolean;
+    scoresByRound?: PlayerGrossScoreByRound[];
 }
 
 export interface OrganizerAdData {
@@ -1882,21 +3637,111 @@ export interface OrganizerData {
     advertisements?: OrganizerAdData[];
 }
 
+export interface OrganizerDataPage extends PagedData<OrganizerData> {
+}
+
+export interface OrganizerInviteeSet {
+    id?: number;
+    name?: string;
+    updatedBy?: string;
+    updatedOn?: Date;
+    members?: OrganizerInviteeSetMember[];
+}
+
+export interface OrganizerInviteeSetMember {
+    id?: number;
+    email?: string;
+    name?: string;
+    player?: PlayerData;
+}
+
+export interface PaymentGatewayInfo {
+    id?: string;
+    type?: string;
+    name?: string;
+    description?: string;
+    country_id?: string;
+    currency_id?: string;
+    http_server?: string;
+    api_key?: string;
+    x_signature?: string;
+    merchant_code?: string;
+    merchant_key?: string;
+    callback_url?: string;
+    redirect_url?: string;
+    payment_url?: string;
+    internal_payment_url?: string;
+    signature_algorithm?: string;
+    signature_format?: string;
+}
+
+export interface PaymentMethod {
+    id?: string;
+    name?: string;
+}
+
+export interface PaymentMethods {
+}
+
 export interface PlayerBookingTypeAssociation {
     bookingPlayerType?: BookingPlayerType;
     supportingDocument?: string;
 }
 
-export interface PlayerClubAccount {
+export interface PlayerClubWallet {
     id?: number;
-    club?: ClubData;
+    currentBalance?: number;
+}
+
+export interface PlayerClubWalletBalance {
     player?: PlayerData;
-    currency?: CurrencyData;
-    balanceAmount?: number;
-    balanceType?: DebitOrCredit;
-    allowCredit?: boolean;
-    creditLimitApplicable?: boolean;
-    creditLimit?: number;
+    availableBalance?: number;
+    topups?: PlayerClubWalletTopup[];
+}
+
+export interface PlayerClubWalletBalancePage extends PagedData<PlayerClubWalletBalance> {
+}
+
+export interface PlayerClubWalletTopup {
+    id?: number;
+    player?: PlayerData;
+    topUpDate?: Date;
+    topUpAmount?: number;
+    validUntil?: Date;
+    amountDeducted?: number;
+    topUpBy?: UserAuthentication;
+    topUpTimestamp?: Date;
+    lastUpdatedBy?: UserAuthentication;
+    lastUpdatedTimestamp?: Date;
+    transactions?: PlayerClubWalletTransaction[];
+}
+
+export interface PlayerClubWalletTopupPage extends PagedData<PlayerClubWalletTopup> {
+}
+
+export interface PlayerClubWalletTransaction {
+    id?: number;
+    transactionDate?: Date;
+    amount?: number;
+    debitOrCredit?: DebitOrCredit;
+    transactionCreatedBy?: UserAuthentication;
+    transactionTimestamp?: Date;
+    outlet?: ClubOutlet;
+    playerId?: number;
+    playerName?: string;
+    walletId?: number;
+    topUpId?: number;
+    topUpDate?: Date;
+    validUntil?: Date;
+    topUpAmount?: number;
+    amountDeducted?: number;
+    reference?: string;
+    description?: string;
+    expenditureType?: string;
+    transactionContext?: string;
+}
+
+export interface PlayerClubWalletTransactionPage extends PagedData<PlayerClubWalletTransaction> {
 }
 
 export interface PlayerData {
@@ -1906,29 +3751,52 @@ export interface PlayerData {
     golfAssociationNo?: string;
     organization?: string;
     nickName?: string;
+    profile?: string;
+    handicap?: number;
+    handicapIndex?: number;
+    dateJoined?: Date;
+    status?: string;
+    type?: string;
+    complete?: boolean;
+    color?: string;
+    deviceToken?: string;
+    teeBox?: TeeBoxData;
+    defaultHandicapSystem?: HandicapSystem;
     playerName?: string;
     firstName?: string;
     lastName?: string;
     passport?: string;
     email?: string;
-    profile?: string;
-    handicap?: number;
-    handicapIndex?: number;
-    dateJoined?: Date;
-    dateOfBirth?: Date;
-    status?: string;
-    image?: string;
-    type?: string;
     age?: number;
     gender?: string;
-    complete?: boolean;
-    color?: string;
-    deviceToken?: string;
-    teeBox?: TeeBoxData;
-    address?: AddressData;
+    dateOfBirth?: Date;
+    image?: string;
     nationality?: CountryData;
-    phone?: number;
+    address?: AddressData;
+    userId?: number;
+    userName?: string;
+    userProfile?: UserProfile;
+    addresses?: UserAddress[];
+    deleteRequested?: boolean;
+    deleteRequestedOn?: Date;
+    accountDeleted?: boolean;
+    accountDeletedOn?: Date;
+    addedByClub?: ClubData;
+    membership?: ClubMembership;
+}
+
+export interface PlayerDataLite {
     playerId?: number;
+    playerName?: string;
+    playerPhoto?: string;
+    countryId?: string;
+    countryName?: string;
+}
+
+export interface PlayerDataLitePage extends PagedData<PlayerDataLite> {
+}
+
+export interface PlayerDataPage extends PagedData<PlayerData> {
 }
 
 export interface PlayerGroup {
@@ -1954,8 +3822,27 @@ export interface PlayerHomeInfo {
     compsActiveToday?: CompetitionInfo[];
 }
 
+export interface PlayerImportInstance {
+    id?: number;
+    importCreatedAt?: Date;
+    importFinishedAt?: Date;
+    importFileUrl?: string;
+    totalPlayers?: number;
+    totalRegistered?: number;
+    totalMemberships?: number;
+    totalErrors?: number;
+    status?: string;
+    club?: ClubData;
+    importedBy?: UserAuthentication;
+    sampleData?: any[];
+}
+
+export interface PlayerImportInstancePage extends PagedData<PlayerImportInstance> {
+}
+
 export interface PlayerInfo {
     userId?: number;
+    userName?: string;
     playerId?: number;
     playerName?: string;
     firstName?: string;
@@ -1982,7 +3869,9 @@ export interface PlayerInfo {
     nhsNumber?: string;
     status?: string;
     errorMessage?: string;
+    userProfile?: UserProfile;
     addressInfo?: AddressInfo;
+    userAddresses?: UserAddress[];
     allowEdit?: boolean;
     membership?: string;
     membershipJoinDate?: Date;
@@ -1990,11 +3879,54 @@ export interface PlayerInfo {
     nationalityId?: string;
     nationalityName?: string;
     nationalityFlag?: string;
-    password?: string;
+    deleteRequested?: boolean;
+    deleteRequestedOn?: Date;
+    deleted?: boolean;
+    deletedOn?: Date;
+    addedByClub?: ClubInfo;
+}
+
+export interface PlayerInsurance {
+    id?: number;
+    name?: string;
+    insuranceNo?: string;
+    insuranceCompany?: string;
+    description?: string;
+    startDate?: Date;
+    endDate?: Date;
+    applicableIn?: string[];
+    insuranceDocument?: string;
+    player?: PlayerData;
+    partner?: DiscountCompany;
+}
+
+export interface PlayerInsuranceForm {
+    name?: string;
+    insuranceNo?: string;
+    description?: string;
+    startDate?: Date;
+    endDate?: Date;
+    applicableIn?: string[];
+    insuranceCompanyName?: string;
+    insuranceCompanyId?: string;
+    insuranceDocument?: MultipartFile;
+}
+
+export interface PlayerInsurancePage extends PagedData<PlayerInsurance> {
 }
 
 export interface PlayerList extends PagedResult {
     players?: PlayerInfo[];
+}
+
+export interface PlayerMembership {
+    club?: ClubData;
+    membershipNumber?: string;
+    homeClub?: boolean;
+    dateJoined?: Date;
+    dateExpired?: Date;
+    status?: MembershipStatus;
+    membershipType?: string;
 }
 
 export interface PlayerPerformance {
@@ -2065,7 +3997,7 @@ export interface PlayerRoundScores {
     totalScore?: number;
     diffGrossToPar?: number;
     status?: string;
-    startTime?: string; //Date;
+    startTime?: Date;
     actualStartTime?: Date;
     frontNineNetTotal?: number;
     backNineNetTotal?: number;
@@ -2073,7 +4005,7 @@ export interface PlayerRoundScores {
     totalNetAdjustedScore?: number;
     diffNetToPar?: number;
     scores?: PlayerScore[];
-    totals?: Array<any>; //NineTotals[];
+    totals?: PlayerTotals[];
 }
 
 export interface PlayerScore {
@@ -2091,10 +4023,82 @@ export interface PlayerScore {
     adjustedScore?: number;
 }
 
-export interface NineTotals {
+export interface PlayerTotals {
     whichNine?: number;
     grossTotal?: number;
     netTotal?: number;
+}
+
+export interface RefundAndRedeem {
+    playerId?: number;
+    playerName?: string;
+    transactionDate?: Date;
+    type?: string;
+    referenceType?: string;
+    reference?: string;
+    bookingId?: number;
+    instanceId?: number;
+    refundMode?: RefundMode;
+    reason?: string;
+    refundedBy?: UserAuthentication;
+    amount?: number;
+}
+
+export interface DocumentType {
+    id?: string;
+    name?: string;
+    description?: string;
+    ageProof?: boolean;
+    nationalityProof?: boolean;
+    addressProof?: boolean;
+    domicileProof?: boolean;
+    professionProof?: boolean;
+    country?: CountryData;
+}
+
+export interface UserAddress {
+    name?: string;
+    defaultAddress?: boolean;
+    address?: AddressData;
+}
+
+export interface UserDocument {
+    name?: string;
+    documentNumber?: string;
+    documentUrl?: string;
+    documentType?: DocumentType;
+}
+
+export interface UserDocumentForm {
+    name?: string;
+    documentNumber?: string;
+    documentType?: string;
+    document?: MultipartFile;
+}
+
+export interface UserPage extends PagedData<UserAuthentication> {
+}
+
+export interface UserProfile {
+    salutation?: string;
+    firstName?: string;
+    lastName?: string;
+    name?: string;
+    gender?: string;
+    dateOfBirth?: Date;
+    occupation?: string;
+    staffId?: string;
+    designation?: string;
+    religion?: string;
+    race?: string;
+    maritalStatus?: MaritalStatus;
+    marriageDate?: Date;
+    photo?: string;
+    profileImage?: string;
+    phoneNumber?: string;
+    shareWithClub?: boolean;
+    shareWithOthers?: boolean;
+    nationality?: CountryData;
 }
 
 export interface CreateNotificationResult {
@@ -2124,7 +4128,6 @@ export interface PushNotificationText {
 export interface PushServerInfo {
     oneSignalApiURL?: string;
     appKey?: string;
-    restApiKey?: string;
     userKey?: string;
     googleProjectNumber?: string;
 }
@@ -2178,12 +4181,54 @@ export interface BillItem {
     packagePrice?: boolean;
 }
 
+export interface BookingAdditionalItemRequest {
+    componentId?: string;
+    bookingPlayerId?: number;
+    itemCount?: number;
+    unitPrice?: number;
+    remarks?: string;
+}
+
+export interface BookingBillPayment {
+    billDate?: Date;
+    paymentSuccess?: boolean;
+    pending?: boolean;
+    paidAt?: Date;
+    paymentMethod?: PaymentMethod;
+    gatewayInfo?: PaymentGatewayInfo;
+    paidAtClub?: boolean;
+    paidFor?: PaidFor;
+    amount?: number;
+    player?: PlayerData;
+}
+
+export interface BookingCount {
+    maxUnpaidBookings?: number;
+    totalBookings?: number;
+    totalUnpaidBookings?: number;
+}
+
 export interface BookingDiscountBillItem {
     name?: string;
     amount?: number;
     voucher?: boolean;
     adhocWaiver?: boolean;
     waiverReason?: string;
+}
+
+export interface BookingInfo {
+    bookingId?: number;
+    bookingReference?: string;
+    clubId?: number;
+    clubName?: string;
+    courseId?: number;
+    courseName?: string;
+    teeOffDate?: Date;
+    teeOffTime?: Date;
+    bookingStatus?: TeeTimeBookingStatus;
+    amountPayable?: number;
+    amountPaid?: number;
+    commissionStatus?: BookingCommissionStatus;
 }
 
 export interface BookingOfflinePayment {
@@ -2203,6 +4248,9 @@ export interface BookingPayment {
     paymentMethod?: string;
     paymentCapturedBy?: string;
     authId?: number;
+    walletId?: number;
+    walletTopUpId?: number;
+    walletTransactionId?: number;
 }
 
 export interface BookingPlayerCharges {
@@ -2219,6 +4267,7 @@ export interface BookingPlayerType {
     name?: string;
     description?: string;
     nationalitySpecific?: boolean;
+    clubData?: ClubData;
 }
 
 export interface BookingPriceDeduction {
@@ -2244,12 +4293,21 @@ export interface BookingRequestDetails {
     playerId?: number;
     authenticationId?: number;
     requestLocale?: Locale;
+    bookingMedium?: string;
 }
 
 export interface BookingRequestResponse {
     booking?: TeeTimeBooking;
     bookingCreatedAt?: Date;
     depositCutOffDate?: Date;
+    reasonForFailure?: string;
+}
+
+export interface BookingWalletRevert {
+    walletId?: number;
+    topUpId?: number;
+    transactionId?: number;
+    amount?: number;
 }
 
 export interface BuggyCaddiePreference {
@@ -2272,6 +4330,7 @@ export interface CancelBookingSpecification {
     reason?: string;
     refundAmount?: number;
     refundSplits?: BookingRefund[];
+    walletReverts?: BookingWalletRevert[];
 }
 
 export interface ClubTeeTimeSlots {
@@ -2279,6 +4338,22 @@ export interface ClubTeeTimeSlots {
     distance?: number;
     distanceFrom?: LocationData;
     slots?: TeeTimeSlotDisplay[];
+}
+
+export interface CourseSlotGenRuleHistory {
+    effectiveFrom?: Date;
+    rule?: TeeTimeSlotGenerationRule;
+    secondCourseId?: number;
+    secondCourseName?: string;
+    crossOverMinutes?: number;
+    generationActive?: boolean;
+}
+
+export interface CourseSlotGenerationRule {
+    courseId?: number;
+    courseName?: string;
+    effective?: CourseSlotGenRuleHistory;
+    history?: CourseSlotGenRuleHistory[];
 }
 
 export interface ItemizedBill {
@@ -2298,7 +4373,59 @@ export interface ItemizedBill {
     changes?: string[];
 }
 
-export interface PlayerBuggyCaddiePreference extends addPreference {
+export interface MygolfBookingCommission {
+    commissionCalculated?: number;
+    commissionPayable?: number;
+    principalAmount?: number;
+    taxPayable?: number;
+    totalPayable?: number;
+    details?: MygolfBookingCommissionDetail[];
+}
+
+export interface MygolfBookingCommissionDetail {
+    name?: string;
+    commissionCalculated?: number;
+}
+
+export interface MygolfCommissionPlan {
+    id?: string;
+    name?: string;
+    description?: string;
+    defaultPlan?: boolean;
+    club?: ClubData;
+    rates?: MygolfCommissionRate[];
+}
+
+export interface MygolfCommissionPlanPage extends PagedData<MygolfCommissionPlan> {
+}
+
+export interface MygolfCommissionRate {
+    id?: number;
+    effectiveFrom?: Date;
+    commission?: number;
+    commissionType?: AmountType;
+    commissionForClubPayment?: number;
+    commissionTypeForClubPayment?: AmountType;
+    onCancelCommission?: number;
+    onCancelCommissionType?: AmountType;
+    minCommissionAmount?: number;
+    maxCommissionAmount?: number;
+    calculateByPlayer?: boolean;
+    commissionOnTotal?: boolean;
+    taxAmount?: number;
+    taxAmountType?: AmountType;
+    playerTypeCommissions?: MygolfPlayerTypeCommission[];
+}
+
+export interface MygolfPlayerTypeCommission {
+    playerType?: BookingPlayerType;
+    commissionType?: AmountType;
+    commission?: number;
+    commissionForClubPayment?: number;
+    commissionTypeForClubPayment?: AmountType;
+}
+
+export interface PlayerBuggyCaddiePreference {
     bookingPlayerId?: number;
     assignedBuggy?: number;
     buggyRequired?: boolean;
@@ -2310,15 +4437,78 @@ export interface PlayerBuggyCaddiePreference extends addPreference {
     caddyPairing?: number;
 }
 
-export interface addPreference  {
-    caddyPreferred?: CaddyData;
-    caddyAssigned?: CaddyData;
-}
-
 export interface PricingComponents {
 }
 
 export interface Known {
+}
+
+export interface SlotGenerationSpec {
+    startTime?: Date;
+    gapInMinutes?: number;
+    slotsToGenerate?: number;
+    endTime?: Date;
+    allowWalking?: boolean;
+    caddieMandatory?: boolean;
+    availableForBooking?: boolean;
+    allowNineHole?: boolean;
+    allowEighteenHole?: boolean;
+    membersOnly?: boolean;
+    maxPlayers?: number;
+    minPlayers?: number;
+    maxPlayersPerBuggy?: number;
+    maxPlayersPerCaddie?: number;
+    maxPlayersPerBuggyJumbo?: number;
+    maxPlayersPerCaddieJumbo?: number;
+    regularPricingPlan?: number;
+    promotionalPricingPlan?: number;
+    pricingPlanJumbo?: number;
+}
+
+export interface SlotTemplateKey {
+    dayName?: string;
+    teeOffTime?: Date;
+}
+
+export interface SlotUpdateSpec {
+    allowWalking?: string;
+    availableForBooking?: string;
+    allowNineHole?: string;
+    allowEighteenHole?: string;
+    membersOnly?: string;
+    maxPlayers?: number;
+    minPlayers?: number;
+    maxPlayersPerBuggy?: number;
+    maxPlayersPerCaddie?: number;
+    maxPlayersPerBuggyJumbo?: number;
+    maxPlayersPerCaddieJumbo?: number;
+    regularPricingPlan?: number;
+    clearPromotion?: boolean;
+    promotionalPricingPlan?: number;
+    clearJumboPricingPlan?: boolean;
+    jumboPricingPlan?: number;
+}
+
+export interface TeeSlotKey {
+    courseId?: number;
+    teeOffDate?: Date;
+    teeOffTime?: Date;
+}
+
+export interface TeeSlotSearchAndUpdateForm {
+    search?: TeeSlotSearchCriteria;
+    update?: SlotUpdateSpec;
+}
+
+export interface TeeSlotSearchCriteria extends TemplateSlotSearchCriteria {
+    courses?: number[];
+    fromDate?: Date;
+    toDate?: Date;
+}
+
+export interface TeeSlotUpdateSpec {
+    keys?: TeeSlotKey[];
+    updateSpec?: SlotUpdateSpec;
 }
 
 export interface TeeTimeBillSplit {
@@ -2330,6 +4520,10 @@ export interface TeeTimeBillSplit {
     amount?: number;
     packageName?: string;
     itemCount?: number;
+    tax?: boolean;
+    source?: string;
+    reference?: string;
+    remarks?: string;
 }
 
 export interface TeeTimeBooking {
@@ -2363,14 +4557,35 @@ export interface TeeTimeBooking {
     bookingCreatedAt?: Date;
     flight?: TeeTimeFlight;
     cancellationGuard?: boolean;
+    jumboFlight?: boolean;
     cancelGuardBy?: UserAuthentication;
     buggiesAssigned?: BuggyData[];
+    caddiesAssigned?: CaddyData[];
     bookingPlayers?: TeeTimeBookingPlayer[];
     bookingDiscounts?: TeeTimeBookingDiscount[];
     refunds?: RefundInstance[];
     payments?: TeeTimeBookingBill[];
     cancellationReason?: string;
     canceledBy?: UserAuthentication;
+    depositBy?: Date;
+    fullPaymentBy?: Date;
+    additionalItems?: TeeTimeBookingAdditionalItem[];
+    commissionStatus?: BookingCommissionStatus;
+    commissionCalculationError?: string;
+    bookingMedium?: string;
+    pricingPlanApplied?: string;
+    cancelled?: boolean;
+}
+
+export interface TeeTimeBookingAdditionalItem {
+    id?: number;
+    bookingPlayer?: TeeTimeBookingPlayer;
+    component?: TeeTimePriceComponent;
+    itemCount?: number;
+    unitPrice?: number;
+    unitPriceUsed?: number;
+    itemCharge?: number;
+    remarks?: string;
 }
 
 export interface TeeTimeBookingBill {
@@ -2410,6 +4625,14 @@ export interface TeeTimeBookingEffectiveOptions {
     options?: TeeTimeBookingOptions[];
 }
 
+export interface TeeTimeBookingFnb {
+    productCode?: string;
+    productName?: string;
+    unitPrice?: number;
+    quantity?: number;
+    price?: number;
+}
+
 export interface TeeTimeBookingOptions {
     dayName?: string;
     specialDate?: Date;
@@ -2440,6 +4663,20 @@ export interface TeeTimeBookingOptions {
     penaltyAfterFullPayment?: number;
     fullPaymentCutOffHours?: number;
     showPlayersToCaddie?: boolean;
+    roundUpTo?: number;
+    roundingMethod?: string;
+    allowCaddiePreference?: boolean;
+    minPlayersJumboFlight?: number;
+    sharedBuggyPricing?: string;
+    sharedCaddiePricing?: string;
+    showCaddieAssignments?: boolean;
+    maxBookingsPerDay?: number;
+    promotionalApplicableToWalkin?: boolean;
+    displayStandardPrice?: boolean;
+    forceInsurance?: boolean;
+}
+
+export interface TeeTimeBookingPage extends PagedData<TeeTimeBooking> {
 }
 
 export interface TeeTimeBookingPlayer {
@@ -2464,6 +4701,8 @@ export interface TeeTimeBookingPlayer {
     buggyId?: number;
     estimatedArrivalTime?: Date;
     playerRemoved?: boolean;
+    playerHasInsurance?: boolean;
+    teeTimeBookingFnbs?: TeeTimeBookingFnb[];
 }
 
 export interface TeeTimeFlight {
@@ -2476,7 +4715,6 @@ export interface TeeTimeFlight {
     flightFinishedAt?: Date;
     caddyMaster?: UserAuthentication;
     rainCheckIssued?: boolean;
-    // flightSeatings?: TeeTimeFlightSeating[];
 }
 
 export interface TeeTimeFlightBuggy {
@@ -2504,6 +4742,9 @@ export interface TeeTimePriceComponent {
     printSequence?: number;
     defaultComponent?: boolean;
     componentType?: PricingComponentType;
+    availability?: string;
+    additionalComponent?: boolean;
+    active?: boolean;
 }
 
 export interface TeeTimePricingAdditionalCharge {
@@ -2523,8 +4764,10 @@ export interface TeeTimePricingPlan {
     currency?: CurrencyData;
     promotional?: boolean;
     discountsApplicable?: boolean;
+    commissionPlan?: MygolfCommissionPlan;
     prices?: TeeTimePrice[];
     additionalCharges?: TeeTimePricingAdditionalCharge[];
+    useVisitorOnAll?: boolean;
 }
 
 export interface TeeTimeSlot {
@@ -2548,16 +4791,20 @@ export interface TeeTimeSlot {
     eighteenHolesAllowed?: boolean;
     pricingPlan?: TeeTimePricingPlan;
     pricingPlanPromotional?: TeeTimePricingPlan;
-    
     currency?: CurrencyData;
+    depositBy?: Date;
+    fullPaymentBy?: Date;
+    pricingPlanJumbo?: TeeTimePricingPlan;
+    maxPlayersPerBuggyJumbo?: number;
+    maxPlayersPerCaddyJumbo?: number;
 }
 
 export interface TeeTimeSlotBookingRequest {
     clubId?: number;
     courseId?: number;
-    teeOffDate?: any; //;
-    teeOffTimeFrom?: string; //Date;
-    teeOffTimeTo?: string; //Date;
+    teeOffDate?: Date;
+    teeOffTimeFrom?: Date;
+    teeOffTimeTo?: Date;
     totalPlayers?: number;
     buggyRequired?: number;
     caddiesRequired?: number;
@@ -2580,6 +4827,7 @@ export interface TeeTimeSlotDay {
     course?: ClubCourseData;
     teeOffDate?: Date;
     openForBooking?: boolean;
+    bookingClosed?: boolean;
     slots?: TeeTimeSlot[];
     secondNine?: ClubCourseData;
     rule?: TeeTimeSlotGenerationRule;
@@ -2590,27 +4838,11 @@ export interface TeeTimeSlotDisplay {
     available?: boolean;
     reasonsForUnavailability?: string[];
     currency?: CurrencyData;
-    originalPrices?: Record<string, number>; //{[index: string]: number}; //{ [index: string]: number };
-    // displayPrices?: DisplayPrices;
-    displayPrices?: Record<string, number>;//{[index: string]: number};
+    originalPrices?: { [index: string]: number };
+    displayPrices?: { [index: string]: number };
 }
 
-// type Prices {
-//     [index]: string;
-// }
-
-export interface DisplayPrices {
-    ARMY?: number;
-    GOVT?: number;
-    GUEST?: number;
-    JUNIOR?: number;
-    LADIES?: number;
-    MEMBER?: number;
-    POLICE?: number;
-    SENIOR?: number;
-    STAFF?: number;
-    STD?: number;
-    WOMAN?: number;
+export interface TeeTimeSlotDisplayPage extends PagedData<TeeTimeSlotDisplay> {
 }
 
 export interface TeeTimeSlotGenerationRule {
@@ -2620,6 +4852,8 @@ export interface TeeTimeSlotGenerationRule {
     daysInAdvanceToGenerate?: number;
     daysInAdvanceForBooking?: number;
     published?: boolean;
+    slotGenerationTime?: Date;
+    slotOpenTime?: Date;
     dayRules?: TeeTimeSlotGenerationRuleDay[];
 }
 
@@ -2628,20 +4862,11 @@ export interface TeeTimeSlotGenerationRuleDay {
     displaySequence?: number;
     name?: string;
     holiday?: boolean;
-    bookingDisabled?: boolean;
-    firstSlotStartTime?: Date;
-    minutesBetweenSlots?: number;
-    totalSlots?: number;
-    maxPlayersPerSlot?: number;
-    minPlayersPerSlot?: number;
-    waitingListSize?: number;
-    allowWalking?: boolean;
-    caddyMandatory?: boolean;
-    maxPlayersPerBuggy?: number;
-    maxPlayersPerCaddy?: number;
-    pricingPlan?: TeeTimePricingPlan;
-    pricingPlanPromotional?: TeeTimePricingPlan;
+    pricingPlanJumbo?: TeeTimePricingPlan;
+    maxPlayersPerBuggyJumbo?: number;
+    maxPlayersPerCaddyJumbo?: number;
     specialDay?: TeeTimeSpecialDay;
+    templateSlotGenSpecs?: SlotGenerationSpec[];
     slotTemplates?: TeeTimeSlotTemplate[];
 }
 
@@ -2656,17 +4881,21 @@ export interface TeeTimeSlotTemplate {
     reasonForBlocking?: string;
     pricingPlan?: TeeTimePricingPlan;
     pricingPlanPromotional?: TeeTimePricingPlan;
+    pricingPlanJumbo?: TeeTimePricingPlan;
     allowWalking?: boolean;
     caddyMandatory?: boolean;
     maxPlayersPerBuggy?: number;
+    maxPlayersPerBuggyJumbo?: number;
     maxPlayersPerCaddy?: number;
+    maxPlayersPerCaddyJumbo?: number;
     deleted?: boolean;
     nineHolesAllowed?: boolean;
     eighteenHolesAllowed?: boolean;
+    period?: string;
 }
 
-// export interface TeeTimeSlotType extends Record {
-// }
+export interface TeeTimeSlotType {
+}
 
 export interface TeeTimeSpecialDate {
     id?: number;
@@ -2680,6 +4909,37 @@ export interface TeeTimeSpecialDay {
     name?: string;
     club?: ClubData;
     specialDates?: TeeTimeSpecialDate[];
+}
+
+export interface TemplateSlotSearchAndUpdateForm {
+    search?: TemplateSlotSearchCriteria;
+    update?: SlotUpdateSpec;
+}
+
+export interface TemplateSlotSearchCriteria {
+    slotsIn?: string;
+    teeOffTimeFrom?: Date;
+    teeOffTimeTo?: Date;
+    weekDays?: number[];
+    specialDays?: number[];
+    booked?: string;
+    allowWalking?: string;
+    availableForBooking?: string;
+    allowNineHole?: string;
+    allowEighteenHole?: string;
+    membersOnly?: string;
+    maxPlayers?: number;
+    minPlayers?: number;
+    maxPlayersPerBuggy?: number;
+    maxPlayersPerCaddie?: number;
+    regularPricingPlan?: number;
+    promotionalPricingPlan?: number;
+    jumboPricingPlan?: number;
+}
+
+export interface TemplateSlotUpdateSpec {
+    keys?: SlotTemplateKey[];
+    update?: SlotUpdateSpec;
 }
 
 export interface BookingPlayerTypeDistribution {
@@ -2752,6 +5012,31 @@ export interface SlotBookingStatus {
     playerTypeDistribution?: BookingPlayerTypeDistribution;
 }
 
+export interface ReportInfo {
+    reportId?: string;
+    reportName?: string;
+    description?: string;
+    reportDirectory?: string;
+    designFile?: string;
+    compiledFile?: string;
+    reportTimeStamp?: Date;
+    compiledAt?: Date;
+    missing?: boolean;
+    parameters?: ReportParameter[];
+}
+
+export interface ReportInfoPage extends PagedData<ReportInfo> {
+}
+
+export interface ReportParameter {
+    parameterName?: string;
+    valueClass?: string;
+    nestedValueClass?: string;
+    systemParameter?: boolean;
+    prompting?: boolean;
+    readSql?: string;
+}
+
 export interface CompetitionRound {
     roundNo?: number;
     courseNames?: string;
@@ -2760,6 +5045,12 @@ export interface CompetitionRound {
     outTotalNet?: number;
     inTotalNet?: number;
     nines?: WhichNine[];
+}
+
+export interface GameRoundCourse {
+    whichNine?: number;
+    courseId?: number;
+    courseName?: string;
 }
 
 export interface HoleScore {
@@ -2772,6 +5063,48 @@ export interface HoleScore {
     netScore?: number;
     toPar?: number;
     toParNet?: number;
+}
+
+export interface PlayerScorecard {
+    playerRoundId?: number;
+    playerId?: number;
+    playerName?: string;
+    playerPhoto?: string;
+    playerThumbnail?: string;
+    nhs?: string;
+    handicapIndex?: number;
+    handicap?: number;
+    playingHandicap?: number;
+    playedClubId?: number;
+    playedClubName?: string;
+    coursesPlayed?: string;
+    competitionId?: number;
+    competitionName?: string;
+    gameRoundId?: number;
+    roundNo?: number;
+    playedOn?: Date;
+    startTime?: Date;
+    actualStartTime?: Date;
+    startingHole?: number;
+    holesPlayed?: number;
+    flightNo?: string;
+    buggyNo?: string;
+    status?: PlayerRoundStatus;
+    handicapStatus?: string;
+    teeBoxName?: string;
+    submittedForHandicap?: boolean;
+    outTotalGross?: number;
+    inTotalGrosss?: number;
+    totalGross?: number;
+    outTotalNet?: number;
+    inTotalNet?: number;
+    totalNet?: number;
+    handicapSystemApplied?: string;
+    courses?: GameRoundCourse[];
+    scores?: HoleScore[];
+}
+
+export interface PlayerScorecardPage extends PagedData<PlayerScorecard> {
 }
 
 export interface TeamPlayerOveralTotals {
@@ -2924,17 +5257,31 @@ export interface CaptchaResponse {
     "error-codes"?: string[];
 }
 
+export interface LoginData {
+    username?: string;
+    password?: string;
+    validateClubMember?: boolean;
+    validateClubUser?: boolean;
+    validateSuperAdmin?: boolean;
+    allowSuperAdmin?: boolean;
+    clubId?: number;
+}
+
 export interface Role {
     id?: string;
     name?: string;
     description?: string;
 }
 
+export interface RoleType {
+    id?: string;
+    name?: string;
+}
+
 export interface UserAuthentication {
     id?: number;
     name?: string;
     userName?: string;
-    password?: string;
     algorithm?: string;
     salt?: string;
     combineUserName?: boolean;
@@ -2942,9 +5289,16 @@ export interface UserAuthentication {
     phone?: string;
     active?: boolean;
     tokenKey?: string;
+    userType?: RoleType;
+    profile?: UserProfile;
+    deleteRequested?: boolean;
+    deleteRequestedOn?: Date;
+    accountDeleted?: boolean;
+    accountDeletedOn?: Date;
+    documents?: UserDocument[];
+    userAddresses?: UserAddress[];
     roles?: UserRole[];
     authorities?: Authority[];
-    status?: string;
 }
 
 export interface UserNamePassword {
@@ -2956,7 +5310,537 @@ export interface UserRole {
     role?: Role;
     clubId?: number;
     organizerId?: number;
+    partnerId?: string;
     defaultRole?: boolean;
+}
+
+export interface Bill {
+    billId?: number;
+    externalId?: string;
+    billDate?: Date;
+    billAmount?: number;
+    description?: string;
+    billPaid?: boolean;
+    paidAtClub?: boolean;
+    billPaidDate?: Date;
+    status?: BillStatus;
+    paymentFailureMessage?: string;
+    paymentMethod?: string;
+    paymentGatewayId?: string;
+    paymentGatewayName?: string;
+    gatewayPaymentMethod?: string;
+    gatewayPaymentMethodName?: string;
+    currency?: string;
+    clientMessage?: string;
+    returnMessage?: string;
+    commissionRate?: number;
+    commissionRateType?: AmountType;
+    paymentGatewayCommission?: number;
+    paidFor?: PaidFor;
+    clubId?: number;
+    clubName?: string;
+    includedInGatewayRecon?: boolean;
+    gatewayReconId?: number;
+    includedInClubRecon?: boolean;
+    clubReconId?: number;
+    matchedWithGatewayStatement?: boolean;
+    paymentGatewayStatementId?: number;
+    includedInClubPayment?: boolean;
+    clubPaymentInstance?: string;
+    transactionGenerated?: boolean;
+    transactionId?: string;
+}
+
+export interface BillPage extends PagedData<Bill> {
+}
+
+export interface BillSearchCriteria {
+    paymentGatewayId?: string;
+    paymentMethods?: string[];
+    paidOrNot?: string;
+    startDate?: Date;
+    endDate?: Date;
+    statuses?: BillStatus[];
+    paidFors?: PaidFor[];
+    paidAtClub?: string;
+    clubId?: number;
+    associatedToPaymentGateway?: string;
+    includedInClubPayment?: string;
+    search?: string;
+}
+
+export interface BookingCalculatedCommission {
+    id?: number;
+    calculatedDate?: Date;
+    booking?: BookingInfo;
+    commission?: MygolfBookingCommission;
+    contra?: boolean;
+    reversal?: BookingCalculatedCommission;
+    clubPaymentInstanceId?: string;
+}
+
+export interface BookingCalculatedCommissionPage extends PagedData<BookingCalculatedCommission> {
+}
+
+export interface BookingPendingCommission {
+    booking?: BookingInfo;
+    estimatedCommission?: MygolfBookingCommission;
+}
+
+export interface BookingPendingCommissionPage extends PagedData<BookingPendingCommission> {
+}
+
+export interface ClubPayable {
+    totalTransactionAmount?: number;
+    totalGatewayCommission?: number;
+    netPayable?: number;
+    matchedTransactionAmount?: number;
+    matchedCommission?: number;
+}
+
+export interface ClubPaymentInstance {
+    id?: string;
+    generatedOn?: Date;
+    totalBillAmount?: number;
+    totalGatewayCommission?: number;
+    totalMygolf2uCommission?: number;
+    totalPayable?: number;
+    status?: ClubPaymentInstanceStatus;
+    paidOn?: Date;
+    paymentReference?: string;
+    club?: ClubData;
+    bills?: Bill[];
+    commissions?: BookingCalculatedCommission[];
+}
+
+export interface ClubPaymentInstancePage extends PagedData<ClubPaymentInstance> {
+}
+
+export interface ClubReceivable {
+    totalCommission?: number;
+    commissionByStatus?: { [index: string]: number };
+}
+
+export interface MygolfCommissionAccountSetup {
+    id?: number;
+    commissionType?: RevenueType;
+    name?: string;
+    description?: string;
+    club?: ClubData;
+    partner?: DiscountCompany;
+    debitAccount?: string;
+    creditAccount?: string;
+}
+
+export interface MygolfCommissionAccountSetupForm {
+    commissionType?: RevenueType;
+    name?: string;
+    description?: string;
+    clubId?: number;
+    partnerId?: string;
+    debitAccount?: string;
+    creditAccount?: string;
+}
+
+export interface MygolfCommissionAccountSetupPage extends PagedData<MygolfCommissionAccountSetup> {
+}
+
+export interface MygolfCurrencyMapping {
+    externalAccounting?: MygolfExternalAccounting;
+    currency?: CurrencyData;
+    externalCurrencyCode?: string;
+}
+
+export interface MygolfExternalAccounting {
+    id?: number;
+    name?: string;
+    authenticationDetails?: string;
+    externalSystem?: ExternalSystem;
+    startDate?: Date;
+    endDate?: Date;
+    defaultCurrency?: CurrencyData;
+    currencyMappings?: MygolfCurrencyMapping[];
+}
+
+export interface MygolfJournalEntry {
+    id?: number;
+    context?: string;
+    contextId?: string;
+    reference?: string;
+    description?: string;
+    transactionDate?: Date;
+    referenceDate?: Date;
+    amount?: number;
+    currencyCode?: string;
+    synced?: boolean;
+    syncedAt?: Date;
+    journalLineItems?: MygolfJournalLineItem[];
+}
+
+export interface MygolfJournalEntryPage extends PagedData<MygolfJournalEntry> {
+}
+
+export interface MygolfJournalLineItem {
+    sequence?: number;
+    debitOrCredit?: string;
+    account?: string;
+    amount?: number;
+}
+
+export interface MygolfPaymentAccountSetup {
+    id?: number;
+    definedFor?: PaymentSetupFor;
+    paymentGateway?: PaymentGatewayInfo;
+    paidFor?: string;
+    club?: ClubData;
+    name?: string;
+    debitAccount?: string;
+    creditAccount?: string;
+    additionalTransaction?: boolean;
+    addlTrxnDebitAccount?: string;
+    addlTrxnCreditAccount?: string;
+    description?: string;
+}
+
+export interface MygolfPaymentAccountSetupForm {
+    paymentGateway?: string;
+    paidFor?: string;
+    clubId?: number;
+    name?: string;
+    debitAccount?: string;
+    creditAccount?: string;
+    additionalTransaction?: boolean;
+    addlTrxnDebitAccount?: string;
+    addlTrxnCreditAccount?: string;
+    description?: string;
+}
+
+export interface MygolfPaymentAccountSetupPage extends PagedData<MygolfPaymentAccountSetup> {
+}
+
+export interface MygolfRevenueShare {
+    id?: number;
+    revenueType?: RevenueType;
+    club?: ClubData;
+    startDate?: Date;
+    endDate?: Date;
+    name?: string;
+    description?: string;
+    published?: boolean;
+    shared?: boolean;
+    splits?: MygolfRevenueShareSplit[];
+}
+
+export interface MygolfRevenueSharePage extends PagedData<MygolfRevenueShare> {
+}
+
+export interface MygolfRevenueShareSplit {
+    sequence?: number;
+    partner?: DiscountCompany;
+    splitType?: string;
+    splitAmount?: number;
+    splitPercentage?: number;
+}
+
+export interface PaymentGatewayStatement {
+    id?: number;
+    statementDate?: Date;
+    reference?: string;
+    amount?: number;
+    creditRealized?: boolean;
+    createdOn?: Date;
+    matchedAmount?: number;
+    totalDeductions?: number;
+    totalPaidByGateway?: number;
+    statementFileUrl?: string;
+    paymentGateway?: PaymentGatewayInfo;
+}
+
+export interface PaymentGatewayStatementDetail {
+    id?: number;
+    reference?: string;
+    paymentDate?: Date;
+    amount?: number;
+    paymentMethod?: string;
+    discount?: number;
+    gatewayCommission?: number;
+    otherCommission?: number;
+    gst?: number;
+    paidByGateway?: number;
+    matchedBillId?: number;
+    billReference?: string;
+    billDate?: Date;
+    billAmount?: number;
+    billCommission?: number;
+    billPaymentMethod?: string;
+    manuallyAssociated?: boolean;
+    fullyMatched?: boolean;
+    createdForBill?: boolean;
+}
+
+export interface PaymentGatewayStatementDetailPage extends PagedData<PaymentGatewayStatementDetail> {
+}
+
+export interface PaymentGatewayStatementForm {
+    statementDate?: Date;
+    reference?: string;
+    creditRealized?: boolean;
+    creditedOn?: Date;
+    amount?: number;
+    totalDeductions?: number;
+}
+
+export interface PaymentGatewayStatementPage extends PagedData<PaymentGatewayStatement> {
+}
+
+export interface PaymentGatewayStatementUploadForm {
+    statementDate?: Date;
+    statementId?: number;
+    statementFile?: MultipartFile;
+}
+
+export interface PmtGtwClubOutstanding {
+    clubId?: number;
+    clubName?: string;
+    clubLogo?: string;
+    amount?: number;
+    commission?: number;
+    netAmount?: number;
+}
+
+export interface PmtGtwOutstanding {
+    amount?: number;
+    commission?: number;
+    netAmount?: number;
+    clubOutstandingAmounts?: PmtGtwClubOutstanding[];
+}
+
+export interface RevenueShareSplitForm {
+    partnerId?: string;
+    splitType?: string;
+    splitAmount?: number;
+    splitPercentage?: number;
+}
+
+export interface Hotel {
+    id?: number;
+    name?: string;
+    address?: AddressData;
+    description?: string;
+    gpsLocation?: string;
+    hotelLogo?: string;
+}
+
+export interface PackagePlayOption {
+    id?: number;
+    club?: ClubData;
+    course?: ClubCourseData;
+    standardOption?: boolean;
+    availableForAdditionalRound?: boolean;
+    nineHoleRound?: boolean;
+    maxRounds?: number;
+    additionalCharge?: number;
+    includesTax?: boolean;
+    taxPercentage?: number;
+    amOrPm?: string;
+    surcharges?: StayAndPlaySurcharge[];
+}
+
+export interface PackagePlayOptionForm {
+    clubId?: number;
+    courseId?: number;
+    standardOption?: boolean;
+    availableForAdditionalRound?: boolean;
+    nineHoleRound?: boolean;
+    maxRounds?: number;
+    additionalCharge?: number;
+    includesTax?: boolean;
+    taxPercentage?: number;
+    amOrPm?: string;
+}
+
+export interface PackageStayOption {
+    id?: number;
+    hotel?: Hotel;
+    roomSpecification?: string;
+    standardOption?: boolean;
+    availableForAdditionalNight?: boolean;
+    maxNights?: number;
+    additionalCharge?: number;
+    includesTax?: boolean;
+    taxPercentage?: number;
+    surcharges?: StayAndPlaySurcharge[];
+}
+
+export interface PackageStayOptionForm {
+    hotelId?: number;
+    roomSpecification?: string;
+    standardOption?: boolean;
+    availableForAdditionalNight?: boolean;
+    maxNights?: number;
+    additionalCharge?: number;
+    includesTax?: boolean;
+    taxPercentage?: number;
+}
+
+export interface PlayOptionSelected {
+    sequence?: number;
+    playOption?: PackagePlayOption;
+    noOfRounds?: number;
+    dateOfPlay?: Date;
+    timeOfPlay?: Date;
+    additionalCharge?: number;
+    taxOnAdditionalCharge?: number;
+}
+
+export interface StayAndPlayPackage {
+    id?: number;
+    packageName?: string;
+    description?: string;
+    internalDescription?: string;
+    club?: ClubData;
+    partner?: DiscountCompany;
+    validFrom?: Date;
+    validUntil?: Date;
+    active?: boolean;
+    availableOn?: DaySpecification;
+    stayDuration?: StayAndPlayStayDurationSpec;
+    golfRoundSpec?: StayAndPlayRoundSpec;
+    maxAdditionalNights?: number;
+    maxAdditional18HoleRounds?: number;
+    maxAdditional9HoleRounds?: number;
+    pax?: number;
+    basePrice?: number;
+    includesTax?: boolean;
+    taxPercentage?: number;
+    packageImages?: string[];
+    termsAndConditions?: string;
+    currency?: CurrencyData;
+    packageStayOptions?: PackageStayOption[];
+    packagePlayOptions?: PackagePlayOption[];
+    surcharges?: StayAndPlaySurcharge[];
+    pricingMappings?: StayAndPlayPricing[];
+}
+
+export interface StayAndPlayPackageForm {
+    packageName?: string;
+    description?: string;
+    internalDescription?: string;
+    validFrom?: Date;
+    validUntil?: Date;
+    availableOn?: number[];
+    totalNights?: number;
+    total18HoleRounds?: number;
+    total9HoleRounds?: number;
+    maxAdditionalNights?: number;
+    maxAdditional18HoleRounds?: number;
+    maxAdditional9HoleRounds?: number;
+    pax?: number;
+    currency?: string;
+    basePrice?: number;
+    includesTax?: boolean;
+    taxPercentage?: number;
+    termsAndConditions?: string;
+}
+
+export interface StayAndPlayPackagePage extends PagedData<StayAndPlayPackage> {
+}
+
+export interface StayAndPlayPlayer {
+    sequence?: number;
+    name?: string;
+    email?: string;
+    player?: PlayerData;
+    playingGolf?: boolean;
+}
+
+export interface StayAndPlayPricing {
+    id?: number;
+    club?: ClubData;
+    course?: ClubCourseData;
+    pricingPlan?: TeeTimePricingPlan;
+    discount?: TeeTimeDiscount;
+}
+
+export interface StayAndPlayRequest {
+    id?: number;
+    stayPlayPackage?: StayAndPlayPackage;
+    player?: PlayerData;
+    requesterName?: string;
+    requesterEmail?: string;
+    phoneNumber?: string;
+    requestReference?: string;
+    status?: string;
+    requestedDateTime?: Date;
+    noOfPax?: number;
+    estimatedPrice?: number;
+    acceptedPrice?: number;
+    startDate?: Date;
+    endDate?: Date;
+    preferredDates?: string;
+    amountPaid?: number;
+    stayOptionsSelected?: StayOptionSelected[];
+    playOptionsSelected?: PlayOptionSelected[];
+    stayAndPlayPlayers?: StayAndPlayPlayer[];
+    communications?: StayAndPlayRequestComm[];
+}
+
+export interface StayAndPlayRequestComm {
+    sequence?: number;
+    from?: string;
+    messageDateTime?: Date;
+    message?: string;
+    subject?: string;
+}
+
+export interface StayAndPlayRequestForm {
+    playerId?: number;
+    requesterName?: string;
+    requesterEmail?: string;
+    phoneNumber?: string;
+    noOfPax?: number;
+    preferredDates?: Date[];
+}
+
+export interface StayAndPlayRequestPage extends PagedData<StayAndPlayRequest> {
+}
+
+export interface StayAndPlayRoundSpec {
+    nineHoleRounds?: number;
+    eighteenHoleRounds?: number;
+}
+
+export interface StayAndPlayStayDurationSpec {
+    days?: number;
+    nights?: number;
+    effectiveDays?: number;
+    effectiveNights?: number;
+}
+
+export interface StayAndPlaySurcharge {
+    surchargeName?: string;
+    applicableOn?: DaySpecification;
+    surchargeAmount?: number;
+    includesTax?: boolean;
+    taxPercentage?: number;
+}
+
+export interface StayAndPlaySurchargeForm {
+    surchargeName?: string;
+    applicableOn?: number[];
+    surchargeAmount?: number;
+    includesTax?: boolean;
+    taxPercentage?: number;
+}
+
+export interface StayOptionSelected {
+    sequence?: number;
+    stayOption?: PackageStayOption;
+    noOfNights?: number;
+    startDate?: Date;
+    endDate?: Date;
+    additionalCharge?: number;
+    taxOnAdditionalCharge?: number;
 }
 
 export interface ClubTransaction {
@@ -2973,6 +5857,16 @@ export interface ClubTransaction {
     club?: ClubData;
     status?: string;
     transactionExport?: ClubTransactionExport;
+    transactionSource?: TransactionSource;
+    debitAccount?: string;
+    creditAccount?: string;
+    reverseTransaction?: boolean;
+    transactionReversed?: string;
+    reversed?: boolean;
+    reversedBy?: string;
+    exported?: boolean;
+    exportedOn?: Date;
+    exportError?: string;
 }
 
 export interface ClubTransactionExport {
@@ -2989,27 +5883,47 @@ export interface ClubTransactionExport {
     settledBy?: UserAuthentication;
 }
 
+export interface ClubTransactionExportPage extends PagedData<ClubTransactionExport> {
+}
+
+export interface ClubTransactionPage extends PagedData<ClubTransaction> {
+}
+
 export interface TransactionGroup {
     id?: string;
     name?: string;
     description?: string;
 }
 
+export interface TransactionSource {
+    external?: boolean;
+    context?: string;
+    subcontext?: string;
+    reference?: string;
+}
+
 export interface TransactionType {
     id?: string;
     name?: string;
     debitOrCredit?: DebitOrCredit;
+    usedFor?: TransactionTypeUsedFor;
     description?: string;
     transactionGroup?: TransactionGroup;
+    system?: boolean;
+    club?: ClubData;
 }
 
-export interface TransactionTypeClubMap {
-    club?: ClubData;
-    transactionType?: TransactionType;
+export interface TransactionTypeClubMap extends TransactionType {
     clubTransactionType?: string;
+    debitAccount?: string;
+    creditAccount?: string;
 }
 
 export interface TransactionTypes {
+}
+
+export interface TrxnTypePriceComponentMap extends TransactionType {
+    component?: TeeTimePriceComponent;
 }
 
 export interface MygolfRole {
@@ -3038,6 +5952,16 @@ export interface MygolfUser {
     authorities?: MygolfRole[];
 }
 
+export interface MultipartFile extends InputStreamSource {
+    name?: string;
+    bytes?: any;
+    empty?: boolean;
+    resource?: Resource;
+    size?: number;
+    originalFilename?: string;
+    contentType?: string;
+}
+
 export interface Period extends ChronoPeriod {
     years?: number;
     months?: number;
@@ -3045,11 +5969,42 @@ export interface Period extends ChronoPeriod {
     chronology?: IsoChronology;
 }
 
+export interface OAuth2Connection {
+    scopes?: string[];
+    clientId?: string;
+    callbackUri?: string;
+    authorizationUrl?: string;
+    accessTokenUrl?: string;
+    refreshTokenUrl?: string;
+    clientSecret?: string;
+    tokenHeaderName?: string;
+    tokenPrefix?: string;
+    accessToken?: string;
+    refreshToken?: string;
+    lastRefresh?: Date;
+    tenantId?: string;
+    validUntil?: Date;
+}
+
+export interface BasicAuthentication {
+}
+
 export interface Locale extends Cloneable {
 }
 
-// export interface Record {
-// }
+export interface Resource extends InputStreamSource {
+    open?: boolean;
+    file?: any;
+    readable?: boolean;
+    url?: any;
+    filename?: string;
+    description?: string;
+    uri?: URI;
+}
+
+export interface InputStreamSource {
+    inputStream?: any;
+}
 
 export interface IsoChronology extends AbstractChronology {
 }
@@ -3070,6 +6025,9 @@ export interface ChronoPeriod extends TemporalAmount {
 export interface Cloneable {
 }
 
+export interface URI {
+}
+
 export interface AbstractChronology extends Chronology {
 }
 
@@ -3081,233 +6039,96 @@ export interface Duration extends TemporalAmount {
 }
 
 export interface Chronology {
-    calendarType?: string;
     id?: string;
+    calendarType?: string;
 }
 
 export interface TemporalAmount {
     units?: TemporalUnit[];
 }
 
+export type AuthFailureType = "InvalidCredentials" | "NotAPlayer" | "NotAClubMember" | "NotAClubUser" | "NotMygolfUser";
+
 export type DayIdType = "All" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Sunday" | "Weekday" | "Weekend" | "Holiday";
+
+export type DayNames = "All" | "Sunday" | "Monday" | "Tuesday" | "Wednesday" | "Thursday" | "Friday" | "Saturday" | "Weekday" | "Weekend";
 
 export type DebitOrCredit = "Debit" | "Credit";
 
 export type PaidFor = "Booking" | "CompetitionRegistration" | "HandicapIndex" | "Unknown";
 
+export type PeriodType = "Day" | "Week" | "Month" | "Year";
+
 export type RefundMode = "Cash" | "BankTransfer" | "ClubCredit" | "M2UCredit" | "Unknown";
 
-export type AmountType = "Absolute" | "Percentage" | "Fixed";
+export type AuditChangeType = "Create" | "Update" | "Delete";
+
+export type MemberChargeType = "Standard" | "Override" | "Optional";
+
+export type MembershipStatus = "Pending" | "Active" | "Inactive" | "Suspended";
+
+export type OnMembershipSuspension = "ChangeChargeType" | "DenyClubEntry" | "DenyFacility";
+
+export type RecurringChargerPeriod = "Daily" | "Monthly" | "Yearly";
+
+export type StatementFrequency = "Weekly" | "Monthly" | "Quarterly" | "Yearly";
+
+export type TransactionStatus = "Generated" | "Posted" | "Reversed";
+
+export type FlightType = "Shotgun" | "ShotgunSplit" | "FirstHole" | "FirstHoleSplitSort" | "FirstHoleSplitNine" | "FirstHoleSplitEven";
+
+export type OcbType = "Handicap" | "HoleRange" | "SpecificHoles" | "RoundTotal" | "PlayerTotal";
+
+export type PlayerAdvanceType = "AllAdvance" | "TopNPlayers" | "CutOffScore";
+
+export type ScorerSwapType = "SwapOneAndTwo" | "SwapOneAndThree" | "SwapOneAndFour";
+
+export type ScorerType = "OwnScoring" | "FirstPlayerScoring" | "SecondPlayerScoring" | "ThirdPlayerScoring" | "FourthPlayerScoring" | "SwapBuggyScoring" | "SwapScoring";
+
+export type PartnerService = "DISCOUNT" | "NGA_MEMBERSHIP" | "INSURANCE" | "OTHER";
+
+export type SyncDirection = "In" | "Out" | "Both";
+
+export type BasePeriod = "Day" | "Month" | "Year";
+
+export type FeatureBundlePriceType = "Flat" | "Slabbed" | "Tiered";
+
+export type SubscriptionType = "Paid" | "Gifted" | "Trial";
+
+export type MaritalStatus = "Married" | "UnMarried" | "Unknown";
+
+export type AmountType = "Absolute" | "Percentage" | "Package";
+
+export type BookingCommissionStatus = "None" | "Calculate" | "Recalculate" | "Success" | "Error" | "Ignored";
 
 export type CancelPolicy = "None" | "ForfeitDeposit" | "ForfeitAmount" | "FixedAmount";
 
-export type PricingComponentType = "Green" | "Caddy" | "Buggy" | "CaddyBooking" | "Other";
+export type PricingComponentType = "Green" | "Caddy" | "Buggy" | "CaddyBooking" | "Insurance" | "Other";
 
 export type TeeTimeBookingStatus = "Booked" | "Secured" | "CancelledByPlayer" | "CancelledByClub" | "PaymentPartial" | "PaymentFull" | "FlightRegistered" | "RefundInitiated" | "RefundCompleted";
 
 export type TeeTimeFlightStatus = "Created" | "Assigned" | "Dispatched" | "PlayStarted" | "CrossedOver" | "Abandoned" | "PlayFinished";
 
+export type BillStatus = "Pending" | "Paid" | "Failed";
+
+export type ClubPaymentInstanceStatus = "Generated" | "Approved" | "Paid";
+
+export type PaymentMappingFor = "PaymentRecorded" | "PaymentReceived" | "GatewayCommission";
+
+export type PaymentSetupFor = "PaymentRecorded" | "PaymentReceived" | "GatewayCommission";
+
+export type RevenueType = "BookingCommission" | "StayAndPlay" | "Competition" | "CardMemberCommission";
+
+export type StayAndPlayRequestStatus = "Draft" | "Generated" | "WaitingCustomerResponse" | "WaitingOwnerResponse" | "Rejected" | "Expired" | "Approved" | "Booked" | "Reversed";
+
+export type TransactionTypeUsedFor = "PricingComponent" | "RoundingAdj" | "Discount" | "CardDiscount" | "Voucher" | "Waiver" | "Refund" | "Penalty" | "Tax" | "OnlinePayment" | "OfflinePayment" | "CashPayment" | "ChargeToAccount" | "Wallet" | "ClubMembership" | "RedeemCredit";
+
 export type GameRoundStatus = "Pending" | "InProgress" | "Completed";
+
+export type PlayerRoundStatus = "Pending" | "InProgress" | "Completed" | "Withdrawn";
 
 export type UserType = "Britesoft" | "Player" | "Organizer" | "Club" | "Admin" | "Caddy" | "Partner" | "Unknown";
 
 export type CompetitionPlayerStatus = "Registered" | "NoShow" | "Withdrawn" | "FailedCutoff";
 
-export type PlayerRoundStatus = "Pending" | "InProgess" | "Completed" | "Withdrawn";
-
 export type EmailStatus = "Queued" | "Error" | "Sent" | "Rejected";
-
-// export type ClubMembershipStatus = "Pending"| "Active"| "Inactive"| "Suspended"| "Rejected";
-
-export class ClubMembershipStatus {
-    public static PENDING   =   "Pending";
-    public static ACTIVE    =   "Active";
-    public static INACTIVE  =   "Inactive";
-    public static SUSPENDED =   "Suspended";
-    public static REJECTED  =   "Rejected";
-}
-
-
-export interface BuggySchedule {
-    startDate?: string;
-    endDate?: string;
-    availabilities?: Availabilities[];
-}
-export interface CaddySchedule {
-    startDate?: string;
-    endDate?: string;
-    availabilities?: Availabilities[]; //Array<CaddyAvailable>;
-}
-
-export interface Availabilities { 
-    available?: boolean;
-availableOn?: string;
-reason?: string;
-weeklyHoliday?: boolean;
-}
-
-export class PlayerTypes {
-    public static STD       =   "Visitor";
-    public static ARMY      =   'Armed Forces';
-    public static GOVT      =   "Government";
-    public static GUEST     =   "Member's Guest";
-    public static JUNIOR    =   "Junior";
-    public static MEMBER    =   "Member";
-    public static POLICE    =   "Police";
-    public static SENIOR    =   "Senior";
-    public static STAFF     =   "Staff";
-    public static TMEMBER   =   "Term Member";
-    public static WOMAN     =   "Women";
-    public static LADIES    =   "Ladies";
-}
-
-export class PaymentMethods {
-    public static cash           =	"Cash"
-    public static offcc          =	"Offline Credit Card";
-    public static offl           =	"Offline Payment";
-    public static offnb          =	"Netbanking (Offline)";
-    public static online         =	"Online Payment";
-    public static redmcc         =	"Redeem Club Credit";
-
-}
-
-export function createGameRoundInfo(): GameRoundInfo {
-    return {
-        id           : 0,
-        roundNo      : 1,
-        status       : "Pending",
-        inProgress   : false,
-        nextRound    : false,
-        grossTotal   : 0,
-        netPosition  : 0,
-        grossPosition: 0,
-        publishFlights: false,
-    };
-}
-
-export class PlayerDisplay
-{
-    playerName: string;
-    nineTotal: number;
-    nineNetTotal: number;
-    scores: Array<PlayerScore>;
-    totalScore: number;
-    playerId: number;
-    handicap: number;
-    whichNine: number;
-    playerRound: PlayerRoundScores;
-}
-export class PlayerTotals
-{
-    playerName: string;
-    handicap: number;
-    firstNineGross: number;
-    secondNineGross: number;
-    firstNineNet: number;
-    secondNineNet: number;
-    totalGross: number;
-    totalNet: number;
-    playerRound: PlayerRoundScores;
-}
-export class CourseDisplay{
-    courseName: string;
-    whichNine: number;
-    holes: Array<CourseHoleInfo>;
-    players: Array<PlayerDisplay>;
-    coursePar: number;
-    indexToUse?: number;
-}
-
-export interface ClubDataLitePage extends PagedData<ClubDataLite> {
-}
-
-export class ClubMemberLite {
-    club?: ClubDataLite;
-    player?: PlayerDataLite;
-    homeClub?: boolean;
-    membershipNumber?: string;
-    status?: string;
-    clubHandicap?: number;
-    m2uHandicap?: number;
-    membershipType?: string;
-}
-
-export interface ClubDataLite {
-    clubId?: number;
-    clubName?: string;
-    clubImage?: string;
-    clubThumbnail?: string;
-    clubLogo?: string;
-    countryId?: string;
-    countryName?: string;
-}
-
-export interface PlayerDataLite {
-    playerId?: number;
-    playerName?: string;
-    playerPhoto?: string;
-    photoUrl?: string;
-    countryId?: string;
-    countryName?: string;
-}
-export function createClubList(): ClubList {
-    return {
-        totalPages: 0,
-
-        currentPage: 0,
-
-        totalItems: 0,
-
-        totalInPage: 0,
-
-        success: true,
-        clubs  : []
-    }
-}
-
-export function createClubInfo(): ClubInfo {
-    return {
-        clubId     : 0,
-        clubName   : '',
-        clubImage  : 'img/default_club.png',
-        clubTag    : '',
-        latitude   : 0,
-        longitude  : 0,
-        address    : '',
-        description: '',
-        virtualClub: false
-    }
-}
-
-export function createCourseInfo(): CourseInfo {
-    return {
-        // courseName: "",
-
-        coursePar: 0,
-
-        photoUrl: "",
-
-        holes   : [],
-        courseId: 0,
-        indexToUse: 1,
-        teeBoxes: [],
-    }
-}
-
-/**
- * Creates an instance of PlainScorecard
- * @param competition
- * @returns {{success: boolean, clientId: any, competition: boolean, playerRoundScores: any[]<PlayerRoundScores>, courses: any[]<CourseInfo>, finished: boolean}}
- */
-export function createScorecard(competition: boolean) {
-    return {
-        success          : true,
-        // clientId         : global.generateUUID(),
-        competition      : competition,
-        playerRoundScores: new Array<PlayerRoundScores>(),
-        courses          : new Array<CourseInfo>(),
-        finished         : false
-    };
-
-}
-

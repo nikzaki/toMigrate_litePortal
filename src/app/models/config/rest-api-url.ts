@@ -101,5 +101,14 @@ export const RestUrl: any = {
         getPlayerClubHcp       : "/handicap/get-club-handicaps",
         getPlayerDefHandicapSystem : "/handicap/player-handicap-system", //{playerId*}
     
+    },
+    playerImport: {
+        downloadTemplateXLS: '/players/import/instances/xls-template',
+        downloadTemplateXLSX: '/players/import/instances/xlsx-template',
+        getInstancesList: '/players/import/instances', //[GET]
+        uploadFileAndCreateInstance: '/players/import/instances/:importInstance', //[POST]
+        submitInstance: '/players/import/instances/:importInstance', //[POST]
+        deleteInstance: '/players/import/instances/:importInstance', //[DELETE]
+        getInstance: '/players/import/instances/:instanceId', 
     }
 };
