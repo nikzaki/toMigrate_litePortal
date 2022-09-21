@@ -3,5 +3,5 @@
   "webSocketDebug": false,
   "webSocketProtocol": "wss",
   "webSocketPort": 433,
-  "serverPort": 80
+  "serverPort": 443
 }

@@ -25,6 +25,22 @@
             accept=".xls,.xlsx"></p-fileUpload>
         <hr />
 
+        <div *ngIf="playerImportInstance">
+            <h3>Pre-submission</h3>
+            <p>Instance ID : {{playerImportInstance?.id}}</p>
+            <p>Status : {{playerImportInstance?.status}}</p>
+            <p>Import File URL : {{playerImportInstance?.importFileUrl}}</p>
+            <p>Total Players : {{playerImportInstance?.totalPlayers}} | Total Memberships : {{playerImportInstance?.totalMemberships}}</p>
+            <p>Total Registered : {{playerImportInstance?.totalRegistered}} | Total Errors : {{playerImportInstance?.totalErrors}}</p>
+        </div>
+        <div *ngIf="submitPlayerImportInstance">
+            <h3>Post-submission</h3>
+            <p>Instance ID : {{submitPlayerImportInstance?.id}}</p>
+            <p>Status : {{submitPlayerImportInstance?.status}}</p>
+            <p>Total Players : {{submitPlayerImportInstance?.totalPlayers}} | Total Memberships : {{submitPlayerImportInstance?.totalMemberships}}</p>
+            <p>Total Registered : {{submitPlayerImportInstance?.totalRegistered}} | Total Errors : {{submitPlayerImportInstance?.totalErrors}}</p></div>
+        
+
         
         <div *ngIf="playersToImport && playersToImport.length">
             <div class="button-panel">

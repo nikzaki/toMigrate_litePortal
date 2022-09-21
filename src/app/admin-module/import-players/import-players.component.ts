@@ -54,6 +54,8 @@ export class ImportPlayersComponent implements OnInit {
     dateJoined: FormControl;
 
     importVersionNew: boolean = true;
+
+    submitPlayerImportInstance: PlayerImportInstance;
     constructor(private configService: ConfigurationService,
         private playerService: PlayerService,
         private http: Http,
@@ -268,6 +270,9 @@ export class ImportPlayersComponent implements OnInit {
         this.hasMembership = false;
         this.selectedClub = '';
         this.selectedClubId = null;
+        this.playerImportInstance = null;
+        this.submitPlayerImportInstance = null;
+        if(this.importVersionNew) this.url = this.configService.getRestApiUrl(RestUrl.playerImport.uploadFileAndCreateInstance)
     }
 
     downloadFile() {
@@ -451,6 +456,7 @@ export class ImportPlayersComponent implements OnInit {
         let _approve = this.clubApproveAll;
         this.playerService.submitProcessImportInstance(_instanceId, _password, _approve)
         .subscribe((data)=>{
+            if(data) this.submitPlayerImportInstance = data;
             console.debug("process import instance : ", data)
         })
     }
