@@ -3,5 +3,6 @@
   "webSocketDebug": false,
   "webSocketProtocol": "wss",
   "webSocketPort": 433,
-  "serverPort": 443
+  "serverPort": 443,
+  "portalPath": "https://cls-lite.mygolf2u.com"
 }

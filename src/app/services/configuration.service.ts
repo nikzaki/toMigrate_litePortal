@@ -150,4 +150,12 @@ export class ConfigurationService {
             return this.config.serverRoot
         }
     }
+
+    
+    public getPortalPath() {
+        if(this.config && this.config.portalPath) {
+            return this.config.portalPath
+        } 
+        else return "https://lite.mygolf2u.com"
+    }
 }

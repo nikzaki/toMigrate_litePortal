@@ -1,3 +1,4 @@
+import { ConfigurationService } from './../../services/configuration.service';
 import {
     Component,
     OnInit,
@@ -82,6 +83,7 @@ import {GameRound} from '../../models/mygolf/gameround';
 import {CompetitionCategory} from '../../models/mygolf/competition/competition-category';
 
 
+
 @Component({
     selector: 'individual-leaderboard',
     templateUrl: './individual-leaderboard.component.html',
@@ -151,7 +153,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, OnDest
 
         @Inject(DOCUMENT) private document: Document,
         private media: ObservableMedia,
-        private cdr: ChangeDetectorRef) {
+        private cdr: ChangeDetectorRef,
+        private configService: ConfigurationService,) {
             // router.events.pipe(takeUntil(this._onDestroy)).subscribe(event => {
             //     // do stuff here
     
@@ -334,7 +337,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, OnDest
         //    || this.settings.scrollScoreTypes)) &&
 
     }
+
     private refreshCompInfo() {
+        
+    const _portalPath = this.configService.getPortalPath();
         if (this.competitionId >= 0) {
             let sub1 = this.competitionService.getCompetitionInfo(this.competitionId)
                 .subscribe((comp: Competition) => {
@@ -347,9 +353,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, OnDest
                                 this.derivePlayerTeams();
                             });
                     }
-                    this.url_qrCode = 'https://api.qrserver.com/v1/create-qr-code/?data=' + 'http://portal.mygolf2u.com/';
-                    if (this.competition && this.competition.teamEvent) this.url_qrCode += 'teamleaderboard/' + this.competitionId;
-                    else this.url_qrCode += 'leaderboard/' + this.competitionId;
+                    this.url_qrCode = 'https://api.qrserver.com/v1/create-qr-code/?data=' + _portalPath;
+                    if (this.competition && this.competition.teamEvent) this.url_qrCode += '/teamleaderboard/' + this.competitionId;
+                    else this.url_qrCode += '/leaderboard/' + this.competitionId;
                 });
             let sub2 = this.competitionService.getCompetitionDetails(this.competitionId)
                 .subscribe((det: CompetitionDetails) => {

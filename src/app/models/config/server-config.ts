@@ -8,4 +8,5 @@ export interface ServerConfig {
     webSocketProtocol?: string;
     webSocketPort?: number;
     serverPort?: number;
+    portalPath?: string;
 }
