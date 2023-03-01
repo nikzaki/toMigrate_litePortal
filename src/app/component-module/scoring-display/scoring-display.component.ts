@@ -41,8 +41,16 @@ export class ScoringDisplayComponent implements OnInit, OnChanges, AfterViewInit
         //     this.groupFlightStatus();
         //     this.groupByFlight();
         // }
+        console.debug("on changes ", changes, this.data)
         if(changes.data ){
-            if(this.data.competitionLocks && this.data.flights){
+            if(!this.data) return;
+            // if(this.data.competitionLocks === undefined) return;
+            if(this.data.competitionLocks === undefined && this.data.flights){
+                this.groupFlightStatus();
+                this.groupByFlight();
+                this.dataRefreshed.next(true);
+            }
+            else if(this.data.competitionLocks && this.data.flights){
                 this.groupFlightStatus();
                 this.groupByFlight();
                 this.dataRefreshed.next(true);
@@ -75,65 +83,111 @@ export class ScoringDisplayComponent implements OnInit, OnChanges, AfterViewInit
                 lastGroup = curGroup
             }
             let obj = Object.assign({sortField: curGroup, groupCount: groupCount}, flight);
-            let lock = this.data.competitionLocks.filter(l=>{
-                return l.scorerId === flight.scorerId;
-            }).pop();
-            if(lock) {
-                obj = Object.assign({}, obj, {
-                    deviceName: lock.deviceName,
-                    deviceId: lock.deviceId,
-                    batteryLevel: lock.batteryLevel
-                });
-                lock.scorerName = flight.scorerName;
+            if(this.data && this.data.competitionLocks) {
+                let lock = this.data.competitionLocks.filter(l=>{
+                    return l.scorerId === flight.scorerId;
+                }).pop();
+                if(lock) {
+                    obj = Object.assign({}, obj, {
+                        deviceName: lock.deviceName,
+                        deviceId: lock.deviceId,
+                        batteryLevel: lock.batteryLevel
+                    });
+                    lock.scorerName = flight.scorerName;
+                }
+
             }
             grouped.push(obj);
         });
         this.groupedFlights = grouped;
+        console.debug("group flight : ", this.groupedFlights);
     }
     private groupByFlight() {
         let byFlight: Array<any> = new Array();
-        this.data.flights.forEach(flight=> {
-            let curRec: any = byFlight.filter(c=>c['flight'] === flight.flightNumber)
-                                      .pop();
-            if(!curRec) {
-                curRec = Object.assign({}, {
-                    flight: flight.flightNumber,
-                    startingHole: flight.startingHole,
-                    players: []
-                });
-                byFlight.push(curRec);
-            }
-            let player = Object.assign({}, {
-                playerId: flight.playerId,
-                playerName: flight.playerName,
-                buggy: flight.buggyNumber,
-                playerRoundId: flight.playerRoundId,
-                holesPlayed: flight.holesPlayed,
-                grossScore: flight.grossScore,
-                netScore: flight.netScore,
-                scorerId: flight.scorerId,
-                scorerName: flight.scorerName,
-                lastHoleScored: flight.lastHoleScored,
-                submitted: flight.submitted,
-                withdrawn: flight.withdrawn,
-                scores: flight.scores
+        if(this.data.listMode === 'viewFlights') {
+            this.data.flights.forEach(flight=> {
+                let curRec: any = byFlight.filter(c=>c['flight'] === flight.flightNumber)
+                                          .pop();
+                if(!curRec) {
+                    curRec = Object.assign({}, {
+                        flight: flight.flightNumber,
+                        startingHole: flight.startHole,
+                        startTime: flight.startTime,
+                        players: []
+                    });
+                    byFlight.push(curRec);
+                }
+                let player;
+                flight.flightMembers.forEach((fm)=>{
+                    player = Object.assign({}, {
+                        playerId: fm.playerId,
+                        playerName: fm.playerName,
+                        buggy: fm.buggy?fm.buggy:"-",
+                        playerRoundId: fm.playerRoundId,
+                        holesPlayed: null,// flight.flightMembers.holesPlayed,
+                        grossScore: null,// flight.flightMembers.grossScore,
+                        netScore: null,// flight.flightMembers.netScore,
+                        scorerId: fm.scoringPlayerId,// flight.flightMembers.scorerId,
+                        scorerName: fm.scoringPlayerName,
+                        lastHoleScored: null,// flight.flightMembers.lastHoleScored,
+                        submitted: null,// flight.flightMembers.submitted,
+                        withdrawn: null,// flight.flightMembers.withdrawn,
+                        scores: null,// flight.flightMembers.scores
+                    });
+                    curRec.players.push(player);
+                })
             });
-            let lock = this.data.competitionLocks.filter(l=>{
-                return l.scorerId === flight.scorerId;
-            }).pop();
-            if(lock) {
-                player = Object.assign(player, {
-                    deviceName: lock.deviceName,
-                    deviceId: lock.deviceId,
-                    batteryLevel: lock.batteryLevel
+
+        } else {
+            this.data.flights.forEach(flight=> {
+                let curRec: any = byFlight.filter(c=>c['flight'] === flight.flightNumber)
+                                          .pop();
+                if(!curRec) {
+                    curRec = Object.assign({}, {
+                        flight: flight.flightNumber,
+                        startingHole: flight.startingHole,
+                        players: []
+                    });
+                    byFlight.push(curRec);
+                }
+                let player = Object.assign({}, {
+                    playerId: flight.playerId,
+                    playerName: flight.playerName,
+                    buggy: flight.buggyNumber,
+                    playerRoundId: flight.playerRoundId,
+                    holesPlayed: flight.holesPlayed,
+                    grossScore: flight.grossScore,
+                    netScore: flight.netScore,
+                    scorerId: flight.scorerId,
+                    scorerName: flight.scorerName,
+                    lastHoleScored: flight.lastHoleScored,
+                    submitted: flight.submitted,
+                    withdrawn: flight.withdrawn,
+                    scores: flight.scores
                 });
-            }
-            curRec.players.push(player);
-        });
+                if(this.data && this.data.competitionLocks) {
+                    let lock = this.data.competitionLocks.filter(l=>{
+                        return l.scorerId === flight.scorerId;
+                    }).pop();
+                    if(lock) {
+                        player = Object.assign(player, {
+                            deviceName: lock.deviceName,
+                            deviceId: lock.deviceId,
+                            batteryLevel: lock.batteryLevel
+                        });
+                    }
+    
+                }
+                curRec.players.push(player);
+            });
+
+        }
         this.byFlight = byFlight;
+        console.debug("group by flight : ", this.byFlight);
     }
 
     showPlayerScores(event, player) {
+        if(this.data && this.data.listMode === 'viewFlights') return;
         let holes = Object.keys(player.scores);
         let curRow: any = {
             nine: 1

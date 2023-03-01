@@ -103,6 +103,38 @@
         <md-tab label="Prizes">
             <prize-list [prizeList]="details.prizes" [showHeader]="false"></prize-list>
         </md-tab>
+        <md-tab label="Flights">
+            <md-card>
+                <md-card-content>
+                    <md-table  [dataSource]="roundDataSource">
+                        
+                        <ng-container mdColumnDef="roundNo">
+                            <md-header-cell *mdHeaderCellDef [style]="{'width':'10%'}">Round</md-header-cell>
+                            <md-cell [style.color]="roundNo===round.roundNo?'red':''"   (click)="onSelectedRound($event, roundDataSource, round)" *mdCellDef="let round">{{round.roundNo}} </md-cell>
+                        </ng-container>
+                        <ng-container mdColumnDef="courseNames">
+                            <md-header-cell *mdHeaderCellDef>Courses</md-header-cell>
+                            <md-cell [style.color]="roundNo===round.roundNo?'red':''"   (click)="onSelectedRound($event, roundDataSource, round)" *mdCellDef="let round">{{round.courseNames}} </md-cell>
+                        </ng-container>
+                        <ng-container mdColumnDef="roundDate">
+                            <md-header-cell *mdHeaderCellDef>Held On</md-header-cell>
+                            <md-cell [style.color]="roundNo===round.roundNo?'red':''"   (click)="onSelectedRound($event, roundDataSource, round)" *mdCellDef="let round">{{round.roundDate|date:'mediumDate'}} </md-cell>
+                        </ng-container>
+                        <ng-container mdColumnDef="status">
+                            <md-header-cell *mdHeaderCellDef>Status</md-header-cell>
+                            <md-cell [style.color]="roundNo===round.roundNo?'red':''"   (click)="onSelectedRound($event, roundDataSource, round)" *mdCellDef="let round"
+                                    [class.inprogess-text-bold]="round.status === 'InProgress'"
+                                    [class.completed-text-bold]="round.status === 'Completed'">{{round.status }} </md-cell>
+                        </ng-container>
+                        <md-header-row *mdHeaderRowDef="displayedColumns"></md-header-row>
+                        <md-row *mdRowDef="let round; columns: displayedColumns;"></md-row>
+                    </md-table>
+                </md-card-content>
+            </md-card>
+            <scoring-display *ngIf="compFlightDetails"
+            [data]="compFlightDetails" [displayMode]="displayMode">
+            </scoring-display>
+                    </md-tab>
     </md-tab-group>
 
     <!--<div class="ui-g-12">-->

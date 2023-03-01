@@ -99,6 +99,12 @@ export class AdminHomeComponent implements OnInit {
                 }
             }
         ];
+
+        this.sessionService.getUser()
+                                .subscribe(usr=>{
+                                    if(usr && (usr.userType === 'Club' || usr.userType === 'Organizer'))
+                                        this.organizerId = usr.organizerId;
+                                    });
     }
 
     savePreference() {
@@ -212,7 +218,7 @@ export class AdminHomeComponent implements OnInit {
         let _allow: number;
         this.sessionService.getUserRole()
         .subscribe((roles)=>{
-            console.debug("role scorer?",  roles.indexOf('ROLE_SCORER'))
+            // console.debug("role scorer?",  roles.indexOf('ROLE_SCORER'))
             if(page === 'allCompetitions') 
                 _allow = roles.indexOf('ROLE_ADMIN') || roles.indexOf('ROLE_SUPER_ADMIN');// .includes('role_admin');
         })

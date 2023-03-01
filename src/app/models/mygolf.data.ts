@@ -625,6 +625,7 @@ export interface SearchCriteria {
     periodLength?: number;
     periodType?: string;
     countryId?: string;
+    organizerId?: number;
 }
 
 export interface ServerInfo {

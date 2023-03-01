@@ -57,7 +57,11 @@
         <div class="ui-md-12 ui-lg-6">
             <p-dataTable [value] = "flight.players" sortField = "scorerName" rowGroupMode = "rowspan">
                 <p-header>
-                    <div style = "text-align: center" class = "flight">Flight: <b>{{flight.flight}}</b></div>
+                    <div style = "text-align: center" class = "flight">
+                        Flight: <b>{{flight.flight}}</b>
+                        &nbsp;|&nbsp;Tee Off : <b>{{flight.startingHole}}</b>
+                        <span *ngIf="flight.startTime">&nbsp;@&nbsp;<b>{{flight.startTime}}</b></span>
+                    </div>
                 </p-header>
                 <p-column header = "Player" (click) = "showPlayerScores($event, player)"
                         [style] = "{'width':'30%'}" styleClass = "align-left flight-monitor-column">
@@ -70,21 +74,21 @@
                 </p-column>
                 <p-column header = "Buggy" field = "buggy" [style] = "{'width': '5%'}" styleClass = "align-left flight-monitor-column">
                 </p-column>
-                <p-column header = "Total" [style] = "{'width':'5%'}" styleClass = "align-right flight-monitor-column">
+                <p-column [hidden]="data.listMode === 'viewFlights'" header = "Total" [style] = "{'width':'5%'}" styleClass = "align-right flight-monitor-column">
                     <ng-template let-player = "rowData" pTemplate = "body">
                         <span [class.withdrawn] = "player.withdrawn"
                                 [class.submitted] = "player.submitted"
                                 [class.blink] = "blinkOn">{{player.holesPlayed}}</span>
                     </ng-template>
                 </p-column>
-                <p-column header = "Score" [style] = "{'width':'5%'}" styleClass = "align-right flight-monitor-column">
+                <p-column [hidden]="data.listMode === 'viewFlights'"  header = "Score" [style] = "{'width':'5%'}" styleClass = "align-right flight-monitor-column">
                     <ng-template let-player = "rowData" pTemplate = "body">
                         <span [class.withdrawn] = "player.withdrawn"
                                 [class.submitted] = "player.submitted"
                                 [class.blink] = "blinkOn">{{player.grossScore}}</span>
                     </ng-template>
                 </p-column>
-                <p-column header = "Last Hole" [style] = "{'width':'5%'}" styleClass = "align-right flight-monitor-column">
+                <p-column [hidden]="data.listMode === 'viewFlights'"  header = "Last Hole" [style] = "{'width':'5%'}" styleClass = "align-right flight-monitor-column">
                     <ng-template let-player = "rowData" pTemplate = "body">
                         <span [class.withdrawn] = "player.withdrawn"
                                 [class.submitted] = "player.submitted"

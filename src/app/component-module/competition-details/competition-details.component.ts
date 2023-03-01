@@ -1,4 +1,5 @@
-import {Component, OnInit, ViewEncapsulation, ViewChild} from '@angular/core';
+import { FlightInfo } from './../../models/mygolf.data';
+import {Component, OnInit, ViewEncapsulation, ViewChild, Input} from '@angular/core';
 import {ActivatedRoute} from '@angular/router';
 import {CompetitionService} from '../../services/competition.service';
 import {Competition, CompetitionTeams, CompetitionDetails} from '../../models/mygolf/competition';
@@ -18,6 +19,7 @@ import {Subscription} from 'rxjs/Subscription';
     encapsulation: ViewEncapsulation.None
 })
 export class CompetitionDetailsComponent implements OnInit {
+    @Input() displayMode: string = 'grid';
     competitionId: number;
     competition: Competition;
     teams: CompetitionTeams;
@@ -29,6 +31,7 @@ export class CompetitionDetailsComponent implements OnInit {
     displayedColumns = ['roundNo', 'courseNames', 'roundDate', 'status'];
     dataSource = new GameRoundDataSource();
     busy: Subscription;
+    flightList: Array<FlightInfo>;
     constructor(private activeRoute: ActivatedRoute,
         private messageActions: SystemMessageActions,
         private competitionService: CompetitionService) {
@@ -59,6 +62,8 @@ export class CompetitionDetailsComponent implements OnInit {
                     if(this.competition.teamEvent){
                         this.refreshTeams().subscribe(()=>{});
                     }
+                    this.refreshFlightList()
+                        .subscribe(()=>{});
                 }
             }, (error) => {
                 let errorMsg = Util.getErrorMessage(error, 'Error getting competition info');
@@ -98,6 +103,36 @@ export class CompetitionDetailsComponent implements OnInit {
                 return prev+', '+curr;
         },'');
     }
+
+    compFlightDetails: any;
+    roundNo: number = 1;
+    refreshFlightList(): Observable<boolean>{
+        return this.competitionService.getFlightList(this.competitionId, this.roundNo)
+            .map((flightList: Array<FlightInfo>)=>{
+                this.flightList = flightList; 
+                this.compFlightDetails = {
+                    listMode: 'viewFlights',
+                    flights: this.flightList
+                }
+                return true;
+            });
+    }
+
+    onSelectedRound(event,roundData,round) {
+        console.debug("on selected round : ", event);
+        console.debug("round data", roundData, round);
+        if(!round) return;
+        if(this.roundNo === round.roundNo) return;
+        if(round) {
+            this.selectedRound = round;
+            this.roundNo = this.selectedRound.roundNo
+            this.compFlightDetails = null;
+            this.refreshFlightList()
+            .subscribe(()=>{})
+        }
+    }
+
+    selectedRound: any;
 }
 export class GameRoundDataSource extends DataSource<GameRound> {
     gameRounds: GameRound[] = [];

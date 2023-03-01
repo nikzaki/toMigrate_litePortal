@@ -47,6 +47,7 @@
     <p-dataTable [value]="data.competitionLocks" styleClass="accent-table">
         <p-column field="flightNumber" header="flight" [style]="{'width':'10%'}"></p-column>
         <p-column field="scorerName" header="Scorer" [style]="{'width':'40%'}"></p-column>
+        <!-- <p-column field="startingHole" header="Starting Hole" [style]="{'width':'10%'}"></p-column> -->
         <p-column field="deviceName" header="Device" [style]="{'width':'40%'}"></p-column>
         <p-column field="batteryLevel" header="Battery" [style]="{'width':'10%'}">
             <ng-template pTemplate="body" let-device="rowData">

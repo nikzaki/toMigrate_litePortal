@@ -1,3 +1,4 @@
+import { FlightInfo, SearchCriteria } from './../models/mygolf.data';
 /**
  * Created by ashok on 26/06/17.
  */
@@ -18,6 +19,8 @@ import {LeaderBoard} from '../models/mygolf/competition/leaderboard';
 import {CompetitionGameRound} from '../models/mygolf/competition/competition-game-round';
 import {CompetitionTeams} from '../models/mygolf/competition';
 import {TeamScores} from '../models/mygolf/competition/team-scores';
+
+import {isPresent} from '../util';
 
 /**
  * The service class for competitions in myGolf2u
@@ -179,13 +182,20 @@ export class CompetitionService {
      */
     public searchUpcomingCompetitions(searchString: string, pageNo: number,
         pageSize: number=30, organizerId?: number): Observable<CompetitionList> {
+        
+            let searchCriteria: SearchCriteria = {
+                organizerId: organizerId
+            }
         let criteria: any = {
             searchText: searchString,
             searchType: 'Upcoming',
             pageNumber: pageNo,
             pageSize: pageSize,
             organizerId: organizerId,
+            searchCriteria: searchCriteria
         };
+        // criteria= Object.assign({}, criteria, searchCriteria);
+        // criteria = this.mergeObjects([criteria, searchCriteria]);
         return this._searchCompetitions(criteria);
         // let url = this.configService.getRestApiUrl(RestUrl.competitionService.search);
         // let request = new RemoteRequest(url, RequestMethod.Get,
@@ -202,16 +212,25 @@ export class CompetitionService {
     }
     public searchAllCompetitions(searchString: string, pageNo: number,
         pageSize: number=30, organizerId?: number): Observable<CompetitionList> {
+            
+            let searchCriteria: SearchCriteria = {
+                organizerId: organizerId
+            }
         let criteria: any = {
             searchText: searchString,
             searchType: 'All',
             pageNumber: pageNo,
             pageSize: pageSize,
             organizerId: organizerId,
+            searchCriteria: searchCriteria
         };
-        return this._searchCompetitions(criteria);
+        // criteria= Object.assign({}, criteria, searchCriteria);
+        
+        // criteria = this.mergeObjects([criteria, searchCriteria]);
+        return this._searchCompetitions(criteria); 
     }
     private _searchCompetitions(criteria: any): Observable<CompetitionList>{
+        // criteria = JSON.stringify(criteria);
         let url = this.configService.getRestApiUrl(RestUrl.competitionService.search);
         let request = new RemoteRequest(url, RequestMethod.Get,
             ContentType.URL_ENCODED_FORM_DATA, criteria);
@@ -295,6 +314,47 @@ export class CompetitionService {
                     //    this.configService.deriveFulImageURL(compInfo, ['thumbnail', 'imageUrl']);
                        return compInfo;
                    }).catch(Util.handleError);
+    }
+
+    
+    public getFlightList(competitionId: number, roundNo: number): Observable<FlightInfo[]> {
+        let url = this.configService.getRestApiUrl(RestUrl.competitionService.getFlights);
+        let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA, {
+            competitionId: competitionId,
+            roundNo      : roundNo
+        });
+        return this.remoteHttp.execute(req)
+                   .map((resp: Response) => {
+                       let flightList: FlightInfo[] = resp.json();
+                       return flightList;
+                   });
+    }
+
+
+    
+    /**
+     * Merge all the given objects into a single object. If more than
+     * one objects have same properties, the objects in the end of array
+     * will override the properties of earlier objects. The original objects
+     * are not modified
+     * @param objects The objectss to merge
+     * @returns {{any}} Returns the merged object
+     */
+     public mergeObjects(objects: Array<any>): any {
+        let result = {};
+        if (isPresent(objects && objects.length)) {
+            for (let src of objects) {
+                if (isPresent(src))
+                    this.mergeObject(result, src);
+            }
+
+        }
+        return result;
+    }
+
+    private mergeObject(target: any, source: any) {
+        for (let key in source)
+            target[key] = source[key];
     }
 
 
