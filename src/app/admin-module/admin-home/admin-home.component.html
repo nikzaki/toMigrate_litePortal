@@ -21,7 +21,7 @@
                 </h3>
             </section>
         </md-tab>
-        <md-tab label="Competitions">
+        <md-tab *ngIf="getUserRole('allCompetitions')" label="Competitions">
             <section class="mat-typography">
                 <section class="ui-g">
                     <section class="ui-g-12 ui-md-6 ui-lg-4 vertical-align-center">

@@ -1,3 +1,4 @@
+import { Competition } from './../../models/mygolf/competition/competition';
 import {Injectable} from '@angular/core';
 import {Action, Store} from '@ngrx/store';
 import {AppState} from '../../models/appstate';
@@ -108,9 +109,27 @@ export class SessionEffects {
             return this.clubService.getClubInfo(session.userInfo.clubId)
                        .take(1)
                         .subscribe((club: Club)=> {
+                            console.debug("club logged in - session : ", session)
+                            console.debug("club logged in - club : ", club)
+                            let _isScorer;
+                            if(session && session.userInfo && session.userInfo.roles)
+                                _isScorer = session.userInfo.roles.indexOf('ROLE_SCORER') 
                             this.store.dispatch( createAction(SessionActions.CLUB_INFO_POPULATE, club));
                             if(session.returnUrl)
                                 this.router.navigate([session.returnUrl]);
+                            else if(_isScorer >= 0 && session.userInfo.organizerId) {
+                                let _search = '';
+                                this.organizerService.getActiveCompetitions(session.userInfo.organizerId)
+                                        .subscribe((activeComps: Competition[]) => {
+                                            if(activeComps) {
+                                                if(activeComps.length === 1) {
+                                                    this.router.navigate(['/admin/competition/manualscoring/'+activeComps[0].competitionId]);
+                                                } else {
+                                                    this.router.navigate(['/admin']);
+                                                }
+                                            } else this.router.navigate(['/admin']);
+                                        });
+                            }
                             else
                                 this.router.navigate(['/dashboard']);
                         });

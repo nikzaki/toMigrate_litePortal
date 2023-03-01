@@ -1,8 +1,1 @@
-flight .flight-content .ui-widget-content {
-  border: none; }
-flight .flight-number {
-  font-weight: bold; }
-flight .start-hole {
-  text-align: center; }
-flight .start-time {
-  text-align: right; }
+flight .flight-content .ui-widget-content{border:none}flight .flight-number{font-weight:bold}flight .start-hole{text-align:center}flight .start-time{text-align:right}flight .player-image img{height:30px;width:auto}flight .player-name{white-space:normal}flight .player-name.withdrawn{color:red}flight .player-name.clickable:hover{text-decoration:underline;font-weight:bold;cursor:hand;cursor:pointer}flight .player-handicap{text-align:right}flight .player-buggy{text-align:center}flight .ui-panel-info{background-color:#2e7d32;color:#fff}

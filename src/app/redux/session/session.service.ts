@@ -84,4 +84,14 @@ export class SessionService {
 
 
     }
+
+    
+    public getUserRole(): Observable<Array<string>> {
+        return this.store
+            .select(appState=>{
+                if(appState.session.userInfo)
+                return appState.session.userInfo.roles;
+                else return null;
+            }).filter(Boolean);
+    }
 }

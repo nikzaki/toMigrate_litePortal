@@ -5,6 +5,45 @@
       <div class="ui-g-4 ui-sm-hide start-time"><b>T.Off:</b> {{parseTime(flight.startTime)}}</div> 
       <!-- {{flight.startTime|date:'mediumTime'}} -->
   </p-header>
+    <div class="ui-g ui-panel-info" *ngIf = "memberDisplayMode==='compact'">
+        <div class = "ui-g-3 player-image">
+          &nbsp;
+        </div>
+        <div class="ui-g-9 player-name">
+            Name
+        </div>
+    </div>
+    <div class="ui-g ui-panel-info" *ngIf = "memberDisplayMode==='medium'">
+        <div class = "ui-g-3 player-image">
+           &nbsp;
+        </div>
+        <div class="ui-g-5 player-name">
+            Name
+        </div>
+        <div class="ui-g-2 hide-sm player-handicap">
+            HCP
+        </div>
+        <div class="ui-g-2 hide-sm player-buggy">
+            Buggy
+        </div>
+    </div>
+    <div class="ui-g" *ngIf = "memberDisplayMode==='full'">
+        <div class = "ui-g-2 ui-sm-4 player-image">
+            &nbsp;
+        </div>
+        <div class="ui-g-4 ui-sm-8 player-name">
+            Name
+        </div>
+        <div class="ui-g-1 ui-sm-hide player-handicap">
+            HCP
+        </div>
+        <div class="ui-g-1 ui-sm-hide player-buggy">
+            Buggy
+        </div>
+        <div class="ui-g-4 ui-sm-hide scorer-name">
+            Scorer
+        </div>
+    </div>
     <p-dataList [value]="flight.flightMembers" styleClass="flight-content">
         <ng-template let-flightMember pTemplate="item">
             <div class="ui-g">

@@ -1,3 +1,5 @@
+import { OrganizerService } from './../../services/organizer.service';
+import { SessionService } from './../../redux/session/session.service';
 import {Component, OnInit, ViewEncapsulation, ViewChild} from '@angular/core';
 import {Competition} from '../../models/mygolf/competition/competition';
 import {CompetitionService} from '../../services/competition.service';
@@ -40,7 +42,9 @@ export class AdminHomeComponent implements OnInit {
 
     constructor(private competitionService: CompetitionService,
         private userPrefService: UserPreferenceService,
-        private router: Router) {
+        private router: Router,
+        private sessionService: SessionService,
+        private organizerService: OrganizerService ) {
         let pref = this.userPrefService.getFromSession(AdminHomeComponent.PrefKey);
         if (pref) {
             this.adminHomePref = pref;
@@ -119,24 +123,38 @@ export class AdminHomeComponent implements OnInit {
         this.refreshUpcomingCompetitions();
     }
 
+    organizerId: number;
     refreshActiveCompetitions() {
-        this.competitionService.getActiveCompetitions(this.activeCompSearchText)
-            .subscribe((activeComps: Competition[]) => {
-                this.activeCompetitions = activeComps;
-            });
+        this.sessionService.getUser()
+                                .subscribe(usr=>{
+                                    if(usr && (usr.userType === 'Club' || usr.userType === 'Organizer')) {
+                                        this.organizerId = usr.organizerId;
+                                        this.organizerService.getActiveCompetitions(usr.organizerId)
+                                        .subscribe((activeComps: Competition[]) => {
+                                            this.activeCompetitions = activeComps;
+                                        });
+                                    }
+                                    else {
+                                                                        
+                                        this.competitionService.getActiveCompetitions(this.activeCompSearchText)
+                                        .subscribe((activeComps: Competition[]) => {
+                                            this.activeCompetitions = activeComps;
+                                        });
+                                    }
+                                })
     }
 
     refreshUpcomingCompetitions() {
         if (this.adminHomePref.searchType === 'Upcoming') {
             this.competitionService.searchUpcomingCompetitions(this.adminHomePref.upcomingCompSearchText,
-                this.adminHomePref.upcomingCompPageNo, this.adminHomePref.upcomingCompPageSize)
+                this.adminHomePref.upcomingCompPageNo, this.adminHomePref.upcomingCompPageSize,this.organizerId)
                 .subscribe((compList: CompetitionList) => {
                     this.upcomingCompetitions = compList;
                 });
         }
         else {
             this.competitionService.searchAllCompetitions(this.adminHomePref.upcomingCompSearchText,
-                this.adminHomePref.upcomingCompPageNo, this.adminHomePref.upcomingCompPageSize)
+                this.adminHomePref.upcomingCompPageNo, this.adminHomePref.upcomingCompPageSize,this.organizerId)
                 .subscribe((compList: CompetitionList) => {
                     this.upcomingCompetitions = compList;
                 });
@@ -188,5 +206,16 @@ export class AdminHomeComponent implements OnInit {
         this.adminHomePref.upcomingCompPageNo = $event.page;
         this.savePreference();
         this.refreshUpcomingCompetitions();
+    }
+
+    getUserRole(page: string) {
+        let _allow: number;
+        this.sessionService.getUserRole()
+        .subscribe((roles)=>{
+            console.debug("role scorer?",  roles.indexOf('ROLE_SCORER'))
+            if(page === 'allCompetitions') 
+                _allow = roles.indexOf('ROLE_ADMIN') || roles.indexOf('ROLE_SUPER_ADMIN');// .includes('role_admin');
+        })
+        return _allow >= 0
     }
 }

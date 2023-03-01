@@ -13,4 +13,35 @@ flight {
     .start-time {
         text-align: right;
     }
+    
+    .player-image {
+        img {
+            height: 30px;
+            width: auto;
+        }
+     }
+     .player-name{
+         white-space: normal;
+         &.withdrawn {
+             color: red;
+         }
+         &.clickable {
+             &:hover {
+                 text-decoration: underline;
+                 font-weight: bold;
+                 cursor: hand; cursor: pointer;
+             }
+         }
+     }
+     .player-handicap {
+         text-align: right;
+     }
+     .player-buggy {
+         text-align: center;
+     }
+
+     .ui-panel-info {
+        background-color: #2e7d32;
+        color: white;
+     }
 }

@@ -80,10 +80,11 @@
     *ngIf="(userType | async) === 'Admin' || (userType | async) === 'Britesoft'
     || (userType | async) === 'Club' ">
         <!-- *ngIf="(userType | async) === 'Admin'" -->
-      <li *ngIf="(userType | async) === 'Admin' || (userType | async) === 'Britesoft'" [routerLink]="['/admin']">
+      <li  [routerLink]="['/admin']">
+        <!-- *ngIf="(userType | async) === 'Admin' || (userType | async) === 'Britesoft'" -->
         <a class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;">Admin Home</a>
       </li>
-      <li [routerLink]="['/admin/importplayers']">
+      <li *ngIf="getUserRole('importPlayers')" [routerLink]="['/admin/importplayers']">
         <a class="nav-link mt-1" style="padding: 0.375rem 1rem !important; border-color: #999;">Import Players</a>
       </li>
       <li *ngIf="(userType | async) === 'Admin' || (userType | async) === 'Britesoft'" [routerLink]="['/admin/playermerge']">

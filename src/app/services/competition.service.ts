@@ -178,12 +178,13 @@ export class CompetitionService {
      * @returns {Observable<CompetitionList>}
      */
     public searchUpcomingCompetitions(searchString: string, pageNo: number,
-        pageSize: number=30): Observable<CompetitionList> {
+        pageSize: number=30, organizerId?: number): Observable<CompetitionList> {
         let criteria: any = {
             searchText: searchString,
             searchType: 'Upcoming',
             pageNumber: pageNo,
-            pageSize: pageSize
+            pageSize: pageSize,
+            organizerId: organizerId,
         };
         return this._searchCompetitions(criteria);
         // let url = this.configService.getRestApiUrl(RestUrl.competitionService.search);
@@ -200,12 +201,13 @@ export class CompetitionService {
         //            });
     }
     public searchAllCompetitions(searchString: string, pageNo: number,
-        pageSize: number=30): Observable<CompetitionList> {
+        pageSize: number=30, organizerId?: number): Observable<CompetitionList> {
         let criteria: any = {
             searchText: searchString,
             searchType: 'All',
             pageNumber: pageNo,
-            pageSize: pageSize
+            pageSize: pageSize,
+            organizerId: organizerId,
         };
         return this._searchCompetitions(criteria);
     }

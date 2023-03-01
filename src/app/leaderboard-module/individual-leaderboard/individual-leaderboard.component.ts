@@ -91,7 +91,8 @@ import {CompetitionCategory} from '../../models/mygolf/competition/competition-c
     encapsulation: ViewEncapsulation.None,
     // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IndividualLeaderboardComponent implements OnInit, OnChanges, OnDestroy, AfterViewInit {
+export class IndividualLeaderboardComponent implements OnInit, OnChanges,  AfterViewInit {
+    // OnDestroy,
 
     // private _onDestroy = new Subject<void>();
     private subscriptions: Subscription[] = [];
@@ -222,21 +223,21 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, OnDest
         }
     }
 
-    ngOnDestroy(): void {
-        if (this.paramSubscription) this.paramSubscription.unsubscribe();
-        if (this.watcher) {
-            this.watcher.unsubscribe();
-            this.watcher = null;
-        }
+    // ngOnDestroy(): void {
+    //     if (this.paramSubscription) this.paramSubscription.unsubscribe();
+    //     if (this.watcher) {
+    //         this.watcher.unsubscribe();
+    //         this.watcher = null;
+    //     }
 
-        this.busyConfig.forEach(sub => sub.unsubscribe());
-        this.refreshSubList.forEach(sub2 => sub2.unsubscribe());
-        this.subscriptions.forEach(sub3 => sub3.unsubscribe());
-        // this.scoringNotifications.forEach(sub4 => sub4.unsubscribe());
+    //     this.busyConfig.forEach(sub => sub.unsubscribe());
+    //     this.refreshSubList.forEach(sub2 => sub2.unsubscribe());
+    //     this.subscriptions.forEach(sub3 => sub3.unsubscribe());
+    //     // this.scoringNotifications.forEach(sub4 => sub4.unsubscribe());
 
-        // this._onDestroy.next();
-        // this._onDestroy.complete();
-    }
+    //     // this._onDestroy.next();
+    //     // this._onDestroy.complete();
+    // }
 
     ngAfterViewInit(): void {
         this.paramSubscription = this.activeRoute.params.subscribe(params => {

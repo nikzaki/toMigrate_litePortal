@@ -65,11 +65,11 @@ export class ManualScoringComponent implements OnInit {
                                 .subscribe(usr=>{
                                     console.debug("manual scoring : comp ", comp);
                                     console.debug("manual scoring : usr ", usr);
-                                    if(usr.userType === 'Admin') {
+                                    if(usr.userType === 'Admin' || usr.userType === 'Britesoft') {
                                         this.compInfo = comp;
                                         this.refresh();
                                     }
-                                   else if(usr.userType === 'Organizer' && usr.organizerId && comp.organizerId === usr.organizerId){
+                                   else if((usr.userType === 'Organizer' || usr.userType === 'Club') && usr.organizerId && comp.organizerId === usr.organizerId){
                                        this.compInfo = comp;
                                        this.refresh();
                                    } else if(usr.userType === 'Club' && usr.clubId && comp.clubId === usr.clubId){
@@ -215,7 +215,8 @@ export class ManualScoringComponent implements OnInit {
                 if(!cs['hole'+i]) empty++;
             }
         });
-        if(empty > 0){
+        // if(empty > 0){
+        if(empty === 18) {
             this.messages.push({
                 severity: 'error',
                 detail  : 'Enter all scores before saving.'

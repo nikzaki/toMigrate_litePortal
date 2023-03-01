@@ -63,4 +63,15 @@ export class HeaderComponent implements OnInit {
     shownCollapse() {
         console.log("COLLAPSE!!!!");
     }
+
+    
+    getUserRole(page: string) {
+        let _allow: number;
+        this.sessionService.getUserRole()
+        .subscribe((roles)=>{
+            if(page === 'importPlayers') 
+                _allow = roles.indexOf('ROLE_ADMIN') || roles.indexOf('ROLE_SUPER_ADMIN');// .includes('role_admin');
+        })
+        return _allow >= 0
+    }
 }
