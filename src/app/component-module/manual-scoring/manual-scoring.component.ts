@@ -1,4 +1,5 @@
-import {Component, OnInit, ViewEncapsulation, ViewChild, ElementRef} from '@angular/core';
+import {Component, OnInit, ViewEncapsulation, ViewChild, ElementRef,
+HostListener} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
 import {Competition} from '../../models/mygolf/competition/competition';
 import {CompetitionDetails} from '../../models/mygolf/competition/competition-details';
@@ -53,7 +54,16 @@ export class ManualScoringComponent implements OnInit {
 
     }
 
+    
+    innerWidth: any;
+
+    @HostListener('window:resize', ['$event'])
+    onResize(event) {
+    this.innerWidth = window.innerWidth;
+    }
+
     ngOnInit() {
+        this.innerWidth = window.innerWidth;
         this.activeRoute.params
             .subscribe(params => {
                 this.competitionId = +params['competitionId'];

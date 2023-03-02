@@ -1,18 +1,1 @@
-manual-scoring .hole-index {
-  background-color: black;
-  color: white;
-  text-align: right; }
-manual-scoring .hole-par {
-  background-color: #e6e600;
-  text-align: right; }
-manual-scoring .scores input {
-  width: 100%;
-  text-align: right; }
-manual-scoring .scores input[type=number]::-webkit-inner-spin-button,
-manual-scoring .scores input[type=number]::-webkit-outer-spin-button {
-  -webkit-appearance: none;
-  -moz-appearance: none;
-  appearance: none;
-  margin: 0; }
-manual-scoring .button-panel {
-  text-align: center; }
+manual-scoring .hole{text-align:center;font-size:2rem !important}manual-scoring .hole-index{background-color:#000;color:#fff;text-align:center;font-size:2rem !important}manual-scoring .hole-par{background-color:#e6e600;text-align:center;font-size:2rem !important}manual-scoring .scores{font-size:2rem !important;text-align:center}manual-scoring .scores input{width:100%;text-align:center;font-weight:bold !important;font-size:2rem !important;color:red !important}manual-scoring .scores input[type=number]::-webkit-inner-spin-button,manual-scoring .scores input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;-moz-appearance:none;appearance:none;margin:0}manual-scoring .button-panel{text-align:center}manual-scoring .ui-growl{margin-top:7em}

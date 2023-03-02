@@ -1,17 +1,28 @@
 manual-scoring {
+    .hole {
+        text-align: center;
+        font-size:2rem !important;
+    }
     .hole-index {
         background-color: black;
         color: white;
-        text-align: right;
+        text-align: center;
+        font-size:2rem !important;
     }
     .hole-par {
         background-color: darken(yellow, 5%);
-        text-align: right;
+        text-align: center;
+        font-size:2rem !important;
     }
     .scores {
+        font-size:2rem !important;
+        text-align: center;
         input {
             width: 100%;
-            text-align: right;
+            text-align: center;
+            font-weight: bold !important;
+            font-size:2rem !important;
+            color:red !important;
         }
         input[type=number]::-webkit-inner-spin-button,
         input[type=number]::-webkit-outer-spin-button {
