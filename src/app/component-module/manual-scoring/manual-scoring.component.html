@@ -354,6 +354,15 @@
                         <br/>
                 </div>
             </div>
+            
+            <div class = "ui-grid-row">
+                <div class="ui-grid-col-12  button-panel">
+                <button style="font-size:2rem" pButton label = "Save" icon = "ui-icon-save" class = "ui-button-primary"
+                        (click) = "onSaveClick()"></button>
+                <button style="font-size:2rem" pButton label = "Cancel" icon = "ui-icon-cancel" class = "ui-button-danger"
+                        (click) = "onCancelClick()"></button>
+                </div>
+            </div>
         </form>
         <form #scoreform *ngIf="0">
             <div class = "ui-grid-row" *ngFor = "let nine of playerScores">
