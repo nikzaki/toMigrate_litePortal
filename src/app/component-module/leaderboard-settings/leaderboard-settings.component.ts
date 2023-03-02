@@ -16,6 +16,7 @@ import {GameRound} from '../../models/mygolf/gameround';
 import {CompetitionCategory} from '../../models/mygolf/competition/competition-category';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector     : 'leaderboard-settings',
@@ -43,7 +44,10 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
     private scrollTimerSubscription: Subscription;
     private scrollConfig: ScrollConfig;
 
-    constructor() {
+    constructor(
+        private activeRoute: ActivatedRoute,
+
+    ) {
         this.onNextPage     = new EventEmitter();
         this.onRefresh      = new EventEmitter();
         this.settingsChange = new EventEmitter();
@@ -89,6 +93,15 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
         }
         else if (this.totalPlayers > 0) {
             this.totalPages = 1;
+            
+            this.activeRoute.queryParams
+            .subscribe(params => {
+                console.log("get params - settings " ,params, this.totalPlayers);
+                if(params.rowSize && params.rowSize > 0)
+                this.settings.scrollSize = params.rowSize
+            if((params.allRows || params.allRows === 'true') && this.totalPlayers > 0)
+                this.settings.scrollSize = this.totalPlayers;
+            })
         } else {
             this.totalPages = 0;
         }
@@ -96,6 +109,7 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
             this.currentPage = 1;
         }
         this.setupAutoScroll();
+        
     }
 
     onScrollCategoryChange() {

@@ -205,6 +205,17 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     }
 
     ngOnInit() {
+        this.activeRoute.queryParams
+        .subscribe(params => {
+          console.log(params); // { orderby: "price" }
+        //   this.fullScreen= params.fullScreen;
+        //   if(params.fullScreen === 'true' || params.fullScreen) {
+        //     this.enterFullScreen()
+        //   }
+
+        //   console.log(this.fullScreen); // price
+        }
+      );
         // console.log('ngOnInit() : ', this.embedded)
         if (!this.embedded) {
             this.restorePreferences();
