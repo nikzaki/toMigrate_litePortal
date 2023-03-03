@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewContainerRef} from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {ToastsManager} from 'ng2-toastr/ng2-toastr';
 
 // import {DashboardComponent} from '../main-portal/dashboard/dashboard.component';
@@ -14,12 +14,25 @@ import {ToastsManager} from 'ng2-toastr/ng2-toastr';
 })
 export class MainComponent implements OnInit {
 
+    embedded: boolean = false;
       constructor(public router: Router, private toastManager: ToastsManager,
-          private vcr: ViewContainerRef) {
+          private vcr: ViewContainerRef,
+          private activeRoute: ActivatedRoute) {
+
           toastManager.setRootViewContainerRef(vcr);
       }
 
       ngOnInit() {
+        
+        this.activeRoute.queryParams
+        .subscribe(params => {
+            if(params.embedded === 'true') {
+                this.embedded = true;
+            }
+            if(params['enableToyota'] && params['enableToyota'] === 'true') {
+              this.embedded = true;
+            }
+        });
           // if (this.router.url === '/') {
           //     this.router.navigate(['/dashboard']);
           // }

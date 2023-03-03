@@ -60,7 +60,9 @@ export const RestUrl: any = {
     },
     scorecardService : {
         getPlayerScorecard: '/manualscoring/getscorecard',
-        saveManualScoring: '/manualscoring/savescorecard'
+        saveManualScoring: '/manualscoring/savescorecard',
+        competitionScorecardUpdate: "/competition/scorecard/update",
+        competitionScorecardSync: "/competition/scorecard/sync",
     },
     deviceService : {
         searchDevices: '/device/search',

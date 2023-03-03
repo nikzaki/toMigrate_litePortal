@@ -1,6 +1,7 @@
 /* tslint:disable */
 // Generated using typescript-generator version 2.9.456 on 2022-09-15 11:53:29.
 
+import * as util from "../util";
 export interface AddressData {
     id?: number;
     address1?: string;
@@ -495,7 +496,8 @@ export interface PlainScoreCard extends BaseResult {
     playerTotals?: string;
     roundDateTime?: Date;
     bookingId?: number;
-}
+    flightMembers?: FlightMember[];
+} 
 
 export interface PlainScorecardPage extends PagedData<PlainScoreCard> {
 }
@@ -6133,3 +6135,21 @@ export type UserType = "Britesoft" | "Player" | "Organizer" | "Club" | "Admin" |
 export type CompetitionPlayerStatus = "Registered" | "NoShow" | "Withdrawn" | "FailedCutoff";
 
 export type EmailStatus = "Queued" | "Error" | "Sent" | "Rejected";
+
+
+/**
+ * Creates an instance of PlainScorecard
+ * @param competition
+ * @returns {{success: boolean, clientId: any, competition: boolean, playerRoundScores: any[]<PlayerRoundScores>, courses: any[]<CourseInfo>, finished: boolean}}
+ */
+export function createScorecard(competition: boolean) {
+    return {
+        success          : true,
+        clientId         : util.generateUUID(),
+        competition      : competition,
+        playerRoundScores: new Array<PlayerRoundScores>(),
+        courses          : new Array<CourseInfo>(),
+        finished         : false
+    };
+
+}

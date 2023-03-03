@@ -17,6 +17,7 @@ import {SystemMessageService} from './redux/messages/system-message-service';
 import {Subscription} from 'rxjs/Subscription';
 import {SystemMessageActions} from './redux/messages/system-message-actions';
 import {ToastsManager} from 'ng2-toastr/ng2-toastr';
+import { ActivatedRoute } from '@angular/router';
 // import {SidebarModule} from 'primeng/primeng';
 enum MenuOrientation {
     STATIC,
@@ -92,7 +93,8 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         public messageAction: SystemMessageActions,
         private toastManager: ToastsManager,
         private vcr: ViewContainerRef,
-        private appMenuActions: AppMenuActions) {
+        private appMenuActions: AppMenuActions,
+        private activeRoute: ActivatedRoute,) {
         console.log("Locale ID=" + _locale);
         this.toastManager.setRootViewContainerRef(vcr);
         this.appMenu = this.appMenuService.getCurrentValue();
@@ -104,7 +106,7 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
             .filter(Boolean)
             // .map(userInfo=>userInfo.userType)
             .distinctUntilChanged()
-            .subscribe(userInfo=>{
+            .subscribe((userInfo:any) =>{
                 switch(userInfo.userType){
                     case 'Admin':
                         this.appMenuActions.clearMenuItems();
@@ -146,8 +148,15 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         this.customizationService.getProfile().subscribe(profile=>{
             this.profileMode = profile;
         });
-    }
 
+        this.activeRoute.queryParams
+        .subscribe(params => {
+            if(params.embedded === 'true') {
+                this.embedded = true;
+            }
+        });
+    }
+    embedded: boolean = false;
     ngAfterViewInit() {
 
         this.layoutContainer    = <HTMLDivElement> this.layourContainerViewChild.nativeElement;

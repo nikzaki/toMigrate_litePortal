@@ -8,15 +8,30 @@ $netColumnHdr: darken($netColumnBg, 10%);
 
 individual-leaderboard {
   font-size: 1em !important;
+  font-family: 'Toyota';
+
+  // .toyota {}
 
   .ui-datatable-data.ui-widget-content {
     font-size: 1em !important;
   }
 
+  .ui-datatable.primary-table .ui-datatable-thead > tr th  {
+    background-color: transparent;
+    color: gray !important;
+    border-width: 0;
+    border-style: none;
+  }
   .ui-datatable .ui-datatable-data>tr>td {
     padding: 1px 1px;
     height: 40px;
     font-size: 1em !important;
+    border-width: 0;
+    border-style: none;
+  }
+
+  .ui-datatable .ui-datatable-data tr.ui-datatable-even {
+    background-color: transparent !important;
   }
 
   .heading {
@@ -88,6 +103,12 @@ individual-leaderboard {
     font-weight: bold;
   }
 
+  
+  .gross-columnT {
+    // background-color: $grossColumnBg;
+    font-weight: bold;
+  }
+
   .player-name {
     padding: 0px;
     display: flex;
@@ -113,6 +134,38 @@ individual-leaderboard {
 
   .under-par {
     color: red;
+  }
+
+  .under-parT {
+    
+    background-color: #d9534f !important;
+    border-top-left-radius: 0.5rem !important;
+    border-bottom-left-radius: 0.5rem !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    width: 3rem;
+    padding: 0;
+  }
+
+  .par {
+    background-color: black !important;
+    border-top-left-radius: 0.5rem !important;
+    border-bottom-left-radius: 0.5rem !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    width: 3rem;
+    padding: 0;
+  }
+
+  .over-parT {
+    background-color: black !important;
+    border-top-left-radius: 0.5rem !important;
+    border-bottom-left-radius: 0.5rem !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+    width: 3rem;
+    padding: 0;
+
   }
 
   .withdrawn-player {
@@ -455,7 +508,8 @@ individual-leaderboard {
 
     .player-name {
       //text-decoration: underline;
-      font-variant-caps: small-caps;
+      font-variant-caps: all-petite-caps; // small-caps;
+      
       font-weight: bold;
       font-size: 1.5em;
       line-height: 1.6em;
@@ -536,7 +590,7 @@ individual-leaderboard {
   // }
 
   // .main-table {
-  //   background-color: #B2FF59
+  //   background-color: #B2FF59 !important;
   // }
 
   html {

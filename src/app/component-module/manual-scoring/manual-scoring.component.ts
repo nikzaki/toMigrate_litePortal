@@ -15,6 +15,8 @@ import {Observable} from 'rxjs/Observable';
 import {ServerResult} from '../../models/server-result';
 import {SystemMessageActions} from '../../redux/messages/system-message-actions';
 import {Util} from '../../util';
+import {getLeanScorecard, zipScorecard} from '../../redux/scorecard-functions/scorecard-functions';
+
 @Component({
     selector   : 'manual-scoring',
     templateUrl: './manual-scoring.component.html',
@@ -239,9 +241,31 @@ export class ManualScoringComponent implements OnInit {
             score.actualScore = courseScore['hole' + courseHoleNo];
         });
         //The scores are transfered. Now save it
-        this.scorecardService.saveManualScoring(this.competitionId,
-            this.scoringRound, this.selectedPlayer.playerId,
-            this.playerScorecard)
+        // this.scorecardService.saveManualScoring(this.competitionId,
+        //     this.scoringRound, this.selectedPlayer.playerId,
+        //     this.playerScorecard)
+        //     .subscribe((result: ServerResult) => {
+        //         if (result.success) {
+        //             this.flights.forEach(flight=>{
+        //                 flight.flightMembers.forEach(fm=>{
+        //                     if(fm.playerId === this.selectedPlayer.playerId)
+        //                         fm.status = 'Completed';
+        //                 });
+        //             })
+        //             this.messages.push({
+        //                 severity: 'info',
+        //                 detail  : 'Saved the scores for ' + this.selectedPlayer.playerName + " successfully"
+        //             });
+        //             this.cancelScoring();
+        //         }
+        //     });
+
+        
+        let leanScorecard = getLeanScorecard(this.playerScorecard, this.selectedPlayer.playerId);
+        let zipped: any = zipScorecard(leanScorecard);
+        this.scorecardService.saveScorecard(this.competitionId,
+            this.scoringRound, this.selectedPlayer.scoringPlayerId,
+            zipped)
             .subscribe((result: ServerResult) => {
                 if (result.success) {
                     this.flights.forEach(flight=>{
@@ -258,6 +282,7 @@ export class ManualScoringComponent implements OnInit {
                 }
             });
     }
+
 
     onCancelClick() {
         if(this.dataChanged)

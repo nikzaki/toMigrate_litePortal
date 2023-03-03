@@ -146,6 +146,13 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
 
     visibilityDialog: boolean;
     @ViewChild('leaderboardSection') leaderboardSection: ElementRef;
+
+    hideLogo: boolean = false;
+    hideCompName: boolean = false;
+    hideCompHeader: boolean = false;
+    hideTopBar: boolean = false;
+    enableToyota: boolean = false;
+    hideCatTabs: boolean = true;
     constructor(router: Router,
         private activeRoute: ActivatedRoute,
         private userPreference: UserPreferenceService,
@@ -207,6 +214,30 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     ngOnInit() {
         this.activeRoute.queryParams
         .subscribe(params => {
+            if(params['hideLogo'] && params['hideLogo'] === 'true')
+                this.hideLogo = true;
+            if(params['hideCompName'] && params['hideCompName'] === 'true')
+                this.hideCompName = true;
+            if(params['hideCompHeader'] && params['hideCompHeader'] === 'true')
+                this.hideCompHeader = true;
+            if(params['hideTopBar'] && params['hideTopBar'] === 'true')
+                this.hideTopBar = true;
+            if(params['enableToyota'] && params['enableToyota'] === 'true') {
+                this.enableToyota = true;
+                this.hideLogo = true;
+                this.hideCompName = true;
+                this.hideCompHeader = true;
+                this.hideTopBar = true;
+                // this.settings.scrollSize = this.totalPlayers; 
+                this.hideCatTabs = false;
+                this.leaderboardColumns.forEach(det => {
+                    if(det.id === 'handicap')
+                        det.hidden = true;
+                });
+                // if(this.validCategories && this.validCategories.length > 0) 
+                //     this.settings.selectedCategory = this.validCategories[0].categoryId;
+            }
+
           console.log(params); // { orderby: "price" }
         //   this.fullScreen= params.fullScreen;
         //   if(params.fullScreen === 'true' || params.fullScreen) {
@@ -255,6 +286,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             if (params['competitionId'])
                 this.competitionId = +params['competitionId'];
             this.refreshCompInfo();
+            
         });
 
         // this.cdr.detach();
@@ -326,9 +358,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         }
         else {
                 let pos_:number = Number(ptd.position);
-                if(pos_ > this.totalPlayers) ptd.position = String(pos_ - this.totalPlayers + notPlay);
+                // if(pos_ > this.totalPlayers) ptd.position = String(pos_ - this.totalPlayers + notPlay);
 
-            // console.log("Position PTD : ",ptd.position, pos_);
+            console.log("Position PTD : ",ptd.position, pos_, this.totalPlayers, notPlay);
         }});
 
         // this.playersToDisplay = this.playersToDisplay.filter(function(hero) {
@@ -358,6 +390,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 .subscribe((comp: Competition) => {
                     this.competition = comp;
                     this.totalRounds = comp.totalRounds;
+                    if(comp.status.toLowerCase() === 'completed') this.settings.autoScroll = false;
                     if (comp.teamEvent) {
                         this.competitionService.getCompetitionTeams(this.competitionId)
                             .subscribe(compTeams => {
@@ -375,6 +408,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     this.nextRound = det.nextRound;
 
                     this.refreshLeaderBoard();
+                    this._deriveCategories();
                     // console.log("Comp Sponsor : ", this.compDetails);
                 });
             this.addToBusyList([sub1, sub2]);
@@ -731,6 +765,38 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 this.validCategories           = [allCatg];
                 this.settings.selectedCategory = -1;
             }
+        
+        setTimeout(() => {
+        this.activeRoute.queryParams
+        .subscribe(params => {
+            if(this.validCategories && this.validCategories.length > 0) {
+                this.validCategories.sort((a,b)=>{
+                    if(a.gender === 'M' && b.gender !== 'M') return -1;
+                    else if(a.gender!== 'M' && b.gender === 'M') return 1;
+                    else {
+                        if(a.categoryId < 0 && b.categoryId > 0 ) return 1;
+                        else if(a.categoryId > 0 && b.categoryId < 0 ) return -1;
+                        else if(a.categoryId < b.categoryId) return -1
+                        else if(a.categoryId > b.categoryId) return 1;
+                        else return 0;
+                    }
+
+                })
+            }
+            if(params['enableToyota'] && params['enableToyota'] === 'true') {
+                if(this.validCategories && this.validCategories.length > 0) {
+                    let _initCat = this.validCategories.filter((c)=>{
+                        return c.gender === 'M'
+                    }).map((c)=>{ return c })
+
+                    this.settings.selectedCategory = _initCat[0].categoryId //this.validCategories[1].categoryId;
+                    this.refreshParams['category'] = _initCat[0]; //this.validCategories[1];
+                    this.refreshLeaderBoard();
+                    }
+                    
+                }
+            });
+        },1000);
         }
     }
 
@@ -759,5 +825,14 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             let flagIcon = flagUrl.split("/")
             return "assets/images/flag/" + flagIcon[2];
         }
+    }
+
+    onClickCategory(e, cat) {
+
+        console.debug("category clicked : ",e,  cat, this.settings.selectedCategory);
+        if(!cat) return;
+        this.settings.selectedCategory = cat.categoryId;
+        this.refreshParams['category'] = cat;
+        this.refreshLeaderBoard();
     }
 }

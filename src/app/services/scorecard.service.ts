@@ -1,3 +1,4 @@
+import { LeanScorecard } from './../models/mygolf.data';
 /**
  * Created by ashok on 29/06/17.
  */
@@ -86,5 +87,36 @@ export class ScorecardService {
                 this.configService.deriveFulImageURL(prs, ["thumbnail"]);
                 ConfigurationService.deriveTime(prs, ["actualStartTime", "startTime"]);
             });
+    }
+
+
+    
+    public saveScorecard(competitionId: number, roundNo: number, playerId: number,
+        scorecard: LeanScorecard): Observable<ServerResult> {
+        // scorecard.playerRoundScores.forEach((prs: PlayerRoundScores) => {
+        //     prs.actualStartTime = null;
+        //     prs.startTime       = null;
+        // });
+        let hdrs = {};
+        //  = {
+        //     'Player-Id': playerId,
+
+        // }
+        
+        if (playerId) hdrs["Player-Id"] = playerId;
+        let scorecardJson  = JSON.stringify(scorecard);
+        let url = this.configService.getRestApiUrl(RestUrl.scorecardService.competitionScorecardSync);
+        let request = RemoteRequest.createPostRequest(url, {
+            competitionId: competitionId,
+            roundNo      : roundNo,
+            playerId     : playerId,
+            scorecard: scorecardJson,
+            compressed: true
+        }, hdrs);
+        return this.remoteHttp.execute(request)
+                   .map((resp: Response)=>{
+                       let result: ServerResult = resp.json();
+                       return result;
+                   }).catch(Util.handleError);
     }
 }
