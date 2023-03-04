@@ -835,4 +835,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         this.refreshParams['category'] = cat;
         this.refreshLeaderBoard();
     }
+
+    onClickMyGolf2uLink() {
+        window.open('https://www.mygolf2u.com','_blank');
+
+    }
 }

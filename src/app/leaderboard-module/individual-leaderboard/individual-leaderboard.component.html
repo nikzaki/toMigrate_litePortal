@@ -680,6 +680,41 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                     </div> -->
                 </div>
             </footer>
+            <footer *ngIf="enableToyota">
+                    <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-evenly" >
+                            <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="10px" fxLayoutAlign="space-evenly center" style="margin-bottom: 1em">
+                                    <!-- <img *ngIf="compDetails&&compDetails.sponsors[0]"
+                                    [src]="compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''"
+                                    fxFlex="0 1 12vh">
+                                    <img *ngIf="compDetails&&compDetails.sponsors[1]"
+                                    [src]="compDetails.sponsors[1]?compDetails.sponsors[1].imageUrl:''"
+                                    fxFlex="0 1 12vh">
+                                    <div class="qr-code">
+                                        Scan for live scoring : <img [src]="url_qrCode" fxFlex="0 1 12vh" alt="" title="" />
+                                    </div> -->
+                                    <a href="#" (click)="onClickMyGolf2uLink()">
+                                        <h2 style="color: #30bb5b">
+                                            Scoring provided by myGolf2u
+                                        </h2>
+                                    </a>
+                    
+                                    <ng-container >
+                                            <a href="#" (click)="onClickMyGolf2uLink()">
+                                                <img style="max-height: 5rem !important;"  
+                                                 src="assets/images/New-myGolf2u.png">
+                                                 <!-- fxFlex="0 1 12vh" -->
+                                                 <!-- class="m2u-logo" -->
+                                                 <!-- "assets/images/mygolf2uLogo.png" -->
+                                        
+                                            </a></ng-container>
+                
+                            </div>
+                            <!-- <div fxFlex="0 0 auto" *ngIf="refreshParams" fxLayout="row nowrap" fxLayoutGap="30px"
+                                fxLayoutAlign="center center" class="mat-typography" style="margin-right:2em">
+        
+                            </div> -->
+                        </div>
+                    </footer>
 </section>
 
 <scoring-notifications [notifications]="scoringNotifications|async"></scoring-notifications>
