@@ -153,6 +153,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     hideTopBar: boolean = false;
     enableToyota: boolean = false;
     hideCatTabs: boolean = true;
+    hidePlayerImage: boolean = false;
     constructor(router: Router,
         private activeRoute: ActivatedRoute,
         private userPreference: UserPreferenceService,
@@ -214,14 +215,6 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     ngOnInit() {
         this.activeRoute.queryParams
         .subscribe(params => {
-            if(params['hideLogo'] && params['hideLogo'] === 'true')
-                this.hideLogo = true;
-            if(params['hideCompName'] && params['hideCompName'] === 'true')
-                this.hideCompName = true;
-            if(params['hideCompHeader'] && params['hideCompHeader'] === 'true')
-                this.hideCompHeader = true;
-            if(params['hideTopBar'] && params['hideTopBar'] === 'true')
-                this.hideTopBar = true;
             if(params['enableToyota'] && params['enableToyota'] === 'true') {
                 this.enableToyota = true;
                 this.hideLogo = true;
@@ -237,6 +230,21 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 // if(this.validCategories && this.validCategories.length > 0) 
                 //     this.settings.selectedCategory = this.validCategories[0].categoryId;
             }
+            if(params['hideLogo'] && params['hideLogo'] === 'true')
+                this.hideLogo = true;
+            else if(params['hideLogo'] && params['hideLogo'] === 'false') this.hideLogo = false;
+            if(params['hideCompName'] && params['hideCompName'] === 'true')
+                this.hideCompName = true;
+            else if(params['hideCompName'] && params['hideCompName'] === 'false') this.hideCompName = false;
+            if(params['hideCompHeader'] && params['hideCompHeader'] === 'true')
+                this.hideCompHeader = true;
+            else if(params['hideCompHeader'] && params['hideCompHeader'] === 'false') this.hideCompHeader = false;
+            if(params['hideTopBar'] && params['hideTopBar'] === 'true')
+                this.hideTopBar = true;
+            else if(params['hideTopBar'] && params['hideTopBar'] === 'false') this.hideTopBar = false;
+            if(params['hidePlayerImage'] && params['hidePlayerImage'] === 'true')
+                this.hidePlayerImage = true;
+            else if(params['hidePlayerImage'] && params['hidePlayerImage'] === 'false') this.hidePlayerImage = false;
 
           console.log(params); // { orderby: "price" }
         //   this.fullScreen= params.fullScreen;

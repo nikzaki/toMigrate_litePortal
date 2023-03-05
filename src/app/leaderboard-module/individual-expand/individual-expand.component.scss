@@ -65,7 +65,7 @@ app-individual-expand {
     }
 
     .par-score {
-        background-color: #e9d35c;
+        background-color: palegoldenrod; // #e9d35c;
         width: 1.5em;
         height: 1.5em;
         //display: table-cell;
@@ -74,7 +74,7 @@ app-individual-expand {
     }
 
     .bogey-score {
-        background-color: rgba(57, 71, 56, 1);
+        background-color: #5dbc81; // rgba(57, 71, 56, 1);
         width: 1.5em;
         height: 1.5em;
         //display: table-cell;
@@ -101,12 +101,12 @@ app-individual-expand {
     }
 
     .index-row {
-        background-color: rgba(57, 71, 56, 1);
+        background-color: #5dbc81; // rgba(57, 71, 56, 1);
         color: white;
     }
 
     .par-row {
-        background-color: #ebd25c;
+        background-color: palegoldenrod; // #ebd25c;
     }
 
     .round-group {
@@ -120,11 +120,11 @@ app-individual-expand {
     }
 
     .par-score {
-        background-color: #e9d35c;
+        background-color: palegoldenrod; // #e9d35c;
     }
 
     .bogey-score {
-        background-color: rgba(57, 71, 56, 1);
+        background-color: #5dbc81; // rgba(57, 71, 56, 1);
         color: white;
     }
 
@@ -146,11 +146,11 @@ app-individual-expand {
     }
 
     .par-score-icon {
-        color: #e9d35c;
+        color: palegoldenrod; // #e9d35c;
     }
 
     .bogey-score-icon {
-        color: rgba(57, 71, 56, 1);
+        color: #5dbc81; // rgba(57, 71, 56, 1);
     }
 
     .eagle-score-icon {
@@ -173,7 +173,7 @@ app-individual-expand {
     .above-par {
         text-align: center;
         color: white;
-        background-color: rgba(57, 71, 56, 1); //rgba(70, 70, 70, 1);
+        background-color: #5dbc81; // rgba(57, 71, 56, 1); //rgba(70, 70, 70, 1);
     }
 
     @media only screen and (max-width: 375px) {

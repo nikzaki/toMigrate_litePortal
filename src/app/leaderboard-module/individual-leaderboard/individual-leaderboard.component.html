@@ -301,7 +301,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 </ng-template>
     </p-dataTable>
     <p-dataTable *ngIf="!enableToyota" [value]="playersToDisplay" #playerLeaderboard expandableRows="true" rowExpandMode="single"
-        styleClass="primary-table" (onRowCollapse)="onPlayerRowCollapsed($event)"
+        styleClass="primary-table toyota" (onRowCollapse)="onPlayerRowCollapsed($event)"
         (onRowExpand)="onPlayerRowExpand($event)" class="main-table">
         <p-headerColumnGroup>
             <p-row>
@@ -358,7 +358,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         <p-column header="Player">
             <ng-template let-col let-player="rowData" pTemplate="body">
                 <div class="player-name vertical-align-center one-line" (click)="playerLeaderboard.toggleRow(player)">
-                    <img [src]="player.imageURL" *ngIf="!isMobileScreen()"
+                    <img [src]="player.imageURL" *ngIf="!isMobileScreen() && !hidePlayerImage"
                         onerror="this.src = 'assets/images/default_user.png'" style="width:40px; margin-right: 10px">
                     <span>{{player.playerName}}</span>
                 </div>
@@ -538,7 +538,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         <p-column header="Player">
             <ng-template let-col let-player="rowData" pTemplate="body">
                 <div class="player-name vertical-align-center one-line" (click)="playerLeaderboard.toggleRow(player)">
-                    <img [src]="player.imageURL" *ngIf="!isMobileScreen()"
+                    <img [src]="player.imageURL" *ngIf="!isMobileScreen() && !hidePlayerImage"
                         onerror="this.src = 'assets/images/default_user.png'" style="width:40px; margin-right: 10px">
                     <span>{{player.playerName}}</span>
                 </div>
@@ -653,7 +653,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             <!--[rounds]="playerRowExpanded.rounds">-->
 
             <!--</player-scorecard-display>-->
-            <app-individual-expand [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
+            <app-individual-expand [enableToyota]="enableToyota" [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
         </ng-template>
     </p-dataTable>
     <footer class="fullscreen-footer" [hidden]="!this.settings.showSponsor">
@@ -682,7 +682,9 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             </footer>
             <footer *ngIf="enableToyota">
                     <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-evenly" >
-                            <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="10px" fxLayoutAlign="space-evenly center" style="margin-bottom: 1em">
+                            <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="10px" 
+                             style="margin-bottom: 1em; place-content: end !important; align-items: center">
+                             <!-- fxLayoutAlign="space-evenly center" -->
                                     <!-- <img *ngIf="compDetails&&compDetails.sponsors[0]"
                                     [src]="compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''"
                                     fxFlex="0 1 12vh">
@@ -693,9 +695,9 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                                         Scan for live scoring : <img [src]="url_qrCode" fxFlex="0 1 12vh" alt="" title="" />
                                     </div> -->
                                     <a href="#" (click)="onClickMyGolf2uLink()">
-                                        <h2 style="color: #30bb5b">
+                                        <h3 style="color: #30bb5b">
                                             Scoring provided by myGolf2u
-                                        </h2>
+                                        </h3>
                                     </a>
                     
                                     <ng-container >

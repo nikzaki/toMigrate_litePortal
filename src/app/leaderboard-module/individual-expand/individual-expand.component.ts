@@ -3,6 +3,7 @@ import {CompetitionGameRound, LeaderBoardPlayer} from '../../models/mygolf/compe
 import {CompetitionService} from '../../services/competition.service';
 import {ObservableMedia} from '@angular/flex-layout';
 import {Subscription} from 'rxjs/Subscription';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector     : 'app-individual-expand',
@@ -16,6 +17,7 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
     @Input() player: LeaderBoardPlayer;
     @Input() playerName: string;
     @Input() test: string;
+    @Input() enableToyota: boolean = false;
     compRounds: CompetitionGameRound[] = [];
              playerExpanded: boolean            = false;
              whichNine: number = 1;
@@ -27,7 +29,8 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
     subscriptions: Subscription[] = [];
 
     holes: number[] = [1,2,3,4,5,6,7,8,9];
-    constructor(private competitionService: CompetitionService, private media: ObservableMedia) {
+    constructor(private competitionService: CompetitionService, private media: ObservableMedia,
+        private activeRoute: ActivatedRoute) {
         this.watcher = media.subscribe(change => {
             this.mqAlias = change?change.mqAlias:'';
             if(this.mqAlias === 'sm' || this.mqAlias === 'xs') {
@@ -43,6 +46,7 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
         // console.log("Expand player",this.player)
         // console.log("Expand playerName", this.playerName)
         // console.log("Expand test", this.test)
+        console.debug("enable toyota scorecard expand", this.enableToyota)
         if(!this.player.rounds) {
             let sub = this.competitionService.getAllScoresForPlayer(this.competitionId, this.player.playerId)
                 .subscribe((compRounds: CompetitionGameRound[]) => {
@@ -50,6 +54,12 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
                 });
                 this.subscriptions.push(sub);
         }
+        // this.activeRoute.queryParams
+        // .subscribe(params => {
+        //     if(params['enableToyota'] && params['enableToyota'] === 'true') {
+        //         this.enableToyota = true;
+        //     }
+        // });
             
     }
 
