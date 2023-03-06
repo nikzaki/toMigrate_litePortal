@@ -20,7 +20,8 @@
     <div class="row">
         <div class="col-12">
             <table class="table">
-                <thead class = "thead text-white bg-success">
+                <thead [class]="enableToyota?'thead':'thead text-white bg-success'">
+                    <!-- class = "thead text-white bg-success" -->
                     <tr class="no-border">
                         <th></th>
                         <th>H</th>

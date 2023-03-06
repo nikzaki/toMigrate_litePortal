@@ -114,7 +114,7 @@ individual-leaderboard {
     display: flex;
     align-items: center;
     // color: #2196F3;
-    font-size: 1em;
+    font-size: 1.3em;
     white-space: normal;
     display: list-item;
 
@@ -133,12 +133,12 @@ individual-leaderboard {
   }
 
   .under-par {
-    color: red;
+    color:  #eb0a1e; //red;
   }
 
   .under-parT {
     
-    background-color: #d9534f !important;
+    background-color: #eb0a1e; //#d9534f !important;
     border-top-left-radius: 0.5rem !important;
     border-bottom-left-radius: 0.5rem !important;
     border-top-right-radius: 0 !important;
@@ -329,8 +329,8 @@ individual-leaderboard {
 
     .player-name {
       font-weight: bold;
-      font-variant-caps: small-caps;
-      font-size: 1.5em;
+      font-variant-caps: all-petite-caps; // small-caps;
+      font-size: 1.3em;
       display: list-item;
     }
 
@@ -377,10 +377,10 @@ individual-leaderboard {
 
     .player-name {
       font-weight: bold;
-      font-variant-caps: small-caps;
+      font-variant-caps: all-petite-caps; // small-caps;
       // text-transform: lowercase;
       // text-transform: capitalize;
-      font-size: 1.5em !important;
+      font-size: 1.3em !important;
       display: list-item;
     }
 
@@ -444,8 +444,8 @@ individual-leaderboard {
 
     .player-name {
       font-weight: bold;
-      font-variant-caps: small-caps;
-      font-size: 1.5em !important;
+      font-variant-caps: all-petite-caps; // small-caps;
+      font-size: 1.3em !important;
       display: list-item;
     }
 
@@ -511,7 +511,7 @@ individual-leaderboard {
       font-variant-caps: all-petite-caps; // small-caps;
       
       font-weight: bold;
-      font-size: 1.5em;
+      font-size: 1.3em; //1.5em;
       line-height: 1.6em;
     }
 

@@ -83,7 +83,7 @@ app-individual-expand {
     }
 
     .eagle-score {
-        background-color: #e8575c;
+        background-color: #eb0a1e; // #e8575c;
         color: white;
         width: 1.5em;
         height: 1.5em;
@@ -116,7 +116,7 @@ app-individual-expand {
 
     .birdie-score {
         background-color: #b9d1ff;
-        color: white;
+        color: black; //white;
     }
 
     .par-score {
@@ -129,7 +129,7 @@ app-individual-expand {
     }
 
     .eagle-score {
-        background-color: #e8575c;
+        background-color: #eb0a1e;// #e8575c;
         color: white;
     }
 
@@ -154,20 +154,20 @@ app-individual-expand {
     }
 
     .eagle-score-icon {
-        color: #e8575c;
+        color: #eb0a1e; //#e8575c;
     }
 
     .on-par {
         text-align: center;
         // background-color: black;
-        background-color: blue; //rgba(70, 70, 70, 1);
-        color: white;
+        background-color: #b9d1ff; //blue; //rgba(70, 70, 70, 1);
+        color: black; //white;
     }
 
     .under-par {
         text-align: center;
         color: white;
-        background-color: rgba(233, 86, 92, 1);
+        background-color: #eb0a1e;// rgba(233, 86, 92, 1);
     }
 
     .above-par {
