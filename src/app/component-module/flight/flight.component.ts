@@ -3,6 +3,7 @@ import {Flight} from '../../models/mygolf/competition/competition-flight';
 import {FlightMember} from '../../models/mygolf/competition/flight-member';
 
 import * as moment from 'moment';
+import { CompetitionFlightStatus } from 'app/models/mygolf/competition';
 @Component({
     selector     : 'flight',
     templateUrl  : './flight.component.html',
@@ -14,6 +15,7 @@ export class FlightComponent implements OnInit {
     @Input() memberDisplayMode: string = 'medium';
     @Input() compact: boolean = false;
     @Input() memberClickable: boolean;
+    @Input() flightStatus: Array<CompetitionFlightStatus>;
 
     @Output() onMemberClick: EventEmitter<FlightMember>;
     constructor() {

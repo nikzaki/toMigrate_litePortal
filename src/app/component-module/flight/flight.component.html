@@ -1,8 +1,8 @@
 <p-panel>
   <p-header>
-      <div class="ui-g-4 ui-sm-12 flight-number">{{flight.flightNumber}}</div>
-      <div class="ui-g-4 ui-sm-hide start-hole"><b>Hole:</b> {{flight.startHole}}</div>
-      <div class="ui-g-4 ui-sm-hide start-time"><b>T.Off:</b> {{parseTime(flight.startTime)}}</div> 
+      <div class="ui-g-4 ui-sm-4 flight-number">{{flight.flightNumber}}</div>
+      <div class="ui-g-4 ui-sm-4 start-hole"><b>Hole:</b> {{flight.startHole}}</div>
+      <div class="ui-g-4 ui-sm-4 start-time"><b>T.Off:</b> {{parseTime(flight.startTime)}}</div> 
       <!-- {{flight.startTime|date:'mediumTime'}} -->
   </p-header>
     <div class="ui-g ui-panel-info" *ngIf = "memberDisplayMode==='compact'">
@@ -21,11 +21,17 @@
             Name
         </div>
         <div class="ui-g-2 hide-sm player-handicap">
+            Gross
+        </div>
+        <div class="ui-g-2 hide-sm player-handicap">
+            Thru
+        </div>
+        <!-- <div class="ui-g-2 hide-sm player-handicap">
             HCP
         </div>
         <div class="ui-g-2 hide-sm player-buggy">
             Buggy
-        </div>
+        </div> -->
     </div>
     <div class="ui-g" *ngIf = "memberDisplayMode==='full'">
         <div class = "ui-g-2 ui-sm-4 player-image">
@@ -35,11 +41,17 @@
             Name
         </div>
         <div class="ui-g-1 ui-sm-hide player-handicap">
+            Gross
+        </div>
+        <div class="ui-g-1 ui-sm-hide player-handicap">
+            Thru
+        </div>
+        <!-- <div class="ui-g-1 ui-sm-hide player-handicap">
             HCP
         </div>
         <div class="ui-g-1 ui-sm-hide player-buggy">
             Buggy
-        </div>
+        </div> -->
         <div class="ui-g-4 ui-sm-hide scorer-name">
             Scorer
         </div>
@@ -47,7 +59,7 @@
     <p-dataList [value]="flight.flightMembers" styleClass="flight-content">
         <ng-template let-flightMember pTemplate="item">
             <div class="ui-g">
-                <flight-member [flightMember]="flightMember"
+                <flight-member  [flightStatus]="flightStatus" [flightMember]="flightMember"
                         [clickable]="memberClickable"
                         [displayMode]="memberDisplayMode"
                         (onClick)="memberClicked($event)"></flight-member>

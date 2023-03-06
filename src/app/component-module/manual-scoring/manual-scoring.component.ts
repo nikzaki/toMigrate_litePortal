@@ -16,6 +16,7 @@ import {ServerResult} from '../../models/server-result';
 import {SystemMessageActions} from '../../redux/messages/system-message-actions';
 import {Util} from '../../util';
 import {getLeanScorecard, zipScorecard} from '../../redux/scorecard-functions/scorecard-functions';
+import { CompetitionFlightStatus } from 'app/models/mygolf/competition';
 
 @Component({
     selector   : 'manual-scoring',
@@ -110,6 +111,7 @@ export class ManualScoringComponent implements OnInit {
                 this.refreshFlights()
                     .subscribe(() => {
                         console.log("Refreshed");
+                        this.refreshScores();
                     });
 
             });
@@ -301,6 +303,7 @@ export class ManualScoringComponent implements OnInit {
         this.flightsPanel.expand(null);
 
         this.confirm.hide();
+        this.refresh();
     }
 
     doNotCancelScoring() {
@@ -357,6 +360,27 @@ export class ManualScoringComponent implements OnInit {
             });
         if (focussable && focussable.length) focussable[0].focus();
     }
+
+    getHoleNumber(nine,holeNo) {
+        if(!nine) return;
+        // return Math.pow(9,(nine.whichNine-1)) + holeNo;
+        if(nine.whichNine === 2) return (9**(nine.whichNine -1))+(holeNo);
+        else if(nine.whichNine === 1) return (9**(nine.whichNine-1))+(holeNo-1) 
+    }
+
+    flightStatus: Array<CompetitionFlightStatus>;
+    refreshScores() {
+        if (this.scoringRound) {
+            this.competitionService.getFlightStatus(this.competitionId, this.scoringRound)
+                .subscribe((flightStatus: CompetitionFlightStatus[]) => {
+                    this.flightStatus = flightStatus;
+                }, (error) => {
+                    let msg = Util.getErrorMessage(error, "Error getting flight scoring status");
+                    this.messageActions.error(msg);
+                });
+        }
+    }
+
 }
 interface HoleInfo {
     courseHoleNo: number;

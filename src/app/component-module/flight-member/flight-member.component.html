@@ -22,11 +22,17 @@
         {{flightMember.playerName}}
     </div>
     <div class="ui-g-2 hide-sm player-handicap">
+        {{getPlayerDetails(flightMember,'gross')}}
+    </div>
+    <div class="ui-g-2 hide-sm player-handicap">
+        {{getPlayerDetails(flightMember,'thru')}}
+    </div>
+    <!-- <div class="ui-g-2 hide-sm player-handicap">
         {{flightMember.handicap}}
     </div>
     <div class="ui-g-2 hide-sm player-buggy">
         {{flightMember.buggy}}
-    </div>
+    </div> -->
 </div>
 <div class="ui-g" *ngIf = "displayMode==='full'">
     <div class = "ui-g-2 ui-sm-4 player-image">
@@ -39,12 +45,19 @@
             [class.withdrawn]="flightMember.status==='W'">
         {{flightMember.playerName}}
     </div>
+    
     <div class="ui-g-1 ui-sm-hide player-handicap">
+        {{getPlayerDetails(flightMember,'gross')}}
+    </div>
+    <div class="ui-g-1 ui-sm-hide player-handicap">
+        {{getPlayerDetails(flightMember,'thru')}}
+    </div>
+    <!-- <div class="ui-g-1 ui-sm-hide player-handicap">
         {{flightMember.handicap}}
     </div>
     <div class="ui-g-1 ui-sm-hide player-buggy">
         {{flightMember.buggy}}
-    </div>
+    </div> -->
     <div class="ui-g-4 ui-sm-hide scorer-name">
         {{flightMember.scoringPlayerName}}
     </div>
