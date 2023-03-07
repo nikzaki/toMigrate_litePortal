@@ -154,6 +154,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     enableToyota: boolean = false;
     hideCatTabs: boolean = true;
     hidePlayerImage: boolean = false;
+    showPlayerId: boolean = false;
     constructor(router: Router,
         private activeRoute: ActivatedRoute,
         private userPreference: UserPreferenceService,
@@ -230,6 +231,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 // if(this.validCategories && this.validCategories.length > 0) 
                 //     this.settings.selectedCategory = this.validCategories[0].categoryId;
             }
+            if(params['showPlayerId'] && params['showPlayerId'] === 'true') {
+                this.showPlayerId = true;
+            } else if(params['showPlayerId'] && params['showPlayerId'] === 'false') this.showPlayerId = false;
             if(params['hideLogo'] && params['hideLogo'] === 'true')
                 this.hideLogo = true;
             else if(params['hideLogo'] && params['hideLogo'] === 'false') this.hideLogo = false;
@@ -398,7 +402,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 .subscribe((comp: Competition) => {
                     this.competition = comp;
                     this.totalRounds = comp.totalRounds;
-                    if(comp.status.toLowerCase() === 'completed') this.settings.autoScroll = false;
+                    // if(comp.status.toLowerCase() === 'completed') this.settings.autoScroll = false;
                     if (comp.teamEvent) {
                         this.competitionService.getCompetitionTeams(this.competitionId)
                             .subscribe(compTeams => {

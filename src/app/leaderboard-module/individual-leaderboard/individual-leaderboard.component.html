@@ -540,7 +540,14 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 <div class="player-name vertical-align-center one-line" (click)="playerLeaderboard.toggleRow(player)">
                     <img [src]="player.imageURL" *ngIf="!isMobileScreen() && !hidePlayerImage"
                         onerror="this.src = 'assets/images/default_user.png'" style="width:40px; margin-right: 10px">
-                    <span>{{player.playerName}}</span>
+                    <span>{{player.playerName}}
+                        <span *ngIf="showPlayerId">
+                            (#{{player.playerId}})
+                        </span>
+                        <!-- <span *ngIf="showPlayerId">
+                            (#{{player.playerId}})
+                        </span> -->
+                    </span>
                 </div>
             </ng-template>
         </p-column>
