@@ -5,6 +5,46 @@
 @import "../node_modules/bootstrap/scss/mixins";
 @import "../node_modules/bootstrap/scss/functions";
 @import "../node_modules/bootstrap/scss/variables";
+
+
+@font-face {
+  font-family: 'Toyota';
+  src: url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Black.otf") format("opentype");
+  src: url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Black.otf"); /* IE9 Compat Modes */
+  src: url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Black.otf?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+       url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Black.otf") format("woff"), /* Modern Browsers */
+       url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Black.otf")  format("truetype"), /* Safari, Android, iOS */
+       url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Black.otf#svgFontName") format("svg"); /* Legacy iOS */
+  font-weight: normal;
+  font-style: normal;
+
+}
+
+@font-face {
+  font-family: 'Toyota';
+  font-weight: bold;
+  font-style: normal;
+  src: url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Bold.otf") format("opentype");
+  src: url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Bold.otf"); /* IE9 Compat Modes */
+  src: url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Bold.otf?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+       url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Bold.otf") format("woff"), /* Modern Browsers */
+       url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Bold.otf")  format("truetype"), /* Safari, Android, iOS */
+       url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Bold.otf#svgFontName") format("svg"); /* Legacy iOS */
+}
+
+@font-face {
+  font-family: 'Toyota';
+  font-weight: lighter;
+  font-style: normal;
+  src: url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Light.otf") format("opentype");
+  src: url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Light.otf"); /* IE9 Compat Modes */
+  src: url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Light.otf?#iefix") format("embedded-opentype"), /* IE6-IE8 */
+       url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Light.otf") format("woff"), /* Modern Browsers */
+       url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Light.otf")  format("truetype"), /* Safari, Android, iOS */
+       url("./assets/mygolf-theme/fonts/toyota/ToyotaType-Light.otf#svgFontName") format("svg"); /* Legacy iOS */
+}
+
+
 $topbarHeight: 50px;
 
 .splash-screen {

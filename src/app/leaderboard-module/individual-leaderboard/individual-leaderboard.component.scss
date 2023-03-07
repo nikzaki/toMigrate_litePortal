@@ -8,9 +8,20 @@ $netColumnHdr: darken($netColumnBg, 10%);
 
 individual-leaderboard {
   font-size: 1em !important;
-  font-family: 'Toyota';
+  .toyota {
+    font-family: 'Toyota' !important;
+    .ui-datatable table {
+      font-family: 'Toyota' !important;
+    }
+    button {
+      
+      font-family: 'Toyota' !important;
+    }
+  }
 
-  // .toyota {}
+  // .toyota table {
+  //   font-family: 'Toyota';
+  // }
 
   .ui-datatable-data.ui-widget-content {
     font-size: 1em !important;
@@ -107,6 +118,7 @@ individual-leaderboard {
   .gross-columnT {
     // background-color: $grossColumnBg;
     font-weight: bold;
+    font-family: 'Toyota'
   }
 
   .player-name {
@@ -117,6 +129,18 @@ individual-leaderboard {
     font-size: 1.3em;
     white-space: normal;
     display: list-item;
+
+  }
+
+  .toyota .player-name {
+    padding: 0px;
+    display: flex;
+    align-items: center;
+    // color: #2196F3;
+    font-size: 1.1em;
+    white-space: normal;
+    display: list-item;
+    font-family: 'Toyota';
 
   }
 

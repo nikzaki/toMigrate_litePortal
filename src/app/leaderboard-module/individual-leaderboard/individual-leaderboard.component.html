@@ -80,14 +80,14 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
     </p-tabPanel>
     </ng-container>
 </p-tabView>
-<ng-container *ngFor="let cat of validCategories; let idx = index">
+<ng-container class="toyota" *ngFor="let cat of validCategories; let idx = index">
     
     <!-- [style.color]="cat.categoryId === settings.selectedCategory?'red':'black'" -->
 <button pButton *ngIf="!hideCatTabs && cat.categoryId > 0" 
     [style.font-weight]="cat.categoryId === settings.selectedCategory?'bold':'normal'"
     [style.border-bottom]="cat.categoryId === settings.selectedCategory?'red':''"
     [style.border-style]="cat.categoryId === settings.selectedCategory?'solid':''"
-    style="background-color: transparent; box-shadow:none; color:black"
+    style="background-color: transparent; box-shadow:none; color:black; font-family:'Toyota'"
      (click)="onClickCategory($event, cat)"
      [label]="cat.categoryName">
     <!-- {{cat.categoryName}} -->
@@ -470,7 +470,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
     </p-dataTable>
     <p-dataTable *ngIf="enableToyota" [value]="playersToDisplay" #playerLeaderboard 
     expandableRows="true" rowExpandMode="single"
-        styleClass="primary-table" (onRowCollapse)="onPlayerRowCollapsed($event)"
+        styleClass="primary-table toyota" (onRowCollapse)="onPlayerRowCollapsed($event)"
         (onRowExpand)="onPlayerRowExpand($event)" class="main-table">
         <p-headerColumnGroup>
             <p-row>
