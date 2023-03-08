@@ -100,12 +100,13 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
         } 
     }
 
-    deriveParClass(pr) {
-        if ((pr - 36) < 0) {
+    deriveParClass(pr,playerRoundNine) {
+        let _totalParScore = this.totalParScore(playerRoundNine.scores)
+        if ((pr - _totalParScore) < 0) {
             return "under-par";
-        } else if ((pr - 36) > 0) {
+        } else if ((pr - _totalParScore) > 0) {
             return "above-par";
-        } else if ((pr - 36) == 0) {
+        } else if ((pr - _totalParScore) == 0) {
             return "on-par";
         }
     }
