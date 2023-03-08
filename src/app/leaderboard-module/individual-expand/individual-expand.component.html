@@ -92,8 +92,9 @@
             <div class = "col-8 legend-responsive">
                 <i class = "material-icons eagle-score-icon  align-bottom">bookmark</i>Eagle
                 <i class = "material-icons birdie-score-icon align-bottom">bookmark</i>Birdie
-                <i class = "material-icons par-score-icon  align-bottom">bookmark</i>Par
+                <i *ngIf="!enableToyota" class = "material-icons par-score-icon  align-bottom">bookmark</i>Par
                 <i class = "material-icons bogey-score-icon  align-bottom">bookmark</i>Bogey
+                <i *ngIf="enableToyota" class = "material-icons par-score-icon  align-bottom">bookmark</i>Double Bogey or worst
                 <div style="margin-top: 1em">
                         <p>{{player.playerName}}</p>
                 </div>
