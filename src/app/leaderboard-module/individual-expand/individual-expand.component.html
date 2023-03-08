@@ -163,11 +163,11 @@
                     <ng-container *ngFor = "let score of player.rounds[0].nines[0].scores">
                         <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
                     </ng-container>
-                    <td [ngClass] = "deriveParClass(player.rounds[0].outTotal)">{{player.rounds[0].outTotal}}</td>
+                    <td [ngClass] = "deriveParClass(player.rounds[0].outTotal,player.rounds[0].nines[0])">{{player.rounds[0].outTotal}}</td>
                     <ng-container *ngFor = "let score of player.rounds[0].nines[1].scores">
                         <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
                     </ng-container>
-                    <td [ngClass] = "deriveParClass(player.rounds[0].inTotal)">{{player.rounds[0].inTotal}}</td>
+                    <td [ngClass] = "deriveParClass(player.rounds[0].inTotal,player.rounds[0].nines[1])">{{player.rounds[0].inTotal}}</td>
                     <td [ngClass] = "deriveTotalClass(player.rounds[0].inTotal+player.rounds[0].outTotal)">
                         {{player.rounds[0].outTotal+player.rounds[0].inTotal}}
                     </td>
@@ -205,11 +205,11 @@
                         <ng-container *ngFor = "let score of player.rounds[1].nines[0].scores">
                             <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
                         </ng-container>
-                        <td [ngClass] = "deriveParClass(player.rounds[1].outTotal)">{{player.rounds[1].outTotal}}</td>
+                        <td [ngClass] = "deriveParClass(player.rounds[1].outTotal,player.rounds[1].nines[0])">{{player.rounds[1].outTotal}}</td>
                         <ng-container *ngFor = "let score of player.rounds[1].nines[1].scores">
                             <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
                         </ng-container>
-                        <td [ngClass] = "deriveParClass(player.rounds[1].inTotal)">{{player.rounds[1].inTotal}}</td>
+                        <td [ngClass] = "deriveParClass(player.rounds[1].inTotal,player.rounds[1].nines[1])">{{player.rounds[1].inTotal}}</td>
                         <td [ngClass] = "deriveTotalClass(player.rounds[1].inTotal+player.rounds[1].outTotal)">
                             {{player.rounds[1].outTotal+player.rounds[1].inTotal}}
                         </td>
@@ -248,11 +248,11 @@
                         <ng-container *ngFor = "let score of player.rounds[2].nines[0].scores">
                             <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
                         </ng-container>
-                        <td [ngClass] = "deriveParClass(player.rounds[2].outTotal)">{{player.rounds[2].outTotal}}</td>
+                        <td [ngClass] = "deriveParClass(player.rounds[2].outTotal,player.rounds[2].nines[0])">{{player.rounds[2].outTotal}}</td>
                         <ng-container *ngFor = "let score of player.rounds[2].nines[1].scores">
                             <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
                         </ng-container>
-                        <td [ngClass] = "deriveParClass(player.rounds[2].inTotal)">{{player.rounds[2].inTotal}}</td>
+                        <td [ngClass] = "deriveParClass(player.rounds[2].inTotal,player.rounds[2].nines[1])">{{player.rounds[2].inTotal}}</td>
                         <td [ngClass] = "deriveTotalClass(player.rounds[2].inTotal+player.rounds[2].outTotal)">
                             {{player.rounds[2].outTotal+player.rounds[2].inTotal}}
                         </td>
@@ -291,11 +291,11 @@
                         <ng-container *ngFor = "let score of player.rounds[3].nines[0].scores">
                             <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
                         </ng-container>
-                        <td [ngClass] = "deriveParClass(player.rounds[3].outTotal)">{{player.rounds[3].outTotal}}</td>
+                        <td [ngClass] = "deriveParClass(player.rounds[3].outTotal,player.rounds[3].nines[0])">{{player.rounds[3].outTotal}}</td>
                         <ng-container *ngFor = "let score of player.rounds[3].nines[1].scores">
                             <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>
                         </ng-container>
-                        <td [ngClass] = "deriveParClass(player.rounds[3].inTotal)">{{player.rounds[3].inTotal}}</td>
+                        <td [ngClass] = "deriveParClass(player.rounds[3].inTotal,player.rounds[3].nines[1])">{{player.rounds[3].inTotal}}</td>
                         <td [ngClass] = "deriveTotalClass(player.rounds[3].inTotal+player.rounds[3].outTotal)">
                             {{player.rounds[3].outTotal+player.rounds[3].inTotal}}
                         </td>

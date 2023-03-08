@@ -155,6 +155,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     hideCatTabs: boolean = true;
     hidePlayerImage: boolean = false;
     showPlayerId: boolean = false;
+    showCompPlayerId: boolean = false;
     constructor(router: Router,
         private activeRoute: ActivatedRoute,
         private userPreference: UserPreferenceService,
