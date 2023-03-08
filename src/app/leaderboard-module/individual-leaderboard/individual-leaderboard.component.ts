@@ -516,7 +516,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                         if(params['enableToyota'] && params['enableToyota'] === 'true') {
                             this.settings['scrollSize'] = this.totalPlayers;
                         }
-                        });
+                    });
                 });
                 this.subscriptions.push(sub);
         }
@@ -804,7 +804,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 })
             }
             if(params['enableToyota'] && params['enableToyota'] === 'true') {
-                this.settings['scrollSize'] = this.totalPlayers;
+                // this.settings['scrollSize'] = this.totalPlayers;
                 this.settings['scrollFrequency'] = 60;
                 if(this.validCategories && this.validCategories.length > 0) {
                     let _initCat = this.validCategories.filter((c)=>{
