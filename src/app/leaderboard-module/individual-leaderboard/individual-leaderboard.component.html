@@ -32,7 +32,7 @@
             <h1 class="mga-font">{{competition?.competitionName}}</h1>
           </div>
           <div *ngIf="competition.status == 'In Progress'" class="ui-md-12 ui-sm-12 vertical-align-center competition-name">
-            <p class="under-par" style="font-style: italic; padding-left: 1em;">*** Tournament is still in progress</p>
+            <p class="under-par" style="font-style: italic; padding-left: 1em;">*** Tournament is in progress</p>
           </div>
         </div>
         
@@ -56,7 +56,7 @@
         <h1 class="mga-font">{{competition?.competitionName}}</h1>
       </div>
       <div *ngIf="competition.status == 'In Progress'" class="ui-md-12 ui-sm-12 vertical-align-center competition-name">
-        <p class="under-par" style="font-style: italic; padding-left: 1em;">*** Tournament is still in progress</p>
+        <p class="under-par" style="font-style: italic; padding-left: 1em;">*** Tournament is in progress</p>
       </div>
     </div>
 
@@ -602,7 +602,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 </div>
                 <div *ngIf="!byNet && player.toPar > 0">
                     <!-- <button  [class.par]="player.toPar>0" pButton type="button" [label]="player.toPar"></button> -->
-                    <button style="background-color: white; color:black" pButton type="button" [label]="'+'+player.toPar"></button>
+                    <button style="font-weight: bold;background-color: white; color:black" pButton type="button" [label]="'+'+player.toPar"></button>
             </div>
                 <div *ngIf="byNet && player.modifiedTotalNet">
                     <span class="strike-out" [class.under-par]="player.toPar<0">{{player.toPar}}</span>
