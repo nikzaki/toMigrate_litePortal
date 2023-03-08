@@ -32,12 +32,12 @@
             <h1 class="mga-font">{{competition?.competitionName}}</h1>
           </div>
           <div *ngIf="competition.status == 'In Progress'" class="ui-md-12 ui-sm-12 vertical-align-center competition-name">
-            <p class="under-par" style="font-style: italic; padding-left: 1em;">*** Competition is still in progress</p>
+            <p class="under-par" style="font-style: italic; padding-left: 1em;">*** Tournament is still in progress</p>
           </div>
         </div>
         
     <div [hidden]="hideCompHeader" class="card-title ui-g align-items-center" *ngIf="competition && enableToyota">
-        <div class="ui-md-3" *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length > 0">
+        <div hidden="true"  class="ui-g-12" *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length > 0">
             <img class="mx-auto d-block img-fluid"
             style="max-width: 24vh; max-height: 48vh"
             [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''">
@@ -46,17 +46,17 @@
             <!-- *ngIf="compDetails&&compDetails.sponsors[0]" -->
             <!-- [src]="competition && competition.imageUrl?competition.imageUrl:'assets/images/default_competition.png'" -->
     </div>
-      <div *ngIf="0" class="ui-md-3" >
+      <div class="ui-g-12" >
         <img class="mx-auto d-block img-fluid lb-logo"
-        style="max-width: 12vh; max-height: 24vh"
+        style="max-width: 24vh; max-height: 48vh"
                 [src]="competition && competition.imageUrl?competition.imageUrl:'assets/images/default_competition.png'"
                 onerror="assets/images/default_competition.png">
       </div>
-      <div class="ui-g-9 ui-md-9 vertical-align-center competition-name">
+      <div class="ui-g-12 ui-md-12 vertical-align-center competition-name" style="justify-content: center;">
         <h1 class="mga-font">{{competition?.competitionName}}</h1>
       </div>
       <div *ngIf="competition.status == 'In Progress'" class="ui-md-12 ui-sm-12 vertical-align-center competition-name">
-        <p class="under-par" style="font-style: italic; padding-left: 1em;">*** Competition is still in progress</p>
+        <p class="under-par" style="font-style: italic; padding-left: 1em;">*** Tournament is still in progress</p>
       </div>
     </div>
 
