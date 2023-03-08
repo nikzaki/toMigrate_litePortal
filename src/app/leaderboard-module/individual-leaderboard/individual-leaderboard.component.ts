@@ -804,8 +804,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                         return c.gender === 'M'
                     }).map((c)=>{ return c })
 
-                    this.settings.selectedCategory = _initCat[0].categoryId //this.validCategories[1].categoryId;
-                    this.refreshParams['category'] = _initCat[0]; //this.validCategories[1];
+                    if(_initCat && _initCat.length > 0) {
+                        this.settings.selectedCategory = _initCat[0].categoryId?_initCat[0].categoryId:-1 //this.validCategories[1].categoryId;
+                        this.refreshParams['category'] = _initCat[0].categoryId?_initCat[0]:null; //this.validCategories[1];
+                    }
                     this.refreshLeaderBoard();
                     }
                     

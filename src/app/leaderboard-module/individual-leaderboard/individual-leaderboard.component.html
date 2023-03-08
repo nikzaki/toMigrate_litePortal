@@ -37,7 +37,7 @@
         </div>
         
     <div [hidden]="hideCompHeader" class="card-title ui-g align-items-center" *ngIf="competition && enableToyota">
-        <div hidden="true" class="ui-md-3" *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length > 0">
+        <div class="ui-md-3" *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length > 0">
             <img class="mx-auto d-block img-fluid"
             style="max-width: 24vh; max-height: 48vh"
             [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''">
@@ -46,7 +46,7 @@
             <!-- *ngIf="compDetails&&compDetails.sponsors[0]" -->
             <!-- [src]="competition && competition.imageUrl?competition.imageUrl:'assets/images/default_competition.png'" -->
     </div>
-      <div class="ui-md-3" >
+      <div *ngIf="0" class="ui-md-3" >
         <img class="mx-auto d-block img-fluid lb-logo"
         style="max-width: 12vh; max-height: 24vh"
                 [src]="competition && competition.imageUrl?competition.imageUrl:'assets/images/default_competition.png'"
