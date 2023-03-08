@@ -815,6 +815,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             if(params['enableToyota'] && params['enableToyota'] === 'true') {
                 // this.settings['scrollSize'] = this.totalPlayers;
                 this.settings['scrollFrequency'] = 60;
+                this.settings['showNonPlaying'] = true
                 if(this.validCategories && this.validCategories.length > 0) {
                     let _initCat = this.validCategories.filter((c)=>{
                         return c.gender === 'M'
@@ -882,5 +883,24 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         if(!this.totalRounds) return '-';
         if(x === this.totalRounds) return "FR"
         else return "R"+x;
+    }
+
+    getCurrentCourses() {
+        // if(!this.refreshParams.round.roundNo) return;
+        // if(!this.compDetails) return;
+        // if(!this.compDetails.gameRounds) return;
+        // if(this.compDetails.gameRounds && this.compDetails.gameRounds.length === 0) return;
+        let _courseNames; 
+        // this.compDetails.gameRounds.filter((round: GameRound)=>{
+        //     return round.roundNo === this.refreshParams.round.roundNo;
+        // }).map((round: GameRound)=>{
+        //     _courseNames = round.courseNames
+        // })
+
+        // return _courseNames.join(" | "); 
+        if(!this.leaderBoard) return;
+        _courseNames = this.leaderBoard.firstNineCourseName + " | " + this.leaderBoard.secondNineCourseName;
+        return _courseNames;
+
     }
  }

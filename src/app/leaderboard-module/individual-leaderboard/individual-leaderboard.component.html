@@ -54,6 +54,10 @@
       </div>
       <div class="ui-g-12 ui-md-12 vertical-align-center competition-name" style="justify-content: center;">
         <h1 class="mga-font">{{competition?.competitionName}}</h1>
+        <!-- {{leaderboard?.firstNineCourseName}} | {{leaderboard?.secondNineCourseName}} -->
+      </div>
+      <div class="ui-g-12 ui-md-12 vertical-align-center competition-name" style="justify-content: center;">
+        <h2 class="mga-font">{{getCurrentCourses()}}</h2>
       </div>
       <div *ngIf="competition.status == 'In Progress'" class="ui-md-12 ui-sm-12 vertical-align-center competition-name">
         <p class="under-par" style="font-style: italic; padding-left: 1em;">*** Tournament is in progress</p>
