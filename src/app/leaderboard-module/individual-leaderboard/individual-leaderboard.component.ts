@@ -796,6 +796,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 })
             }
             if(params['enableToyota'] && params['enableToyota'] === 'true') {
+                this.settings['scrollSize'] = this.totalPlayers;
                 if(this.validCategories && this.validCategories.length > 0) {
                     let _initCat = this.validCategories.filter((c)=>{
                         return c.gender === 'M'
@@ -852,4 +853,14 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         window.open('https://www.mygolf2u.com','_blank');
 
     }
-}
+
+    getRoundTitle(x: number) {
+        if(!x) return '-';
+        if(!this.compDetails) return '-';
+        if(this.compDetails && !this.compDetails.gameRounds) return '-';
+        if(this.compDetails && this.compDetails.gameRounds && this.compDetails.gameRounds.length === 0) return '-';
+        if(!this.totalRounds) return '-';
+        if(x === this.totalRounds) return "FR"
+        else return "R"+x;
+    }
+ }

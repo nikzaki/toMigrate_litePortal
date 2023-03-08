@@ -498,10 +498,10 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 <!-- <p-column colspan="{{colspan()}}" header="" [hidden]="isGrossHidden()" styleClass="gross-column"
                     [style]="{'width':'15%'}">
                 </p-column> -->
-                <p-column [style]="{'width':'3%'}" header="R1" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
-                <p-column [style]="{'width':'3%'}" header="R2" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
-                <p-column [style]="{'width':'3%'}" header="R3" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
-                <p-column [style]="{'width':'3%'}" header="R4" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
+                <p-column [style]="{'width':'3%'}" [header]="getRoundTitle(1)" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
+                <p-column [style]="{'width':'3%'}" [header]="getRoundTitle(2)" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
+                <p-column [style]="{'width':'3%'}" [header]="getRoundTitle(3)" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
+                <p-column [style]="{'width':'3%'}" [header]="getRoundTitle(4)" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
                 <p-column [style]="{'width':'3%'}" header="Out" styleClass="gross-column" [hidden]="isGrossHidden() || isAllRoundHidden()"></p-column>
                 <p-column [style]="{'width':'3%'}" header="In" styleClass="gross-column" [hidden]="isGrossHidden() || isAllRoundHidden()"></p-column>
                 <p-column [style]="{'width':'3%'}" header="Total" styleClass="gross-column" [hidden]="isGrossHidden()"></p-column>
@@ -601,16 +601,16 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             {{checkThru(playersToDisplay[i])}}
             </ng-template>
         </p-column>
-        <p-column field="round1Gross" header="R1" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(1)"
+        <p-column field="round1Gross" [header]="getRoundTitle(1)" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(1)"
             [style]="{'textAlign': 'center'}">
         </p-column>
-        <p-column field="round2Gross" header="R2" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(2)"
+        <p-column field="round2Gross" [header]="getRoundTitle(2)" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(2)"
             [style]="{'textAlign': 'center'}">
         </p-column>
-        <p-column field="round3Gross" header="R3" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(3)"
+        <p-column field="round3Gross" [header]="getRoundTitle(3)" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(3)"
             [style]="{'textAlign': 'center'}">
         </p-column>
-        <p-column field="round4Gross" header="R4" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(4)"
+        <p-column field="round4Gross" [header]="getRoundTitle(4)" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(4)"
             [style]="{'textAlign': 'center'}">
         </p-column>
 
