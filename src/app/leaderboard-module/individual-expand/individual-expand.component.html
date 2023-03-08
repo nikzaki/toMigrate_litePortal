@@ -70,7 +70,7 @@
                             <td *ngFor = "let score of round.nines[whichNine-1].scores">
                                 <span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span>
                             </td>
-                            <td [ngClass] = "deriveParClass(whichNine===1?round.outTotal : round.inTotal)">
+                            <td [ngClass] = "deriveParClass(whichNine===1?round.outTotal : round.inTotal,round.nines[whichNine-1])">
                                 {{whichNine===1?round.outTotal : round.inTotal}}
                             </td>
                             <td [ngClass] = "deriveTotalClass(round.inTotal+round.outTotal)">
