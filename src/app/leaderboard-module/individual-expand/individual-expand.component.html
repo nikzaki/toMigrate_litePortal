@@ -58,8 +58,11 @@
                             <ng-container *ngFor = "let score of round.nines[whichNine-1].scores">
                                 <td>{{score.parScore}}</td>
                             </ng-container>
-                            <td></td>
-                            <td>{{getCoursePar(round,whichNine)}}</td>
+                            <!-- <td>{{getCoursePar(round,whichNine)}}</td>
+                            <td></td> -->
+                            <td>{{totalParScore(player.rounds[0].nines[whichNine-1].scores)}}</td>
+                            <td>{{totalParScore(player.rounds[0].nines[0].scores,player.rounds[0].nines[1].scores)}}</td>
+                            <!-- {{getCoursePar(round)}} -->
                             
                         </tr>
                         <tr>
