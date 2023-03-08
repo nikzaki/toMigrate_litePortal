@@ -236,6 +236,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             if(params['showPlayerId'] && params['showPlayerId'] === 'true') {
                 this.showPlayerId = true;
             } else if(params['showPlayerId'] && params['showPlayerId'] === 'false') this.showPlayerId = false;
+            if(params['showCompPlayerId'] && params['showCompPlayerId'] === 'true') {
+                this.showCompPlayerId = true;
+            } else if(params['showCompPlayerId'] && params['showCompPlayerId'] === 'false') this.showCompPlayerId = false;
             if(params['hideLogo'] && params['hideLogo'] === 'true')
                 this.hideLogo = true;
             else if(params['hideLogo'] && params['hideLogo'] === 'false') this.hideLogo = false;
