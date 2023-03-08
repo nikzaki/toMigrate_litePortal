@@ -595,15 +595,20 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         </p-column>
         <p-column header="(+/-)" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
-                <div *ngIf="!byNet && player.toPar < 0">
+                
+                <div *ngIf="!byNet && player.toPar<0" [class.under-par]="player.toPar<0">{{player.toPar}}</div>
+                <div *ngIf="!byNet && player.toPar>0"  style="font-weight: bold;background-color: white; color:black"  >+{{player.toPar}}</div>
+                <div *ngIf="!byNet && player.toPar === 0">
+                    PAR
+            </div>
+                <!-- <div *ngIf="!byNet && player.toPar < 0">
                     <button  [class.under-parT]="player.toPar<0" pButton type="button" [label]="player.toPar"></button></div>
                 <div *ngIf="!byNet && player.toPar === 0">
                         <button  [class.par]="player.toPar===0" pButton type="button" label="PAR"></button>
                 </div>
                 <div *ngIf="!byNet && player.toPar > 0">
-                    <!-- <button  [class.par]="player.toPar>0" pButton type="button" [label]="player.toPar"></button> -->
                     <button style="font-weight: bold;background-color: white; color:black" pButton type="button" [label]="'+'+player.toPar"></button>
-            </div>
+                </div> -->
                 <div *ngIf="byNet && player.modifiedTotalNet">
                     <span class="strike-out" [class.under-par]="player.toPar<0">{{player.toPar}}</span>
                     <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
