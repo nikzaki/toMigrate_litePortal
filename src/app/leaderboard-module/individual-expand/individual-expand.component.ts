@@ -86,12 +86,18 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
 
     deriveScoreClass(s) {
         if ((s.parScore - s.grossScore) == 0) {
-            return "par-score";
+            if(this.enableToyota) return '';
+            else return "par-score";
         } else if ((s.parScore - s.grossScore) == 1) {
             return "birdie-score";
         } else if ((s.parScore - s.grossScore) == 2) {
             return "eagle-score";
-        }
+        } else if ((s.parScore - s.grossScore) == -1) {
+            return "bogey-score";
+        } else if ((s.parScore - s.grossScore) < -1) {
+            if(this.enableToyota) return "par-score";
+            else return '';
+        } 
     }
 
     deriveParClass(pr) {
@@ -130,5 +136,35 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
           const totalPars = totalFirst9 + totalSecond9;
 
           return totalPars;
+    }
+
+    getCoursePar(round,whichNine?) {
+        if(!round) return;
+        let _coursePar = 0;
+        // let _whichNine = whichNine;
+        console.debug("get course par", round, whichNine);
+        if(whichNine > 0) {
+
+            let _nines = round.nines[whichNine-1] 
+            console.debug("get course par", _nines);
+            _coursePar = _nines.scores.map((s)=>{
+                return s.parScore;
+            })
+            .reduce((a,b)=>{
+                return a  + b
+            },0)
+        } else {
+            let _nines = [...round.nines]
+            _nines.forEach((nine)=>{
+                _coursePar = nine.map((s)=>{
+                    return s.parScore;
+                })
+                .reduce((a,b)=>{
+                    return a  + b
+                },0)
+            })
+        }
+        return _coursePar;
+        
     }
 }
