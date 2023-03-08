@@ -511,6 +511,12 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     this.topNplayersDisplay =  [];
                     this.derivePlayerTeams();
                     this.leaderBoardSettings.dataRefreshed(this.totalPlayers);
+                    this.activeRoute.queryParams
+                    .subscribe(params => {
+                        if(params['enableToyota'] && params['enableToyota'] === 'true') {
+                            this.settings['scrollSize'] = this.totalPlayers;
+                        }
+                        });
                 });
                 this.subscriptions.push(sub);
         }
