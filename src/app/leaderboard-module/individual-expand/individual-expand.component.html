@@ -146,9 +146,10 @@
                     <td></td>
                     <td></td>
                 </tr>
-                <tr class = "par-row"  *ngIf="!enableToyota || (enableToyota && round && round.roundNo === 1)">
+                <tr class = "par-row" >
+                    <!-- *ngIf="!enableToyota || (enableToyota && round && round.roundNo === 1)" -->
                     <!-- <td *ngIf="enableToyota"  class = "round-group" rowspan = "2">R1</td> -->
-                    <td *ngIf="enableToyota" class="round-group" rowspan="2"></td>
+                    <td *ngIf="enableToyota" class="round-group" rowspan="5"></td>
                     <td>Par</td>
                     <ng-container *ngFor = "let score of player.rounds[0].nines[0].scores">
                         <td>{{score.parScore}}</td>
