@@ -424,8 +424,13 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     this.compDetails = det;
                     this.nextRound = det.nextRound;
 
+                    if(this.enableToyota) {
+
+                        this._deriveCategories();
+                    } else {
+
                     this.refreshLeaderBoard();
-                    this._deriveCategories();
+                    }
                     // console.log("Comp Sponsor : ", this.compDetails);
                 });
             this.addToBusyList([sub1, sub2]);

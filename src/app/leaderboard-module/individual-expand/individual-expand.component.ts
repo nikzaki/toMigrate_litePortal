@@ -168,4 +168,13 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
         return _coursePar;
         
     }
-}
+
+    getScoreTitle(type?: string,roundNo?: number) {
+        if(type === 'Net') return 'Net';
+        else if(this.enableToyota) {
+            return 'R'+roundNo;
+            // else return 'Score';
+        }
+        else return 'Gross';
+    }
+ }
