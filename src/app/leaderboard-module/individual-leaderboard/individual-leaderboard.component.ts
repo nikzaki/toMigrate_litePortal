@@ -229,10 +229,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 this.leaderboardColumns.forEach(det => {
                     if(det.id === 'handicap')
                         det.hidden = true;
-                    if(det.id === 'thru')
-                        det.hidden = true;
-                    if(det.id === 'on')
-                        det.hidden = false;
+                    // if(det.id === 'thru')
+                    //     det.hidden = true;
+                    // if(det.id === 'on')
+                    //     det.hidden = false;
                 });
                 // if(this.validCategories && this.validCategories.length > 0) 
                 //     this.settings.selectedCategory = this.validCategories[0].categoryId;
@@ -705,17 +705,33 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         let _time = String(data.startTime);
         _time = _time.substr(0, 5);
         // console.log("Get hours : ", _time.substr(0, 5));
-        if (data.thru === 'F') return data.thru
-        else if (this.compDetails.roundInProgress === 1 && data.thru === "0")
-            return _time
-        else if (this.compDetails.roundInProgress === 2 && data.thru === "18")
-            return _time
-        else if (this.compDetails.roundInProgress === 3 && data.thru === "36")
-            return _time
-        else if (this.compDetails.roundInProgress === 4 && data.thru === "54")
-            return _time
-        else
-            return data.thru
+        if(this.enableToyota) {
+            if (data.thru === 'F') return data.thru
+            else if (this.compDetails.roundInProgress === 1 && data.thru === "0")
+                return _time
+            else if (this.compDetails.roundInProgress === 2 && data.thru === "18")
+                return _time
+            else if (this.compDetails.roundInProgress === 3 && data.thru === "36")
+                return _time
+            else if (this.compDetails.roundInProgress === 4 && data.thru === "54")
+                return _time
+            else if (this.compDetails.roundInProgress > 1)
+                return 18-(18*this.compDetails.roundInProgress - Number(data.thru))
+            else return data.thru;
+        } else {
+            if (data.thru === 'F') return data.thru
+            else if (this.compDetails.roundInProgress === 1 && data.thru === "0")
+                return _time
+            else if (this.compDetails.roundInProgress === 2 && data.thru === "18")
+                return _time
+            else if (this.compDetails.roundInProgress === 3 && data.thru === "36")
+                return _time
+            else if (this.compDetails.roundInProgress === 4 && data.thru === "54")
+                return _time
+            else
+                return data.thru
+
+        }
 
     }
     addToBusyList(sub: Subscription[]) {
@@ -911,5 +927,11 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         _courseNames = this.leaderBoard.firstNineCourseName + " | " + this.leaderBoard.secondNineCourseName;
         return _courseNames;
 
+    }
+
+    getClubName() {
+        if(!this.competition) return;
+        let _clubName = this.competition.clubName;
+        return _clubName;
     }
  }
