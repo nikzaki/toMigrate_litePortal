@@ -229,6 +229,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 this.leaderboardColumns.forEach(det => {
                     if(det.id === 'handicap')
                         det.hidden = true;
+                    if(det.id === 'thru')
+                        det.hidden = true;
+                    if(det.id === 'on')
+                        det.hidden = false;
                 });
                 // if(this.validCategories && this.validCategories.length > 0) 
                 //     this.settings.selectedCategory = this.validCategories[0].categoryId;
