@@ -48,7 +48,7 @@
     </div>
       <div class="ui-g-12" >
         <img class="mx-auto d-block img-fluid lb-logo"
-        style="max-width: 24vh; max-height: 48vh"
+        style="max-width: 48vh; max-height: 48vh"
                 [src]="competition && competition.imageUrl?competition.imageUrl:'assets/images/default_competition.png'"
                 onerror="assets/images/default_competition.png">
       </div>
@@ -560,7 +560,9 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         </p-headerColumnGroup>
         <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
         <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
-            <ng-template let-col let-player="rowData" pTemplate="body">
+        <!-- [ngClass]="player.position === 'W' || player.position === 'CUT'?'non-playing-rows':''"  -->
+            
+            <ng-template let-col let-player="rowData" pTemplate="body" >
                 <div  class="position"   [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
             </ng-template>
         </p-column>
