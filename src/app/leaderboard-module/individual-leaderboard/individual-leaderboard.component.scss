@@ -20,6 +20,20 @@ individual-leaderboard {
     .ui-datatable-emptymessage {
       display:none;
     }
+
+    .position {
+      // font-family: 'Toyota' !important;
+      // font-size: 1.3em;
+      font-variant-caps: all-petite-caps;
+      padding: 0px;
+      // display: flex;
+      align-items: center;
+      // color: #2196F3;
+      font-size: 1.3em;
+      white-space: normal;
+      font-family: 'Toyota';
+      line-height: 1.6em;
+    }
   }
 
   // .toyota table {

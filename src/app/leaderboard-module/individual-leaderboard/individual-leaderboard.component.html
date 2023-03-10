@@ -212,7 +212,8 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
                 <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
                     <ng-template let-col let-player="rowData" pTemplate="body">
-                        <div [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+                        <div class="position" [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+                        <!-- style="font-size:1.1em;font-family:'Toyota'"  -->
                     </ng-template>
                 </p-column>
                 <p-column field="handicap" header="Hcp" [hidden]="isColumnHidden('handicap')|| isMobileScreen()"
@@ -380,7 +381,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
         <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
-                <div [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+                <div  class="position"   [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
             </ng-template>
         </p-column>
         <p-column field="handicap" header="Hcp" [hidden]="isColumnHidden('handicap')|| isMobileScreen()"
@@ -560,7 +561,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
         <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
-                <div [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+                <div  class="position"   [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
             </ng-template>
         </p-column>
         <p-column field="handicap" header="Hcp" [hidden]="isColumnHidden('handicap')|| isMobileScreen()"

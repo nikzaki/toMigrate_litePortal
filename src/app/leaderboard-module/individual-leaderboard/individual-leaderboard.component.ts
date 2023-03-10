@@ -499,6 +499,24 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     false)
                 .subscribe((leaderboard: LeaderBoard) => {
                     this.leaderBoard = leaderboard;
+                    // this.leaderBoard.players.filter((lbp: LeaderBoardPlayer)=>{
+                    //     return lbp.position === 'W'
+                    // }).sort((a,b)=>{
+                    //     console.debug("sorting : ",this.compDetails.roundInProgress, a,b)
+                    //     if (this.compDetails.roundInProgress === 4) {
+                    //         if(a.round3Gross === 0 && b.round3Gross > 0) return 1
+                    //         else if(a.round3Gross > 0 && b.round3Gross === 0) return -1
+                    //         else return 0
+                    //     } else if(this.compDetails.roundInProgress === 3) {
+                    //         if(a.round2Gross === 0 && b.round2Gross > 0) return 1
+                    //         else if(a.round2Gross > 0 && b.round2Gross === 0) return -1
+                    //         else return 0
+                    //     } else if(this.compDetails.roundInProgress === 2) {
+                    //         if(a.round1Gross === 0 && b.round1Gross > 0) return 1
+                    //         else if(a.round1Gross > 0 && b.round1Gross === 0) return -1
+                    //         else return 0
+                    //     }
+                    // })
                     /* NOT SHOWING WITHDRAW OR CUT PLAYERS HERE */
                     if (!this.settings.showNonPlaying){
                         this.leaderBoard.players = this.leaderBoard.players.filter(function (ptd) {
@@ -678,7 +696,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     }
 
     checkThru(data: LeaderBoardPlayer) {
-        // console.log('[Check Thru]', data);
+        console.log('[Check Thru]', data);
         // console.log("CheckThru() : ",data.startTime.+":",data.startTime.getMinutes())
         // console.log("Round??:",this.compDetails.roundInProgress, this.compDetails.gameRounds,this.compDetails.nextRound)
         // let date: Date = new Date();
@@ -708,26 +726,26 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         if(this.enableToyota) {
             if (data.thru === 'F') return data.thru
             else if (this.compDetails.roundInProgress === 1 && data.thru === "0")
-                return _time
+                return ''; //_time
             else if (this.compDetails.roundInProgress === 2 && data.thru === "18")
-                return _time
+                return ''; //_time
             else if (this.compDetails.roundInProgress === 3 && data.thru === "36")
-                return _time
+                return ''; //_time
             else if (this.compDetails.roundInProgress === 4 && data.thru === "54")
-                return _time
+                return ''; //_time
             else if (this.compDetails.roundInProgress > 1)
                 return 18-(18*this.compDetails.roundInProgress - Number(data.thru))
             else return data.thru;
         } else {
             if (data.thru === 'F') return data.thru
             else if (this.compDetails.roundInProgress === 1 && data.thru === "0")
-                return _time
+                return ''; //_time
             else if (this.compDetails.roundInProgress === 2 && data.thru === "18")
-                return _time
+                return ''; //_time
             else if (this.compDetails.roundInProgress === 3 && data.thru === "36")
-                return _time
+                return ''; //_time
             else if (this.compDetails.roundInProgress === 4 && data.thru === "54")
-                return _time
+                return ''; //_time
             else
                 return data.thru
 
