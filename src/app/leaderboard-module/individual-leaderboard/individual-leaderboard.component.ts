@@ -81,7 +81,9 @@ import {
 
 import {GameRound} from '../../models/mygolf/gameround';
 import {CompetitionCategory} from '../../models/mygolf/competition/competition-category';
+import { FlightInfo, FlightMember } from 'app/models/mygolf.data';
 
+import * as moment from 'moment';
 
 
 @Component({
@@ -492,6 +494,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             }
 
 
+            this.getFlightList();
             let sub = this.competitionService.getLeaderboard(this.competitionId,
                     round && round.roundNo ? round.roundNo : null,
                     category && category.categoryId !== -1 ? category.categoryId : null,
@@ -557,6 +560,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     this.topNplayersDisplay =  [];
                     this.derivePlayerTeams();
                     this.leaderBoardSettings.dataRefreshed(this.totalPlayers);
+                },(error)=>{
+
+                },()=>{
                 });
                 this.subscriptions.push(sub);
         }
@@ -730,13 +736,17 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         if(this.enableToyota) {
             if (data.thru === 'F') return data.thru
             else if (this.compDetails.roundInProgress === 1 && data.thru === "0")
-                return ''; //_time
+                return this.getStartTime(data.playerId);
+                // return ''; //_time
             else if (this.compDetails.roundInProgress === 2 && data.thru === "18")
-                return ''; //_time
+                return this.getStartTime(data.playerId);
+                // return ''; //_time
             else if (this.compDetails.roundInProgress === 3 && data.thru === "36")
-                return ''; //_time
+                return this.getStartTime(data.playerId);
+                // return ''; //_time
             else if (this.compDetails.roundInProgress === 4 && data.thru === "54")
-                return ''; //_time
+                return this.getStartTime(data.playerId);
+                // return ''; //_time
             else if (this.compDetails.roundInProgress > 1)
                 return 18-(18*this.compDetails.roundInProgress - Number(data.thru))
             else return data.thru;
@@ -955,5 +965,30 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         if(!this.competition) return;
         let _clubName = this.competition.clubName;
         return _clubName;
+    }
+
+    getRowClass(e) {
+        console.debug("row class : ", e);
+    }
+
+    flightList: Array<FlightInfo> = [];
+    getFlightList() {
+        let _compId = this.competition.competitionId;
+        let _roundNo = this.compDetails.roundInProgress;
+
+        this.competitionService.getFlightList(_compId, _roundNo)
+        .subscribe((data)=>{
+            if(data) {
+                this.flightList = data;
+            }
+        });
+    }
+
+    getStartTime(playerId) {
+        let _filteredFlight = 
+        this.flightList.filter((f: FlightInfo) => {
+            return f.flightMembers.filter((fm: FlightMember) => fm.playerId === playerId).length > 0;
+        })
+        return moment(_filteredFlight[0].startTime,"HH:mm:ss").format('HH:mm');
     }
  }
