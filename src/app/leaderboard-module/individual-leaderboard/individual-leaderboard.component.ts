@@ -747,7 +747,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             else if (this.compDetails.roundInProgress === 4 && data.thru === "54")
                 return this.getStartTime(data.playerId);
                 // return ''; //_time
-            else if (this.compDetails.roundInProgress > 1)
+            else if (this.compDetails.roundInProgress > 1 && data.thru === "0")
+                return this.getStartTime(data.playerId);
+            else if (this.compDetails.roundInProgress > 1 && data.thru !== "0")
                 return 18-(18*this.compDetails.roundInProgress - Number(data.thru))
             else return data.thru;
         } else {
