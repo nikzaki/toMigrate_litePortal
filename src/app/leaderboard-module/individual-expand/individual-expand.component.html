@@ -44,7 +44,11 @@
                 <tbody>
                     <ng-container *ngFor="let round of player.rounds">
                         <tr [hidden]="enableToyota"  class = "index-row">
-                            <td class = "round-group" rowspan = "3">{{'R'+round.roundNo}}</td>
+                            <td class = "round-group" rowspan = "3"
+                            *ngIf="round && round.roundNo === 1 || round.roundNo !== compRounds.length">{{'R'+round.roundNo}}</td>
+                            <td class = "round-group" rowspan = "3"
+                            *ngIf="round && round.roundNo > 1 && round.roundNo === compRounds.length">FR</td>
+                            
                             <td>Index</td>
                             <ng-container *ngFor = "let score of round.nines[whichNine-1].scores">
                                 <td>{{score.index}}</td>

@@ -50,6 +50,7 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
         if(!this.player.rounds) {
             let sub = this.competitionService.getAllScoresForPlayer(this.competitionId, this.player.playerId)
                 .subscribe((compRounds: CompetitionGameRound[]) => {
+                    this.compRounds = compRounds;
                     this.player.rounds = compRounds;
                 });
                 this.subscriptions.push(sub);
@@ -172,7 +173,8 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
     getScoreTitle(type?: string,roundNo?: number) {
         if(type === 'Net') return 'Net';
         else if(this.enableToyota) {
-            return 'R'+roundNo;
+            if(roundNo > 1 && roundNo === this.compRounds.length) return 'FR'
+            else return 'R'+roundNo;
             // else return 'Score';
         }
         else return 'Gross';
