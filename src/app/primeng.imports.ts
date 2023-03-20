@@ -61,7 +61,8 @@ import {
     TooltipModule,
     TreeModule,
     TreeTableModule, BlockUIModule, ColorPickerModule, OrganizationChartModule,
-    InplaceModule
+    InplaceModule,
+    CaptchaModule
 } from 'primeng/primeng';
 export const PRIMENG_MODULES = [
     AccordionModule,
@@ -127,5 +128,6 @@ export const PRIMENG_MODULES = [
     TreeModule,
     TreeTableModule,
     BlockUIModule, ColorPickerModule,
-    OrganizationChartModule, InplaceModule
+    OrganizationChartModule, InplaceModule,
+    CaptchaModule
 ];

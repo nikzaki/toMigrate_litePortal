@@ -73,6 +73,7 @@
                         Maximum of 50 characters allowed in last name
                     </div>
                 </div>
+                <p-calendar formControlName="dateOfBirth"></p-calendar>
                 <!-- <ion-select interface="alert" formControlName="nationality">
                     <ion-option *ngFor="let country of countryList"  [value]="country.id">{{country.name}}</ion-option>
                         </ion-select > -->
@@ -139,12 +140,29 @@
                         <input type = "text" formControlName = "nhsNumber" class = "ui-inputtext" pInputText>
                     </div>
                 </div>
+                <!-- <button ion-button type="submit" [disabled]="!signupForm.valid" block color="primary"
+                (click)="captchaRef.execute()">Submit
+                </button> -->
+                
+                <p-captcha 
+                siteKey="6LcJQM0ZAAAAAGVMmPWu6tTK4JzCj_TvNXm4gOIy" 
+                (onResponse)="resolved($event)" initCallback="resolved($event)"
+                ></p-captcha>
+            <!-- <re-captcha style="visibility: hidden;"
+            #captchaRef="reCaptcha"
+            (resolved)="resolved($event)" 
+            siteKey="6LcJQM0ZAAAAAGVMmPWu6tTK4JzCj_TvNXm4gOIy"
+            size="invisible"
+            ></re-captcha> -->
                 <div class = "ui-g">
                     <div class = "ui-g-12  button-panel">
                         <!--<button pButton type = "submit" label = "Register" icon = "fa-check"-->
                                 <!--[disabled] = "!regForm.valid || duplicateEmail"-->
                                 <!--class = "ui-button-success"></button>-->
-                        <button md-button color="primary" type = "submit"
+                                <!-- type="submit" -->
+                                
+                        <button (click)="captchaRef.execute()"
+                        md-button color="primary" 
                                 [disabled] = "!regForm.valid || duplicateEmail">
                             <md-icon class="mdi-account-plus"></md-icon>Register
                         </button>

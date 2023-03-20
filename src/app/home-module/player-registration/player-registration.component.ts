@@ -58,6 +58,7 @@ export class PlayerRegistrationComponent implements OnInit {
       phone    : [''],
       nationality: new FormControl('', Validators.compose([Validators.required])),
       country: new FormControl('', Validators.compose([Validators.required])),
+      dateOfBirth: ['']
     });
 
   }
@@ -141,5 +142,15 @@ export class PlayerRegistrationComponent implements OnInit {
 selectedCountry(country?: any) {
   console.log("dropdown country : ", this.regForm.value.nationality)
   // this.regForm.value.nationality = country.id
+}
+
+captchaResponse: string;
+resolved(captchaResponse: string) {
+    console.log(`Resolved captcha with response ${captchaResponse}:`);
+    this.captchaResponse = captchaResponse;
+    if(this.captchaResponse && this.captchaResponse.length > 0) this.onSubmit(this.regForm.value);
+    else {
+    }
+    //  this.goQuickBook();
 }
 }
