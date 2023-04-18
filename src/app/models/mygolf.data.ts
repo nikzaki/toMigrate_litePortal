@@ -1711,6 +1711,8 @@ export interface CompetitionInfo {
     useInHandicap?: boolean;
     private?: boolean;
     teamEvent?: boolean;
+    proCompetition?: boolean;
+    externalLeaderboardUrl?: string;
 }
 
 export interface CompetitionInvitationData {
@@ -1903,6 +1905,8 @@ export interface CompetitionStatusData {
     autoStart?: number;
     private?: boolean;
     teamEvent?: boolean;
+    proCompetition?: boolean;
+    externalLeaderboardUrl?: string;
 }
 
 export interface CompetitionTeamData {

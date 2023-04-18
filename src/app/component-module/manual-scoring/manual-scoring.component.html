@@ -46,9 +46,11 @@
                         <div class = "ui-md-1">1</div>
                         <div class = "ui-md-1">2</div>
                         <div class = "ui-md-1">3</div>
+                        <div class = "ui-md-1">&nbsp;</div>
                         <div class = "ui-md-1">4</div>
                         <div class = "ui-md-1">5</div>
                         <div class = "ui-md-1">6</div>
+                        <div class = "ui-md-1">&nbsp;</div>
                         <div class = "ui-md-1">7</div>
                         <div class = "ui-md-1">8</div>
                         <div class = "ui-md-1">9</div>
@@ -63,9 +65,14 @@
                 <div class = "ui-md-2">{{nine.courseName}}</div>
                 <div class = "ui-md-1">
                     <div class = "ui-grid">
-                        <div class = "ui-grid-row hole-index">
-                            <div class = "ui-md-12">
+                        <div *ngIf="!compInfo.proCompetition" class = "ui-grid-row hole-index">
+                            <div  class = "ui-md-12">
                                 Index
+                            </div>
+                        </div>
+                        <div *ngIf="compInfo.proCompetition"  class = "ui-grid-row hole">
+                            <div class = "ui-md-12">
+                                Hole
                             </div>
                         </div>
                         <div class = "ui-grid-row hole-par">
@@ -75,32 +82,50 @@
                         </div>
                         <div class = "ui-grid-row scores">
                             <div class = "ui-md-12">
-                                Scores
+                                Score
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class = "ui-md-8">
                     <div class = "ui-grid">
-                        <div class = "ui-grid-row hole-index">
+                        <div *ngIf="!compInfo.proCompetition" class = "ui-grid-row hole-index">
                             <div class = "ui-md-1">{{nine.holeInfo1.holeIndex}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo2.holeIndex}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo3.holeIndex}}</div>
+                            <div class = "ui-md-1">&nbsp;</div>
                             <div class = "ui-md-1">{{nine.holeInfo4.holeIndex}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo5.holeIndex}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo6.holeIndex}}</div>
+                            <div class = "ui-md-1">&nbsp;</div>
                             <div class = "ui-md-1">{{nine.holeInfo7.holeIndex}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo8.holeIndex}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo9.holeIndex}}</div>
+                            <div class = "ui-md-3"></div>
+                        </div>
+                        <div *ngIf="compInfo.proCompetition" class = "ui-grid-row hole">
+                            <div class = "ui-md-1">1</div>
+                            <div class = "ui-md-1">2</div>
+                            <div class = "ui-md-1">3</div>
+                            <div class = "ui-md-1">&nbsp;</div>
+                            <div class = "ui-md-1">4</div>
+                            <div class = "ui-md-1">5</div>
+                            <div class = "ui-md-1">6</div>
+                            <div class = "ui-md-1">&nbsp;</div>
+                            <div class = "ui-md-1">7</div>
+                            <div class = "ui-md-1">8</div>
+                            <div class = "ui-md-1">9</div>
                             <div class = "ui-md-3"></div>
                         </div>
                         <div class = "ui-grid-row hole-par">
                             <div class = "ui-md-1">{{nine.holeInfo1.holePar}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo2.holePar}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo3.holePar}}</div>
+                            <div class = "ui-md-1">&nbsp;</div>
                             <div class = "ui-md-1">{{nine.holeInfo4.holePar}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo5.holePar}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo6.holePar}}</div>
+                            <div class = "ui-md-1">&nbsp;</div>
                             <div class = "ui-md-1">{{nine.holeInfo7.holePar}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo8.holePar}}</div>
                             <div class = "ui-md-1">{{nine.holeInfo9.holePar}}</div>
@@ -125,6 +150,7 @@
                                         (focus) = "onFocus($event, 3, nine.whichNine)"
                                         (keyup) = "onKeyUp($event, 3, nine.whichNine)">
                             </div>
+                            <div class = "ui-md-1">&nbsp;</div>
                             <div class = "ui-md-1">
                                 <input type = "number" [(ngModel)] = "nine.hole4" [name] = "'hole4_'+nine.whichNine"
                                         pInputText
@@ -143,6 +169,7 @@
                                         (focus) = "onFocus($event, 6, nine.whichNine)"
                                         (keyup) = "onKeyUp($event, 6, nine.whichNine)">
                             </div>
+                            <div class = "ui-md-1">&nbsp;</div>
                             <div class = "ui-md-1">
                                 <input type = "number" [(ngModel)] = "nine.hole7" [name] = "'hole7_'+nine.whichNine"
                                         pInputText
