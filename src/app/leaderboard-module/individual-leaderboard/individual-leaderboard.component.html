@@ -110,19 +110,48 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
     </p-tabPanel>
     </ng-container>
 </p-tabView>
-<ng-container class="toyota" *ngFor="let cat of validCategories; let idx = index">
+
+<div class="row">
+    <div class="col">
+
+        <ng-container class="toyota" *ngFor="let cat of validCategories; let idx = index">
     
-    <!-- [style.color]="cat.categoryId === settings.selectedCategory?'red':'black'" -->
-<button pButton *ngIf="!hideCatTabs && cat.categoryId > 0" 
-    [style.font-weight]="cat.categoryId === settings.selectedCategory?'bold':'normal'"
-    [style.border-bottom]="cat.categoryId === settings.selectedCategory?'red':''"
-    [style.border-style]="cat.categoryId === settings.selectedCategory?'solid':''"
-    style="background-color: transparent; box-shadow:none; color:black; font-family:'Toyota'"
-     (click)="onClickCategory($event, cat)"
-     [label]="cat.categoryName">
-    <!-- {{cat.categoryName}} -->
-</button>
-</ng-container>
+            <!-- [style.color]="cat.categoryId === settings.selectedCategory?'red':'black'" -->
+        <button pButton *ngIf="!hideCatTabs && cat.categoryId > 0" 
+            [style.font-weight]="cat.categoryId === settings.selectedCategory?'bold':'normal'"
+            [style.border-bottom]="cat.categoryId === settings.selectedCategory?'red':''"
+            [style.border-style]="cat.categoryId === settings.selectedCategory?'solid':''"
+            style="background-color: transparent; box-shadow:none; color:black; font-family:'Toyota'"
+             (click)="onClickCategory($event, cat)"
+             [label]="cat.categoryName">
+            <!-- {{cat.categoryName}} -->
+        </button>
+        </ng-container>
+    </div>
+    <div class="col right-tabs"> 
+        <!-- <button pButton  *ngIf="settings.selectedRound === 0"
+            [style.font-weight]="round.roundNo === settings.selectedRound?'bold':'normal'"
+            [style.border-bottom]="round.roundNo === settings.selectedRound?'red':''"
+            [style.border-style]="round.roundNo === settings.selectedRound?'solid':''"
+            style="background-color: transparent; box-shadow:none; color:black; font-family:'Toyota'"
+             (click)="onClickRound($event, null)"
+             [label]="'ALL'">
+        </button> -->
+        <ng-container style="text-align: right" class="toyota" *ngFor="let round of validRounds; let idx = index">
+    <!-- settings.selectedRound -->
+    <!-- *ngIf="!hideCatTabs && cat.categoryId > 0" -->
+        <button pButton *ngIf="validRounds && validRounds.length > 1"
+            [style.font-weight]="round.roundNo === settings.selectedRound?'bold':'normal'"
+            [style.border-bottom]="round.roundNo === settings.selectedRound?'red':''"
+            [style.border-style]="round.roundNo === settings.selectedRound?'solid':''"
+            style="background-color: transparent; box-shadow:none; color:black; font-family:'Toyota'"
+             (click)="onClickRound($event, round)"
+             [label]="round.roundNo===0?'All':'R'+round.roundNo">
+            <!-- {{cat.categoryName}} -->
+        </button>
+        </ng-container>
+    </div>
+</div>
 <section #leaderboardSection class="competition-leaderboard">
 
     <section class="fullscreen-header">
@@ -499,6 +528,8 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             <app-individual-expand [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
         </ng-template>
     </p-dataTable>
+    
+    <!-- [rowStyleClass]="getCutOffClass" -->
     <p-dataTable *ngIf="enableToyota" [value]="playersToDisplay" #playerLeaderboard 
     expandableRows="true" rowExpandMode="single"
         styleClass="primary-table toyota" (onRowCollapse)="onPlayerRowCollapsed($event)"
@@ -607,9 +638,12 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 
                 <div *ngIf="!byNet && player.toPar<0" [class.under-par]="player.toPar<0">{{player.toPar}}</div>
                 <div *ngIf="!byNet && player.toPar>0"  style="font-weight: bold;background-color: white; color:black"  >+{{player.toPar}}</div>
-                <div *ngIf="!byNet && player.toPar === 0">
+                <div *ngIf="!byNet && player.thru === '0' && player.toPar === 0">
+                    -
+                </div>
+                <div *ngIf="!byNet && player.thru !== '0' && player.toPar === 0">
                     PAR
-            </div>
+                </div>
                 <!-- <div *ngIf="!byNet && player.toPar < 0">
                     <button  [class.under-parT]="player.toPar<0" pButton type="button" [label]="player.toPar"></button></div>
                 <div *ngIf="!byNet && player.toPar === 0">
@@ -632,8 +666,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         </p-column>
         <!-- checkThru(playersToDisplay) -->
         <!-- || isMobileScreen() -->
-        <p-column 
-        field="thru" 
+        <p-column field="thru" 
         [hidden]="isColumnHidden('thru')" [style]="{'textAlign': 'center'}">
         <ng-template let-car="rowData" let-i="rowIndex" pTemplate="body">
             <!-- {{checkThru(playersToDisplay[i])==='F'?'-':checkThru(playersToDisplay[i])}} -->
@@ -642,24 +675,63 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         </p-column>
         <p-column field="round1Gross" [header]="getRoundTitle(1)" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(1)"
             [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body" >
+                <!-- <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">{{player.round1Gross}}</div>
+                <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div> -->
+                <div *ngIf="getRoundThru(player,1)">{{player.round1Gross}}</div>
+                <div *ngIf="!getRoundThru(player,1)">-</div>
+            </ng-template>
         </p-column>
         <p-column field="round2Gross" [header]="getRoundTitle(2)" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(2)"
             [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body" >
+                <!-- <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">{{player.round2Gross}}</div>
+                <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div> -->
+                <div *ngIf="getRoundThru(player,2)">{{player.round2Gross}}</div>
+                <div *ngIf="!getRoundThru(player,2)">-</div>
+            </ng-template>
         </p-column>
         <p-column field="round3Gross" [header]="getRoundTitle(3)" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(3)"
             [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body" >
+                <!-- <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">{{player.round3Gross}}</div>
+                <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div> -->
+                <div *ngIf="getRoundThru(player,3)">{{player.round3Gross}}</div>
+                <div *ngIf="!getRoundThru(player,3)">-</div>
+            </ng-template>
         </p-column>
         <p-column field="round4Gross" [header]="getRoundTitle(4)" styleClass="gross-columnT" [hidden]="isGrossHidden() || isMultiRoundHidden(4)"
             [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body" >
+                <!-- <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">{{player.round4Gross}}</div>
+                <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div> -->
+                <div *ngIf="getRoundThru(player,4)">{{player.round4Gross}}</div>
+                <div *ngIf="!getRoundThru(player,4)">-</div>
+            </ng-template>
         </p-column>
 
         <p-column field="outTotalGross" header="Out" styleClass="gross-columnT"
             [hidden]="isGrossHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body" >
+                <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">{{player.outTotalGross}}</div>
+                <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div>
+            </ng-template>
         </p-column>
         <p-column field="inTotalGross" styleClass="gross-columnT"
-            [hidden]="isGrossHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}"></p-column>
+            [hidden]="isGrossHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
+        
+            <ng-template let-col let-player="rowData" pTemplate="body" >
+                <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">{{player.inTotalGross}}</div>
+                <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div>
+            </ng-template>
+        </p-column>
         <p-column field="totalGross" styleClass="gross-columnT" [hidden]="isGrossHidden()"
-            [style]="{'textAlign': 'center'}"></p-column>
+            [style]="{'textAlign': 'center'}">
+            <ng-template let-col let-player="rowData" pTemplate="body" >
+                <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">{{player.totalGross}}</div>
+                <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div>
+            </ng-template>
+        </p-column>
 
             <p-column field="round1Net" header="R1" styleClass="net-column" [hidden]="isNetHidden() || isMultiRoundHidden(1)"
             [style]="{'textAlign': 'center'}">

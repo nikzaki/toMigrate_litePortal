@@ -21,6 +21,12 @@ individual-leaderboard {
       display:none;
     }
 
+    .cut-off-line {
+      border-top-color: black !important;
+      border-top-width: medium !important;
+      // background-color: lightgrey !important;
+    }
+
     .position {
       // font-family: 'Toyota' !important;
       // font-size: 1.3em;
@@ -38,6 +44,14 @@ individual-leaderboard {
     .non-playing-rows {
       background-color: grey;
     }
+  }
+  
+  .left-tabs {
+
+  }
+  .right-tabs {
+    display: flex;
+    justify-content: flex-end;
   }
 
   // .toyota table {

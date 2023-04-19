@@ -433,6 +433,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     if(this.enableToyota) {
 
                         this._deriveCategories();
+                        this._deriveRounds();
                     } else {
 
                     this.refreshLeaderBoard();
@@ -749,8 +750,12 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 // return ''; //_time
             else if (this.compDetails.roundInProgress > 1 && data.thru === "0")
                 return this.getStartTime(data.playerId);
-            else if (this.compDetails.roundInProgress > 1 && data.thru !== "0")
-                return 18-(18*this.compDetails.roundInProgress - Number(data.thru))
+            else if (this.compDetails.roundInProgress > 1 && data.thru !== "0") {
+                if(this.settings.selectedRound === 0) {
+                    return 18-(18*this.compDetails.roundInProgress - Number(data.thru))
+                } else return (18*this.compDetails.roundInProgress)-(18*this.compDetails.roundInProgress - Number(data.thru))
+            }
+                // return 18-(18*this.compDetails.roundInProgress - Number(data.thru))
             else return data.thru;
         } else {
             if (data.thru === 'F') return data.thru
@@ -904,7 +909,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 this.settings.selectedRound = 0;
             } else if (validRounds.length === 1) {
                 this.settings.selectedRound = validRounds[0].roundNo;
-                this.validRounds            = validRounds;
+                this.validRounds            = validRounds; //[round, ...validRounds];
             } else {
                 this.validRounds            = [round];
                 this.settings.selectedRound = 0;
@@ -912,7 +917,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         }
     }
 
-    getFlagUrl(flagUrl: string) {
+    getFlagUrl(flagUrl: string) { 
         if(flagUrl == null) return null
         else {
             let flagIcon = flagUrl.split("/")
@@ -926,6 +931,28 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         if(!cat) return;
         this.settings.selectedCategory = cat.categoryId;
         this.refreshParams['category'] = cat;
+        this.refreshLeaderBoard();
+    }
+
+    
+    onClickRound(e, round) {
+
+        console.debug("round clicked : ",e,  round, this.settings.selectedRound);
+        // if(!round) return;
+        if(!round) {
+            this.settings.selectedRound = 0;
+            this.refreshParams.round = {
+                roundNo: 0
+            }
+        }
+        // else if(round.roundNo === 0) {
+        //     this.refreshParams.round = null;
+        //     this.settings.selectedRound = 0;
+        // }
+        else {
+            this.settings.selectedRound = round.roundNo;
+            this.refreshParams['round'] = round;
+        }
         this.refreshLeaderBoard();
     }
 
@@ -992,5 +1019,39 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             return f.flightMembers.filter((fm: FlightMember) => fm.playerId === playerId).length > 0;
         })
         return moment(_filteredFlight[0].startTime,"HH:mm:ss").format('HH:mm');
+    }
+
+    getRoundThru(player, round: number) {
+        let _thru: number;
+        if(player.thru === 'F') return true;// player.thru;
+        // else if(round === 1) return 
+        else if(this.settings.selectedRound === 0) {
+            if(round > 0  && (Number(player.thru) >= 18*(round))) {
+                // Number(player.thru) >= 9*(round) && 
+                // && round < this.totalRounds
+                return true;
+            } else return false;
+        } else return false;
+    }
+
+    getCutOffClass(player, idx, playersToDisplay: Array<any>) { 
+        let _idx;
+        let _class = '';
+        
+        console.debug("cut off class : ", idx,player, playersToDisplay, this.leaderBoard, this.playersToDisplay)
+        if(player.position === 'CUT') {
+            // return 'cut-off-line'
+        }
+            
+        if(!this.playersToDisplay || this.playersToDisplay.length === 0 ) return;
+        // if(!this.leaderBoard || this.leaderBoard.players.length === 0) return;
+        // this.playersToDisplay.filter((p: LeaderBoardPlayer, i, lbp)=>{
+        let _hasCut = this.playersToDisplay.find((p: LeaderBoardPlayer, i, lbp)=>{
+            
+        console.debug("cut off class [1]: ",player, p, lbp, i)
+            return p.playerId === player.playerId && player.position === 'CUT'; // && lbp[i-1].position !== 'CUT'
+        });
+        if(_hasCut) _class = 'cut-off-line'
+        return _class;
     }
  }
