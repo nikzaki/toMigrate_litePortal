@@ -1,3 +1,5 @@
+import { CompetitionDetails } from './../../models/mygolf.data';
+import { Competition } from './../../models/mygolf/competition/competition';
 import {
     Component, OnInit, Input, OnChanges, SimpleChanges, KeyValueDiffers, DoCheck,
     ViewEncapsulation
@@ -17,6 +19,8 @@ export class PrizeListComponent implements OnInit, OnChanges {
     @Input() showHeader: boolean = true;
     @Input() header: string = 'Competition Prizes';
     @Input() nameColumnHeader: string = 'Category -> Round';
+    @Input() competition: Competition;
+    @Input() details: CompetitionDetails;
     prizeNodes: TreeNode[] = [];
     constructor() {
     }

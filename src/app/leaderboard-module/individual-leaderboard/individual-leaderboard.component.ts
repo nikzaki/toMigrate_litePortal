@@ -1,3 +1,4 @@
+import { PrizeListComponent } from './../../component-module/prize-list/prize-list.component';
 import { ConfigurationService } from './../../services/configuration.service';
 import {
     Component,
@@ -148,6 +149,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
 
     visibilityDialog: boolean;
     @ViewChild('leaderboardSection') leaderboardSection: ElementRef;
+    @ViewChild('prizeLists') prizeList: PrizeListComponent;
 
     hideLogo: boolean = false;
     hideCompName: boolean = false;
@@ -158,6 +160,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     hidePlayerImage: boolean = false;
     showPlayerId: boolean = false;
     showCompPlayerId: boolean = false;
+    prizeDialog: boolean = false;
     constructor(router: Router,
         private activeRoute: ActivatedRoute,
         private userPreference: UserPreferenceService,

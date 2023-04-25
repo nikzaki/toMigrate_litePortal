@@ -24,12 +24,27 @@
             <div class="column-body title-column-body">{{node.data.title}}</div>
         </ng-template>
     </p-column>
-    <p-column styleClass="prize-money-column">
+    <p-column styleClass="prize-title-column">
         <ng-template let-col let-node="rowData" pTemplate="header">
-            <div class="column-header money-column-header">Money</div>
+            <div class="column-header title-column-header">Winner</div>
         </ng-template>
         <ng-template let-col let-node="rowData" pTemplate="body">
-            <div class="column-body money-column-body">{{node.data.prizeMoney}}</div>
+            <div class="column-body title-column-body">{{node.data.playerPos}}</div>
+        </ng-template>
+    </p-column>
+    <p-column styleClass="prize-money-column">
+        <ng-template let-col let-node="rowData" pTemplate="header">
+            <div class="column-header money-column-header">
+                <div *ngIf="competition.proCompetition">Earnings</div>
+                <div *ngIf="!competition.proCompetition">Money</div>
+            </div>
+        </ng-template>
+        <ng-template let-col let-node="rowData" pTemplate="body">
+            <div class="column-body money-column-body">
+                <div *ngIf="competition.proCompetition">{{node.data.actualPrizeAmount?node.data.actualPrizeAmount:node.data.prizeMoney}}</div>
+                <div *ngIf="!competition.proCompetition">{{node.data.prizeMoney}}</div>
+                
+            </div>
         </ng-template>
     </p-column>
 </p-treeTable>

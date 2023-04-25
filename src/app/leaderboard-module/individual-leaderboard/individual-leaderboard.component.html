@@ -129,6 +129,11 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         </ng-container>
     </div>
     <div class="col right-tabs"> 
+        <!-- *ngIf="competition.status==='Completed'" -->
+        <button pButton 
+        style="background-color: transparent; box-shadow:none; color:black; font-family:'Toyota'"
+        [label]="'Winners'" (click)="prizeDialog=true">
+        </button>
         <!-- <button pButton  *ngIf="settings.selectedRound === 0"
             [style.font-weight]="round.roundNo === settings.selectedRound?'bold':'normal'"
             [style.border-bottom]="round.roundNo === settings.selectedRound?'red':''"
@@ -774,6 +779,8 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             <app-individual-expand [enableToyota]="enableToyota" [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
         </ng-template>
     </p-dataTable>
+    
+
     <footer class="fullscreen-footer" [hidden]="!this.settings.showSponsor">
             <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-evenly" >
                     <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="10px" fxLayoutAlign="space-evenly center" style="margin-bottom: 1em">
@@ -837,7 +844,22 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                     </footer>
 </section>
 
+<!-- <ng-template *ngIf="enableToyota" pTemplate="content"> -->
+    <!-- <prize-list #prizeLists [competition]="competition" [details]="compDetails" 
+    [prizeList]="compDetails.prizes" [showHeader]="false"></prize-list> -->
+<!-- </ng-template> -->
+
 <scoring-notifications [notifications]="scoringNotifications|async"></scoring-notifications>
+<!-- <p-dialog #prizeVisibility [visible]="prizeDialog" [closable]="true" 
+showHeader="true"
+[contentStyle]="{'overflow':'visible'}" height="600" width="600">
+<ng-template pTemplate="content">
+    <prize-list #prizeList [competition]="competition" [details]="compDetails" 
+    [prizeList]="compDetails.prizes" [showHeader]="false"></prize-list>
+</ng-template>
+
+
+</p-dialog> -->
 <p-dialog #columnVisibility [visible]="visibilityDialog" [closable]="false" showHeader="false"
     [contentStyle]="{'overflow':'visible'}" height="200" width="400"
     (onHide)="columnVisibilityChanged(visibilityComp.hiddenColumns)">

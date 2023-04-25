@@ -101,7 +101,7 @@
                     class="missing-data">No sponsors for this competition</div>
         </md-tab>
         <md-tab label="Prizes">
-            <prize-list [prizeList]="details.prizes" [showHeader]="false"></prize-list>
+            <prize-list [competition]="competition" [details]="details" [prizeList]="details.prizes" [showHeader]="false"></prize-list>
         </md-tab>
         <md-tab label="Flights">
             <md-card>
