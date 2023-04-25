@@ -161,6 +161,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     showPlayerId: boolean = false;
     showCompPlayerId: boolean = false;
     prizeDialog: boolean = false;
+    showWinners: boolean = false;
     constructor(router: Router,
         private activeRoute: ActivatedRoute,
         private userPreference: UserPreferenceService,
@@ -386,7 +387,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 let pos_:number = Number(ptd.position);
                 // if(pos_ > this.totalPlayers) ptd.position = String(pos_ - this.totalPlayers + notPlay);
 
-            console.log("Position PTD : ",ptd.position, pos_, this.totalPlayers, notPlay);
+            // console.log("Position PTD : ",ptd.position, pos_, this.totalPlayers, notPlay);
         }});
 
         // this.playersToDisplay = this.playersToDisplay.filter(function(hero) {
@@ -511,7 +512,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     //     return lbp.position === 'W'
                     // })
                     .sort((a,b)=>{
-                        console.debug("sorting : ",this.compDetails.roundInProgress, a,b)
+                        // console.debug("sorting : ",this.compDetails.roundInProgress, a,b)
                         if(a.position === 'W' && b.position === 'W'){
                             if (this.compDetails.roundInProgress === 4) {
                                 if(a.round3Gross === 0 && b.round3Gross > 0) return 1

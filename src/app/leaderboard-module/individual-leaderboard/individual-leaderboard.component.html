@@ -112,7 +112,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
 </p-tabView>
 
 <div class="row">
-    <div class="col">
+    <div class="col" *ngIf="!showWinners">
 
         <ng-container class="toyota" *ngFor="let cat of validCategories; let idx = index">
     
@@ -131,8 +131,12 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
     <div class="col right-tabs"> 
         <!-- *ngIf="competition.status==='Completed'" -->
         <button pButton 
+        [label]="'Winners'" (click)="showWinners=!showWinners"
+        [style.font-weight]="showWinners?'bold':'normal'"
+        [style.border-bottom]="showWinners?'red':''"
+        [style.border-style]="showWinners?'solid':''"
         style="background-color: transparent; box-shadow:none; color:black; font-family:'Toyota'"
-        [label]="'Winners'" (click)="prizeDialog=true">
+        >
         </button>
         <!-- <button pButton  *ngIf="settings.selectedRound === 0"
             [style.font-weight]="round.roundNo === settings.selectedRound?'bold':'normal'"
@@ -146,9 +150,9 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
     <!-- settings.selectedRound -->
     <!-- *ngIf="!hideCatTabs && cat.categoryId > 0" -->
         <button pButton *ngIf="validRounds && validRounds.length > 1"
-            [style.font-weight]="round.roundNo === settings.selectedRound?'bold':'normal'"
-            [style.border-bottom]="round.roundNo === settings.selectedRound?'red':''"
-            [style.border-style]="round.roundNo === settings.selectedRound?'solid':''"
+            [style.font-weight]="!showWinners && round.roundNo === settings.selectedRound?'bold':'normal'"
+            [style.border-bottom]="!showWinners && round.roundNo === settings.selectedRound?'red':''"
+            [style.border-style]="!showWinners && round.roundNo === settings.selectedRound?'solid':''"
             style="background-color: transparent; box-shadow:none; color:black; font-family:'Toyota'"
              (click)="onClickRound($event, round)"
              [label]="round.roundNo===0?'All':'R'+round.roundNo">
@@ -157,7 +161,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         </ng-container>
     </div>
 </div>
-<section #leaderboardSection class="competition-leaderboard">
+<section #leaderboardSection class="competition-leaderboard" *ngIf="!showWinners">
 
     <section class="fullscreen-header">
         <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-between center">
@@ -843,6 +847,12 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                         </div>
                     </footer>
 </section>
+
+<!-- <ng-template *ngIf="enableToyota && showWinners" pTemplate="content"> -->
+    <prize-list *ngIf="enableToyota && showWinners" #prizeLists [competition]="competition" [details]="compDetails" 
+    [prizeList]="compDetails.prizes" [showHeader]="false"></prize-list>
+    
+<!-- </ng-template> -->
 
 <!-- <ng-template *ngIf="enableToyota" pTemplate="content"> -->
     <!-- <prize-list #prizeLists [competition]="competition" [details]="compDetails" 
