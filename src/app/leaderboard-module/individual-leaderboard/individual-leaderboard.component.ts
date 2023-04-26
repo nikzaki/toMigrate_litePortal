@@ -1,4 +1,4 @@
-import { PrizeListComponent } from './../../component-module/prize-list/prize-list.component';
+import { PrizeListComponent } from '../../component-module/prize-list/prize-list.component';
 import { ConfigurationService } from './../../services/configuration.service';
 import {
     Component,
@@ -940,7 +940,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
 
     
     onClickRound(e, round) {
-
+        this.showWinners = false;
         console.debug("round clicked : ",e,  round, this.settings.selectedRound);
         // if(!round) return;
         if(!round) {
