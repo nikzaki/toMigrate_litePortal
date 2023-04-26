@@ -30,6 +30,8 @@ export interface Competition {
     totalRegistered?: number;
     clubName?: string;
     clubId?: number;
+    countryId?: string;
+    countryName?: string;
     organizerId?:number;
     organizerName?: string;
     teamEvent?: boolean;

@@ -10,7 +10,7 @@
         <img *ngIf="competition"  style="height:5em; margin-right: 10px; min-width: 7em"
             [src]="competition.thumbnail?competition.thumbnail:competition.imageUrl"
             onerror="this.src='assets/images/default_competition.png'">
-            <!-- [fxHide.xs]="true" -->
+            [fxHide.xs]="true" -->
         <!-- {{competition?.competitionName}} -->
     <!-- </div> -->
     <div [hidden]="hideCompHeader" class="card-title ui-g align-items-center" *ngIf="competition && !enableToyota">
@@ -854,10 +854,6 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
     
 <!-- </ng-template> -->
 
-<!-- <ng-template *ngIf="enableToyota" pTemplate="content"> -->
-    <!-- <prize-list #prizeLists [competition]="competition" [details]="compDetails" 
-    [prizeList]="compDetails.prizes" [showHeader]="false"></prize-list> -->
-<!-- </ng-template> -->
 
 <scoring-notifications [notifications]="scoringNotifications|async"></scoring-notifications>
 <!-- <p-dialog #prizeVisibility [visible]="prizeDialog" [closable]="true" 

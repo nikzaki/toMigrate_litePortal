@@ -1,4 +1,5 @@
-import { CompetitionDetails } from './../../models/mygolf.data';
+import { PlayerService } from './../../services/player.service';
+import { CompetitionDetails, Country } from './../../models/mygolf.data';
 import { Competition } from './../../models/mygolf/competition/competition';
 import {
     Component, OnInit, Input, OnChanges, SimpleChanges, KeyValueDiffers, DoCheck,
@@ -22,10 +23,12 @@ export class PrizeListComponent implements OnInit, OnChanges {
     @Input() competition: Competition;
     @Input() details: CompetitionDetails;
     prizeNodes: TreeNode[] = [];
-    constructor() {
+    countryList: Array<Country> = [];
+    constructor(
+        private playerService: PlayerService) {
     }
     ngOnInit() {
-
+        this.refreshCountryList();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
@@ -38,5 +41,29 @@ export class PrizeListComponent implements OnInit, OnChanges {
         if(this.prizeList && this.prizeList.length){
             this.prizeNodes = Util.getTreeNodes(this.prizeList, this.groupBy);
         }
+    }
+
+    
+    refreshCountryList() {
+        this.playerService.getCountryList()
+            .subscribe((countryList: any) => {
+                this.countryList = countryList;
+                console.log('country list ', countryList)
+
+            }, (error) => {
+            })
+    }
+
+    getCurrency() {
+        let _country: Country;
+        if(!this.countryList) return;
+        if(!this.competition.countryId) return;
+        _country = this.countryList.find(country => country.id === this.competition.countryId);
+        if(!_country) return;
+        return _country.currencySymbol
+    }
+    
+    public numberWithCommas(x: any) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
 }
