@@ -18,6 +18,7 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
     @Input() playerName: string;
     @Input() test: string;
     @Input() enableToyota: boolean = false;
+    @Input() maxRounds: number = 1;
     compRounds: CompetitionGameRound[] = [];
              playerExpanded: boolean            = false;
              whichNine: number = 1;
@@ -173,7 +174,7 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
     getScoreTitle(type?: string,roundNo?: number) {
         if(type === 'Net') return 'Net';
         else if(this.enableToyota) {
-            if(roundNo > 1 && roundNo === this.compRounds.length) return 'FR'
+            if(roundNo > 1 && roundNo === this.maxRounds) return 'FR'
             else return 'R'+roundNo;
             // else return 'Score';
         }

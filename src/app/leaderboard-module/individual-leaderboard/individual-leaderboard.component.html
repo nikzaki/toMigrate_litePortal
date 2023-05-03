@@ -262,7 +262,11 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
                 <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
                     <ng-template let-col let-player="rowData" pTemplate="body">
-                        <div class="position" [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+                        <div class="position" [class.withdrawn-player]="player.position==='W'">
+                            
+                            <span *ngIf="player.position==='W'">WD</span>
+                            <span *ngIf="player.position!=='W'">{{player.position}}</span>
+                        </div>
                         <!-- style="font-size:1.1em;font-family:'Toyota'"  -->
                     </ng-template>
                 </p-column>
@@ -378,7 +382,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                     <!--[rounds]="playerRowExpanded.rounds">-->
         
                     <!--</player-scorecard-display>-->
-                    <app-individual-expand [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
+                    <app-individual-expand [maxRounds]="competition.totalRounds" [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
                 </ng-template>
     </p-dataTable>
     <p-dataTable *ngIf="!enableToyota" [value]="playersToDisplay" #playerLeaderboard expandableRows="true" rowExpandMode="single"
@@ -431,7 +435,11 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
         <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
-                <div  class="position"   [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+                <div  class="position"   [class.withdrawn-player]="player.position==='W'">
+                    <!-- {{player.position}} -->
+                    <span *ngIf="player.position==='W'">WD</span>
+                    <span *ngIf="player.position!=='W'">{{player.position}}</span>
+                </div>
             </ng-template>
         </p-column>
         <p-column field="handicap" header="Hcp" [hidden]="isColumnHidden('handicap')|| isMobileScreen()"
@@ -615,7 +623,12 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         <!-- [ngClass]="player.position === 'W' || player.position === 'CUT'?'non-playing-rows':''"  -->
             
             <ng-template let-col let-player="rowData" pTemplate="body" >
-                <div  class="position"   [class.withdrawn-player]="player.position==='W'">{{player.position}}</div>
+                <div  class="position"   [class.withdrawn-player]="player.position==='W'">
+                    <!-- {{player.position}} -->
+                    
+                    <span *ngIf="player.position==='W'">WD</span>
+                    <span *ngIf="player.position!=='W'">{{player.position}}</span>
+                </div>
             </ng-template>
         </p-column>
         <p-column field="handicap" header="Hcp" [hidden]="isColumnHidden('handicap')|| isMobileScreen()"

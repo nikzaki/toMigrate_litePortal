@@ -47,7 +47,7 @@
                             <td class = "round-group" rowspan = "3"
                             *ngIf="round && round.roundNo === 1 || round.roundNo !== compRounds.length">{{'R'+round.roundNo}}</td>
                             <td class = "round-group" rowspan = "3"
-                            *ngIf="round && round.roundNo > 1 && round.roundNo === compRounds.length">FR</td>
+                            *ngIf="round && round.roundNo > 1 && round.roundNo === maxRounds">FR</td>
                             
                             <td>Index</td>
                             <ng-container *ngFor = "let score of round.nines[whichNine-1].scores">
