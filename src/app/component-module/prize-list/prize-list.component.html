@@ -1,3 +1,4 @@
+
 <p-treeTable class="toyota" [value] = "prizeNodes">
     <p-header *ngIf="showHeader">{{header}}</p-header>
     <p-column styleClass="name-column">
@@ -5,7 +6,7 @@
             <div class="column-header name-column-header">{{nameColumnHeader}}</div>
         </ng-template>
         <ng-template let-col let-node="rowData" pTemplate="body">
-            <span class="column-body name-column-body">{{node.data.name==='999'?'Overall':node.data.name}}</span>
+            <span class="column-body name-column-body">{{node.data.name==='999'?'Overall':getScoreTypeName(node.data.name)}}</span>
         </ng-template>
     </p-column>
     <p-column *ngIf="!competition.proCompetition" styleClass="prize-name-column">

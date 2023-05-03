@@ -1,4 +1,4 @@
-import {Injectable} from '@angular/core';
+import {Injectable} from '@angular/core'; 
 import {Headers, Http, Response} from '@angular/http';
 import {Observable} from 'rxjs/Observable';
 import {Session} from '../models/session/session';
@@ -28,11 +28,12 @@ export class AuthenticationService {
         let headers = new Headers();
         headers.append("Content-Type", "application/x-www-form-urlencoded");
         let authUrl = this.configService.getUrl(RestUrl.authentication.loginUrl);
-        console.log("Authentication URL = " + authUrl);
+        console.log("Authentication URL  = " + authUrl);
         return this.http.post(authUrl, creds, {
             headers: headers
         }).map((res: Response) => {
             let data: AuthenticationResult = res.json();
+            console.log("Login response ", data);
             let session: Session       = {
                 status : 'active',
                 authToken: data.authToken,
@@ -53,6 +54,7 @@ export class AuthenticationService {
             headers: headers
         }).map((res: Response) => {
             let data: AuthenticationResult = res.json();
+            console.log("Login response ", data);
             let session: Session       = {
                 status : 'active',
                 authToken: data.authToken,
@@ -61,6 +63,24 @@ export class AuthenticationService {
             return session;
         });
     }
+
+    // getAuth(username: string, password: string): Observable<Session> {
+    //     let creds   = "email=" + username + "&" + "password=" + password + "&username=" + username;
+    //     // let headers = new Headers();
+    //     // headers.append("Content-Type", "application/x-www-form-urlencoded");
+    //     let authUrl = this.configService.getUrl(RestUrl.authentication.auth); 
+    //     console.log("Authentication URL = " + authUrl);
+    //     return this.httpService.post(authUrl, creds).map((res: Response) => {
+    //         let data: AuthenticationResult = res.json();
+    //         console.log("Login response ", data);
+    //         let session: Session       = {
+    //             status : 'active',
+    //             authToken: data.authToken,
+    //             userInfo : data.user
+    //         };
+    //         return session;
+    //     });
+    // }
 
     public populateSessionHeaders(hdrs: any) {
 

@@ -1,3 +1,4 @@
+import { CompetitionService } from './../../services/competition.service';
 import { PlayerService } from './../../services/player.service';
 import { CompetitionDetails, Country } from './../../models/mygolf.data';
 import { Competition } from './../../models/mygolf/competition/competition';
@@ -25,7 +26,8 @@ export class PrizeListComponent implements OnInit, OnChanges {
     prizeNodes: TreeNode[] = [];
     countryList: Array<Country> = [];
     constructor(
-        private playerService: PlayerService) {
+        private playerService: PlayerService,
+        private compService: CompetitionService) {
     }
     ngOnInit() {
         this.refreshCountryList();
@@ -40,6 +42,9 @@ export class PrizeListComponent implements OnInit, OnChanges {
     private _groupPrizes() {
         if(this.prizeList && this.prizeList.length){
             this.prizeNodes = Util.getTreeNodes(this.prizeList, this.groupBy);
+            console.debug("prizes [node] : ", this.prizeNodes)
+            console.debug("prizes [list] : ", this.prizeNodes)
+            console.debug("prizes [group] : ", this.groupBy)
         }
     }
 
@@ -66,4 +71,16 @@ export class PrizeListComponent implements OnInit, OnChanges {
     public numberWithCommas(x: any) {
         return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
+
+    getScoreTypeName(type?: string) {
+        if(Number(type) > 0) {
+            let _number = Number(type);
+            return 'Round '+_number;
+        }
+        if(type === 'G') return 'Gross';
+        else if(type === 'N') return 'Net';
+        else if(type === 'X') return 'Novelty'
+        else return type;
+    }
+
 }

@@ -6,7 +6,7 @@ export const RestUrl: any = {
     restBase: '/rest',
     authentication: {
         loginUrl: '/api/login',
-        auth: '/authenticate',
+        auth: '/rest/authenticate',
     },
     playerService: {
         isEmailUsed: '/emailused',
@@ -57,6 +57,7 @@ export const RestUrl: any = {
         getCompetitionTeamList: '/competition/teams/list',
         getTeamScores: '/competition/teamscores',
         searchCompetitions: '/competition/search',
+        overrideWinners: '/competition/override-winners',
     },
     scorecardService : {
         getPlayerScorecard: '/manualscoring/getscorecard',

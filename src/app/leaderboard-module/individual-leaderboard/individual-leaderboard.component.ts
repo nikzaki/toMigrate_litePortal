@@ -1,3 +1,5 @@
+import { Session } from './../../models/session/session';
+import { AuthenticationService } from './../../services/authentication.service';
 import { PrizeListComponent } from '../../component-module/prize-list/prize-list.component';
 import { ConfigurationService } from './../../services/configuration.service';
 import {
@@ -158,15 +160,18 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     enableToyota: boolean = false;
     hideCatTabs: boolean = true;
     hidePlayerImage: boolean = false;
+    hideAllCategory: boolean = false;
     showPlayerId: boolean = false;
     showCompPlayerId: boolean = false;
     prizeDialog: boolean = false;
     showWinners: boolean = false;
+    overrideWinner: boolean = false;
     constructor(router: Router,
         private activeRoute: ActivatedRoute,
         private userPreference: UserPreferenceService,
         private notfService: NotificationService,
         private competitionService: CompetitionService,
+        private authService: AuthenticationService,
 
         @Inject(DOCUMENT) private document: Document,
         private media: ObservableMedia,
@@ -232,6 +237,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 // this.settings.scrollSize = this.totalPlayers; 
                 this.hideCatTabs = false;
                 this.hidePlayerImage = true;
+                this.hideAllCategory = true;
                 this.leaderboardColumns.forEach(det => {
                     if(det.id === 'handicap')
                         det.hidden = true;
@@ -240,6 +246,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     // if(det.id === 'on')
                     //     det.hidden = false;
                 });
+                if(params['overrideWinner'] && params['overrideWinner'] ==='true' && params['secretCode'] && params['secretCode']==='xsoftbritex')
+                    this.overrideWinner = true;
                 // if(this.validCategories && this.validCategories.length > 0) 
                 //     this.settings.selectedCategory = this.validCategories[0].categoryId;
             }
@@ -264,6 +272,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             if(params['hidePlayerImage'] && params['hidePlayerImage'] === 'true')
                 this.hidePlayerImage = true;
             else if(params['hidePlayerImage'] && params['hidePlayerImage'] === 'false') this.hidePlayerImage = false;
+            if(params['hideAllCategory'] && params['hideAllCategory'] === 'true')
+                this.hideAllCategory = true;
+            else if(params['hideAllCategory'] && params['hideAllCategory'] === 'false') this.hideAllCategory = false;
+            
 
           console.log(params); // { orderby: "price" }
         //   this.fullScreen= params.fullScreen;
@@ -932,8 +944,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     onClickCategory(e, cat) {
 
         console.debug("category clicked : ",e,  cat, this.settings.selectedCategory);
-        if(!cat) return;
-        this.settings.selectedCategory = cat.categoryId;
+        // if(!cat) return;
+        if(!cat) this.settings.selectedCategory = null;
+        else  this.settings.selectedCategory = cat.categoryId;
         this.refreshParams['category'] = cat;
         this.refreshLeaderBoard();
     }
@@ -1057,5 +1070,71 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         });
         if(_hasCut) _class = 'cut-off-line'
         return _class;
+    }
+
+    
+    winnersList: Array<number>; //competitionPlayerIds
+    selectedWinner: number;
+    selectedCategory: number;
+    overrideMode: boolean = false;
+    username: string;
+    password: string;
+    errorMessage: string;
+    executeOverrideWinners() {
+        this.errorMessage = null;
+        this.getAuthenticate()
+        .then((result: any)=>{
+            console.debug("after get auth ", result)
+            if(result && result.success) {
+                let _compId = this.competition.competitionId;
+                let _grossOrNet = 'G'; //'N'
+                let _winners = [];
+                if(this.selectedWinner) _winners.push(this.selectedWinner);
+                let _category;
+                if(this.selectedCategory) _category = this.selectedCategory;
+                let _authToken = result.session.authToken;
+                this.competitionService.overrideWinners(_compId, _grossOrNet, _winners, _category, true, _authToken)
+                .subscribe((result: any)=>{
+                    console.debug("execute override winners : ", result, )
+                    this.refreshLeaderBoard();
+                    this.overrideMode = false;
+                    this.selectedCategory = null;
+                    this.selectedWinner = null;
+                })
+            } else {
+                if(result.session && result.session.exception)
+                this.errorMessage = result.session.exception;
+            }
+        }).catch((error: any)=>{
+            if(error && !error.success) this.errorMessage = error.message;
+        })
+    }
+
+    getAuthenticate() { 
+        return new Promise((resolve, reject)=>{
+            this.competitionService.getAuth(this.username, this.password)
+                .subscribe((session: any) => {
+                    console.log("authenticate : ", session)
+                    resolve({
+                        success: session.success,
+                        session: session
+                    })
+                    // if(url) session.returnUrl = url;
+                    // return createAction(SessionActions.LOGIN_SUCESS, session);
+                },(error)=>{
+                    let _error = error.json();
+                    let _msg = _error.errorMessage;
+                    this.errorMessage = _msg;
+                    resolve({
+                        success: false,
+                        message: _msg
+                    })
+                })
+                // .catch((error: any) => {
+                //     const msg = Util.getErrorMessage(error, 'Unknown error occured while signing in. Server may be down.');
+                //     this.messageActions.errorGrowl(msg, 'Sign In Failed');
+                //      return Observable.of(createAction(SessionActions.LOGIN_FAILED, msg));
+                // });
+        })
     }
  }

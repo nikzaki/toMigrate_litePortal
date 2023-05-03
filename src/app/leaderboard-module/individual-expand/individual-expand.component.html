@@ -137,7 +137,7 @@
                     <th>Tot</th>
                 </tr>
                 <tbody>
-                <tr [hidden]="enableToyota"   class = "index-row">
+                <tr [hidden]="enableToyota" *ngIf="player.rounds[0]"  class = "index-row">
                     <td class = "round-group" rowspan = "3">R1</td>
                     <td>Index</td>
                     <ng-container *ngFor = "let score of player.rounds[0].nines[0].scores">
@@ -150,7 +150,7 @@
                     <td></td>
                     <td></td>
                 </tr>
-                <tr class = "par-row" >
+                <tr class = "par-row" *ngIf="player.rounds[0]" >
                     <!-- *ngIf="!enableToyota || (enableToyota && round && round.roundNo === 1)" -->
                     <!-- <td *ngIf="enableToyota"  class = "round-group" rowspan = "2">R1</td> -->
                     <td *ngIf="enableToyota" class="round-group" rowspan="5"></td>
@@ -165,7 +165,7 @@
                     <td>{{totalParScore(player.rounds[0].nines[1].scores)}}</td>
                     <td>{{totalParScore(player.rounds[0].nines[0].scores,player.rounds[0].nines[1].scores)}}</td>
                 </tr>
-                <tr>
+                <tr *ngIf="player.rounds[0]" >
                     <td>{{getScoreTitle(null,1)}}</td>
                     <ng-container *ngFor = "let score of player.rounds[0].nines[0].scores">
                         <td><span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span></td>

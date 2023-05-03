@@ -1,3 +1,5 @@
+import { AuthenticationResult } from './../models/session/authentication-result';
+import { Session } from './../models/session/session';
 import { FlightInfo, SearchCriteria } from './../models/mygolf.data';
 /**
  * Created by ashok on 26/06/17.
@@ -355,6 +357,56 @@ export class CompetitionService {
     private mergeObject(target: any, source: any) {
         for (let key in source)
             target[key] = source[key];
+    }
+
+    
+    public overrideWinners(competitionId: number, grossOrNet: string = 'G', winners: Array<number>, category: number, updatePrize: boolean = true,
+    authToken: string ): Observable<any> {
+        let url = this.configService.getRestApiUrl(RestUrl.competitionService.overrideWinners);
+        let _params = {
+            competitionId: competitionId,
+            grossOrNet: grossOrNet,
+            winners: winners,
+            category: category,
+            updatePrize: updatePrize,
+        }
+        const hdrs = {};
+        if(authToken) hdrs['X-AUTH-TOKEN'] = authToken;
+        let req = new RemoteRequest(url, RequestMethod.Post, ContentType.URL_ENCODED_FORM_DATA, _params, hdrs);
+        return this.remoteHttp.execute(req)
+            .map((resp: Response)=>{
+                return resp.json();
+            });
+    }
+
+    
+
+    getAuth(username: string, password: string): Observable<Session> {
+        let creds   = "email=" + username + "&" + "password=" + password + "&username=" + username;
+        let _params = {
+            email: username,
+            password: password,
+            username: username,
+        }
+        // let headers = new Headers();
+        // headers.append("Content-Type", "application/x-www-form-urlencoded");
+        let authUrl = this.configService.getUrl(RestUrl.authentication.auth); 
+        console.log("Authentication URL = " + authUrl);
+        let req = new RemoteRequest(authUrl, RequestMethod.Post, ContentType.URL_ENCODED_FORM_DATA, _params);
+        return this.remoteHttp.execute(req)
+            .map((resp: Response)=>{
+                return resp.json();
+            });
+        // return this.remoteHttp.post(authUrl, creds).map((res: Response) => {
+        //     let data: AuthenticationResult = res.json();
+        //     console.log("Login response ", data);
+        //     let session: Session       = {
+        //         status : 'active',
+        //         authToken: data.authToken,
+        //         userInfo : data.user
+        //     };
+        //     return session;
+        // });
     }
 
 

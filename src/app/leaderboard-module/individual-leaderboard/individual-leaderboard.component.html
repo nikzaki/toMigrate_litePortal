@@ -113,9 +113,21 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
 
 <div class="row">
     <div class="col" *ngIf="!showWinners">
-
+        <!-- <button pButton
+            style="background-color: transparent; box-shadow:none; color:black; font-family:'Toyota'"
+             (click)="onClickCategory($event, null)"
+             [label]="'Overall'">
+        </button> -->
         <ng-container class="toyota" *ngFor="let cat of validCategories; let idx = index">
-    
+            <button pButton *ngIf="!hideAllCategory && !hideCatTabs && cat.categoryId <= 0" 
+                [style.font-weight]="cat.categoryId === settings.selectedCategory?'bold':'normal'"
+                [style.border-bottom]="cat.categoryId === settings.selectedCategory?'red':''"
+                [style.border-style]="cat.categoryId === settings.selectedCategory?'solid':''"
+                style="background-color: transparent; box-shadow:none; color:black; font-family:'Toyota'"
+                 (click)="onClickCategory($event, cat)"
+                 [label]="cat.categoryName">
+                <!-- {{cat.categoryName}} -->
+            </button>
             <!-- [style.color]="cat.categoryId === settings.selectedCategory?'red':'black'" -->
         <button pButton *ngIf="!hideCatTabs && cat.categoryId > 0" 
             [style.font-weight]="cat.categoryId === settings.selectedCategory?'bold':'normal'"
@@ -621,6 +633,11 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                             (#{{player.competitionPlayerId}})
                         </span>
                     </span>
+                    <button pButton *ngIf="overrideMode && (!selectedWinner || selectedWinner !== player.competitionPlayerId)"
+                    (click)="selectedWinner = player.competitionPlayerId; selectedCategory = settings.selectedCategory"
+                    label="Select">
+                        
+                    </button>
                 </div>
             </ng-template>
         </p-column>
@@ -849,6 +866,24 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
 </section>
 
 <!-- <ng-template *ngIf="enableToyota && showWinners" pTemplate="content"> -->
+    <section *ngIf="overrideWinner && settings && settings.selectedRound === 0">
+        <button pButton style="background-color:red; color:white" *ngIf="!overrideMode" (click)="overrideMode=true; showCompPlayerId=true"
+        label="Override Winners">
+        </button>
+        <button pButton color="primary" *ngIf="overrideMode" (click)="overrideMode=false;showCompPlayerId=false"
+        label="Cancel Override">
+        </button>
+        <ng-container *ngIf="overrideMode && selectedWinner">
+            <br>
+        Selected Winner : {{selectedWinner}}<br>
+        Selected Category : {{selectedCategory}}<br>
+        <input type="text" [(ngModel)]="username">
+        <input type="password" [(ngModel)]="password">
+        <p style="color: red" *ngIf="errorMessage">{{errorMessage}}</p>
+        <button pButton  style="background-color:red; color:white" (click)="executeOverrideWinners()"
+        label="Execute"></button>
+    </ng-container>
+    </section>
     <prize-list *ngIf="enableToyota && showWinners" #prizeLists [competition]="competition" [details]="compDetails" 
     [prizeList]="compDetails.prizes" [showHeader]="false"></prize-list>
     
