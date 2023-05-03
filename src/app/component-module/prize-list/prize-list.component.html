@@ -47,17 +47,17 @@
     <p-column styleClass="prize-money-column">
         <ng-template let-col let-node="rowData" pTemplate="header">
             <div class="column-header money-column-header">
-                <div *ngIf="competition.proCompetition">Earnings</div>
+                <div *ngIf="competition.proCompetition">Earnings {{getCurrency()}}</div>
                 <div *ngIf="!competition.proCompetition">Money</div>
             </div>
         </ng-template>
         <ng-template let-col let-node="rowData" pTemplate="body">
             <div class="column-body money-column-body">
                 <div *ngIf="competition.proCompetition && (node.data.actualPrizeAmount || node.data.prizeMoney)">
-                    {{getCurrency()}}&nbsp;{{node.data.actualPrizeAmount?numberWithCommas(node.data.actualPrizeAmount):numberWithCommas(node.data.prizeMoney)}}
+                   {{node.data.actualPrizeAmount?numberWithCommas(node.data.actualPrizeAmount):numberWithCommas(node.data.prizeMoney)}}
                 </div>
                 <div *ngIf="!competition.proCompetition && (node.data.prizeMoney)">
-                    {{getCurrency()}}&nbsp;{{numberWithCommas(node.data.prizeMoney)}}
+                    {{numberWithCommas(node.data.prizeMoney)}}
                 </div>
                 
             </div>

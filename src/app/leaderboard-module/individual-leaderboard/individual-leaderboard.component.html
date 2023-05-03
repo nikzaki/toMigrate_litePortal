@@ -167,7 +167,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             [style.border-style]="!showWinners && round.roundNo === settings.selectedRound?'solid':''"
             style="background-color: transparent; box-shadow:none; color:black; font-family:'Toyota'"
              (click)="onClickRound($event, round)"
-             [label]="round.roundNo===0?'All':'R'+round.roundNo">
+             [label]="round.roundNo===0?'All':round.roundNo===competition.totalRounds?:'FR':'R'+round.roundNo">
             <!-- {{cat.categoryName}} -->
         </button>
         </ng-container>
