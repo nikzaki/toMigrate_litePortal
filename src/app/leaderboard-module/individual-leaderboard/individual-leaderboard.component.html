@@ -382,7 +382,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                     <!--[rounds]="playerRowExpanded.rounds">-->
         
                     <!--</player-scorecard-display>-->
-                    <app-individual-expand [maxRounds]="competition.totalRounds" [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
+                    <app-individual-expand  [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"  [maxRounds]="competition.totalRounds"></app-individual-expand>
                 </ng-template>
     </p-dataTable>
     <p-dataTable *ngIf="!enableToyota" [value]="playersToDisplay" #playerLeaderboard expandableRows="true" rowExpandMode="single"
@@ -554,7 +554,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             <!--[rounds]="playerRowExpanded.rounds">-->
 
             <!--</player-scorecard-display>-->
-            <app-individual-expand [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
+            <app-individual-expand  [maxRounds]="competition.totalRounds" [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
         </ng-template>
     </p-dataTable>
     
@@ -717,7 +717,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             <ng-template let-col let-player="rowData" pTemplate="body" >
                 <!-- <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">{{player.round1Gross}}</div>
                 <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div> -->
-                <div *ngIf="getRoundThru(player,1)">{{player.round1Gross}}</div>
+                <div  [class.under-par]="player.round1Gross < 72 && player.round1Gross > 0" *ngIf="getRoundThru(player,1)">{{player.round1Gross}}</div>
                 <div *ngIf="!getRoundThru(player,1)">-</div>
             </ng-template>
         </p-column>
@@ -726,7 +726,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             <ng-template let-col let-player="rowData" pTemplate="body" >
                 <!-- <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">{{player.round2Gross}}</div>
                 <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div> -->
-                <div *ngIf="getRoundThru(player,2)">{{player.round2Gross}}</div>
+                <div [class.under-par]="player.round2Gross < 72 && player.round2Gross > 0"  *ngIf="getRoundThru(player,2)">{{player.round2Gross}}</div>
                 <div *ngIf="!getRoundThru(player,2)">-</div>
             </ng-template>
         </p-column>
@@ -735,7 +735,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             <ng-template let-col let-player="rowData" pTemplate="body" >
                 <!-- <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">{{player.round3Gross}}</div>
                 <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div> -->
-                <div *ngIf="getRoundThru(player,3)">{{player.round3Gross}}</div>
+                <div [class.under-par]="player.round3Gross < 72 && player.round3Gross > 0"  *ngIf="getRoundThru(player,3)">{{player.round3Gross}}</div>
                 <div *ngIf="!getRoundThru(player,3)">-</div>
             </ng-template>
         </p-column>
@@ -744,7 +744,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             <ng-template let-col let-player="rowData" pTemplate="body" >
                 <!-- <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">{{player.round4Gross}}</div>
                 <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div> -->
-                <div *ngIf="getRoundThru(player,4)">{{player.round4Gross}}</div>
+                <div [class.under-par]="player.round4Gross < 72 && player.round4Gross > 0" *ngIf="getRoundThru(player,4)">{{player.round4Gross}}</div>
                 <div *ngIf="!getRoundThru(player,4)">-</div>
             </ng-template>
         </p-column>
@@ -810,7 +810,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             <!--[rounds]="playerRowExpanded.rounds">-->
 
             <!--</player-scorecard-display>-->
-            <app-individual-expand [enableToyota]="enableToyota" [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
+            <app-individual-expand [maxRounds]="competition.totalRounds" [enableToyota]="enableToyota" [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"></app-individual-expand>
         </ng-template>
     </p-dataTable>
     

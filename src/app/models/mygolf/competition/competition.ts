@@ -38,4 +38,5 @@ export interface Competition {
     private?: boolean;
     considerTopN?: number;
     considerScoreType?: string;
+    proCompetition?: string;
 };

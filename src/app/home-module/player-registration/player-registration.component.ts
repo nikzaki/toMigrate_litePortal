@@ -28,6 +28,7 @@ export class PlayerRegistrationComponent implements OnInit {
           countrySuccess: boolean = true;
           countryList;
           selCountry: any;
+          captchaRef: any;
 
   constructor(public fb: FormBuilder,
       private playerService: PlayerService) {
