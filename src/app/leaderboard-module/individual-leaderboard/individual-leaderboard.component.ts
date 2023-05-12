@@ -166,6 +166,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     prizeDialog: boolean = false;
     showWinners: boolean = false;
     overrideWinner: boolean = false;
+    maxSponsorDisplay: number = 3;
     constructor(router: Router,
         private activeRoute: ActivatedRoute,
         private userPreference: UserPreferenceService,
@@ -223,11 +224,17 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             hidden: true
         }];
 
+
     }
 
     ngOnInit() {
         this.activeRoute.queryParams
         .subscribe(params => {
+            if(params['maxSponsorDisplay'] && params['maxSponsorDisplay'] > 0)
+                this.maxSponsorDisplay = params['maxSponsorDisplay'];
+            else if(params['maxSponsorDisplay'] && params['maxSponsorDisplay'] === 0)
+                this.maxSponsorDisplay = params['maxSponsorDisplay'];
+            else this.maxSponsorDisplay = 3;
             if(params['enableToyota'] && params['enableToyota'] === 'true') {
                 this.enableToyota = true;
                 this.hideLogo = true;

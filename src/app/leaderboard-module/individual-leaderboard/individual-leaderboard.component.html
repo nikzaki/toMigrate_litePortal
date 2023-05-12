@@ -818,12 +818,23 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
     <footer class="fullscreen-footer" [hidden]="!this.settings.showSponsor">
             <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-evenly" >
                     <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="10px" fxLayoutAlign="space-evenly center" style="margin-bottom: 1em">
-                            <img *ngIf="compDetails&&compDetails.sponsors[0]"
+                        <ng-container *ngIf="compDetails">
+                            <div *ngFor="let sponsor of compDetails.sponsors; let idx = index">
+
+                                <img *ngIf="idx < maxSponsorDisplay"
+                                [src]="sponsor.imageUrl?sponsor.imageUrl:''"
+                                fxFlex="0 1 12vh">
+                            </div>
+                        </ng-container>
+                            <!-- <img *ngIf="compDetails&&compDetails.sponsors[0]"
                             [src]="compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''"
                             fxFlex="0 1 12vh">
                             <img *ngIf="compDetails&&compDetails.sponsors[1]"
                             [src]="compDetails.sponsors[1]?compDetails.sponsors[1].imageUrl:''"
                             fxFlex="0 1 12vh">
+                            <img *ngIf="compDetails&&compDetails.sponsors[2]"
+                            [src]="compDetails.sponsors[2]?compDetails.sponsors[2].imageUrl:''"
+                            fxFlex="0 1 12vh"> -->
                             <div class="qr-code">
                                 Scan for live scoring : <img [src]="url_qrCode" fxFlex="0 1 12vh" alt="" title="" />
                             </div>
