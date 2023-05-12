@@ -818,12 +818,22 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
     <footer class="fullscreen-footer" [hidden]="!this.settings.showSponsor">
             <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-evenly" >
                     <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="10px" fxLayoutAlign="space-evenly center" style="margin-bottom: 1em">
-                        <ng-container *ngIf="compDetails">
+                        <ng-container *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length >0">
                             <div *ngFor="let sponsor of compDetails.sponsors; let idx = index">
-
                                 <img *ngIf="idx < maxSponsorDisplay"
                                 [src]="sponsor.imageUrl?sponsor.imageUrl:''"
                                 fxFlex="0 1 12vh">
+                            </div>
+                            <div class="ticker-wrap" *ngIf="0">
+                                <div class="ticker">
+                                    
+                                    <div class="ticker__item" fxFlex="0 1 12vh"
+                                    *ngFor="let sponsor of compDetails.sponsors; let idx = index">
+                                        <img *ngIf="idx < maxSponsorDisplay"
+                                        [src]="sponsor.imageUrl?sponsor.imageUrl:''"
+                                        fxFlex="0 1 12vh">
+                                    </div>
+                                </div>
                             </div>
                         </ng-container>
                             <!-- <img *ngIf="compDetails&&compDetails.sponsors[0]"
