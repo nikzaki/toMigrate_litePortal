@@ -900,7 +900,8 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
 </section>
 
 <!-- <ng-template *ngIf="enableToyota && showWinners" pTemplate="content"> -->
-    <section *ngIf="overrideWinner && settings && settings.selectedRound === 0">
+    <section *ngIf="overrideWinner">
+        <!-- && settings && settings.selectedRound === 0 -->
         <button pButton style="background-color:red; color:white" *ngIf="!overrideMode" (click)="overrideMode=true; showCompPlayerId=true"
         label="Override Winners">
         </button>
