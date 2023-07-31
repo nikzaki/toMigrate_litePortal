@@ -364,7 +364,7 @@ export class ManualScoringComponent implements OnInit {
     getHoleNumber(nine,holeNo) {
         if(!nine) return;
         // return Math.pow(9,(nine.whichNine-1)) + holeNo;
-        if(nine.whichNine === 2) return (9**(nine.whichNine -1))+(holeNo);
+        if(nine.whichNine === 2) return (9**(nine.whichNine -1))+(holeNo); 
         else if(nine.whichNine === 1) return (9**(nine.whichNine-1))+(holeNo-1) 
     }
 
