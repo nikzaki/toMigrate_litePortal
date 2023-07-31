@@ -494,7 +494,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             return 'Point'
         else return 'Net'
     }
+    isRefreshing: boolean = false;
     refreshLeaderBoard() {
+        // if(this.isRefreshing) return;
+        this.isRefreshing = true;
         if (this.refreshParams) {
             let round = this.refreshParams['round'];
             let category = this.refreshParams['category'];
@@ -519,12 +522,14 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
 
 
             this.getFlightList();
+            this.leaderBoard = null;
             let sub = this.competitionService.getLeaderboard(this.competitionId,
                     round && round.roundNo ? round.roundNo : null,
                     category && category.categoryId !== -1 ? category.categoryId : null,
                     orderBy,
                     false)
                 .subscribe((leaderboard: LeaderBoard) => {
+                    if(leaderboard) this.isRefreshing = false;
                     this.leaderBoard = leaderboard;
                     this.leaderBoard.players = this.leaderBoard.players
                     // .filter((lbp: LeaderBoardPlayer)=>{
@@ -587,8 +592,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 },(error)=>{
 
                 },()=>{
+                    this.isRefreshing = false;
                 });
                 this.subscriptions.push(sub);
+                // this.addToBusyList([sub]);
         }
         
 
@@ -1028,6 +1035,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     getFlightList() {
         let _compId = this.competition.competitionId;
         let _roundNo = this.compDetails.roundInProgress;
+        // this.flightList = [];
 
         this.competitionService.getFlightList(_compId, _roundNo)
         .subscribe((data)=>{
@@ -1035,6 +1043,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 this.flightList = data;
             }
         });
+        // this.addToBusyList([sub]);
     }
 
     getStartTime(playerId) {
