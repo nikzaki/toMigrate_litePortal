@@ -12,4 +12,5 @@ export interface User {
     playerId?: number;
     organizerId?: number;
     roles?: Array<string>;
+    name?: string;
 }

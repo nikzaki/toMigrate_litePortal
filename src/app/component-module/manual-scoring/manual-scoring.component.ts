@@ -1,3 +1,4 @@
+import { WhichNine } from './../../models/mygolf.data';
 import {Component, OnInit, ViewEncapsulation, ViewChild, ElementRef,
 HostListener} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
@@ -65,6 +66,7 @@ export class ManualScoringComponent implements OnInit {
     this.innerWidth = window.innerWidth;
     }
 
+    holesAllowed: Array<number> = [];
     ngOnInit() {
         this.innerWidth = window.innerWidth;
         this.activeRoute.params
@@ -76,6 +78,9 @@ export class ManualScoringComponent implements OnInit {
                             //Check whether the competition is valid
                             this.sessionService.getUser()
                                 .subscribe(usr=>{
+                                    if(usr && usr.name && usr.name.length > 0) {
+                                        this.parseNumbers(usr.name);
+                                    }
                                     console.debug("manual scoring : comp ", comp);
                                     console.debug("manual scoring : usr ", usr);
                                     if(usr.userType === 'Admin' || usr.userType === 'Britesoft') {
@@ -362,7 +367,7 @@ export class ManualScoringComponent implements OnInit {
     }
 
     getHoleNumber(nine,holeNo) {
-        if(!nine) return;
+        if(!nine) return '';
         // return Math.pow(9,(nine.whichNine-1)) + holeNo;
         if(nine.whichNine === 2) return (9**(nine.whichNine -1))+(holeNo); 
         else if(nine.whichNine === 1) return (9**(nine.whichNine-1))+(holeNo-1) 
@@ -379,6 +384,81 @@ export class ManualScoringComponent implements OnInit {
                     this.messageActions.error(msg);
                 });
         }
+    }
+
+    parseNumbers(name: string) {
+        this.holesAllowed = [];
+        const inputString = name;
+
+        // Step 1: Extract the part inside parentheses '(1,2,3)'
+        const insideParentheses = inputString.match(/\((.*?)\)/);
+        const numbersString = insideParentheses ? insideParentheses[1] : '';
+
+        // Step 2: Remove parentheses to get '1,2,3'
+        const commaSeparatedString = numbersString.replace(/[\(\)]/g, '');
+
+        // Step 3: Split comma-separated string into an array of strings
+        const numbersArrayStrings = commaSeparatedString.split(',');
+
+        // Step 4: Convert each string element to a number
+        const numbersArray = numbersArrayStrings.map(Number);
+        if(numbersArray[0] === 0) this.holesAllowed = [];
+        else this.holesAllowed = numbersArray;
+
+        console.log("numbers array : ", numbersArray, this.holesAllowed);
+    }
+
+    arraysHaveSameNumbers(arr1, arr2) {
+        if (arr1.length !== arr2.length) {
+          return false; // Arrays have different lengths, so they can't have the same numbers
+        }
+      
+        const set1 = new Set(arr1);
+        const set2 = new Set(arr2);
+      
+        return arr1.every(num => set2.has(num));
+      }
+
+     isPartiallyIncluded(array1, array2) {
+        return array1.every(number => array2.includes(number));
+      }
+
+    canScoreHole(nine,holeNo: Array<number>) {
+
+        let _holeNo = [];
+        _holeNo.push(...holeNo)
+        if(nine && nine.whichNine === 2) {
+            _holeNo.forEach((h, i, arr)=>{
+                arr[i] = h + 9 
+            })
+        }
+        
+        console.debug("canScoreHole", this.holesAllowed, holeNo,
+         this.arraysHaveSameNumbers(this.holesAllowed, holeNo),
+         this.isPartiallyIncluded(this.holesAllowed, holeNo));
+        if(!this.holesAllowed || this.holesAllowed.length === 0) return true;
+        else return this.isPartiallyIncluded(this.holesAllowed, _holeNo); //
+
+        // let _hasHole = [];
+        // let _whichNine = (9**(nine.whichNine -1));
+        // console.debug("can score hole : ", _whichNine, nine)
+        // if(this.holesAllowed && this.holesAllowed.length > 0)
+        //     this.holesAllowed.filter((h)=>{
+        //         let _hole: boolean = false;
+        //         holeNo.filter((n)=>{
+        //             return n === h;
+        //             // if(nine.whichNine === 1) return n+_whichNine === h+_whichNine;
+        //             // else if(nine.whichNine === 2) return (n-1)+_whichNine === (h-1)+_whichNine;
+                    
+        // // if(nine.whichNine === 2) return (9**(nine.whichNine -1))+(holeNo); 
+        // // else if(nine.whichNine === 1) return (9**(nine.whichNine-1))+(holeNo-1) 
+        //         }).map(()=>{
+        //             _hole = true
+        //         })
+        //         return _hole;
+        //     })
+        // else _hasHole.push(999)
+        // return _hasHole;
     }
 
 }
