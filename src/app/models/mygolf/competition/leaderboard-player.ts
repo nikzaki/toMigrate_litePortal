@@ -26,12 +26,13 @@ export interface LeaderBoardPlayer {
     flagUrl?: string,
     rounds?: CompetitionGameRound[];
     scores?: any[];
-    startTime?: {
-        hour: string,
-        minute: string,
-        second: string,
-        nano: string
-    }
+    startTime?: string;
+    // {
+    //     hour: string,
+    //     minute: string,
+    //     second: string,
+    //     nano: string
+    // }
     round1Gross?: number;
     round2Gross?: number;
     round3Gross?: number;
