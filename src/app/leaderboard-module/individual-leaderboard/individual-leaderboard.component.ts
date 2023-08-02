@@ -392,6 +392,68 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         let notPlay: number = 0;
         this.playersToDisplay = this.leaderBoard.players.slice(data.startIndex, data.endIndex);
         console.log("Total players : ", this.totalPlayers)
+        this.playersToDisplay
+        .sort((a,b)=>{
+            console.debug("sorting : ",this.compDetails.roundInProgress, a,b)
+            if(a.position === 'CUT' && b.position === 'W') {
+                if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                else {
+                    if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                    else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                    else {
+                        if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                        else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                        else {
+                            if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                            else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                            else {
+                                return 0
+                            }
+                        }
+                    }
+                }
+            } else if(a.position === 'W' && b.position === 'CUT') {
+                
+                if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                else {
+                    if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                    else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                    else {
+                        if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                        else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                        else {
+                            if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                            else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                            else {
+                                return 0
+                            }
+                        }
+                    }
+                }
+            }
+            else if(a.position === 'W' && b.position === 'W'){
+                
+                if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                else {
+                    if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                    else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                    else {
+                        if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                        else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                        else {
+                            if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                            else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                            else {
+                                return 0
+                            }
+                        }
+                    }
+                }
+            }
+        })
         this.playersToDisplay.forEach(ptd=>{
             if( ptd.position ==='W' || ptd.position === 'CUT' || ptd.position === 'N' 
             // || ( ptd.round1Gross >= 144)
@@ -521,8 +583,13 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             }
 
 
-            this.getFlightList();
+            // if(round !== undefined && round > 0) {
+                this.getFlightList();
+            // }
             this.leaderBoard = null;
+            if(this.enableToyota && category && category.categoryId < 0) {
+                return;
+            }
             let sub = this.competitionService.getLeaderboard(this.competitionId,
                     round && round.roundNo ? round.roundNo : null,
                     category && category.categoryId !== -1 ? category.categoryId : null,
@@ -531,28 +598,96 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 .subscribe((leaderboard: LeaderBoard) => {
                     if(leaderboard) this.isRefreshing = false;
                     this.leaderBoard = leaderboard;
-                    this.leaderBoard.players = this.leaderBoard.players
-                    // .filter((lbp: LeaderBoardPlayer)=>{
-                    //     return lbp.position === 'W'
+                    // this.leaderBoard.players = this.leaderBoard.players
+                    // // .filter((lbp: LeaderBoardPlayer)=>{
+                    // //     return lbp.position === 'W'
+                    // // })
+                    // .sort((a,b)=>{
+                    //     console.debug("sorting : ",this.compDetails.roundInProgress, a,b)
+                    //     if(a.position === 'CUT' && b.position === 'W') {
+                    //         if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                    //         else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                    //         else {
+                    //             if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                    //             else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                    //             else {
+                    //                 if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                    //                 else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                    //                 else {
+                    //                     if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                    //                     else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                    //                     else {
+                    //                         return 0
+                    //                     }
+                    //                 }
+                    //             }
+                    //         }
+                    //         // if (this.compDetails.roundInProgress === 4) {
+                    //         //     if(a.round3Gross === 0 && b.round3Gross > 0) return 1
+                    //         //     else if(a.round3Gross > 0 && b.round3Gross === 0) return -1
+                    //         //     else return 0
+                    //         // } else if(this.compDetails.roundInProgress === 3) {
+                    //         //     if(a.round2Gross === 0 && b.round2Gross > 0) return 1
+                    //         //     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1
+                    //         //     else return 0
+                    //         // } else if(this.compDetails.roundInProgress === 2) {
+                    //         //     if(a.round1Gross === 0 && b.round1Gross > 0) return 1
+                    //         //     else if(a.round1Gross > 0 && b.round1Gross === 0) return -1
+                    //         //     else return 0
+                    //         // }
+                    //     }
+                    //     else if(a.position === 'W' && b.position === 'W'){
+                            
+                    //         if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                    //         else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                    //         else {
+                    //             if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                    //             else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                    //             else {
+                    //                 if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                    //                 else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                    //                 else {
+                    //                     if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                    //                     else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                    //                     else {
+                    //                         return 0
+                    //                     }
+                    //                 }
+                    //             }
+                    //         }
+                    //         // if (this.compDetails.roundInProgress === 4) {
+                    //         //     if(a.round3Gross === 0 && b.round3Gross > 0) return 1
+                    //         //     else if(a.round3Gross > 0 && b.round3Gross === 0) return -1
+                    //         //     else return 0
+                    //         // } else if(this.compDetails.roundInProgress === 3) {
+                    //         //     if(a.round2Gross === 0 && b.round2Gross > 0) return 1
+                    //         //     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1
+                    //         //     else return 0
+                    //         // } else if(this.compDetails.roundInProgress === 2) {
+                    //         //     if(a.round1Gross === 0 && b.round1Gross > 0) return 1
+                    //         //     else if(a.round1Gross > 0 && b.round1Gross === 0) return -1
+                    //         //     else {
+                    //         //         if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                    //         //         else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                    //         //         else {
+                    //         //             if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                    //         //             else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                    //         //             else {
+                    //         //                 if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                    //         //                 else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                    //         //                 else {
+                    //         //                     if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                    //         //                     else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                    //         //                     else {
+                    //         //                         return 0
+                    //         //                     }
+                    //         //                 }
+                    //         //             }
+                    //         //         }
+                    //         //     }
+                    //         // }
+                    //     }
                     // })
-                    .sort((a,b)=>{
-                        // console.debug("sorting : ",this.compDetails.roundInProgress, a,b)
-                        if(a.position === 'W' && b.position === 'W'){
-                            if (this.compDetails.roundInProgress === 4) {
-                                if(a.round3Gross === 0 && b.round3Gross > 0) return 1
-                                else if(a.round3Gross > 0 && b.round3Gross === 0) return -1
-                                else return 0
-                            } else if(this.compDetails.roundInProgress === 3) {
-                                if(a.round2Gross === 0 && b.round2Gross > 0) return 1
-                                else if(a.round2Gross > 0 && b.round2Gross === 0) return -1
-                                else return 0
-                            } else if(this.compDetails.roundInProgress === 2) {
-                                if(a.round1Gross === 0 && b.round1Gross > 0) return 1
-                                else if(a.round1Gross > 0 && b.round1Gross === 0) return -1
-                                else return 0
-                            }
-                        }
-                    })
                     /* NOT SHOWING WITHDRAW OR CUT PLAYERS HERE */
                     if (!this.settings.showNonPlaying){
                         this.leaderBoard.players = this.leaderBoard.players.filter(function (ptd) {
