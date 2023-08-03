@@ -553,7 +553,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                                         }
                                     }
                                 }
-                        }
+                                    }
                 }
         })
         this.playersToDisplay.forEach(ptd=>{
