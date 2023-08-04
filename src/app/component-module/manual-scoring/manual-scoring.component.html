@@ -67,7 +67,7 @@
                         <!-- <div class = "ui-md-1">7</div> -->
                         <!-- <div class = "ui-md-1">8</div> -->
                         <!-- <div class = "ui-md-1">9</div> -->
-                        <div class="ui-md-3">Total</div>
+                        <div *ngIf="canScoreHole(null,[])" class="ui-md-3">Total</div>
                     </div>
                 </div>
             </div>
@@ -122,7 +122,7 @@
                             <div class="ui-md-1">{{nine.holeInfo8.holeIndex}}</div>
                             <div class="ui-md-1">{{nine.holeInfo9.holeIndex}}</div>
                             </ng-container>
-                            <div class="ui-md-3"></div>
+                            <div *ngIf="canScoreHole(null,[])" class="ui-md-3"></div>
                         </div>
                         <div class="ui-grid-row hole">
                             <!-- *ngIf="compInfo.proCompetition" -->
@@ -173,7 +173,7 @@
                             <div class="ui-md-1">{{nine.holeInfo8.holePar}}</div>
                             <div class="ui-md-1">{{nine.holeInfo9.holePar}}</div>
                             </ng-container>
-                            <div class="ui-md-3"></div>
+                            <div *ngIf="canScoreHole(null,[])" class="ui-md-3"></div>
                         </div>
                         <div class="ui-grid-row scores">
                             <ng-container *ngIf="canScoreHole(nine,[1,2,3])">
@@ -229,15 +229,42 @@
                                         (keyup)="onKeyUp($event, 9, nine.whichNine)">
                                 </div>
                             </ng-container>
-                            <div class="ui-md-3"><input pInputText type="text" [value]="nine.total" disabled>
+                            <div *ngIf="canScoreHole(null,[])" class="ui-md-3"><input pInputText type="text" [value]="nine.total" disabled>
                             </div>
                         </div>
                     </div>
                 </div>
             </ng-container>
             </div>
+            <div *ngIf="canScoreHole(null,[])" class="ui-grid-row scores">
+                <div class="ui-md-1" style="text-align: left">&nbsp;</div>
+                <div class="ui-md-3" style="text-align: left">Total</div>
+                <div class="ui-md-8">
+                    <div class="ui-grid">
+                        <div class="ui-grid-row">
+                            <div class="ui-md-11">&nbsp;</div>
+                            <!-- <div class="ui-md-1">&nbsp;</div>
+                            <div class="ui-md-1">&nbsp;</div>
+                            <div class="ui-md-1">&nbsp;</div>
+                            <div class="ui-md-1">&nbsp;</div>
+                            <div class="ui-md-1">&nbsp;</div>
+                            <div class="ui-md-1">&nbsp;</div>
+                            <div class="ui-md-1">&nbsp;</div>
+                            <div class="ui-md-1">&nbsp;</div>
+                            <div class="ui-md-1">&nbsp;</div>
+                            <div class="ui-md-1">&nbsp;</div> -->
+                            <div class="ui-md-3">
+                                <!-- <button pButton class="ui-button-primary"> -->
+                                    <!-- {{getTotalScores(playerScores)}} -->
+                                    {{playerScores[0].total + playerScores[1].total}}
+                                <!-- </button> -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="ui-grid-row">
-                <div class="ui-grid-col-12  button-panel">
+                <div class="ui-grid-col-12 button-panel">
                     <button pButton label="Save" icon="ui-icon-save" class="ui-button-primary"
                         (click)="onSaveClick()"></button>
                     <button pButton label="Cancel" icon="ui-icon-cancel" class="ui-button-danger"
@@ -399,7 +426,7 @@
                         </div>
                     </div>
 
-                    <div *ngIf="(canScoreHole(nine,[1,2,3,4,5,6,7,8,9]))" class="row scores">
+                    <div *ngIf="(canScoreHole(nine,[]))" class="row scores">
                         <div class="col">Total</div>
                         <div class="col">
                             &nbsp;

@@ -394,7 +394,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         console.log("Total players : ", this.totalPlayers)
         this.playersToDisplay
         .sort((a,b)=>{
-            console.debug("sorting : ",this.compDetails.roundInProgress, a,b)
+            console.debug("sorting - round: ",this.compDetails.roundInProgress, a,b)
             
             let _thruTimeA = moment(this.checkThru(a),"HH:mm:ss");
             let _thruTimeB = moment(this.checkThru(b),"HH:mm:ss");
@@ -406,85 +406,101 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 // else if(Number(a.thru) === 0 && Number(b.thru) > 0) return 1;
                 
                 if(this.compDetails.roundInProgress) {
-                    if(_thruTimeA.isValid() && !_thruTimeB.isValid()) {
-                        return 1
-                    } else if(!_thruTimeA.isValid() && _thruTimeB.isValid()) {
-                        return -1
-                    } else if(_thruTimeA.isValid() && _thruTimeB.isValid()) {
-                        if(_thruTimeA.isAfter(_thruTimeB, 'm')) return 1;
-                        else if(_thruTimeA.isBefore(_thruTimeB, 'm')) return -1;
-                        else {
-                            if(Number(this.checkThru(a)) > Number(this.checkThru(b))) return -1;
-                            else if(Number(this.checkThru(a)) < Number(this.checkThru(b))) return 1;
+                    if(a.position === 'W' && b.position !== 'W') return 1;
+                    else if(a.position !== 'W' && b.position === 'W') return -1; 
+                    else if(a.position === 'CUT' && b.position !== 'CUT') return 1;
+                    else if(a.position !== 'CUT' && b.position === 'CUT') return -1;
+                    else {
+                        if(_thruTimeA.isValid() && !_thruTimeB.isValid()) {
+                            return 1
+                        } else if(!_thruTimeA.isValid() && _thruTimeB.isValid()) {
+                            return -1
+                        } else if(_thruTimeA.isValid() && _thruTimeB.isValid()) {
+                            if(_thruTimeA.isAfter(_thruTimeB, 'm')) return 1;
+                            else if(_thruTimeA.isBefore(_thruTimeB, 'm')) return -1;
                             else {
-                                
-                                if(Number(a.position) < Number(b.position)) return -1;
-                                else if(Number(a.position) > Number(b.position)) return 1;
+                                if(Number(this.checkThru(a)) > Number(this.checkThru(b))) return -1;
+                                else if(Number(this.checkThru(a)) < Number(this.checkThru(b))) return 1;
                                 else {
-                                if(a.position === 'CUT' && b.position === 'W') {
-                                    if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                                    else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-                                    else {
-                                        if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                                        else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-                                        else {
-                                            if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-                                            else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-                                            else {
-                                                if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-                                                else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
-                                                else {
-                                                    return 0
-                                                }
-                                            }
-                                        }
-                                    }
-                                } else if(a.position === 'W' && b.position === 'CUT') {
                                     
-                                    if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                                    else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                                    if(Number(a.position) < Number(b.position)) return -1;
+                                    else if(Number(a.position) > Number(b.position)) return 1;
                                     else {
-                                        if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                                        else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                                        if(1) return;
+                                        // if(!isNaN(Number(a.position)) && isNaN(Number(b.position))) return -1
+                                        // else if(isNaN(Number(a.position)) && !isNaN(Number(b.position))) return 1;
                                         else {
-                                            if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-                                            else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-                                            else {
-                                                if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-                                                else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                                            if(a.position === 'CUT' && b.position === 'W') {
+                                                if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                                                else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
                                                 else {
-                                                    return 0
+                                                    if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                                                    else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                                                    else {
+                                                        if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                                                        else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                                                        else {
+                                                            if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                                                            else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                                                            else {
+                                                                return 0
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            } else if(a.position === 'W' && b.position === 'CUT') {
+                                                
+                                                if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                                                else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                                                else {
+                                                    if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                                                    else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                                                    else {
+                                                        if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                                                        else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                                                        else {
+                                                            if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                                                            else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                                                            else {
+                                                                return 0
+                                                            }
+                                                        }
+                                                    }
                                                 }
                                             }
-                                        }
-                                    }
-                                }
-                                else if(a.position === 'W' && b.position === 'W'){
-                                    
-                                    if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                                    else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-                                    else {
-                                        if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                                        else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-                                        else {
-                                            if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-                                            else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-                                            else {
-                                                if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-                                                else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                                            else if(a.position === 'W' && b.position === 'W'){
+                                                
+                                                if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                                                else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
                                                 else {
-                                                    return 0
+                                                    if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                                                    else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                                                    else {
+                                                        if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                                                        else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                                                        else {
+                                                            if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                                                            else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                                                            else {
+                                                                return 0
+                                                            }
+                                                        }
+                                                    }
                                                 }
-                                            }
+                                            } 
+    
                                         }
-                                    }
-                                }
+                                    // else if(a.position === 'W' && (b.position !== 'W' && b.position !== 'CUT')) {
+                                    //     return 1
+                                    // } else return -1;
+                            }
                         }
+    
+                }
+    
+                         }
+
                     }
-
-            }
-
-                     }
                     
                 } else {
                     

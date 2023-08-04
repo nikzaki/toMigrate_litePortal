@@ -461,6 +461,10 @@ export class ManualScoringComponent implements OnInit {
         // return _hasHole;
     }
 
+    getTotalScores(player) {
+        console.debug("getTotalScores",player)
+    }
+
 }
 interface HoleInfo {
     courseHoleNo: number;
