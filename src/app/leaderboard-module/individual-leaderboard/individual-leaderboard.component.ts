@@ -411,8 +411,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     else if(a.position === 'CUT' && b.position !== 'CUT') return 1;
                     else if(a.position !== 'CUT' && b.position === 'CUT') return -1;
                     else {
-                        if(Number(this.checkThru(a)) > Number(this.checkThru(b))) return -1;
-                        else if(Number(this.checkThru(a)) < Number(this.checkThru(b))) return 1;
+                        // if(Number(this.checkThru(a)) > Number(this.checkThru(b))) return -1;
+                        // else if(Number(this.checkThru(a)) < Number(this.checkThru(b))) return 1;
+                        if(0) {}
                         else {
                             
                             if(Number(a.position) < Number(b.position)) return -1;
