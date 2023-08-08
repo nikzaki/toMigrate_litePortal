@@ -411,6 +411,13 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     else if(a.position === 'CUT' && b.position !== 'CUT') return 1;
                     else if(a.position !== 'CUT' && b.position === 'CUT') return -1;
                     else {
+                        if(Number(this.checkThru(a)) > Number(this.checkThru(b))) return -1;
+                        else if(Number(this.checkThru(a)) < Number(this.checkThru(b))) return 1;
+                        else {
+                            
+                            if(Number(a.position) < Number(b.position)) return -1;
+                            else if(Number(a.position) > Number(b.position)) return 1; 
+                            else {
                         if(_thruTimeA.isValid() && !_thruTimeB.isValid()) {
                             return 1
                         } else if(!_thruTimeA.isValid() && _thruTimeB.isValid()) {
@@ -419,14 +426,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                             if(_thruTimeA.isAfter(_thruTimeB, 'm')) return 1;
                             else if(_thruTimeA.isBefore(_thruTimeB, 'm')) return -1;
                             else {
-                                if(Number(this.checkThru(a)) > Number(this.checkThru(b))) return -1;
-                                else if(Number(this.checkThru(a)) < Number(this.checkThru(b))) return 1;
-                                else {
-                                    
-                                    if(Number(a.position) < Number(b.position)) return -1;
-                                    else if(Number(a.position) > Number(b.position)) return 1;
-                                    else {
-                                        if(1) return;
+                                        if(1) return 0;
                                         // if(!isNaN(Number(a.position)) && isNaN(Number(b.position))) return -1
                                         // else if(isNaN(Number(a.position)) && !isNaN(Number(b.position))) return 1;
                                         else {
@@ -493,84 +493,85 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                                     // else if(a.position === 'W' && (b.position !== 'W' && b.position !== 'CUT')) {
                                     //     return 1
                                     // } else return -1;
+                                    }
+                                }
+                
                             }
-                        }
-    
-                }
     
                          }
 
                     }
                     
-                } else {
-                    
-                            // if(Number(this.checkThru(a)) > Number(this.checkThru(b))) return -1;
-                            // else if(Number(this.checkThru(a)) < Number(this.checkThru(b))) return 1;
-                            // else {
-                                
-                                if(Number(a.position) < Number(b.position)) return -1;
-                                else if(Number(a.position) > Number(b.position)) return 1;
-                                else {
-                                if(a.position === 'CUT' && b.position === 'W') {
-                                    if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                                    else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-                                    else {
-                                        if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                                        else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-                                        else {
-                                            if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-                                            else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-                                            else {
-                                                if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-                                                else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
-                                                else {
-                                                    return 0
-                                                }
-                                            }
-                                        }
-                                    }
-                                } else if(a.position === 'W' && b.position === 'CUT') {
-                                    
-                                    if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                                    else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-                                    else {
-                                        if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                                        else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-                                        else {
-                                            if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-                                            else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-                                            else {
-                                                if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-                                                else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
-                                                else {
-                                                    return 0
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                else if(a.position === 'W' && b.position === 'W'){
-                                    
-                                    if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                                    else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-                                    else {
-                                        if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                                        else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-                                        else {
-                                            if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-                                            else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-                                            else {
-                                                if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-                                                else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
-                                                else {
-                                                    return 0
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
-                                    }
                 }
+                // else {
+                    
+                //             // if(Number(this.checkThru(a)) > Number(this.checkThru(b))) return -1;
+                //             // else if(Number(this.checkThru(a)) < Number(this.checkThru(b))) return 1;
+                //             // else {
+                                
+                //                 if(Number(a.position) < Number(b.position)) return -1;
+                //                 else if(Number(a.position) > Number(b.position)) return 1;
+                //                 else {
+                //                 if(a.position === 'CUT' && b.position === 'W') {
+                //                     if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                //                     else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                //                     else {
+                //                         if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                //                         else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                //                         else {
+                //                             if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                //                             else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                //                             else {
+                //                                 if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                //                                 else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                //                                 else {
+                //                                     return 0
+                //                                 }
+                //                             }
+                //                         }
+                //                     }
+                //                 } else if(a.position === 'W' && b.position === 'CUT') {
+                                    
+                //                     if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                //                     else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                //                     else {
+                //                         if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                //                         else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                //                         else {
+                //                             if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                //                             else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                //                             else {
+                //                                 if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                //                                 else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                //                                 else {
+                //                                     return 0
+                //                                 }
+                //                             }
+                //                         }
+                //                     }
+                //                 }
+                //                 else if(a.position === 'W' && b.position === 'W'){
+                                    
+                //                     if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                //                     else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                //                     else {
+                //                         if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                //                         else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                //                         else {
+                //                             if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                //                             else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                //                             else {
+                //                                 if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                //                                 else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                //                                 else {
+                //                                     return 0
+                //                                 }
+                //                             }
+                //                         }
+                //                     }
+                //                 }
+                //                     }
+                // }
         })
         this.playersToDisplay.forEach(ptd=>{
             if( ptd.position ==='W' || ptd.position === 'CUT' || ptd.position === 'N' 
