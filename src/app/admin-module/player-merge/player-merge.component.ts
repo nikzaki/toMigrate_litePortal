@@ -71,6 +71,15 @@ export class PlayerMergeComponent
         this._refreshPage(pageNo);
     }
     onSearch(text: string) {
+        this.playerList = {
+            currentPage: 1,
+            errorMessage: null,
+            players: [],
+            success: true,
+            totalInPage: 1,
+            totalItems: 1,
+            totalPages: 1
+        }
         this.searchStringChanged.next(text);
     }
     setSourcePlayer(player: Player){
@@ -139,13 +148,43 @@ export class PlayerMergeComponent
             })
     }
     private _refreshPage(pageNo: number) {
+        let _letters = /[0-9]/
+        //  /^[a-zA-Z]+$/;
+        //console.log("search by id : ", _search, _letters, _search.match(_letters))
+                if (0 && this.searchString.match(_letters) && pageNo === 1) {
+                    this.playerService.getPlayerById(Number(this.searchString))
+                    .subscribe((player:any)=>{
+                        if(player && this.playerList) {
+                            if(player.id) player.playerId = player.id;
+                            if(player.profile) player.thumbnail = player.profile;
+                            if(player.image) player.photoUrl = player.image;
+                            this.playerList.players.unshift(player);
+                        }
+                    })
+                } else {
+                    this.playerService.searchPlayers(this.searchString,
+                        this.activePlayersOnly,
+                        pageNo, this.pageSize)
+                        .subscribe((playerList: PlayerList) => {
+                            this.playerList = playerList;
+                            if (this.searchString.match(_letters) && pageNo === 1) {
+                                this.playerService.getPlayerById(Number(this.searchString))
+                                .subscribe((player:any)=>{
+                                    if(player && this.playerList) {
+                                        if(player.id) player.playerId = player.id;
+                                        if(player.profile) player.thumbnail = player.profile;
+                                        if(player.image) player.photoUrl = player.image;
+                                        this.playerList.players.unshift(player);
+                                    }
+                                })
+                                console.debug("player list : ", this.searchString, _letters, this.searchString.match(_letters), this.playerList)
+                            }
+                        },(error)=>{
+            
+                        },()=>{
+                        })
 
-        this.playerService.searchPlayers(this.searchString,
-            this.activePlayersOnly,
-            pageNo, this.pageSize)
-            .subscribe((playerList: PlayerList) => {
-                this.playerList = playerList;
-            })
+                }
     }
 
 }

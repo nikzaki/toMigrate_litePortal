@@ -1,3 +1,4 @@
+import { PlayerInfo } from './../../mygolf.data';
 import {PagedResult} from '../../paged-result';
 import {Player} from './player';
 /**
@@ -5,5 +6,5 @@ import {Player} from './player';
  */
 
 export interface PlayerList extends PagedResult {
-    players?: Array<Player>
+    players?: Array<PlayerInfo>
 }

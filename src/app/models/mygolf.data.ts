@@ -3891,6 +3891,8 @@ export interface PlayerInfo {
     deleted?: boolean;
     deletedOn?: Date;
     addedByClub?: ClubInfo;
+    addedByPartnerId?: string;
+    addedByPartnerName?: string;
 }
 
 export interface PlayerInsurance {
