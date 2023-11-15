@@ -1426,7 +1426,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     flightList: Array<FlightInfo> = [];
     getFlightList() {
         let _compId = this.competition.competitionId;
-        let _roundNo = this.compDetails.roundInProgress;
+        let _roundNo = this.compDetails.roundInProgress?this.compDetails.roundInProgress:1;
         // this.flightList = [];
 
         this.competitionService.getFlightList(_compId, _roundNo)
