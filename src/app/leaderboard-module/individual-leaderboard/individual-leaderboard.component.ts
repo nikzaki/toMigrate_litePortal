@@ -390,8 +390,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         //     return (ptd.position !== 'W' && ptd.position !== 'CUT')
         // })
         let notPlay: number = 0;
+        if(this.enableToyota) this.playersToDisplay = [];
         this.playersToDisplay = this.leaderBoard.players.slice(data.startIndex, data.endIndex);
-        console.log("Total players : ", this.totalPlayers)
+        console.log("Total players : ", this.totalPlayers, data, this.leaderBoard, this.playersToDisplay)
         this.playersToDisplay
         .sort((a,b)=>{
             console.debug("sorting - round: ",this.compDetails.roundInProgress, a,b)
@@ -1443,7 +1444,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         this.flightList.filter((f: FlightInfo) => {
             return f.flightMembers.filter((fm: FlightMember) => fm.playerId === playerId).length > 0;
         })
-        return moment(_filteredFlight[0].startTime,"HH:mm:ss").format('HH:mm');
+        console.debug('get start time ', _filteredFlight);
+        if(!_filteredFlight || _filteredFlight.length === 0) return '';
+        else if(_filteredFlight[0].startTime === undefined || !_filteredFlight[0].startTime) return '';
+        else return moment(_filteredFlight[0].startTime,"HH:mm:ss").format('HH:mm');
     }
 
     getRoundThru(player, round: number) {
