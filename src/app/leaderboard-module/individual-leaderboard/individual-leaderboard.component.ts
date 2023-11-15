@@ -1306,7 +1306,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         this.flightList.filter((f: FlightInfo) => {
             return f.flightMembers.filter((fm: FlightMember) => fm.playerId === playerId).length > 0;
         })
-        return moment(_filteredFlight[0].startTime,"HH:mm:ss").format('HH:mm');
+        if(!_filteredFlight || _filteredFlight.length === 0) return '';
+        else if(_filteredFlight[0].startTime === undefined || !_filteredFlight[0].startTime) return '';
+        else return moment(_filteredFlight[0].startTime,"HH:mm:ss").format('HH:mm');
     }
 
     getRoundThru(player, round: number) {
