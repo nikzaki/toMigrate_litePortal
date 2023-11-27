@@ -390,8 +390,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         //     return (ptd.position !== 'W' && ptd.position !== 'CUT')
         // })
         let notPlay: number = 0;
+        if(this.enableToyota) this.playersToDisplay = [];
         this.playersToDisplay = this.leaderBoard.players.slice(data.startIndex, data.endIndex);
-        console.log("Total players : ", this.totalPlayers)
+        console.log("Total players : ", this.totalPlayers, data, this.leaderBoard, this.playersToDisplay)
         this.playersToDisplay
         .sort((a,b)=>{
             console.debug("sorting - round: ",this.compDetails.roundInProgress, a,b)
@@ -406,7 +407,79 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 // else if(Number(a.thru) === 0 && Number(b.thru) > 0) return 1;
                 
                 if(this.compDetails.roundInProgress) {
-                    if(a.position === 'W' && b.position !== 'W') return 1;
+                    
+                 if(a.position === 'CUT' && b.position === 'W') {
+                        if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                        else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                        // else if(a.round4Gross < b.round4Gross) return -1;
+                        else {
+                            if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                            else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                            else {
+                                if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                                else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                                else if(a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross > b.round2Gross) return 1;
+                                else if(a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross < b.round2Gross) return -1;
+                                else {
+                                    if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                                    else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                                    else if(a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross > b.round1Gross) return 1;
+                                    else if(a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross < b.round1Gross) return -1;
+                                    // else if(a.round1Gross < b.round1Gross) return -1
+                                    else {
+                                        return 0
+                                    }
+                                }
+                            }
+                        }
+                    } else if(a.position === 'W' && b.position === 'CUT') {
+                        
+                        if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                        else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                        else {
+                            if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                            else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                            else {
+                                if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                                else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                                else if(a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross > b.round2Gross) return 1;
+                                else if(a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross < b.round2Gross) return -1;
+                                else {
+                                    if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                                    else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                                    else if(a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross > b.round1Gross) return 1;
+                                    else if(a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross < b.round1Gross) return -1;
+                                    else {
+                                        return 0
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    else if(a.position === 'W' && b.position === 'W'){
+                        
+                        if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                        else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                        else {
+                            if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                            else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                            else {
+                                if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                                else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                                else if(a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross > b.round2Gross) return 1;
+                                else if(a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross < b.round2Gross) return -1;
+                                else {
+                                    if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                                    else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                                    else if(a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross > b.round1Gross) return 1;
+                                    else if(a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross < b.round1Gross) return -1;
+                                    else {
+                                        return 0
+                                    }
+                                }
+                            }
+                        }
+                    } else if(a.position === 'W' && b.position !== 'W') return 1;
                     else if(a.position !== 'W' && b.position === 'W') return -1; 
                     else if(a.position === 'CUT' && b.position !== 'CUT') return 1;
                     else if(a.position !== 'CUT' && b.position === 'CUT') return -1;
@@ -504,6 +577,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     }
                     
                 }
+
                 // else {
                     
                 //             // if(Number(this.checkThru(a)) > Number(this.checkThru(b))) return -1;
@@ -574,6 +648,70 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 //                     }
                 // }
         })
+        // .sort((a, b) =>{
+
+        //         if(a.position === 'CUT' && b.position === 'W') {
+        //             if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+        //             else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+        //             else {
+        //                 if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+        //                 else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+        //                 else {
+        //                     if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+        //                     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+        //                     else {
+        //                         if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+        //                         else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+        //                         else {
+        //                             return 0
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         } else if(a.position === 'W' && b.position === 'CUT') {
+                    
+        //             if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+        //             else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+        //             else {
+        //                 if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+        //                 else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+        //                 else {
+        //                     if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+        //                     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+        //                     else {
+        //                         if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+        //                         else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+        //                         else {
+        //                             return 0
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         }
+        //         else if(a.position === 'W' && b.position === 'W'){
+                    
+        //             if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+        //             else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+        //             else {
+        //                 if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+        //                 else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+        //                 else {
+        //                     if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+        //                     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+        //                     else {
+        //                         if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+        //                         else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+        //                         else {
+        //                             return 0
+        //                         }
+        //                     }
+        //                 }
+        //             }
+        //         } 
+
+            
+        // })
+
         this.playersToDisplay.forEach(ptd=>{
             if( ptd.position ==='W' || ptd.position === 'CUT' || ptd.position === 'N' 
             // || ( ptd.round1Gross >= 144)
@@ -742,19 +880,19 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     //                 }
                     //             }
                     //         }
-                    //         // if (this.compDetails.roundInProgress === 4) {
-                    //         //     if(a.round3Gross === 0 && b.round3Gross > 0) return 1
-                    //         //     else if(a.round3Gross > 0 && b.round3Gross === 0) return -1
-                    //         //     else return 0
-                    //         // } else if(this.compDetails.roundInProgress === 3) {
-                    //         //     if(a.round2Gross === 0 && b.round2Gross > 0) return 1
-                    //         //     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1
-                    //         //     else return 0
-                    //         // } else if(this.compDetails.roundInProgress === 2) {
-                    //         //     if(a.round1Gross === 0 && b.round1Gross > 0) return 1
-                    //         //     else if(a.round1Gross > 0 && b.round1Gross === 0) return -1
-                    //         //     else return 0
-                    //         // }
+                    // //         // if (this.compDetails.roundInProgress === 4) {
+                    // //         //     if(a.round3Gross === 0 && b.round3Gross > 0) return 1
+                    // //         //     else if(a.round3Gross > 0 && b.round3Gross === 0) return -1
+                    // //         //     else return 0
+                    // //         // } else if(this.compDetails.roundInProgress === 3) {
+                    // //         //     if(a.round2Gross === 0 && b.round2Gross > 0) return 1
+                    // //         //     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1
+                    // //         //     else return 0
+                    // //         // } else if(this.compDetails.roundInProgress === 2) {
+                    // //         //     if(a.round1Gross === 0 && b.round1Gross > 0) return 1
+                    // //         //     else if(a.round1Gross > 0 && b.round1Gross === 0) return -1
+                    // //         //     else return 0
+                    // //         // }
                     //     }
                     //     else if(a.position === 'W' && b.position === 'W'){
                             
@@ -775,37 +913,37 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     //                 }
                     //             }
                     //         }
-                    //         // if (this.compDetails.roundInProgress === 4) {
-                    //         //     if(a.round3Gross === 0 && b.round3Gross > 0) return 1
-                    //         //     else if(a.round3Gross > 0 && b.round3Gross === 0) return -1
-                    //         //     else return 0
-                    //         // } else if(this.compDetails.roundInProgress === 3) {
-                    //         //     if(a.round2Gross === 0 && b.round2Gross > 0) return 1
-                    //         //     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1
-                    //         //     else return 0
-                    //         // } else if(this.compDetails.roundInProgress === 2) {
-                    //         //     if(a.round1Gross === 0 && b.round1Gross > 0) return 1
-                    //         //     else if(a.round1Gross > 0 && b.round1Gross === 0) return -1
-                    //         //     else {
-                    //         //         if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                    //         //         else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-                    //         //         else {
-                    //         //             if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                    //         //             else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-                    //         //             else {
-                    //         //                 if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-                    //         //                 else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-                    //         //                 else {
-                    //         //                     if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-                    //         //                     else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
-                    //         //                     else {
-                    //         //                         return 0
-                    //         //                     }
-                    //         //                 }
-                    //         //             }
-                    //         //         }
-                    //         //     }
-                    //         // }
+                    // //         // if (this.compDetails.roundInProgress === 4) {
+                    // //         //     if(a.round3Gross === 0 && b.round3Gross > 0) return 1
+                    // //         //     else if(a.round3Gross > 0 && b.round3Gross === 0) return -1
+                    // //         //     else return 0
+                    // //         // } else if(this.compDetails.roundInProgress === 3) {
+                    // //         //     if(a.round2Gross === 0 && b.round2Gross > 0) return 1
+                    // //         //     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1
+                    // //         //     else return 0
+                    // //         // } else if(this.compDetails.roundInProgress === 2) {
+                    // //         //     if(a.round1Gross === 0 && b.round1Gross > 0) return 1
+                    // //         //     else if(a.round1Gross > 0 && b.round1Gross === 0) return -1
+                    // //         //     else {
+                    // //         //         if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
+                    // //         //         else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
+                    // //         //         else {
+                    // //         //             if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
+                    // //         //             else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
+                    // //         //             else {
+                    // //         //                 if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                    // //         //                 else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
+                    // //         //                 else {
+                    // //         //                     if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                    // //         //                     else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
+                    // //         //                     else {
+                    // //         //                         return 0
+                    // //         //                     }
+                    // //         //                 }
+                    // //         //             }
+                    // //         //         }
+                    // //         //     }
+                    // //         // }
                     //     }
                     // })
                     /* NOT SHOWING WITHDRAW OR CUT PLAYERS HERE */
@@ -1306,6 +1444,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         this.flightList.filter((f: FlightInfo) => {
             return f.flightMembers.filter((fm: FlightMember) => fm.playerId === playerId).length > 0;
         })
+        console.debug('get start time ', _filteredFlight);
         if(!_filteredFlight || _filteredFlight.length === 0) return '';
         else if(_filteredFlight[0].startTime === undefined || !_filteredFlight[0].startTime) return '';
         else return moment(_filteredFlight[0].startTime,"HH:mm:ss").format('HH:mm');
