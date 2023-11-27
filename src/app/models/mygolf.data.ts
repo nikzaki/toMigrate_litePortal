@@ -6159,3 +6159,15 @@ export function createScorecard(competition: boolean) {
     };
 
 }
+
+export function createPlayerList() {
+    return {
+        players: new Array<PlayerInfo>(),
+        totalPages: 0,
+        currentPage: 0,
+        totalItems: 0,
+        totalInPage: 0,
+        success: false,
+        errorMessage: ''
+    }
+}

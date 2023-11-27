@@ -9,6 +9,7 @@ import {ServerResult} from '../../models/server-result';
 import {Util} from '../../util';
 import { SessionService } from 'app/redux/session';
 import {Session} from '../../models/session/session';
+import { createPlayerList } from 'app/models/mygolf.data';
 
 @Component({
     selector     : 'player-merge',
@@ -150,11 +151,13 @@ export class PlayerMergeComponent
     private _refreshPage(pageNo: number) {
         let _letters = /[0-9]/
         //  /^[a-zA-Z]+$/;
-        //console.log("search by id : ", _search, _letters, _search.match(_letters))
-                if (0 && this.searchString.match(_letters) && pageNo === 1) {
+        console.log("search by id : ", this.searchString, _letters, this.searchString.match(_letters),
+        Number(this.searchString), isNaN(Number(this.searchString)));
+                if (!isNaN(Number(this.searchString)) && pageNo === 1) {
                     this.playerService.getPlayerById(Number(this.searchString))
                     .subscribe((player:any)=>{
-                        if(player && this.playerList) {
+                        this.playerList = createPlayerList();
+                        if(player) {
                             if(player.id) player.playerId = player.id;
                             if(player.profile) player.thumbnail = player.profile;
                             if(player.image) player.photoUrl = player.image;
