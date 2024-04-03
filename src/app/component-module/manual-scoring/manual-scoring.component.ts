@@ -423,6 +423,20 @@ export class ManualScoringComponent implements OnInit {
         return array1.every(number => array2.includes(number));
       }
 
+    haveMutualInclusiveNumbers(arr1: number[], arr2: number[]): boolean {
+        // Convert arrays to sets
+        const set1: Set<number> = new Set(arr1);
+        const set2: Set<number> = new Set(arr2);
+        
+        // Check if there's any common element between the two sets
+        let foundCommonElement = false;
+        set1.forEach(num => {
+            if (set2.has(num)) {
+                foundCommonElement = true;
+            }
+        });
+        return foundCommonElement;
+    }
     canScoreHole(nine,holeNo: Array<number>) {
 
         let _holeNo = [];
@@ -436,7 +450,9 @@ export class ManualScoringComponent implements OnInit {
         console.debug("canScoreHole", this.holesAllowed, holeNo,
          this.arraysHaveSameNumbers(this.holesAllowed, holeNo),
          this.isPartiallyIncluded(this.holesAllowed, holeNo));
+        //  console.debug("canScoreHole", nine.whichNine, _holeNo, this.haveMutualInclusiveNumbers(this.holesAllowed, _holeNo));
         if(!this.holesAllowed || this.holesAllowed.length === 0) return true;
+        else if(this.haveMutualInclusiveNumbers(this.holesAllowed, _holeNo)) return true;
         else return this.isPartiallyIncluded(this.holesAllowed, _holeNo); //
 
         // let _hasHole = [];
