@@ -25,14 +25,19 @@
 
     <div class="card-subtitle ui-g">
       <div class="ui-md-3 ui-sm-5 vertical-align-center">
-        <ul *ngIf="competition?.teamEvent && !showTeamOnly" class="list-inline nav cursor">
-          <li class="nav-link list-inline-item"
+        <ul *ngIf="competition?.teamEvent && !showTeamOnly" class="list-inline nav cursor" style="text-transform: uppercase">
+          <li class="nav-link list-inline-item" style="cursor: pointer;"
                   [class.active]="!byTeam"
                   (click)="byTeam = false; onLeaderboardTypeChange()">
             <h4>Individual</h4></li>
-          <li class="nav-link list-inline-item" [class.active]="byTeam"
+          <li class="nav-link list-inline-item" [class.active]="byTeam"  style="cursor: pointer;"
                   (click)="byTeam = true; onLeaderboardTypeChange()">
             <h4>Team</h4></li>
+        </ul>
+        <ul *ngIf="showTeamOnly" class="list-inline nav cursor" style="text-transform: uppercase">
+          <li class="nav-link list-inline-item"  style="cursor: pointer;"
+                  (click)="goIndividualLeaderboard()">
+            <h4>Individual</h4></li>
         </ul>
       </div>
       <div class="ui-md-9 ui-sm-7" style="text-align: right">

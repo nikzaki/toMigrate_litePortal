@@ -1,6 +1,6 @@
 import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MediaChange, ObservableMedia} from '@angular/flex-layout';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import {DataTable} from 'primeng/primeng';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
@@ -85,7 +85,8 @@ export class TeamwiseScorecardComponent implements OnInit {
         private notfService: NotificationService,
         private messageActions: SystemMessageActions,
         media: ObservableMedia,
-        private configService: ConfigurationService) {
+        private configService: ConfigurationService,
+        private router: Router) {
         this.activatedRoute.queryParams.subscribe(params => {
             if(params['showTeamOnly'] && params['showTeamOnly'] === 'true') {
                 this.byTeam = true;
@@ -460,5 +461,10 @@ export class TeamwiseScorecardComponent implements OnInit {
         console.debug("parse team logo", imagePath, _newPath, rePath, serverRoot);
         return _newPath;
         // configService.config.serverRoot
+    }
+
+    goIndividualLeaderboard() {
+        // https://lite.mygolf2u.com/leaderboard/2312?enableToyota=true&hideCompHeader=false&hideCompName=false
+        this.router.navigateByUrl(`leaderboard/${this.competition.competitionId}?enableToyota=true&hideCompHeader=false&hideCompName=false`);
     }
 }

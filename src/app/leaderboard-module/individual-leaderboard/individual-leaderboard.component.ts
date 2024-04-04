@@ -167,7 +167,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     showWinners: boolean = false;
     overrideWinner: boolean = false;
     maxSponsorDisplay: number = 3;
-    constructor(router: Router,
+    constructor(
+        private router: Router,
         private activeRoute: ActivatedRoute,
         private userPreference: UserPreferenceService,
         private notfService: NotificationService,
@@ -177,7 +178,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         @Inject(DOCUMENT) private document: Document,
         private media: ObservableMedia,
         private cdr: ChangeDetectorRef,
-        private configService: ConfigurationService,) {
+        private configService: ConfigurationService) {
             // router.events.pipe(takeUntil(this._onDestroy)).subscribe(event => {
             //     // do stuff here
     
@@ -1342,6 +1343,11 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     this.refreshLeaderBoard();
                     }
                     
+                if(this.competition && this.competition.teamEvent) {
+                    setTimeout(() => {
+                        this.onClickCategory(null,this.validCategories[0]);
+                    },150);   
+                    }
                 }
             });
         },1000);
@@ -1572,5 +1578,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 //      return Observable.of(createAction(SessionActions.LOGIN_FAILED, msg));
                 // });
         })
+    }
+
+    
+    goTeamLeaderboard() {
+        this.router.navigateByUrl(`teamleaderboard/${this.competition.competitionId}?showTeamOnly=true`);
     }
  }
