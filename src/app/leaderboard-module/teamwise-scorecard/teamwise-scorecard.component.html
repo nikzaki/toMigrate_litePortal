@@ -34,7 +34,69 @@
                   (click)="byTeam = true; onLeaderboardTypeChange()">
             <h4>Team</h4></li>
         </ul>
-        <ul *ngIf="showTeamOnly" class="list-inline nav cursor" style="text-transform: uppercase">
+        <ul  class="list-inline nav cursor" style="text-transform: uppercase"> 
+          <!-- <li class="nav-link list-inline-item"  style="cursor: pointer; border-top-style: none;
+          border-right-style: none;
+          border-left-style: none;"
+          [style.font-weight]="teamFilteredBy === ''?'bold':'normal'"
+          [style.border-bottom]="teamFilteredBy === ''?'red':''"
+          [style.border-bottom-style]="teamFilteredBy === ''?'solid':''"
+          (click)="goFilterLeaderboard('')">
+          <h4>OVERALL</h4>
+        </li>  -->
+        <ng-container *ngIf="competitionDetails && competitionDetails.categories && competitionDetails.categories.length > 0">
+          <li *ngFor="let cat of competitionDetails.categories"
+          class="nav-link list-inline-item"
+          style="cursor: pointer; border-top-style: none;
+          border-right-style: none;
+          border-left-style: none;"
+          [style.font-weight]="teamFilteredBy === cat.categoryName?'bold':'normal'"
+          [style.border-bottom]="teamFilteredBy === cat.categoryName?'red':''"
+          [style.border-bottom-style]="teamFilteredBy === cat.categoryName?'solid':''"
+                    (click)="goFilterLeaderboard(cat.categoryName)">
+              <h4>{{cat.categoryName}}</h4>
+            </li>
+        </ng-container>
+        
+          <!-- <li class="nav-link list-inline-item"  style="cursor: pointer; border-top-style: none;
+          border-right-style: none;
+          border-left-style: none;"
+          [style.font-weight]="teamFilteredBy === 'BOYS'?'bold':'normal'"
+          [style.border-bottom]="teamFilteredBy === 'BOYS'?'red':''"
+          [style.border-bottom-style]="teamFilteredBy === 'BOYS'?'solid':''"
+                    (click)="goFilterLeaderboard('BOYS')">
+              <h4>BOYS</h4>
+            </li>
+              <li class="nav-link list-inline-item"  style="cursor: pointer;
+              border-top-style: none;
+    border-right-style: none;
+    border-left-style: none;"
+              [style.font-weight]="teamFilteredBy === 'GIRLS'?'bold':'normal'"
+              [style.border-bottom]="teamFilteredBy === 'GIRLS'?'red':''"
+              [style.border-bottom-style]="teamFilteredBy === 'GIRLS'?'solid':''"
+              (click)="goFilterLeaderboard('GIRLS')">
+            <h4>GIRLS</h4>
+          </li> -->
+          <!-- <li class="nav-link list-inline-item"  style="cursor: pointer;
+          border-top-style: none;
+border-right-style: none;
+border-left-style: none;"
+          [style.font-weight]="teamFilteredBy === 'SIA'?'bold':'normal'"
+          [style.border-bottom]="teamFilteredBy === 'SIA'?'red':''"
+          [style.border-bottom-style]="teamFilteredBy === 'SIA'?'solid':''"
+          (click)="goFilterLeaderboard('SIA')">
+        <h4>SIA</h4>
+      </li>
+      <li class="nav-link list-inline-item"  style="cursor: pointer;
+      border-top-style: none;
+border-right-style: none;
+border-left-style: none;"
+      [style.font-weight]="teamFilteredBy === 'EA'?'bold':'normal'"
+      [style.border-bottom]="teamFilteredBy === 'EA'?'red':''"
+      [style.border-bottom-style]="teamFilteredBy === 'EA'?'solid':''"
+      (click)="goFilterLeaderboard('EA')">
+    <h4>EA</h4>
+  </li> -->
           <li class="nav-link list-inline-item"  style="cursor: pointer;"
                   (click)="goIndividualLeaderboard()">
             <h4>Individual</h4></li>

@@ -185,21 +185,6 @@ export class TeamwiseScorecardComponent implements OnInit {
 
     
     ngAfterViewInit() {
-        // this.paramSubscription = this.activatedRoute.params.subscribe(params => {
-        //     console.debug("on init ", params)
-        //     if(params['categoryId'] !== undefined) {
-        //         // this.filterByCategoryId = params['categoryId'];
-        //         this.individualLeaderboardSettings['byCategory'] = true;
-        //         this.individualLeaderboardSettings['selectedCategoryId'] = params['categoryId'];
-        //     }
-        //     setTimeout(() => {
-        //         if(params['showTeam'] && params['showTeam'] === 'true') {
-        //             this.byTeam = true;
-        //             console.debug("on init ", params, params['showTeam'], this.byTeam)
-        //             this.onLeaderboardTypeChange();
-        //         }
-        //     },1000);
-        // });
     }
 
     isColumnHidden(columnId: string) {
@@ -227,6 +212,9 @@ export class TeamwiseScorecardComponent implements OnInit {
         let sub2 = this.compService.getCompetitionDetails(this.competitionId)
                        .subscribe(det => {
                            this.competitionDetails = det;
+                           if(this.competitionDetails && this.competitionDetails.categories && this.competitionDetails.categories.length > 0) {
+                            this.teamFilteredBy = this.competitionDetails.categories[0].categoryName;
+                           }
                            this.rounds             = this.competitionDetails.gameRounds.filter(gr => {
                                return gr.status !== 'Pending';
                            });
@@ -384,6 +372,33 @@ export class TeamwiseScorecardComponent implements OnInit {
             this.processedTeamScores = display;
         }
 
+        if(this.teamFilteredBy || this.teamFilteredBy === '') {
+            this.processedTeamScores = this.processedTeamScores.filter((team)=>{
+                return team.teamName.toLowerCase().includes(this.teamFilteredBy.toLowerCase());
+            })
+            // // Sort the player records by score in descending order
+            // this.processedTeamScores.sort((a, b) => b.topNTotalGross - a.topNTotalGross);
+            this.processedTeamScores.sort((a,b)=>{
+                if(a.topNTotalGross < b.topNTotalGross) return -1;
+                else if(a.topNTotalGross > b.topNTotalG) return 1;
+                else return 0
+            })
+
+            // // Assign positions to players
+            let currentPosition = 1;
+            for (let i = 0; i < this.processedTeamScores.length; i++) {
+                if (i > 0 && this.processedTeamScores[i].topNTotalGross !== this.processedTeamScores[i - 1].topNTotalGross) {
+                    currentPosition = i + 1; 
+                }
+                this.processedTeamScores[i].position = currentPosition;
+            }
+
+            console.debug("processed team scores ", this.processedTeamScores)
+            // this.processedTeamScores.forEach((team, idx)=>{
+            //     team.position = idx+1;
+            // });
+        }
+
         // display;
     }
 
@@ -458,7 +473,7 @@ export class TeamwiseScorecardComponent implements OnInit {
         let rePath = `${serverRoot}/`;
         let _newPath = imagePath;
         _newPath = _newPath.replace(rePath,"");
-        console.debug("parse team logo", imagePath, _newPath, rePath, serverRoot);
+        // console.debug("parse team logo", imagePath, _newPath, rePath, serverRoot);
         return _newPath;
         // configService.config.serverRoot
     }
@@ -466,5 +481,12 @@ export class TeamwiseScorecardComponent implements OnInit {
     goIndividualLeaderboard() {
         // https://lite.mygolf2u.com/leaderboard/2312?enableToyota=true&hideCompHeader=false&hideCompName=false
         this.router.navigateByUrl(`leaderboard/${this.competition.competitionId}?enableToyota=true&hideCompHeader=false&hideCompName=false`);
+    }
+
+    teamFilteredBy: string; // = 'BOYS';
+    goFilterLeaderboard(category: string) {
+        this.teamFilteredBy = category;
+        this.refreshLeaderBoard();
+        
     }
 }
