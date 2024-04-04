@@ -25,7 +25,7 @@
 
     <div class="card-subtitle ui-g">
       <div class="ui-md-3 ui-sm-5 vertical-align-center">
-        <ul *ngIf="competition?.teamEvent" class="list-inline nav cursor">
+        <ul *ngIf="competition?.teamEvent && !showTeamOnly" class="list-inline nav cursor">
           <li class="nav-link list-inline-item"
                   [class.active]="!byTeam"
                   (click)="byTeam = false; onLeaderboardTypeChange()">
@@ -132,7 +132,7 @@
           <p-column>
             <ng-template let-col let-team = "rowData" pTemplate = "body">
               <div class = "player-name vertical-align-center" (click) = "expandRow(team)">
-                <img [src] = "team.logo" style = "height:40px; margin-right: 10px">
+                <span  *ngIf="team.logo && parseTeamLogo(team.logo).length > 0"><img [src]="team.logo" style = "height:40px; margin-right: 10px"></span>
                 <span>{{team.teamScores.teamName}}</span>
               </div>
             </ng-template>

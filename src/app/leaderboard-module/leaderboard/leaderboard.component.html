@@ -12,8 +12,8 @@
             </div>
         </div>
         <div class="card-subtitle row">
-            <div class="col-md-3">
-                <ul *ngIf="competition?.teamEvent" class="list-inline nav cursor">
+            <div class="col-md-3" >
+                <ul *ngIf="competition?.teamEvent" class="list-inline nav cursor" style="cursor: pointer">
                     <li class="nav-link list-inline-item"
                             [class.active]="leaderboardType === 'individual'"
                             (click)="leaderboardType = 'individual'">

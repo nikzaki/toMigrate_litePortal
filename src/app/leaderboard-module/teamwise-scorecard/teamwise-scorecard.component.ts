@@ -24,6 +24,7 @@ import {CompetitionService} from '../../services/competition.service';
 import {UserPreferenceService} from '../../services/user-preference.service';
 import {Util} from '../../util';
 import {IndividualLeaderboardComponent} from '../individual-leaderboard/individual-leaderboard.component';
+import { ConfigurationService } from 'app/services/configuration.service';
 
 @Component({
     selector     : 'app-teamwise-scorecard',
@@ -34,7 +35,7 @@ import {IndividualLeaderboardComponent} from '../individual-leaderboard/individu
 export class TeamwiseScorecardComponent implements OnInit {
     @Input() competitionId: number;
              competition: Competition;
-             byTeam: boolean                                    = false;
+             byTeam: boolean                                    = false; //false;
              competitionDetails: CompetitionDetails;
              competitionTeams: CompetitionTeams;
              teamScores: TeamScores[]                           = [];
@@ -83,7 +84,16 @@ export class TeamwiseScorecardComponent implements OnInit {
         private userPreference: UserPreferenceService,
         private notfService: NotificationService,
         private messageActions: SystemMessageActions,
-        media: ObservableMedia) {
+        media: ObservableMedia,
+        private configService: ConfigurationService) {
+        this.activatedRoute.queryParams.subscribe(params => {
+            if(params['showTeamOnly'] && params['showTeamOnly'] === 'true') {
+                this.byTeam = true;
+                this.showTeamOnly = true;
+                console.debug("on init ", params, params['showTeamOnly'], this.byTeam)
+                // this.onLeaderboardTypeChange();
+            }
+        });
         this.watcher              = media.subscribe((change: MediaChange) => {
             this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : "";
             this.mqAlias          = (change) ? change.mqAlias : '';
@@ -130,7 +140,8 @@ export class TeamwiseScorecardComponent implements OnInit {
     }
 
     ngOnInit() {
-        this.paramSubscription = this.activatedRoute.params.subscribe(params => {
+        // this.paramSubscription = 
+        this.activatedRoute.params.subscribe(params => {
             if (params['competitionId']) {
                 this.competitionId = +params['competitionId'];
                 this._refreshComp();
@@ -169,6 +180,25 @@ export class TeamwiseScorecardComponent implements OnInit {
             this.watcher.unsubscribe();
             this.watcher = null;
         }
+    }
+
+    
+    ngAfterViewInit() {
+        // this.paramSubscription = this.activatedRoute.params.subscribe(params => {
+        //     console.debug("on init ", params)
+        //     if(params['categoryId'] !== undefined) {
+        //         // this.filterByCategoryId = params['categoryId'];
+        //         this.individualLeaderboardSettings['byCategory'] = true;
+        //         this.individualLeaderboardSettings['selectedCategoryId'] = params['categoryId'];
+        //     }
+        //     setTimeout(() => {
+        //         if(params['showTeam'] && params['showTeam'] === 'true') {
+        //             this.byTeam = true;
+        //             console.debug("on init ", params, params['showTeam'], this.byTeam)
+        //             this.onLeaderboardTypeChange();
+        //         }
+        //     },1000);
+        // });
     }
 
     isColumnHidden(columnId: string) {
@@ -378,7 +408,13 @@ export class TeamwiseScorecardComponent implements OnInit {
         this.userPreference.setInSession("TeamLeaderboard.settings", settings);
     }
 
+    showTeamOnly: boolean = false;
     private restorePreference() {
+        let _hasParams;
+        this.activatedRoute.queryParams.subscribe(params => {
+            _hasParams = params;
+            // console.debug("restore preference ", _hasParams, params, _hasParams['showTeamOnly']);
+        });
         let settings = this.userPreference.getFromSession("TeamLeaderboard.settings");
         if (settings) {
             if (settings.tlbSettings) {
@@ -391,7 +427,11 @@ export class TeamwiseScorecardComponent implements OnInit {
             if (settings.tlbVisibility) {
                 this.tlbVisibility = Object.assign({}, this.tlbVisibility, settings.tlbVisibility);
             }
-            this.byTeam       = !settings.byIndividual;
+            if(_hasParams && _hasParams['showTeamOnly'] && _hasParams['showTeamOnly'] === 'true') {
+                this.byTeam = true;
+                this.showTeamOnly = true;
+                // this.onLeaderboardTypeChange();
+            } else this.byTeam       = !settings.byIndividual;
             this.showSettings = settings.showSettings;
             this.applyHiddenColumns();
         }
@@ -410,5 +450,15 @@ export class TeamwiseScorecardComponent implements OnInit {
             columns.push(det);
         });
         this.ilbColumns = columns;
+    }
+
+    parseTeamLogo(imagePath: string) {
+        let serverRoot = this.configService.config.serverRoot;
+        let rePath = `${serverRoot}/`;
+        let _newPath = imagePath;
+        _newPath = _newPath.replace(rePath,"");
+        console.debug("parse team logo", imagePath, _newPath, rePath, serverRoot);
+        return _newPath;
+        // configService.config.serverRoot
     }
 }

@@ -105,8 +105,8 @@
         <p-column>
             <ng-template let-col let-team = "rowData" pTemplate = "body">
                 <div class = "player-name vertical-align-center" (click) = "expandRow(team)">
-                    <img [src] = "team.logo" style = "height:40px; margin-right: 10px">
-                    <span>{{team.teamScores.teamName}}</span>
+                    <img *ngIf="team.logo && team.logo.length > 0" [src] = "team.logo" style = "height:40px; margin-right: 10px"> 
+                    <span>222{{team.teamScores.teamName}}</span>
                 </div>
             </ng-template>
         </p-column>

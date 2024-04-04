@@ -104,8 +104,52 @@ export class TeamLeaderboardComponent implements OnInit, OnDestroy {
                 this.competitionId = +params['competitionId'];
                 this._refreshComp();
             }
+            
+            console.debug("on init ", params['categoryId'])
+            if(params['categoryId'] !== undefined) {
+                this.filterByCategoryId = params['categoryId'];
+                this.individualLeaderboardSettings['byCategory'] = true;
+                this.individualLeaderboardSettings['selectedCategoryId'] = params['categoryId'];
+            }
+            setTimeout(() => {
+                if(params['byTeam'] && params['byTeam'] === 'true') {
+                    // this.byTeam = true;
+                    console.debug("on init ", params, params['byTeam'], this.byTeam)
+                    this.onLeaderboardTypeChange();
+                }
+            },1000);
+        });
+
+        this.activatedRoute.params.subscribe(params => {
+            console.debug("on init ", params, params['categoryId'])
+            if(params['categoryId'] !== undefined) {
+                this.filterByCategoryId = params['categoryId'];
+                this.individualLeaderboardSettings['byCategory'] = true;
+                this.individualLeaderboardSettings['selectedCategoryId'] = params['categoryId'];
+                
+        this.saveSettings();
+            }
         });
     }
+
+    ngAfterViewInit() {
+        this.paramSubscription = this.activatedRoute.params.subscribe(params => {
+            console.debug("on init ", params['categoryId'])
+            if(params['categoryId'] !== undefined) {
+                this.filterByCategoryId = params['categoryId'];
+                this.individualLeaderboardSettings['byCategory'] = true;
+                this.individualLeaderboardSettings['selectedCategoryId'] = params['categoryId'];
+            }
+            setTimeout(() => {
+                if(params['byTeam'] && params['byTeam'] === 'true') {
+                    // this.byTeam = true;
+                    console.debug("on init ", params, params['byTeam'], this.byTeam)
+                    this.onLeaderboardTypeChange();
+                }
+            },1000);
+        });
+    }
+    filterByCategoryId: number;
     enterFullScreen(){
         if(this.byTeam){
             let i = this.teamSection.nativeElement;
@@ -305,6 +349,16 @@ export class TeamLeaderboardComponent implements OnInit, OnDestroy {
             if(settings.tlbVisibility) this.tlbVisibility = settings.tlbVisibility;
             this.byTeam = !settings.byIndividual;
             this.showSettings = settings.showSettings;
+
+            this.activatedRoute.params.subscribe(params => {
+                console.debug("on init ", params, params['categoryId'])
+                if(params['categoryId'] !== undefined) {
+                    this.filterByCategoryId = params['categoryId'];
+                    this.individualLeaderboardSettings['byCategory'] = true;
+                    this.individualLeaderboardSettings['selectedCategoryId'] = params['categoryId'];
+                } 
+            this.saveSettings();
+                });
             this.applyHiddenColumns();
         }
 

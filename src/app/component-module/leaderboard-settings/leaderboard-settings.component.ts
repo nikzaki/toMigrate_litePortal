@@ -51,6 +51,16 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
         this.onNextPage     = new EventEmitter();
         this.onRefresh      = new EventEmitter();
         this.settingsChange = new EventEmitter();
+        
+        this.activeRoute.queryParams
+            .subscribe(params => {
+                console.log("get params - settings " ,params, this.totalPlayers);
+            if(params.categoryId) {
+                this.settings.byCategory = true;
+                this.settings.selectedCategory = Number(params.categoryId);
+                this.settingsChanged();
+            }
+            })
     }
     @Input()
     get settings() {
@@ -72,6 +82,7 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
 
     public init() {
         this.settingsChanged();
+        
     }
 
 
@@ -88,6 +99,15 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
         this.totalPlayers = totalPlayers;
         this.stopSubscription();
         if(!this.settings) return;
+        
+        this.activeRoute.queryParams 
+            .subscribe(params => {
+                console.log("get params - settings [data refreshed] " ,params, this.totalPlayers);
+            if(params.categoryId) {
+                this.settings.byCategory = true;
+                this.settings.selectedCategory = Number(params.categoryId);
+            }
+            })
         if (this.settings.autoScroll && this.settings.scrollSize > 0) {
             this.totalPages = Math.ceil(this.totalPlayers / this.settings.scrollSize);
         }
@@ -101,6 +121,10 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
                 this.settings.scrollSize = params.rowSize
             if((params.allRows || params.allRows === 'true') && this.totalPlayers > 0)
                 this.settings.scrollSize = this.totalPlayers;
+            // if(params.categoryId) {
+            //     this.settings.byCategory = true;
+            //     this.settings.selectedCategory = params.categoryId;
+            // }
             })
         } else {
             this.totalPages = 0;
@@ -109,6 +133,7 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
             this.currentPage = 1;
         }
         this.setupAutoScroll();
+        // if(this.settings.byCategory) this.settingsChanged();
         
     }
 

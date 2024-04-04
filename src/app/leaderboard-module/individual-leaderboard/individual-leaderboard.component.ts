@@ -227,7 +227,11 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
 
     }
 
+    filteredCategoryId: number;
     ngOnInit() {
+        if (!this.embedded) {
+            this.restorePreferences();
+        }
         this.activeRoute.queryParams
         .subscribe(params => {
             if(params['maxSponsorDisplay'] && params['maxSponsorDisplay'] > 0)
@@ -282,6 +286,15 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             if(params['hideAllCategory'] && params['hideAllCategory'] === 'true')
                 this.hideAllCategory = true;
             else if(params['hideAllCategory'] && params['hideAllCategory'] === 'false') this.hideAllCategory = false;
+
+            console.debug('init ', params)
+            if(params['categoryId']) {
+                // this.filteredCategoryId = params['categoryId'];
+                this.settings['byCategory'] = true;
+                this.settings['selectedCategory'] = Number(params['categoryId']);
+                console.debug("has category ", params['categoryId'], this.settings);
+                this.savePreferences();
+            }
             
 
           console.log(params); // { orderby: "price" }
@@ -294,9 +307,6 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         }
       );
         // console.log('ngOnInit() : ', this.embedded)
-        if (!this.embedded) {
-            this.restorePreferences();
-        }
 
         this.columnVisibilityChanged(this.leaderboardColumns);
         // this.showSettings = true;
@@ -331,6 +341,14 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         this.paramSubscription = this.activeRoute.params.subscribe(params => {
             if (params['competitionId'])
                 this.competitionId = +params['competitionId'];
+            
+            if(params['categoryId']) {
+                // this.filteredCategoryId = params['categoryId'];
+                this.settings['byCategory'] = true;
+                this.settings['selectedCategory'] = Number(params['categoryId']);
+                console.debug("has category ", this.filteredCategoryId, this.settings);
+                this.savePreferences();
+            }
             this.refreshCompInfo();
             
         });
@@ -839,6 +857,13 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 }
             }
 
+            let _categoryId = null;
+            if(this.settings.selectedCategory)
+                _categoryId = this.settings.selectedCategory
+            else if(category && category.categoryId !== -1)
+                _categoryId = category.categoryId
+            else _categoryId = null
+
 
             // if(round !== undefined && round > 0) {
                 this.getFlightList();
@@ -847,9 +872,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             if(this.enableToyota && category && category.categoryId < 0) {
                 return;
             }
+            // category && category.categoryId !== -1?category.categoryId:null
             let sub = this.competitionService.getLeaderboard(this.competitionId,
                     round && round.roundNo ? round.roundNo : null,
-                    category && category.categoryId !== -1 ? category.categoryId : null,
+                    _categoryId,
                     orderBy,
                     false)
                 .subscribe((leaderboard: LeaderBoard) => {
@@ -1213,6 +1239,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         if (val) {
             if (val.lbSettings) this.settings = val.lbSettings;
             this.showSettings = val.showSettings;
+            // if(val && val.lbSettings && val.lbSettings.selectedCategory)
+            //     this.filteredCategoryId = val.lbSettings.selectedCategory;
             if (val.hiddenColumns) {
                 this.hiddenColumns = val.hiddenColumns;
                 this.applyHiddenColumns();
