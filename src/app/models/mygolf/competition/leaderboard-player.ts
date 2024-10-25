@@ -37,4 +37,6 @@ export interface LeaderBoardPlayer {
     round2Gross?: number;
     round3Gross?: number;
     round4Gross?: number;
+    statusName?: string;
+    compStatus?: string;
 }

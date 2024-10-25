@@ -51,12 +51,12 @@ export class RemoteRequest {
         // Now set the headers from the request
         this.populateHeader(headers, this.headers);
         let bodyStr: string = '';
-        console.debug("building ajax", this.data, this.reqContentType)
+        // console.debug("building ajax", this.data, this.reqContentType)
         if (this.method === RequestMethod.Get && isPresent(this.data)) {
-            console.debug("get")
+            // console.debug("get")
             const paramStr = this.paramString(this.data);
             if (paramStr && paramStr.length) {
-                console.debug("get with param", paramStr, this.data)
+                // console.debug("get with param", paramStr, this.data)
                 effUrl += '?' + paramStr;
                 // bodyStr = this.data;
                 headers.set('Content-Type', ContentType.URL_ENCODED_FORM_DATA);
@@ -64,13 +64,13 @@ export class RemoteRequest {
         }
         else if (isPresent(this.data)) {
             if (ContentType.URL_ENCODED_FORM_DATA === this.reqContentType) {
-                console.debug("non get URL FORM DATA")
+                // console.debug("non get URL FORM DATA")
                 bodyStr = this.paramString(this.data);
                 headers.set('Content-Type', ContentType.URL_ENCODED_FORM_DATA);
             }
             else {
                 
-                console.debug("non get NOT URL FORM DATA")
+                // console.debug("non get NOT URL FORM DATA")
                 bodyStr = JSON.stringify(this.data);
                 headers.set('Content-Type', ContentType.JSON);
             }
@@ -78,7 +78,7 @@ export class RemoteRequest {
         }
         else {
             
-            console.debug("not present")
+            // console.debug("not present")
             headers.set('Content-Type', ContentType.URL_ENCODED_FORM_DATA);
         }
         const args = {
@@ -86,7 +86,7 @@ export class RemoteRequest {
             headers: headers,
             body   : bodyStr
         };
-        console.debug("building ajax [2]", bodyStr, headers, args)
+        // console.debug("building ajax [2]", bodyStr, headers, args)
         const req  = new Request(args);
         req.url    = effUrl;
         req.method = this.method;

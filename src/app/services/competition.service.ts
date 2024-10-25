@@ -255,7 +255,7 @@ export class CompetitionService {
             competitionId: competitionId,
             roundNo: roundNo,
             orderBy: orderBy,
-            categoryId: category,
+            categoryId: category&&category===-1?null:category,
             isTeamEvent: teamEvent
         });
         return this.remoteHttp.execute(req)

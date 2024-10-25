@@ -176,7 +176,7 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
     }
 
     getScoreTitle(type?: string,roundNo?: number) {
-        console.debug("score title", type, roundNo, this.maxRounds)
+        // console.debug("score title", type, roundNo, this.maxRounds)
         if(type === 'Net') return 'Net';
         else if(this.enableToyota) {
             if(roundNo > 1 && roundNo === this.maxRounds) return 'FR'

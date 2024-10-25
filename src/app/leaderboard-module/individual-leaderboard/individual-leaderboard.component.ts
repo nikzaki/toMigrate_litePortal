@@ -96,7 +96,7 @@ import * as moment from 'moment';
     encapsulation: ViewEncapsulation.None,
     // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IndividualLeaderboardComponent implements OnInit, OnChanges,  AfterViewInit {
+export class IndividualLeaderboardComponent implements OnInit, OnChanges,  AfterViewInit, OnDestroy {
     // OnDestroy,
 
     // private _onDestroy = new Subject<void>();
@@ -263,6 +263,12 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 // if(this.validCategories && this.validCategories.length > 0) 
                 //     this.settings.selectedCategory = this.validCategories[0].categoryId;
             }
+            if(params['showPoints'] && params['showPoints'] === 'true') {
+                this.settings['hideNetColumns'] = false;
+            }
+            if(params['hideGross'] && params['hideGross'] === 'true') {
+                this.settings['hideGrossColumns'] = true;
+            }
             if(params['showPlayerId'] && params['showPlayerId'] === 'true') {
                 this.showPlayerId = true;
             } else if(params['showPlayerId'] && params['showPlayerId'] === 'false') this.showPlayerId = false;
@@ -413,11 +419,11 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         console.log("Total players : ", this.totalPlayers)
         this.playersToDisplay
         .sort((a,b)=>{
-            console.debug("sorting - round: ",this.compDetails.roundInProgress, a,b)
+            // console.debug("sorting - round: ",this.compDetails.roundInProgress, a,b)
             
             let _thruTimeA = moment(this.checkThru(a),"HH:mm:ss");
             let _thruTimeB = moment(this.checkThru(b),"HH:mm:ss");
-            console.debug("sorting : ",_thruTimeA,_thruTimeA.isValid(), _thruTimeB,_thruTimeB.isValid())
+            // console.debug("sorting : ",_thruTimeA,_thruTimeA.isValid(), _thruTimeB,_thruTimeB.isValid())
             // if(Number(a.position) < Number(b.position)) return -1; 
             // else if(Number(a.position) > Number(b.position)) return 1;
             // else {
@@ -426,7 +432,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 
                 if(this.compDetails.roundInProgress) {
                     
-                 if(a.position === 'CUT' && b.position === 'W') {
+                 if(a.compStatus === 'FailedCutoff' && b.compStatus === 'Withdrawn') {
+                    // if(a.position === 'CUT' && b.position === 'W') {
                         if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
                         else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
                         // else if(a.round4Gross < b.round4Gross) return -1;
@@ -450,7 +457,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                                 }
                             }
                         }
-                    } else if(a.position === 'W' && b.position === 'CUT') {
+                    } 
+                    
+                    else if(a.compStatus === 'Withdrawn' && b.compStatus === 'FailedCutoff') {
+                    // else if(a.position === 'W' && b.position === 'CUT') {
                         
                         if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
                         else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
@@ -474,7 +484,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                             }
                         }
                     }
-                    else if(a.position === 'W' && b.position === 'W'){
+                    else if(a.compStatus === 'Withdrawn' && b.compStatus === 'Withdrawn') {
+                    // else if(a.position === 'W' && b.position === 'W'){
                         
                         if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
                         else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
@@ -497,10 +508,19 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                                 }
                             }
                         }
-                    } else if(a.position === 'W' && b.position !== 'W') return 1;
-                    else if(a.position !== 'W' && b.position === 'W') return -1; 
-                    else if(a.position === 'CUT' && b.position !== 'CUT') return 1;
-                    else if(a.position !== 'CUT' && b.position === 'CUT') return -1;
+                    } 
+                    /** NEW */
+                    else if(a.compStatus === 'Withdrawn' && b.compStatus !== 'Withdrawn') return 1;
+                    else if(a.compStatus !== 'Withdrawn' && b.compStatus === 'Withdrawn') return -1;
+                    else if(a.compStatus === 'FailedCutoff' && b.compStatus !== 'FailedCutoff') return 1;
+                    else if(a.compStatus !== 'FailedCutoff' && b.compStatus === 'FailedCutoff') return -1;
+
+                        /** OLD */
+                    // else if(a.position === 'W' && b.position !== 'W') return 1;
+                    // else if(a.position !== 'W' && b.position === 'W') return -1; 
+                    // else if(a.position === 'CUT' && b.position !== 'CUT') return 1;
+                    // else if(a.position !== 'CUT' && b.position === 'CUT') return -1;
+                    /** end of OLD */
                     else {
                         // if(Number(this.checkThru(a)) > Number(this.checkThru(b))) return -1;
                         // else if(Number(this.checkThru(a)) < Number(this.checkThru(b))) return 1;
@@ -522,7 +542,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                                         // if(!isNaN(Number(a.position)) && isNaN(Number(b.position))) return -1
                                         // else if(isNaN(Number(a.position)) && !isNaN(Number(b.position))) return 1;
                                         else {
-                                            if(a.position === 'CUT' && b.position === 'W') {
+                                            
+                                            if(a.compStatus === 'FailedCutoff' && b.compStatus === 'Withdrawn') {
+                                            // if(a.position === 'CUT' && b.position === 'W') {
                                                 if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
                                                 else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
                                                 else {
@@ -540,7 +562,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                                                         }
                                                     }
                                                 }
-                                            } else if(a.position === 'W' && b.position === 'CUT') {
+                                            } 
+                                            else if(a.compStatus === 'Withdrawn' && b.compStatus === 'FailedCutoff') {
+                                            // else if(a.position === 'W' && b.position === 'CUT') {
                                                 
                                                 if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
                                                 else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
@@ -560,7 +584,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                                                     }
                                                 }
                                             }
-                                            else if(a.position === 'W' && b.position === 'W'){
+                                            else if(a.compStatus === 'Withdrawn' && b.compStatus === 'Withdrawn') {
+                                            // else if(a.position === 'W' && b.position === 'W'){
                                                 
                                                 if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
                                                 else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
@@ -595,140 +620,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     }
                     
                 }
-
-                // else {
-                    
-                //             // if(Number(this.checkThru(a)) > Number(this.checkThru(b))) return -1;
-                //             // else if(Number(this.checkThru(a)) < Number(this.checkThru(b))) return 1;
-                //             // else {
-                                
-                //                 if(Number(a.position) < Number(b.position)) return -1;
-                //                 else if(Number(a.position) > Number(b.position)) return 1;
-                //                 else {
-                //                 if(a.position === 'CUT' && b.position === 'W') {
-                //                     if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                //                     else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-                //                     else {
-                //                         if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                //                         else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-                //                         else {
-                //                             if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-                //                             else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-                //                             else {
-                //                                 if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-                //                                 else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
-                //                                 else {
-                //                                     return 0
-                //                                 }
-                //                             }
-                //                         }
-                //                     }
-                //                 } else if(a.position === 'W' && b.position === 'CUT') {
-                                    
-                //                     if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                //                     else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-                //                     else {
-                //                         if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                //                         else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-                //                         else {
-                //                             if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-                //                             else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-                //                             else {
-                //                                 if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-                //                                 else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
-                //                                 else {
-                //                                     return 0
-                //                                 }
-                //                             }
-                //                         }
-                //                     }
-                //                 }
-                //                 else if(a.position === 'W' && b.position === 'W'){
-                                    
-                //                     if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                //                     else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-                //                     else {
-                //                         if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                //                         else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-                //                         else {
-                //                             if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-                //                             else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-                //                             else {
-                //                                 if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-                //                                 else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
-                //                                 else {
-                //                                     return 0
-                //                                 }
-                //                             }
-                //                         }
-                //                     }
-                //                 }
-                //                     }
-                // }
         })
-        // .sort((a, b) =>{
-
-        //         if(a.position === 'CUT' && b.position === 'W') {
-        //             if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-        //             else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-        //             else {
-        //                 if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-        //                 else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-        //                 else {
-        //                     if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-        //                     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-        //                     else {
-        //                         if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-        //                         else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
-        //                         else {
-        //                             return 0
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         } else if(a.position === 'W' && b.position === 'CUT') {
-                    
-        //             if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-        //             else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-        //             else {
-        //                 if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-        //                 else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-        //                 else {
-        //                     if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-        //                     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-        //                     else {
-        //                         if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-        //                         else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
-        //                         else {
-        //                             return 0
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         }
-        //         else if(a.position === 'W' && b.position === 'W'){
-                    
-        //             if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
-        //             else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
-        //             else {
-        //                 if(a.round3Gross === 0 && b.round3Gross > 0) return 1;
-        //                 else if(a.round3Gross > 0 && b.round3Gross === 0) return -1;
-        //                 else {
-        //                     if(a.round2Gross === 0 && b.round2Gross > 0) return 1;
-        //                     else if(a.round2Gross > 0 && b.round2Gross === 0) return -1;
-        //                     else {
-        //                         if(a.round1Gross === 0 && b.round1Gross > 0) return 1;
-        //                         else if(a.round1Gross > 0 && b.round1Gross === 0) return -1;
-        //                         else {
-        //                             return 0
-        //                         }
-        //                     }
-        //                 }
-        //             }
-        //         } 
-
-            
-        // })
 
         this.playersToDisplay.forEach(ptd=>{
             if( ptd.position ==='W' || ptd.position === 'CUT' || ptd.position === 'N' 
@@ -737,9 +629,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
 
             ) {
         }
-        else if (ptd.round1Gross >= 144 || ptd.round2Gross >= 180 || ptd.round3Gross >= 180 || ptd.round4Gross >= 180) {
-            notPlay += 1;
-        }
+        // else if (ptd.round1Gross >= 144 || ptd.round2Gross >= 180 || ptd.round3Gross >= 180 || ptd.round4Gross >= 180) {
+        //     notPlay += 1;
+        // }
         else {
                 let pos_:number = Number(ptd.position);
                 // if(pos_ > this.totalPlayers) ptd.position = String(pos_ - this.totalPlayers + notPlay);
@@ -756,6 +648,14 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     refresh(params: LeaderboardRefreshParams) {
         this.refreshParams = params;
         this.refreshLeaderBoard();
+        if(this.subFlightList) {
+            this.subFlightList.unsubscribe();
+            this.subFlightList = null;
+        }
+        if(this.subGetLeaderboard) {
+            this.subGetLeaderboard.unsubscribe();
+            this.subGetLeaderboard = null;
+        }
     }
     showAutoScrollDetail() {
         return !this.showSettings;
@@ -833,6 +733,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         else return 'Net'
     }
     isRefreshing: boolean = false;
+
+    subGetLeaderboard: Subscription;
     refreshLeaderBoard() {
         // if(this.isRefreshing) return;
         this.isRefreshing = true;
@@ -874,7 +776,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 return;
             }
             // category && category.categoryId !== -1?category.categoryId:null
-            let sub = this.competitionService.getLeaderboard(this.competitionId,
+            this.subGetLeaderboard = this.competitionService.getLeaderboard(this.competitionId,
                     round && round.roundNo ? round.roundNo : null,
                     _categoryId,
                     orderBy,
@@ -976,7 +878,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     if (!this.settings.showNonPlaying){
                         this.leaderBoard.players = this.leaderBoard.players.filter(function (ptd) {
                             return (ptd.position !== 'W' && ptd.position !== 'CUT' && ptd.position !== 'N' 
-                            && ( ptd.round1Gross < 144 && ptd.round2Gross < 180 && ptd.round3Gross < 180 && ptd.round4Gross < 180 )
+                            // && ( ptd.round1Gross < 144 && ptd.round2Gross < 180 && ptd.round3Gross < 180 && ptd.round4Gross < 180 )
                             // ptd.outTotalGross >= 144
                             
                             )
@@ -1008,12 +910,20 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     this.topNplayersDisplay =  [];
                     this.derivePlayerTeams();
                     this.leaderBoardSettings.dataRefreshed(this.totalPlayers);
+                    // if(this.subGetLeaderboard) {
+                    //     this.subGetLeaderboard.unsubscribe();
+                    //     this.subGetLeaderboard = null;
+                    // }
                 },(error)=>{
 
+                    if(this.subGetLeaderboard) {
+                        this.subGetLeaderboard.unsubscribe();
+                        this.subGetLeaderboard = null;
+                    }
                 },()=>{
                     this.isRefreshing = false;
                 });
-                this.subscriptions.push(sub);
+                // this.subscriptions.push(sub);
                 // this.addToBusyList([sub]);
         }
         
@@ -1163,7 +1073,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         // date.setHours(Number(data.startTime.hour));
         // date.setMinutes(Number(data.startTime.minute));
         
-        if (data.position === 'W' || data.position === 'X' || data.position === 'CUT')
+        // if (data.position === 'W' || data.position === 'X' || data.position === 'CUT')
+        if (data.compStatus === 'Withdrawn' || data.compStatus === 'FailedCutoff' || data.compStatus === 'FailedCutoff')
             return data.thru;
 
 
@@ -1457,16 +1368,37 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         console.debug("row class : ", e);
     }
 
+    ngOnDestroy() {
+        if(this.subFlightList) {
+            this.subFlightList.unsubscribe();
+            this.subFlightList = null;
+        }
+    }
     flightList: Array<FlightInfo> = [];
+    subFlightList: Subscription;
     getFlightList() {
+        if(!this.competition) return;
+        if(this.subFlightList) return;
         let _compId = this.competition.competitionId;
         let _roundNo = this.compDetails.roundInProgress;
+        if(this.compDetails && this.compDetails.roundInProgress === null)
+        _roundNo = 1;
         // this.flightList = [];
 
-        this.competitionService.getFlightList(_compId, _roundNo)
+        this.subFlightList = this.competitionService.getFlightList(_compId, _roundNo)
         .subscribe((data)=>{
             if(data) {
                 this.flightList = data;
+            }
+            // if(this.subFlightList) {
+            //     this.subFlightList.unsubscribe();
+            //     this.subFlightList = null;
+            // }
+
+        },(error)=>{
+            if(this.subFlightList) {
+                this.subFlightList.unsubscribe();
+                this.subFlightList = null;
             }
         });
         // this.addToBusyList([sub]);
@@ -1498,7 +1430,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         let _class = '';
         
         console.debug("cut off class : ", idx,player, playersToDisplay, this.leaderBoard, this.playersToDisplay)
-        if(player.position === 'CUT') {
+        if(player.position === 'CUT' || player.compStatus === 'FailedCutoff') {
             // return 'cut-off-line'
         }
             
@@ -1508,7 +1440,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         let _hasCut = this.playersToDisplay.find((p: LeaderBoardPlayer, i, lbp)=>{
             
         console.debug("cut off class [1]: ",player, p, lbp, i)
-            return p.playerId === player.playerId && player.position === 'CUT'; // && lbp[i-1].position !== 'CUT'
+            return p.playerId === player.playerId && (player.position === 'CUT' || player.compStatus === 'FailedCutoff'); // && lbp[i-1].position !== 'CUT'
         });
         if(_hasCut) _class = 'cut-off-line'
         return _class;

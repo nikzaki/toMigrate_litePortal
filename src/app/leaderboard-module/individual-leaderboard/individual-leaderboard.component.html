@@ -260,10 +260,10 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
                 <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
                     <ng-template let-col let-player="rowData" pTemplate="body">
-                        <div class="position" [class.withdrawn-player]="player.position==='W'">
+                        <div class="position" [class.withdrawn-player]="player.compStatus==='Withdrawn'">
                             
-                            <span *ngIf="player.position==='W'">WD</span>
-                            <span *ngIf="player.position!=='W'">{{player.position}}</span>
+                            <span *ngIf="player.compStatus==='Withdrawn'">WD</span>
+                            <span *ngIf="player.compStatus!=='Withdrawn'">{{player.statusName}}</span>
                         </div>
                         <!-- style="font-size:1.1em;font-family:'Toyota'"  -->
                     </ng-template>
@@ -433,10 +433,14 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
         <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
-                <div  class="position"   [class.withdrawn-player]="player.position==='W'">
+                <div  class="position"   [class.withdrawn-player]="player.compStatus === 'Withdrawn' || player.position==='W'">
                     <!-- {{player.position}} -->
-                    <span *ngIf="player.position==='W'">WD</span>
-                    <span *ngIf="player.position!=='W'">{{player.position}}</span>
+                    <span *ngIf="player.compStatus === 'Withdrawn' || player.position==='W'">WD</span>
+                    <span *ngIf="player.compStatus !== 'Withdrawn'">
+                        <!-- {{player.statusName}} -->
+                        <div *ngIf="player.statusName === 'Active'">{{player.position}}</div>
+                        <div *ngIf="player.compStatus === 'FailedCutoff'">CUT</div>
+                    </span>
                 </div>
             </ng-template>
         </p-column>
@@ -621,11 +625,14 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         <!-- [ngClass]="player.position === 'W' || player.position === 'CUT'?'non-playing-rows':''"  -->
             
             <ng-template let-col let-player="rowData" pTemplate="body" >
-                <div  class="position"   [class.withdrawn-player]="player.position==='W'">
+                <div  class="position"   [class.withdrawn-player]="player.compStatus === 'Withdrawn'">
                     <!-- {{player.position}} -->
                     
-                    <span *ngIf="player.position==='W'">WD</span>
-                    <span *ngIf="player.position!=='W'">{{player.position}}</span>
+                    <span *ngIf="player.compStatus === 'Withdrawn'">WD</span>
+                    <span *ngIf="player.compStatus !== 'Withdrawn'">
+                        <div *ngIf="player.statusName === 'Active'">{{player.position}}</div>
+                        <div *ngIf="player.compStatus === 'FailedCutoff'">CUT</div>
+                    </span>
                 </div>
             </ng-template>
         </p-column>
