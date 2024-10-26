@@ -39,4 +39,6 @@ export interface LeaderBoardPlayer {
     round4Gross?: number;
     statusName?: string;
     compStatus?: string;
+    playerRoundStatus?: string;
+    roundsAbsent?: Array<any>;
 }

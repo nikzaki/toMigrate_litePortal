@@ -431,8 +431,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 // else if(Number(a.thru) === 0 && Number(b.thru) > 0) return 1;
                 
                 if(this.compDetails.roundInProgress) {
+                    if(!a.position && Number(b.position)) return 1;
+                    else if(Number(a.position) && !b.position) return -1;
                     
-                 if(a.compStatus === 'FailedCutoff' && b.compStatus === 'Withdrawn') {
+                 else if(a.playerRoundStatus === 'FailedCutoff' && b.playerRoundStatus === 'Withdrawn') {
                     // if(a.position === 'CUT' && b.position === 'W') {
                         if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
                         else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
@@ -459,7 +461,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                         }
                     } 
                     
-                    else if(a.compStatus === 'Withdrawn' && b.compStatus === 'FailedCutoff') {
+                    else if(a.playerRoundStatus === 'Withdrawn' && b.playerRoundStatus === 'FailedCutoff') {
                     // else if(a.position === 'W' && b.position === 'CUT') {
                         
                         if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
@@ -484,7 +486,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                             }
                         }
                     }
-                    else if(a.compStatus === 'Withdrawn' && b.compStatus === 'Withdrawn') {
+                    else if(a.playerRoundStatus === 'Withdrawn' && b.playerRoundStatus === 'Withdrawn') {
                     // else if(a.position === 'W' && b.position === 'W'){
                         
                         if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
@@ -510,10 +512,12 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                         }
                     } 
                     /** NEW */
-                    else if(a.compStatus === 'Withdrawn' && b.compStatus !== 'Withdrawn') return 1;
-                    else if(a.compStatus !== 'Withdrawn' && b.compStatus === 'Withdrawn') return -1;
-                    else if(a.compStatus === 'FailedCutoff' && b.compStatus !== 'FailedCutoff') return 1;
-                    else if(a.compStatus !== 'FailedCutoff' && b.compStatus === 'FailedCutoff') return -1;
+                    else if(a.playerRoundStatus === 'Withdrawn' && b.playerRoundStatus !== 'Withdrawn') return 1;
+                    else if(a.playerRoundStatus !== 'Withdrawn' && b.playerRoundStatus === 'Withdrawn') return -1;
+                    else if(a.playerRoundStatus === 'FailedCutoff' && b.playerRoundStatus !== 'FailedCutoff') return 1;
+                    else if(a.playerRoundStatus !== 'FailedCutoff' && b.playerRoundStatus === 'FailedCutoff') return -1;
+                    else if(!a.playerRoundStatus && b.playerRoundStatus) return 1;
+                    else if(a.playerRoundStatus && !b.playerRoundStatus) return -1;
 
                         /** OLD */
                     // else if(a.position === 'W' && b.position !== 'W') return 1;
@@ -529,6 +533,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                             
                             if(Number(a.position) < Number(b.position)) return -1;
                             else if(Number(a.position) > Number(b.position)) return 1; 
+                            else if(!a.position && Number(b.position)) return 1;
+                            else if(Number(a.position) && !b.position) return -1;
                             else {
                         if(_thruTimeA.isValid() && !_thruTimeB.isValid()) {
                             return 1
@@ -543,7 +549,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                                         // else if(isNaN(Number(a.position)) && !isNaN(Number(b.position))) return 1;
                                         else {
                                             
-                                            if(a.compStatus === 'FailedCutoff' && b.compStatus === 'Withdrawn') {
+                                            if(a.playerRoundStatus === 'FailedCutoff' && b.playerRoundStatus === 'Withdrawn') {
                                             // if(a.position === 'CUT' && b.position === 'W') {
                                                 if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
                                                 else if(a.round4Gross > 0 && b.round4Gross === 0) return -1;
@@ -563,7 +569,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                                                     }
                                                 }
                                             } 
-                                            else if(a.compStatus === 'Withdrawn' && b.compStatus === 'FailedCutoff') {
+                                            else if(a.playerRoundStatus === 'Withdrawn' && b.playerRoundStatus === 'FailedCutoff') {
                                             // else if(a.position === 'W' && b.position === 'CUT') {
                                                 
                                                 if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
@@ -584,7 +590,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                                                     }
                                                 }
                                             }
-                                            else if(a.compStatus === 'Withdrawn' && b.compStatus === 'Withdrawn') {
+                                            else if(a.playerRoundStatus === 'Withdrawn' && b.playerRoundStatus === 'Withdrawn') {
                                             // else if(a.position === 'W' && b.position === 'W'){
                                                 
                                                 if(a.round4Gross === 0 && b.round4Gross > 0) return 1;
@@ -776,7 +782,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 return;
             }
             // category && category.categoryId !== -1?category.categoryId:null
-            this.subGetLeaderboard = this.competitionService.getLeaderboard(this.competitionId,
+            // this.subGetLeaderboard = 
+            this.competitionService.getLeaderboard(this.competitionId,
                     round && round.roundNo ? round.roundNo : null,
                     _categoryId,
                     orderBy,
@@ -910,10 +917,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     this.topNplayersDisplay =  [];
                     this.derivePlayerTeams();
                     this.leaderBoardSettings.dataRefreshed(this.totalPlayers);
-                    // if(this.subGetLeaderboard) {
-                    //     this.subGetLeaderboard.unsubscribe();
-                    //     this.subGetLeaderboard = null;
-                    // }
+                    if(this.subGetLeaderboard) {
+                        this.subGetLeaderboard.unsubscribe();
+                        this.subGetLeaderboard = null;
+                    }
                 },(error)=>{
 
                     if(this.subGetLeaderboard) {
@@ -1074,7 +1081,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         // date.setMinutes(Number(data.startTime.minute));
         
         // if (data.position === 'W' || data.position === 'X' || data.position === 'CUT')
-        if (data.compStatus === 'Withdrawn' || data.compStatus === 'FailedCutoff' || data.compStatus === 'FailedCutoff')
+        if (data.playerRoundStatus === 'Withdrawn' || data.playerRoundStatus === 'FailedCutoff' || data.playerRoundStatus === 'FailedCutoff')
             return data.thru;
 
 
@@ -1430,7 +1437,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         let _class = '';
         
         console.debug("cut off class : ", idx,player, playersToDisplay, this.leaderBoard, this.playersToDisplay)
-        if(player.position === 'CUT' || player.compStatus === 'FailedCutoff') {
+        if(player.position === 'CUT' || player.playerRoundStatus === 'FailedCutoff') {
             // return 'cut-off-line'
         }
             
@@ -1440,7 +1447,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         let _hasCut = this.playersToDisplay.find((p: LeaderBoardPlayer, i, lbp)=>{
             
         console.debug("cut off class [1]: ",player, p, lbp, i)
-            return p.playerId === player.playerId && (player.position === 'CUT' || player.compStatus === 'FailedCutoff'); // && lbp[i-1].position !== 'CUT'
+            return p.playerId === player.playerId && (player.position === 'CUT' || player.playerRoundStatus === 'FailedCutoff'); // && lbp[i-1].position !== 'CUT'
         });
         if(_hasCut) _class = 'cut-off-line'
         return _class;
@@ -1515,5 +1522,17 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     
     goTeamLeaderboard() {
         this.router.navigateByUrl(`teamleaderboard/${this.competition.competitionId}?showTeamOnly=true`);
+    }
+
+    getOtherPlayerStatus(player: LeaderBoardPlayer) {
+        console.debug("get other plaeyr status : ", this.settings.selectedRound, this.compDetails.roundInProgress);
+        let _currRound = this.settings.selectedRound || this.compDetails.roundInProgress;
+        let _currRoundStatus: string;
+        for(let key in player.roundsAbsent) {
+            if(Number(key) === _currRound - 1)
+                _currRoundStatus = player.roundsAbsent[key];
+        }
+        if(_currRoundStatus === 'Withdrawn')
+            return 'WD';
     }
  }
