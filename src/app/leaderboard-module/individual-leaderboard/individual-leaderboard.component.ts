@@ -1524,7 +1524,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         this.router.navigateByUrl(`teamleaderboard/${this.competition.competitionId}?showTeamOnly=true`);
     }
 
-    getOtherPlayerStatus(player: LeaderBoardPlayer) {
+    OLDgetOtherPlayerStatus(player: LeaderBoardPlayer) {
         console.debug("get other plaeyr status : ", this.settings.selectedRound, this.compDetails.roundInProgress);
         let _currRound = this.settings.selectedRound || this.compDetails.roundInProgress;
         let _currRoundStatus: string;
@@ -1534,5 +1534,25 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         }
         if(_currRoundStatus === 'Withdrawn')
             return 'WD';
+    }
+
+    
+    getOtherPlayerStatus(player: LeaderBoardPlayer) {
+        console.debug("get other plaeyr status : ", this.settings.selectedRound, this.compDetails.roundInProgress);
+        let _currRound = this.settings.selectedRound || this.compDetails.roundInProgress;
+        let _currRoundStatus: string;
+        let _maxRounds = this.compDetails.gameRounds?this.compDetails.gameRounds.length:0;
+        for(let key in player.roundsAbsent) {
+            if(Number(key) === _currRound - 1)
+                _currRoundStatus = player.roundsAbsent[key];
+            else if(this.settings.selectedRound === 0 || !this.compDetails.roundInProgress) {
+            if(Number(key) === _maxRounds)
+                _currRoundStatus = player.roundsAbsent[key];
+            }
+        }
+        if(_currRoundStatus === 'Withdrawn')
+            return 'WD';
+        else if(_currRoundStatus === 'FailedCutoff')
+            return 'CUT';
     }
  }
