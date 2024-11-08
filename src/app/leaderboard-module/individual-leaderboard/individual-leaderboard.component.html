@@ -25,6 +25,7 @@
         </div>
           <div class="ui-md-3" >
             <img class="mx-auto d-block img-fluid lb-logo"
+            style="max-height: 25vh;"
                     [src]="competition && competition.imageUrl?competition.imageUrl:'assets/images/default_competition.png'"
                     onerror="assets/images/default_competition.png">
           </div>
@@ -260,16 +261,33 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
                 <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
                     <ng-template let-col let-player="rowData" pTemplate="body">
-                        <div class="position" [class.withdrawn-player]="player.playerRoundStatus==='Withdrawn' || player.position==='W' || getOtherPlayerStatus(player) === 'WD'">
+                        <ng-container *ngIf="settings.selectedRound === 0">
+
+                            <span *ngIf="player.compStatus === 'Registered' && player.statusName=== 'Active'">{{player.position}}</span>
+                            <span *ngIf="player.compStatus === 'Registered' && player.statusName=== 'Failed Cutoff'">CUT</span>
+                            <span *ngIf="player.compStatus === 'Registered' && player.statusName=== 'Absent'">{{getOtherPlayerStatus(player)}}</span>
+                            <span style="color: red" *ngIf="player.compStatus === 'Withdrawn' && player.statusName=== 'Withdrawn'">WD</span>
+                            <span *ngIf="player.compStatus === 'FailedCutoff' && player.statusName=== 'Failed Cutoff'">CUT</span>
+                         
+                        </ng-container>
+                        <ng-container *ngIf="settings.selectedRound > 0">
+                            <span *ngIf="player.playerRoundStatus === 'Completed'">{{player.position}}</span>
+                            <span style="color: red" *ngIf="player.playerRoundStatus === 'Withdrawn'">WD</span>
+                            <ng-container *ngIf="!player.playerRoundStatus || player.playerRoundStatus === null || player.playerRoundStatus === 'InProgress'">
+                              <span style="color: red" *ngIf="player.statusName === 'Withdrawn'">WD</span>
+                              <span *ngIf="player.statusName === 'Failed Cutoff'">CUT</span>
+                              <span *ngIf="player.statusName === 'Active'">{{player.position}}</span>
+                            </ng-container >
+                        </ng-container>
+                        <!-- <div class="position" [class.withdrawn-player]="player.playerRoundStatus==='Withdrawn' || player.position==='W' || getOtherPlayerStatus(player) === 'WD'">
                             
                             <span *ngIf="player.playerRoundStatus==='Withdrawn'">WD</span>
-                            <!-- <span *ngIf="player.playerRoundStatus!=='Withdrawn'">{{player.statusName}}</span> -->  
                             <span *ngIf="player.playerRoundStatus !== 'Withdrawn'">
                                 <div *ngIf="player.statusName === 'Active'">{{player.position}}</div>
                                 <div *ngIf="player.playerRoundStatus === 'FailedCutoff'">CUT</div>
                                 <div *ngIf="!player.playerRoundStatus">{{getOtherPlayerStatus(player)}}</div>
                             </span>
-                        </div>
+                        </div> -->
                         <!-- style="font-size:1.1em;font-family:'Toyota'"  -->
                     </ng-template>
                 </p-column>
@@ -438,16 +456,33 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
         <p-column [hidden]="isColumnHidden('position')" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
-                <div  class="position"   [class.withdrawn-player]="player.playerRoundStatus === 'Withdrawn' || player.position==='W' || getOtherPlayerStatus(player) === 'WD'">
-                    <!-- {{player.position}} -->
+                
+                <ng-container *ngIf="settings.selectedRound === 0">
+
+                    <span *ngIf="player.compStatus === 'Registered' && player.statusName=== 'Active'">{{player.position}}</span>
+                    <span *ngIf="player.compStatus === 'Registered' && player.statusName=== 'Failed Cutoff'">CUT</span>
+                    <span *ngIf="player.compStatus === 'Registered' && player.statusName=== 'Absent'">{{getOtherPlayerStatus(player)}}</span>
+                    <span style="color: red" *ngIf="player.compStatus === 'Withdrawn' && player.statusName=== 'Withdrawn'">WD</span>
+                    <span *ngIf="player.compStatus === 'FailedCutoff' && player.statusName=== 'Failed Cutoff'">CUT</span>
+                 
+                </ng-container>
+                <ng-container *ngIf="settings.selectedRound > 0">
+                    <span *ngIf="player.playerRoundStatus === 'Completed'">{{player.position}}</span>
+                    <span style="color: red" *ngIf="player.playerRoundStatus === 'Withdrawn'">WD</span>
+                    <ng-container *ngIf="!player.playerRoundStatus || player.playerRoundStatus === null || player.playerRoundStatus === 'InProgress'">
+                      <span style="color: red" *ngIf="player.statusName === 'Withdrawn'">WD</span>
+                      <span *ngIf="player.statusName === 'Failed Cutoff'">CUT</span>
+                      <span *ngIf="player.statusName === 'Active'">{{player.position}}</span>
+                    </ng-container >
+                </ng-container>
+                <!-- <div  class="position"   [class.withdrawn-player]="player.playerRoundStatus === 'Withdrawn' || player.position==='W' || getOtherPlayerStatus(player) === 'WD'">
                     <span *ngIf="player.playerRoundStatus === 'Withdrawn' || player.position==='W'">WD</span>
                     <span *ngIf="player.playerRoundStatus !== 'Withdrawn'">
-                        <!-- {{player.statusName}} -->
                         <div *ngIf="player.statusName === 'Active'">{{player.position}}</div>
                         <div *ngIf="player.playerRoundStatus === 'FailedCutoff'">CUT</div>
                         <div *ngIf="!player.playerRoundStatus">{{getOtherPlayerStatus(player)}}</div>
                     </span>
-                </div>
+                </div> -->
             </ng-template>
         </p-column>
         <p-column field="handicap" header="Hcp" [hidden]="isColumnHidden('handicap')|| isMobileScreen()"
