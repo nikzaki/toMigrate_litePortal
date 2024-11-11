@@ -1,6 +1,6 @@
 import { AuthenticationResult } from './../models/session/authentication-result';
 import { Session } from './../models/session/session';
-import { FlightInfo, SearchCriteria } from './../models/mygolf.data';
+import { CompetitionData, FlightInfo, SearchCriteria } from './../models/mygolf.data';
 /**
  * Created by ashok on 26/06/17.
  */
@@ -65,6 +65,38 @@ export class CompetitionService {
         return this.remoteHttp.execute(req)
                    .map((resp: Response) => {
                        let compDetails: CompetitionDetails = resp.json();
+                       if(compDetails.players){
+                           compDetails.players.forEach(player=>{
+                               this.configService.deriveFulImageURL(player, ['photoUrl']);
+                               ConfigurationService.deriveDates(player,['registeredOn']);
+                           })
+                       }
+                       if(compDetails.sponsors) {
+                           compDetails.sponsors.forEach(sponsor=>{
+                               this.configService.deriveFulImageURL(sponsor, ['imageUrl']);
+                               ConfigurationService.deriveDates(sponsor,['sponsorDate']);
+                           });
+                       }
+                       return compDetails;
+                   }).catch(Util.handleError);
+    }
+
+    
+    /**
+     * Get the details of competition
+     * @param compId The ID of the competition
+     * @returns {Observable<R>}
+     */
+    public getCompetitionData(compId: number): Observable<CompetitionData> {
+        let url = this.configService.getRestApiUrl(RestUrl.competitionService.getCompData);
+        let reCompId = /:compId/gi;
+        url = url.replace(reCompId, String(compId));
+        let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA, {
+            competitionId: compId
+        });
+        return this.remoteHttp.execute(req)
+                   .map((resp: Response) => {
+                       let compDetails: CompetitionData = resp.json();
                        if(compDetails.players){
                            compDetails.players.forEach(player=>{
                                this.configService.deriveFulImageURL(player, ['photoUrl']);

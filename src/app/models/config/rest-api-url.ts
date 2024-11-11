@@ -58,6 +58,7 @@ export const RestUrl: any = {
         getTeamScores: '/competition/teamscores',
         searchCompetitions: '/competition/search',
         overrideWinners: '/competition/override-winners',
+        getCompData: 'competitions/:compId',
     },
     scorecardService : {
         getPlayerScorecard: '/manualscoring/getscorecard',
