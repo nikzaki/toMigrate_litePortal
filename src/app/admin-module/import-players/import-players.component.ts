@@ -17,7 +17,7 @@ import {DropdownModule} from 'primeng/primeng';
 import {SelectItem} from 'primeng/primeng';
 
 import {ConfirmationService, OverlayPanel} from 'primeng/primeng';
-import { OutgoingHttpHeaders } from 'http';
+// import { OutgoingHttpHeaders } from 'http';
 import {Session} from '../../models/session/session';
 import {SessionService} from '../../redux/session/session.service';
 import { HttpService } from 'app/services/http.service';
@@ -47,7 +47,7 @@ export class ImportPlayersComponent implements OnInit {
     @ViewChild('club') clubOverlay: OverlayPanel;
     // clubList: SelectItem[] = [];
 
-    httpHeaders: OutgoingHttpHeaders;
+    // httpHeaders: OutgoingHttpHeaders;
     authToken: string;
 
     clubApproveAll: boolean = false;

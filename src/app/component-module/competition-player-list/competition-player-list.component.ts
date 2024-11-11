@@ -3,7 +3,7 @@ import {CompetitionPlayer} from '../../models/mygolf/competition/competition-pla
 import {Util} from '../../util';
 import {OverlayPanel} from 'primeng/primeng';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
-import {DataSource} from '@angular/cdk/collections';
+// import {DataSource} from '@angular/cdk/collections';
 import {Observable} from 'rxjs/Observable';
 import {Competition} from '../../models/mygolf/competition/competition';
 import {Team} from '../../models/mygolf/competition/team';
@@ -133,7 +133,8 @@ class PlayerDatabase {
         else return null;
     }
 }
-class PlayerDataSource extends DataSource<CompetitionPlayer> {
+class PlayerDataSource  {
+    // extends DataSource<CompetitionPlayer>
     players: CompetitionPlayer[] = [];
     connect(): Observable<CompetitionPlayer[]> {
         return Observable.of(this.players);

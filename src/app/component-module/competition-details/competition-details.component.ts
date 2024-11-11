@@ -9,7 +9,7 @@ import {TreeNode, TreeTable} from 'primeng/primeng';
 import {Observable} from 'rxjs/Observable';
 import "rxjs/add/operator/finally";
 import {GameRound} from '../../models/mygolf/gameround';
-import {DataSource, CollectionViewer} from '@angular/cdk/collections';
+// import {DataSource, CollectionViewer} from '@angular/cdk/collections';
 import {Subscription} from 'rxjs/Subscription';
 
 @Component({
@@ -134,13 +134,13 @@ export class CompetitionDetailsComponent implements OnInit {
 
     selectedRound: any;
 }
-export class GameRoundDataSource extends DataSource<GameRound> {
+export class GameRoundDataSource {
     gameRounds: GameRound[] = [];
 
-    connect(collectionViewer: CollectionViewer): Observable<GameRound[]> {
+    connect(collectionViewer: any): Observable<GameRound[]> {
         return Observable.of(this.gameRounds);
     }
 
-    disconnect(collectionViewer: CollectionViewer): void {
+    disconnect(collectionViewer: any): void {
     }
 }

@@ -20,7 +20,7 @@ import { FeedComponent } from './feed/feed.component';
         FormsModule,
         ReactiveFormsModule,
         ...PRIMENG_MODULES,
-        ...MDModules
+        MDModules
     ],
     declarations: [
         SearchComponent, ActionPanelComponent, AnimatedNotificationComponent, ToparPipe, FeedComponent

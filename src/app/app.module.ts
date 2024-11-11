@@ -1,7 +1,7 @@
 import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpModule} from '@angular/http';
-import {MdIconRegistry} from '@angular/material';
+import {MdIconModule} from '@angular/material';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbAlertModule, NgbCarouselModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
@@ -141,7 +141,7 @@ export function setLocaleId() {
         EffectsModule.runAfterBootstrap(SessionEffects),
         EffectsModule.runAfterBootstrap(NotificationEffects),
         ...PRIMENG_MODULES,
-        ...MDModules,
+        MDModules,
         MygolfCommonModule,
         NgbCarouselModule.forRoot(),
         NgbAlertModule.forRoot(),
@@ -208,7 +208,7 @@ export function setLocaleId() {
     bootstrap   : [MainComponent]
 })
 export class AppModule {
-    constructor(iconRegistry: MdIconRegistry){
-        iconRegistry.setDefaultFontSetClass('material-design-icons')
+    constructor(iconRegistry: MdIconModule){
+        // iconRegistry.setDefaultFontSetClass('material-design-icons')
     }
 }

@@ -51,7 +51,7 @@ import {CommonModule} from '@angular/common';
         ReactiveFormsModule,
         MygolfCommonModule,
         ...PRIMENG_MODULES,
-        ...MDModules
+        MDModules
     ],
     declarations: [CompetitionDisplayComponent, CompetitionListComponent, ActionComponent, ManualScoringComponent,
                    CompetitionDetailsComponent, PrizeListComponent, SponsorListComponent,

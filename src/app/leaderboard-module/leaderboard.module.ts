@@ -32,7 +32,7 @@ import { HomeRoutes } from '../home-module/home.routes';
         // HttpModule,
 
         ...PRIMENG_MODULES,
-        ...MDModules,
+        MDModules,
         LeaderboardRoutes,
         AppRoutes,
         HomeRoutes

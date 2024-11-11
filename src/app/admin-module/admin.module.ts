@@ -27,7 +27,7 @@ import {LeaderboardModule} from '../leaderboard-module/leaderboard.module';
         MygolfCommonModule,
         ComponentModule,
         ...PRIMENG_MODULES,
-        ...MDModules,
+        MDModules,
         LeaderboardModule,
         AdminRoutes
     ],

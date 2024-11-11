@@ -1,4 +1,5 @@
-import {AddressInfo} from 'dgram';
+import { AddressInfo } from './../../mygolf.data';
+// import {AddressInfo} from 'dgram';
 /**
  * Created by ashok on 30/04/17.
  */

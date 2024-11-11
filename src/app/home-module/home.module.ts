@@ -29,7 +29,7 @@ import { MainComponent } from 'app/main/main.component';
         BrowserAnimationsModule,
         MygolfCommonModule,
         ...PRIMENG_MODULES,
-        ...MDModules,
+        MDModules,
         HomeRoutes,
         AppRoutes,
         LeaderboardRoutes

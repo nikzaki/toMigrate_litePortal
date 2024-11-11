@@ -3,7 +3,7 @@ import {NavigationEnd, Router} from '@angular/router';
 // import {AppComponent} from "../../../app.component";
 import {MainComponent} from "../../main.component";
 import {SessionActions, SessionService} from '../../../redux/session';
-import {userInfo} from 'os';
+// import {userInfo} from 'os';
 import {Observable} from 'rxjs/Observable';
 
 // import { TranslateService } from '@ngx-translate/core';
