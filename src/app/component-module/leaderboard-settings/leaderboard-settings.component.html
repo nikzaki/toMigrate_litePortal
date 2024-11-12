@@ -96,7 +96,10 @@
             fxLayout.lt-md = "column nowrap"
             fxLayoutGap="20px" fxLayoutGap.lt-md="5px"
             fxLayoutAlign = "space-between center"
-            fxLayoutAlign.lt-md = "start stretch" style = "padding:5px">
+            fxLayoutAlign.lt-md = "start stretch" style = "padding:5px;
+            align-items: flex-start;
+            justify-content: center;
+            flex-wrap: nowrap;">
         <section *ngIf="!hideColorSet" fxFlex="0 0 370px" fxFlex.lt-md="0 0 auto"
                 fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
                 fxLayout="row nowrap"
@@ -122,7 +125,7 @@
         </section>
             
         <section *ngIf="!settings.autoScroll || (settings.autoScroll && !settings.scrollScoreTypes)"
-        fxFlex="1 1 2"
+        fxFlex="1 1 auto"
         fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
         fxLayoutAlign = "space-between center"
         fxLayoutAlign.lt-md="start stretch">
