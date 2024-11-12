@@ -1,10 +1,12 @@
 @import "../../../../node_modules/bootstrap/scss/mixins";
 @import "../../../../node_modules/bootstrap/scss/functions";
 @import "../../../../node_modules/bootstrap/scss/variables";
-$grossColumnBg: #B2FF59;
+$grossColumnBg: skyblue; // #B2FF59;
 $grossColumnHdr: darken($grossColumnBg, 10%);
-$netColumnBg: #81C784;
+$netColumnBg: lightgoldenrodyellow; //#81C784;
 $netColumnHdr: darken($netColumnBg, 10%);
+$pointsColumnBg: lightgreen; // #81C784;
+$pointsColumnHdr: darken($pointsColumnBg, 10%);
 
 individual-leaderboard {
   font-size: 1em !important;
@@ -141,14 +143,28 @@ individual-leaderboard {
   .net-column {
     background-color: $netColumnBg;
     font-weight: bold;
-
   }
 
   .gross-column {
     background-color: $grossColumnBg;
     font-weight: bold;
   }
+  .points-column {
+    background-color: $pointsColumnBg;
+    font-weight: bold;
 
+  }
+
+  // .gross-header {
+  //   background-color: $grossColumnHdr;
+  // }
+
+  // .net-header {
+  //   background-color: $netColumnHdr;
+  // }
+  // .points-header {
+  //   background-color: $pointsColumnHdr;
+  // }
   
   .gross-columnT {
     // background-color: $grossColumnBg;

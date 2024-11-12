@@ -982,35 +982,38 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         console.debug("is gross hidden hide [3]", this.settings.hideGrossColumns);
         if (!this.settings) return false;
         if(this.refreshParams.scoreType === 'gross') return false;
-        if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
-            this.refreshParams)
-            return (this.settings.hideGrossColumns)
-            // return (this.refreshParams.scoreType === 'gross' && this.settings.hideGrossColumns)
-        else return this.settings.scoreType === 'gross' &&
-            this.settings.hideGrossColumns;
+        if(this.settings.hideGrossColumns) return true;
+        // if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
+        //     this.refreshParams)
+        //     return (this.settings.hideGrossColumns)
+        //     // return (this.refreshParams.scoreType === 'gross' && this.settings.hideGrossColumns)
+        // else return this.settings.scoreType === 'gross' &&
+        //     this.settings.hideGrossColumns;
     }
     isNetHidden() {
         if (!this.settings) return true;
         if(this.refreshParams.scoreType === 'net') return false;
-        if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
-            this.refreshParams)
-            return (this.settings.hideNetColumns);
-            // return (this.refreshParams.scoreType === 'net' && this.settings.hideNetColumns);
+        if(this.settings.hideNetColumns) return true;
+        // if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
+        //     this.refreshParams)
+        //     return (this.settings.hideNetColumns);
+        //     // return (this.refreshParams.scoreType === 'net' && this.settings.hideNetColumns);
 
-        else return this.settings.scoreType === 'net' &&
-            this.settings.hideNetColumns;
+        // else return this.settings.scoreType === 'net' &&
+        //     this.settings.hideNetColumns;
     }
     isPointsHidden() {
         if (!this.settings) return true;
         if(this.refreshParams.scoreType === 'points') return false;
         if(!this.isPointBased()) return true;
-        if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
-            this.refreshParams)
-            return (this.settings.hidePointColumns);
+        if(this.settings.hidePointColumns) return true;
+        // if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
+        //     this.refreshParams)
+        //     return (this.settings.hidePointColumns);
         //     // return (this.refreshParams.scoreType === 'net' && this.settings.hidePointColumns);
 
-        else return this.settings.scoreType === 'points' &&
-            this.settings.hidePointColumns;
+        // else return this.settings.scoreType === 'points' &&
+        //     this.settings.hidePointColumns;
     }
 
     isAllRoundHidden() {

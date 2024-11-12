@@ -231,14 +231,14 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                             <!-- || isMobileScreen() -->
                         <p-column header="Thru" rowspan="2" [hidden]="isColumnHidden('thru')"
                             [style]="{'width':'5%'}"></p-column>
-                        <p-column colspan="{{colspan()}}" header="Gross" [hidden]="isGrossHidden()" styleClass="gross-column"
+                        <p-column colspan="{{colspan()}}" header="Gross" [hidden]="isGrossHidden()" styleClass="gross-header"
                             [style]="{'width':'15%'}">
                         </p-column>
                         <!-- && competition.scoringFormat === 'Stableford' -->
-                        <p-column [header]="'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-column"
+                        <p-column [header]="'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-header"
                             [style]="{'width':'15%'}"></p-column>
                             <!-- competition?deriveScoringFormat():'Net' -->
-                            <p-column [header]="'Points'" colspan="{{colspan()}}" [hidden]="isPointsHidden()" styleClass="points-column"
+                            <p-column [header]="'Points'" colspan="{{colspan()}}" [hidden]="isPointsHidden()" styleClass="points-header"
                                 [style]="{'width':'15%'}"></p-column>
                         <!-- <p-column  colspan="{{colspan()}}" [hidden]="isNetHidden() && competition.scoringFormat !== 'Stableford'" styleClass="net-column"
                             [style]="{'width':'15%'}">Point</p-column> -->
@@ -259,12 +259,12 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                         <p-column header="Out" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
                         <p-column header="In" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
                         <p-column header="Total" styleClass="net-column" [hidden]="isNetHidden()"></p-column>
-                        <p-column header="R1" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
-                        <p-column header="R2" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
-                        <p-column header="R3" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
-                        <p-column header="R4" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
-                        <p-column header="Out" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isAllRoundHidden()"></p-column>
-                        <p-column header="In" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isAllRoundHidden()"></p-column>
+                        <p-column header="R1" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
+                        <p-column header="R2" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
+                        <p-column header="R3" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
+                        <p-column header="R4" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
+                        <p-column header="Out" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"></p-column>
+                        <p-column header="In" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"></p-column>
                         <p-column header="Total" styleClass="points-column" [hidden]="isPointsHidden()"></p-column>
                     </p-row>
                 </p-headerColumnGroup>
@@ -405,21 +405,21 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                     </ng-template>
                 </p-column>
                 
-                <p-column field="round1Points" header="R1" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(1)"
+                <p-column field="round1Points" header="R1" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(1)"
                 [style]="{'textAlign': 'center'}">
             </p-column>
-            <p-column field="round2Points" header="R2" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(2)"
+            <p-column field="round2Points" header="R2" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(2)"
                 [style]="{'textAlign': 'center'}">
             </p-column>
-            <p-column field="round3Points" header="R3" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(3)"
+            <p-column field="round3Points" header="R3" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(3)"
                 [style]="{'textAlign': 'center'}">
             </p-column>
-            <p-column field="round4Points" header="R4" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(4)"
+            <p-column field="round4Points" header="R4" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(4)"
                 [style]="{'textAlign': 'center'}">
             </p-column>
-            <p-column field="outTotalPoints" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isAllRoundHidden()"
+            <p-column field="outTotalPoints" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"
                 [style]="{'textAlign': 'center'}"></p-column>
-            <p-column field="inTotalPoints" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
+            <p-column field="inTotalPoints" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
             </p-column>
             <p-column field="totalPoints" styleClass="points-column" [hidden]="isPointsHidden()" [style]="{'textAlign': 'center'}">
                 <ng-template let-col let-player="rowData" pTemplate="body">
@@ -472,12 +472,12 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                     <!-- || isMobileScreen() -->
                 <p-column header="Thru" rowspan="2" [hidden]="isColumnHidden('thru')"
                     [style]="{'width':'5%'}"></p-column>
-                <p-column colspan="{{colspan()}}" header="Gross" [hidden]="isGrossHidden()" styleClass="gross-column"
+                <p-column colspan="{{colspan()}}" header="Gross" [hidden]="isGrossHidden()" styleClass="gross-header"
                     [style]="{'width':'15%'}">
                 </p-column>
-                <p-column [header]="'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-column"
+                <p-column [header]="'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-header"
                     [style]="{'width':'15%'}"></p-column>
-                    <p-column [header]="'Points'" colspan="{{colspan()}}" [hidden]="isPointsHidden()" styleClass="points-column"
+                    <p-column [header]="'Points'" colspan="{{colspan()}}" [hidden]="isPointsHidden()" styleClass="points-header"
                         [style]="{'width':'15%'}"></p-column>
                 <p-column header="OCB" [hidden]="isColumnHidden('ocb')" rowspan="2" [style]="{'width':'7%'}"></p-column>
             </p-row>
@@ -496,12 +496,12 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 <p-column header="Out" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
                 <p-column header="In" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
                 <p-column header="Total" styleClass="net-column" [hidden]="isNetHidden()"></p-column>
-                <p-column header="R1" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
-                <p-column header="R2" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
-                <p-column header="R3" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
-                <p-column header="R4" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
-                <p-column header="Out" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isAllRoundHidden()"></p-column>
-                <p-column header="In" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isAllRoundHidden()"></p-column>
+                <p-column header="R1" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
+                <p-column header="R2" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
+                <p-column header="R3" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
+                <p-column header="R4" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
+                <p-column header="Out" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"></p-column>
+                <p-column header="In" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"></p-column>
                 <p-column header="Total" styleClass="points-column" [hidden]="isPointsHidden()"></p-column>
             </p-row>
         </p-headerColumnGroup>
@@ -642,21 +642,21 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
             </ng-template>
         </p-column>
         
-        <p-column field="round1Points" header="R1" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(1)"
+        <p-column field="round1Points" header="R1" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(1)"
         [style]="{'textAlign': 'center'}">
     </p-column>
-    <p-column field="round2Points" header="R2" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(2)"
+    <p-column field="round2Points" header="R2" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(2)"
         [style]="{'textAlign': 'center'}">
     </p-column>
-    <p-column field="round3Points" header="R3" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(3)"
+    <p-column field="round3Points" header="R3" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(3)"
         [style]="{'textAlign': 'center'}">
     </p-column>
-    <p-column field="round4Points" header="R4" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isMultiRoundHidden(4)"
+    <p-column field="round4Points" header="R4" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(4)"
         [style]="{'textAlign': 'center'}">
     </p-column>
-    <p-column field="outTotalPoints" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isAllRoundHidden()"
+    <p-column field="outTotalPoints" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"
         [style]="{'textAlign': 'center'}"></p-column>
-    <p-column field="inTotalPoints" styleClass="points-column" [hidden]="!isPointBased() && isPointsHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
+    <p-column field="inTotalPoints" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
     </p-column>
     <p-column field="totalPoints" styleClass="points-column" [hidden]="isPointsHidden()" [style]="{'textAlign': 'center'}">
         <ng-template let-col let-player="rowData" pTemplate="body">

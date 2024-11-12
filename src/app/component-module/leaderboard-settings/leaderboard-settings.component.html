@@ -109,7 +109,7 @@
             </md-radio-group>
         </section>
         <section *ngIf="!settings.autoScroll || (settings.autoScroll && !settings.scrollScoreTypes)"
-                fxFlex="1 1 2"
+                fxFlex="1 1 auto"
                 fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
                 fxLayoutAlign = "space-between center"
                 fxLayoutAlign.lt-md="start stretch">
@@ -118,8 +118,14 @@
                 <md-radio-button value="gross">By Gross</md-radio-button>
                 <md-radio-button value="net">By Net</md-radio-button>
                 <md-radio-button *ngIf="isPointBased()" value="points">By Points</md-radio-button>
-                
             </md-radio-group>
+        </section>
+            
+        <section *ngIf="!settings.autoScroll || (settings.autoScroll && !settings.scrollScoreTypes)"
+        fxFlex="1 1 2"
+        fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
+        fxLayoutAlign = "space-between center"
+        fxLayoutAlign.lt-md="start stretch">
             <md-checkbox fxFlex="1 1 auto" [hidden]="settings.scoreType === 'gross'"
                     [(ngModel)]="settings.hideGrossColumns">Hide Gross Columns</md-checkbox>
             <md-checkbox fxFlex="1 1 auto" [hidden]="settings.scoreType === 'net'"
@@ -134,7 +140,12 @@
                     [(ngModel)]="settings.showNonPlaying">Show Withdrawn/Cut Players</md-checkbox>
         </section>
     </section>
-    <section>        
+    <section class = "mat-typography ui-fluid settings-line"
+    fxLayout = "row"
+    fxLayout.lt-md = "column nowrap"
+    fxLayoutGap="20px" fxLayoutGap.lt-md="5px"
+    fxLayoutAlign = "space-between center"
+    fxLayoutAlign.lt-md = "start stretch" style = "padding:5px">        
             <p class="under-par">&nbsp; *** Auto-scrolling leaderboard for <b>{{settings.scrollSize}}</b> players over <b>{{settings.scrollFrequency}}</b> seconds</p>
             <p class="under-par">&nbsp; You may disable the 'Auto Scroll', change 'Every x' rows or 'Every n seconds' in the settings above.</p>
         </section>
