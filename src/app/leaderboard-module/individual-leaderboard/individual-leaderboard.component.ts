@@ -976,6 +976,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         return this.hiddenColumns[columnId];
     }
     isGrossHidden() {
+        console.debug("is gross hidden [0]", this.settings);
+        console.debug("is gross hidden [1]", this.refreshParams);
+        console.debug("is gross hidden scoretype [2]", this.refreshParams.scoreType);
+        console.debug("is gross hidden hide [3]", this.settings.hideGrossColumns);
         if (!this.settings) return false;
         if(this.refreshParams.scoreType === 'gross') return false;
         if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
@@ -999,6 +1003,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     isPointsHidden() {
         if (!this.settings) return true;
         if(this.refreshParams.scoreType === 'points') return false;
+        if(!this.isPointBased()) return true;
         if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
             this.refreshParams)
             return (this.settings.hidePointColumns);
@@ -1612,7 +1617,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     }
 
     getToPar(player: LeaderBoardPlayer) {
-        console.debug("get to par : ", this.refreshParams['scoreType'], player)
+        // console.debug("get to par : ", this.refreshParams['scoreType'], player)
         if(this.refreshParams['scoreType'].toLowerCase() === 'gross') return player.toParGross;
         else if(this.refreshParams['scoreType'].toLowerCase() === 'net') return player.toParNet;
         else if(this.refreshParams['scoreType'].toLowerCase() === 'points') return player.toParGross;
@@ -1621,5 +1626,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     viewScoreType() {
         if(!this.refreshParams) return;
         return this.refreshParams['scoreType'];
+    }
+    isPointBased() {
+        if(!this.compData) return;
+        return this.compData.pointBased;
     }
  }

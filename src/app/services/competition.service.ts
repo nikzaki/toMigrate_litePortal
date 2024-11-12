@@ -129,7 +129,7 @@ export class CompetitionService {
         return this.remoteHttp.execute(req)
                    .map((resp: Response) => {
                        let compDetails: CompetitionDataLite = resp.json();
-                       compDetails.pointBased = true;
+                    //    compDetails.pointBased = true;
                        return compDetails;
                    }).catch(Util.handleError);
     }
