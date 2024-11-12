@@ -50,7 +50,7 @@
                             *ngIf="round && round.roundNo > 1 && round.roundNo === maxRounds">FR</td>
                             
                             <td>Index</td>
-                            <ng-container *ngFor = "let score of round.nines[whichNine-1].scores">
+                            <ng-container *ngFor="let score of round.nines[whichNine-1].scores">
                                 <td>{{score.index}}</td>
                             </ng-container>
                             <td></td>
@@ -80,6 +80,30 @@
                             </td>
                             <td [ngClass] = "deriveTotalClass(round.inTotal+round.outTotal)">
                                 {{round.inTotal+round.outTotal}}
+                            </td>
+                        </tr>
+                        <tr [hidden]="isNetHidden()">
+                            <td>{{getScoreTitle(null,round.roundNo)}}</td>
+                            <td *ngFor = "let score of round.nines[whichNine-1].scores">
+                                <span [ngClass] = "deriveScoreClass(score)">{{score.netScore}}</span>
+                            </td>
+                            <td [ngClass] = "deriveParClass(whichNine===1?round.outTotal : round.inTotal,round.nines[whichNine-1])">
+                                {{whichNine===1?round.outTotalNet : round.inTotalNet}}
+                            </td>
+                            <td [ngClass] = "deriveTotalClass(round.inTotal+round.outTotal)">
+                                {{round.inTotalNet+round.outTotalNet}}
+                            </td>
+                        </tr>
+                        <tr [hidden]="isPointsHidden()">
+                            <td>{{getScoreTitle(null,round.roundNo)}}</td>
+                            <td *ngFor = "let score of round.nines[whichNine-1].scores">
+                                <span [ngClass] = "deriveScoreClass(score)">{{score.points}}</span>
+                            </td>
+                            <td [ngClass] = "deriveParClass(whichNine===1?round.outTotal : round.inTotal,round.nines[whichNine-1])">
+                                {{whichNine===1?round.outPoints : round.inPoints}}
+                            </td>
+                            <td [ngClass] = "deriveTotalClass(round.inTotal+round.outTotal)">
+                                {{round.inPoints+round.outPoints}}
                             </td>
                         </tr>
                     </ng-container>

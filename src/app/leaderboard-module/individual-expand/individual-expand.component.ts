@@ -4,6 +4,7 @@ import {CompetitionService} from '../../services/competition.service';
 import {ObservableMedia} from '@angular/flex-layout';
 import {Subscription} from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
+import { LeaderboardSettings } from 'app/component-module/leaderboard-settings/leaderboard-settings';
 
 @Component({
     selector     : 'app-individual-expand',
@@ -30,6 +31,7 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
     subscriptions: Subscription[] = [];
 
     holes: number[] = [1,2,3,4,5,6,7,8,9];
+    @Input() settings: LeaderboardSettings;
     constructor(private competitionService: CompetitionService, private media: ObservableMedia,
         private activeRoute: ActivatedRoute) {
         this.watcher = media.subscribe(change => {
@@ -184,5 +186,17 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
             // else return 'Score';
         }
         else return 'Gross';
+    }
+
+    isNetHidden() {
+        if(!this.settings) return;
+        if(this.settings.scoreType === 'net') return false;
+        if(this.settings.hideNetColumns) return true;
+    }
+    isPointsHidden() {
+        if(!this.settings) return;
+        if(this.settings.scoreType === 'points') return false;
+        if(this.settings.hidePointColumns) return true;
+
     }
  }

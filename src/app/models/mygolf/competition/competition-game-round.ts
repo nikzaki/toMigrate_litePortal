@@ -8,4 +8,7 @@ export interface CompetitionGameRound {
     outTotalNet?: number;
     inTotalNet?: number;
     nines?: Array<WhichNine>;
+    inPoints?: number;
+    outPoints?: number;
+    
 }

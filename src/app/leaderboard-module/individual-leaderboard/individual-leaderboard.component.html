@@ -446,7 +446,8 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                     <!--[rounds]="playerRowExpanded.rounds">-->
         
                     <!--</player-scorecard-display>-->
-                    <app-individual-expand  [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"  [maxRounds]="competition.totalRounds"></app-individual-expand>
+                    <app-individual-expand  [competitionId]="competitionId" [player]="playerRowExpanded" [test]="'test string here'"  
+                    [maxRounds]="competition.totalRounds" [settings]="settings"></app-individual-expand>
                 </ng-template>
     </p-dataTable>
     <p-dataTable *ngIf="!enableToyota" [value]="playersToDisplay" #playerLeaderboard expandableRows="true" rowExpandMode="single"
