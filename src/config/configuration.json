@@ -1,8 +1,9 @@
 {
-  "serverRoot": "https://clslet.mygolf2u.com",
+  "serverRoot": "https://betalet.mygolf2u.com",
   "webSocketDebug": false,
   "webSocketProtocol": "wss",
   "webSocketPort": 433,
   "serverPort": 443,
-  "portalPath": "https://cls-lite.mygolf2u.com"
+  "portalPath": "https://beta-lite.mygolf2u.com",
+  "oldCompetitionOffsetDate": "2024-10-01"
 }

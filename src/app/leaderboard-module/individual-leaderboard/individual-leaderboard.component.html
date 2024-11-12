@@ -69,7 +69,7 @@
 
 </section>
 
-<leaderboard-settings #settingsComp [competition]="competition" [teamLeaderBoard]="false" [hideColorSet]="true"
+<leaderboard-settings #settingsComp [competition]="competition" [compData]="compData" [teamLeaderBoard]="false" [hideColorSet]="true"
     [settings]="settings" (settingsChange)="onLeaderboardSettingsChange($event)"
     [styleClass]="showSettings && !fullScreen?'show-settings':'hide-settings'" [totalPlayers]="totalPlayers"
     [scrollPaused]="pauseScroll || paused" (onNextPage)="nextPage($event)" (onRefresh)="refresh($event)"
@@ -101,7 +101,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         Category: {{refreshParams.category.categoryName}}
     </div>
     <div fxFlex="0 1 auto" class="mat-title">
-        By: {{refreshParams.scoreType === 'gross'?'Gross':'Net'}} Score
+        By: <span style="text-transform: capitalize">{{refreshParams.scoreType}}</span> Score
     </div>
 </div>
 <!-- <p-tabView  *ngIf="0 && !hideCatTabs">
@@ -225,7 +225,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                         <p-column header="Team" rowspan="2" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')"
                             [style]="{'width': '14%'}">
                         </p-column>
-                        <p-column header="(+/-)" rowspan="2" [style]="{'width':'5%'}"></p-column>
+                        <p-column [hidden]="0 && viewScoreType() === 'points'" header="(+/-)" rowspan="2" [style]="{'width':'5%'}"></p-column>
                         <p-column header="On" rowspan="2" [hidden]="isColumnHidden('on')|| isMobileScreen()"
                             [style]="{'width':'3%'}"></p-column>
                             <!-- || isMobileScreen() -->
@@ -235,8 +235,11 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                             [style]="{'width':'15%'}">
                         </p-column>
                         <!-- && competition.scoringFormat === 'Stableford' -->
-                        <p-column [header]="competition?deriveScoringFormat():'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-column"
+                        <p-column [header]="'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-column"
                             [style]="{'width':'15%'}"></p-column>
+                            <!-- competition?deriveScoringFormat():'Net' -->
+                            <p-column [header]="'Points'" colspan="{{colspan()}}" [hidden]="isPointsHidden()" styleClass="points-column"
+                                [style]="{'width':'15%'}"></p-column>
                         <!-- <p-column  colspan="{{colspan()}}" [hidden]="isNetHidden() && competition.scoringFormat !== 'Stableford'" styleClass="net-column"
                             [style]="{'width':'15%'}">Point</p-column> -->
                         <p-column header="OCB" [hidden]="isColumnHidden('ocb')" rowspan="2" [style]="{'width':'7%'}"></p-column>
@@ -256,6 +259,13 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                         <p-column header="Out" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
                         <p-column header="In" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
                         <p-column header="Total" styleClass="net-column" [hidden]="isNetHidden()"></p-column>
+                        <p-column header="R1" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
+                        <p-column header="R2" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
+                        <p-column header="R3" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
+                        <p-column header="R4" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
+                        <p-column header="Out" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"></p-column>
+                        <p-column header="In" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"></p-column>
+                        <p-column header="Total" styleClass="points-column" [hidden]="isPointsHidden()"></p-column>
                     </p-row>
                 </p-headerColumnGroup>
                 <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
@@ -320,15 +330,15 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                         </div>
                     </ng-template>
                 </p-column>
-                <p-column header="(+/-)" [style]="{'textAlign': 'center'}">
+                <p-column [hidden]="0 && viewScoreType() === 'points'" header="(+/-)" [style]="{'textAlign': 'center'}">
                     <ng-template let-col let-player="rowData" pTemplate="body">
-                        <div *ngIf="!byNet" [class.under-par]="player.toPar<0">{{player.toPar}}</div>
+                        <div *ngIf="!byNet" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</div>
                         <div *ngIf="byNet && player.modifiedTotalNet">
-                            <span class="strike-out" [class.under-par]="player.toPar<0">{{player.toPar}}</span>
+                            <span class="strike-out" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</span>
                             <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
                         </div>
-                        <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="player.toPar<0">
-                            {{player.toPar}}
+                        <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="getToPar(player)<0">
+                            {{getToPar(player)}}
                         </div>
                     </ng-template>
                 </p-column>
@@ -383,15 +393,48 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 </p-column>
                 <p-column field="totalNet" styleClass="net-column" [hidden]="isNetHidden()" [style]="{'textAlign': 'center'}">
                     <ng-template let-col let-player="rowData" pTemplate="body">
-                        <div>
+                        <div *ngIf="player.parCap !== 0 && player.parCap !== null">
                             <span [class.strike-out]="player.modifiedTotalNet"
-                                [class.under-par]="player.toPar<0">{{player.totalNet}}</span>
+                                [class.under-par]="getToPar(player)<0">{{player.totalNet}}</span>
                             <span *ngIf="player.modifiedTotalNet"
-                                [class.under-par]="player.toPar<0">{{player.modifiedTotalNet}}</span>
+                                [class.under-par]="getToPar(player)<0">{{player.modifiedTotalNet}}</span>
                         </div>
-        
+                        <div *ngIf="player.parCap === 0 || player.parCap === null">
+                            <span>{{player.totalNet}}</span>
+                        </div>
                     </ng-template>
                 </p-column>
+                
+                <p-column field="round1Points" header="R1" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(1)"
+                [style]="{'textAlign': 'center'}">
+            </p-column>
+            <p-column field="round2Points" header="R2" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(2)"
+                [style]="{'textAlign': 'center'}">
+            </p-column>
+            <p-column field="round3Points" header="R3" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(3)"
+                [style]="{'textAlign': 'center'}">
+            </p-column>
+            <p-column field="round4Points" header="R4" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(4)"
+                [style]="{'textAlign': 'center'}">
+            </p-column>
+            <p-column field="outTotalPoints" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"
+                [style]="{'textAlign': 'center'}"></p-column>
+            <p-column field="inTotalPoints" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
+            </p-column>
+            <p-column field="totalPoints" styleClass="points-column" [hidden]="isPointsHidden()" [style]="{'textAlign': 'center'}">
+                <ng-template let-col let-player="rowData" pTemplate="body">
+                    <!-- <div *ngIf="player.parCap !== 0 && player.parCap !== null">
+                        <span [class.strike-out]="player.modifiedTotalNet"
+                            [class.under-par]="getToPar(player)<0">{{player.totalNet}}</span>
+                        <span *ngIf="player.modifiedTotalNet"
+                            [class.under-par]="getToPar(player)<0">{{player.modifiedTotalNet}}</span>
+                    </div> -->
+                    <div *ngIf="player.parCap === 0 || player.parCap === null">
+                        <span>{{player.totalPoints}}</span>
+                    </div>
+                </ng-template>
+            </p-column>
+
                 <p-column field="ocb" header="OCB" [hidden]="isColumnHidden('ocb')" [style]="{'textAlign': 'center'}">
                 </p-column>
                 <ng-template let-player pTemplate="rowexpansion">
@@ -423,7 +466,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 <p-column header="Team" rowspan="2" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')"
                     [style]="{'width': '14%'}">
                 </p-column>
-                <p-column header="(+/-)" rowspan="2" [style]="{'width':'5%'}"></p-column>
+                <p-column [hidden]="0 && viewScoreType() === 'points'" header="(+/-)" rowspan="2" [style]="{'width':'5%'}"></p-column>
                 <p-column header="On" rowspan="2" [hidden]="isColumnHidden('on')|| isMobileScreen()"
                     [style]="{'width':'3%'}"></p-column>
                     <!-- || isMobileScreen() -->
@@ -432,8 +475,10 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 <p-column colspan="{{colspan()}}" header="Gross" [hidden]="isGrossHidden()" styleClass="gross-column"
                     [style]="{'width':'15%'}">
                 </p-column>
-                <p-column [header]="competition?deriveScoringFormat():'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-column"
+                <p-column [header]="'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-column"
                     [style]="{'width':'15%'}"></p-column>
+                    <p-column [header]="'Points'" colspan="{{colspan()}}" [hidden]="isPointsHidden()" styleClass="points-column"
+                        [style]="{'width':'15%'}"></p-column>
                 <p-column header="OCB" [hidden]="isColumnHidden('ocb')" rowspan="2" [style]="{'width':'7%'}"></p-column>
             </p-row>
             <p-row>
@@ -451,6 +496,13 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 <p-column header="Out" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
                 <p-column header="In" styleClass="net-column" [hidden]="isNetHidden() || isAllRoundHidden()"></p-column>
                 <p-column header="Total" styleClass="net-column" [hidden]="isNetHidden()"></p-column>
+                <p-column header="R1" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(1)"></p-column> <!--  && isMaxRoundHidden(1) -->
+                <p-column header="R2" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(2)"></p-column> <!--  && isMaxRoundHidden(2) -->
+                <p-column header="R3" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(3)"></p-column> <!--  && isMaxRoundHidden(3) -->
+                <p-column header="R4" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(4)"></p-column> <!--  && isMaxRoundHidden(4) -->
+                <p-column header="Out" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"></p-column>
+                <p-column header="In" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"></p-column>
+                <p-column header="Total" styleClass="points-column" [hidden]="isPointsHidden()"></p-column>
             </p-row>
         </p-headerColumnGroup>
         <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
@@ -514,15 +566,15 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 </div>
             </ng-template>
         </p-column>
-        <p-column header="(+/-)" [style]="{'textAlign': 'center'}">
+        <p-column [hidden]="0 && viewScoreType() === 'points'" header="(+/-)" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
-                <div *ngIf="!byNet" [class.under-par]="player.toPar<0">{{player.toPar}}</div>
+                <div *ngIf="!byNet" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</div>
                 <div *ngIf="byNet && player.modifiedTotalNet">
-                    <span class="strike-out" [class.under-par]="player.toPar<0">{{player.toPar}}</span>
+                    <span class="strike-out" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</span>
                     <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
                 </div>
-                <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="player.toPar<0">
-                    {{player.toPar}}
+                <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="getToPar(player)<0">
+                    {{getToPar(player)}}
                 </div>
             </ng-template>
         </p-column>
@@ -577,15 +629,48 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         </p-column>
         <p-column field="totalNet" styleClass="net-column" [hidden]="isNetHidden()" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
-                <div>
+                <div *ngIf="player.parCap !== 0 && player.parCap !== null">
                     <span [class.strike-out]="player.modifiedTotalNet"
-                        [class.under-par]="player.toPar<0">{{player.totalNet}}</span>
+                        [class.under-par]="getToPar(player)<0">{{player.totalNet}}</span>
                     <span *ngIf="player.modifiedTotalNet"
-                        [class.under-par]="player.toPar<0">{{player.modifiedTotalNet}}</span>
+                        [class.under-par]="getToPar(player)<0">{{player.modifiedTotalNet}}</span>
+                </div>
+                <div *ngIf="player.parCap === 0 || player.parCap === null">
+                    <span>{{player.totalNet}}</span>
                 </div>
 
             </ng-template>
         </p-column>
+        
+        <p-column field="round1Points" header="R1" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(1)"
+        [style]="{'textAlign': 'center'}">
+    </p-column>
+    <p-column field="round2Points" header="R2" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(2)"
+        [style]="{'textAlign': 'center'}">
+    </p-column>
+    <p-column field="round3Points" header="R3" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(3)"
+        [style]="{'textAlign': 'center'}">
+    </p-column>
+    <p-column field="round4Points" header="R4" styleClass="points-column" [hidden]="isPointsHidden() || isMultiRoundHidden(4)"
+        [style]="{'textAlign': 'center'}">
+    </p-column>
+    <p-column field="outTotalPoints" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()"
+        [style]="{'textAlign': 'center'}"></p-column>
+    <p-column field="inTotalPoints" styleClass="points-column" [hidden]="isPointsHidden() || isAllRoundHidden()" [style]="{'textAlign': 'center'}">
+    </p-column>
+    <p-column field="totalPoints" styleClass="points-column" [hidden]="isPointsHidden()" [style]="{'textAlign': 'center'}">
+        <ng-template let-col let-player="rowData" pTemplate="body">
+            <!-- <div *ngIf="player.parCap !== 0 && player.parCap !== null">
+                <span [class.strike-out]="player.modifiedTotalNet"
+                    [class.under-par]="getToPar(player)<0">{{player.totalNet}}</span>
+                <span *ngIf="player.modifiedTotalNet"
+                    [class.under-par]="getToPar(player)<0">{{player.modifiedTotalNet}}</span>
+            </div> -->
+            <div *ngIf="player.parCap === 0 || player.parCap === null">
+                <span>{{player.totalPoints}}</span>
+            </div>
+        </ng-template>
+    </p-column>
         <p-column field="ocb" header="OCB" [hidden]="isColumnHidden('ocb')" [style]="{'textAlign': 'center'}">
         </p-column>
         <ng-template let-player pTemplate="rowexpansion">
@@ -620,7 +705,7 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 <p-column header="Team" rowspan="2" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')"
                     [style]="{'width': '14%'}">
                 </p-column>
-                <p-column header="+/-" rowspan="2" [style]="{'width':'5%'}">
+                <p-column [hidden]="0 && viewScoreType() === 'points'" header="+/-" rowspan="2" [style]="{'width':'5%'}">
                     
                     <!-- <i class="fas fa-exchange-alt fa-rotate-90"></i> -->
                 </p-column>
@@ -718,31 +803,31 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
                 </div>
             </ng-template>
         </p-column>
-        <p-column header="(+/-)" [style]="{'textAlign': 'center'}">
+        <p-column [hidden]="0 && viewScoreType() === 'points'" header="(+/-)" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
                 
-                <div *ngIf="!byNet && player.toPar<0" [class.under-par]="player.toPar<0">{{player.toPar}}</div>
-                <div *ngIf="!byNet && player.toPar>0"  style="font-weight: bold;background-color: white; color:black"  >+{{player.toPar}}</div>
-                <div *ngIf="!byNet && player.thru === '0' && player.toPar === 0">
+                <div *ngIf="!byNet && getToPar(player)<0" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</div>
+                <div *ngIf="!byNet && getToPar(player)>0"  style="font-weight: bold;background-color: white; color:black"  >+{{getToPar(player)}}</div>
+                <div *ngIf="!byNet && player.thru === '0' && getToPar(player) === 0">
                     -
                 </div>
-                <div *ngIf="!byNet && player.thru !== '0' && player.toPar === 0">
+                <div *ngIf="!byNet && player.thru !== '0' && getToPar(player) === 0">
                     PAR
                 </div>
-                <!-- <div *ngIf="!byNet && player.toPar < 0">
-                    <button  [class.under-parT]="player.toPar<0" pButton type="button" [label]="player.toPar"></button></div>
-                <div *ngIf="!byNet && player.toPar === 0">
-                        <button  [class.par]="player.toPar===0" pButton type="button" label="PAR"></button>
+                <!-- <div *ngIf="!byNet && getToPar(player) < 0">
+                    <button  [class.under-parT]="getToPar(player)<0" pButton type="button" [label]="getToPar(player)"></button></div>
+                <div *ngIf="!byNet && getToPar(player) === 0">
+                        <button  [class.par]="getToPar(player)===0" pButton type="button" label="PAR"></button>
                 </div>
-                <div *ngIf="!byNet && player.toPar > 0">
-                    <button style="font-weight: bold;background-color: white; color:black" pButton type="button" [label]="'+'+player.toPar"></button>
+                <div *ngIf="!byNet && getToPar(player) > 0">
+                    <button style="font-weight: bold;background-color: white; color:black" pButton type="button" [label]="'+'+getToPar(player)"></button>
                 </div> -->
                 <div *ngIf="byNet && player.modifiedTotalNet">
-                    <span class="strike-out" [class.under-par]="player.toPar<0">{{player.toPar}}</span>
+                    <span class="strike-out" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</span>
                     <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
                 </div>
-                <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="player.toPar<0">
-                    {{player.toPar}}
+                <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="getToPar(player)<0">
+                    {{getToPar(player)}}
                 </div>
             </ng-template>
         </p-column>
@@ -836,11 +921,14 @@ fxLayoutAlign="space-between" style="margin-top:1.5em">
         </p-column>
         <p-column field="totalNet" styleClass="net-column" [hidden]="isNetHidden()" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
-                <div>
+                <div *ngIf="player.parCap !== 0 && player.parCap !== null">
                     <span [class.strike-out]="player.modifiedTotalNet"
-                        [class.under-par]="player.toPar<0">{{player.totalNet}}</span>
+                        [class.under-par]="getToPar(player)<0">{{player.totalNet}}</span>
                     <span *ngIf="player.modifiedTotalNet"
-                        [class.under-par]="player.toPar<0">{{player.modifiedTotalNet}}</span>
+                        [class.under-par]="getToPar(player)<0">{{player.modifiedTotalNet}}</span>
+                </div>
+                <div *ngIf="player.parCap === 0 || player.parCap === null">
+                    <span>{{player.totalNet}}</span>
                 </div>
 
             </ng-template>

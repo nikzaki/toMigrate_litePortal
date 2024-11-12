@@ -15,6 +15,7 @@ export class LeaderboardSettings {
     scoreType?: string;
     hideNetColumns?: boolean;
     hideGrossColumns?: boolean;
+    hidePointColumns?: boolean;
     teamsByGrossOrNet?: string;
     showSponsor?: boolean;
     hideExpanderColumns?: boolean;
@@ -34,6 +35,7 @@ export const DefaultLeaderboardSettings: LeaderboardSettings = {
     scoreType        : 'gross',
     hideNetColumns   : true,
     hideGrossColumns : true,
+    hidePointColumns : true,
     teamsByGrossOrNet: 'gross',
     showSponsor      : true,
     hideExpanderColumns : false,

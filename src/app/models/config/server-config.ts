@@ -9,4 +9,5 @@ export interface ServerConfig {
     webSocketPort?: number;
     serverPort?: number;
     portalPath?: string;
+    oldCompetitionOffsetDate?: string;
 }

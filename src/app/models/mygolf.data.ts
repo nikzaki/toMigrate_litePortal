@@ -3282,6 +3282,7 @@ export interface CompetitionDataLite {
     waitListQueueSize?: number;
     registered?: boolean;
     waitlisted?: boolean;
+    pointBased?: boolean;
 }
 
 export interface CompetitionDataLitePage extends PagedData<CompetitionDataLite> {

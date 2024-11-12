@@ -84,7 +84,7 @@ import {
 
 import {GameRound} from '../../models/mygolf/gameround';
 import {CompetitionCategory} from '../../models/mygolf/competition/competition-category';
-import { FlightInfo, FlightMember } from 'app/models/mygolf.data';
+import { CompetitionData, CompetitionDataLite, FlightInfo, FlightMember } from 'app/models/mygolf.data';
 
 import * as moment from 'moment';
 
@@ -225,8 +225,11 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             hidden: true
         }];
 
-
+        if(this.configService.getConfig().oldCompetitionOffsetDate)
+            this.offsetCompDate = this.configService.getConfig().oldCompetitionOffsetDate;
     }
+
+    offsetCompDate: string;
 
     filteredCategoryId: number;
     ngOnInit() {
@@ -691,6 +694,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     this.url_qrCode = 'https://api.qrserver.com/v1/create-qr-code/?data=' + _portalPath;
                     if (this.competition && this.competition.teamEvent) this.url_qrCode += '/teamleaderboard/' + this.competitionId;
                     else this.url_qrCode += '/leaderboard/' + this.competitionId;
+                    console.debug("comp is before : ", this.isBeforeCompOffset(this.competition.startDate))
                 });
             let sub2 = this.competitionService.getCompetitionDetails(this.competitionId)
                 .subscribe((det: CompetitionDetails) => {
@@ -707,10 +711,16 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     }
                     // console.log("Comp Sponsor : ", this.compDetails);
                 });
-            this.addToBusyList([sub1, sub2]);
+            let sub3 = this.competitionService.getCompetitionDataLite(this.competitionId)
+                .subscribe((compData: CompetitionDataLite) => {
+                    this.compData = compData;
+                    // console.log("Comp Sponsor : ", this.compDetails);
+                });
+            this.addToBusyList([sub1, sub2, sub3]);
 
         }
     }
+    compData: CompetitionDataLite;
 
     onPlayerRowExpand(event) {
         // console.log("Event Data : ", event)
@@ -734,7 +744,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     }
     deriveScoringFormat() {
         // console.log("[scoring format] ", this.competition.scoringFormat)
-        if(this.competition.scoringFormat === 'Stableford')
+        if(this.competition.scoringFormat === 'Stableford' || this.compData.pointBased)
             return 'Point'
         else return 'Net'
     }
@@ -749,7 +759,30 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             let category = this.refreshParams['category'];
             let scoreType = this.refreshParams['scoreType'];
             let orderBy = 2;
+            let _scoreType = 'G';
+            if(scoreType === 'gross') {
+                _scoreType = 'G';
+            } else if(scoreType === 'net') {
+                _scoreType = 'N';
+            } else if(scoreType === 'points') {
+                _scoreType = 'P';
+            }
             if (scoreType === 'net') {
+                let scoringFormat = (this.competition && this.competition.scoringFormat) ?
+                    this.competition.scoringFormat.toLowerCase() :
+                    "strokeplay";
+                switch (scoringFormat) {
+                    case 'strokeplay':
+                    case 'system36':
+                        orderBy = 3;
+                        break;
+                    case 'stableford':
+                        orderBy = 4;
+                        break;
+                    default:
+                        orderBy = 3;
+                }
+            } else if(scoreType === 'points') {
                 let scoringFormat = (this.competition && this.competition.scoringFormat) ?
                     this.competition.scoringFormat.toLowerCase() :
                     "strokeplay";
@@ -783,11 +816,14 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             }
             // category && category.categoryId !== -1?category.categoryId:null
             // this.subGetLeaderboard = 
+            
             this.competitionService.getLeaderboard(this.competitionId,
+            // this.competitionService.getNewLeaderboard(this.competitionId,
                     round && round.roundNo ? round.roundNo : null,
                     _categoryId,
                     orderBy,
-                    false)
+                    false,)
+                    // _scoreType)
                 .subscribe((leaderboard: LeaderBoard) => {
                     if(leaderboard) this.isRefreshing = false;
                     this.leaderBoard = leaderboard;
@@ -941,20 +977,35 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     }
     isGrossHidden() {
         if (!this.settings) return false;
+        if(this.refreshParams.scoreType === 'gross') return false;
         if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
             this.refreshParams)
-            return (this.refreshParams.scoreType === 'net' && this.settings.hideGrossColumns)
-        else return this.settings.scoreType === 'net' &&
+            return (this.settings.hideGrossColumns)
+            // return (this.refreshParams.scoreType === 'gross' && this.settings.hideGrossColumns)
+        else return this.settings.scoreType === 'gross' &&
             this.settings.hideGrossColumns;
     }
     isNetHidden() {
         if (!this.settings) return true;
+        if(this.refreshParams.scoreType === 'net') return false;
         if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
             this.refreshParams)
-            return (this.refreshParams.scoreType === 'gross' && this.settings.hideNetColumns);
+            return (this.settings.hideNetColumns);
+            // return (this.refreshParams.scoreType === 'net' && this.settings.hideNetColumns);
 
-        else return this.settings.scoreType === 'gross' &&
+        else return this.settings.scoreType === 'net' &&
             this.settings.hideNetColumns;
+    }
+    isPointsHidden() {
+        if (!this.settings) return true;
+        if(this.refreshParams.scoreType === 'points') return false;
+        if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
+            this.refreshParams)
+            return (this.settings.hidePointColumns);
+        //     // return (this.refreshParams.scoreType === 'net' && this.settings.hidePointColumns);
+
+        else return this.settings.scoreType === 'points' &&
+            this.settings.hidePointColumns;
     }
 
     isAllRoundHidden() {
@@ -1554,5 +1605,21 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             return 'WD';
         else if(_currRoundStatus === 'FailedCutoff')
             return 'CUT';
+    }
+
+    isBeforeCompOffset(startDate: Date) {
+        return moment(startDate).isBefore(moment(this.offsetCompDate, 'YYYY-MM-DD'), 'days');
+    }
+
+    getToPar(player: LeaderBoardPlayer) {
+        console.debug("get to par : ", this.refreshParams['scoreType'], player)
+        if(this.refreshParams['scoreType'].toLowerCase() === 'gross') return player.toParGross;
+        else if(this.refreshParams['scoreType'].toLowerCase() === 'net') return player.toParNet;
+        else if(this.refreshParams['scoreType'].toLowerCase() === 'points') return player.toParGross;
+    }
+
+    viewScoreType() {
+        if(!this.refreshParams) return;
+        return this.refreshParams['scoreType'];
     }
  }

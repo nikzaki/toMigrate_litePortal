@@ -9,6 +9,8 @@ export interface LeaderBoardPlayer {
     imageURL: string;
     handicap: number;
     toPar: number;
+    toParGross?: number;
+    toParNet?: number;
     parCap: number;
     outTotalGross: number;
     inTotalGross: number;

@@ -1,6 +1,6 @@
 import { AuthenticationResult } from './../models/session/authentication-result';
 import { Session } from './../models/session/session';
-import { CompetitionData, FlightInfo, SearchCriteria } from './../models/mygolf.data';
+import { CompetitionData, CompetitionDataLite, FlightInfo, SearchCriteria } from './../models/mygolf.data';
 /**
  * Created by ashok on 26/06/17.
  */
@@ -109,6 +109,27 @@ export class CompetitionService {
                                ConfigurationService.deriveDates(sponsor,['sponsorDate']);
                            });
                        }
+                       return compDetails;
+                   }).catch(Util.handleError);
+    }
+
+    
+    /**
+     * Get the details of competition
+     * @param compId The ID of the competition
+     * @returns {Observable<R>}
+     */
+    public getCompetitionDataLite(compId: number): Observable<CompetitionDataLite> {
+        let url = this.configService.getRestApiUrl(RestUrl.competitionService.getCompDataLite);
+        let reCompId = /:compId/gi;
+        url = url.replace(reCompId, String(compId));
+        let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA, {
+            competitionId: compId
+        });
+        return this.remoteHttp.execute(req)
+                   .map((resp: Response) => {
+                       let compDetails: CompetitionDataLite = resp.json();
+                       compDetails.pointBased = true;
                        return compDetails;
                    }).catch(Util.handleError);
     }
@@ -439,6 +460,32 @@ export class CompetitionService {
         //     };
         //     return session;
         // });
+    }
+    
+    public getNewLeaderboard(competitionId: number, roundNo: number,
+        category: number,
+        orderBy: number,
+        teamEvent: boolean,
+        scoreType: string): Observable<LeaderBoard> {
+        let url = this.configService.getRestApiUrl(RestUrl.competitionService.newLeaderboard);
+        let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA, {
+            competitionId: competitionId,
+            roundNo: roundNo,
+            orderBy: orderBy,
+            categoryId: category&&category===-1?null:category,
+            isTeamEvent: teamEvent,
+            scoreType: scoreType,
+        });
+        return this.remoteHttp.execute(req)
+                   .map((resp: Response)=>{
+                       let leaderBorad: LeaderBoard = resp.json();
+                       if(leaderBorad && leaderBorad.players){
+                           leaderBorad.players.forEach(player=>{
+                               this.configService.deriveFulImageURL(player, ['imageURL']);
+                           });
+                       }
+                       return leaderBorad;
+                   })
     }
 
 

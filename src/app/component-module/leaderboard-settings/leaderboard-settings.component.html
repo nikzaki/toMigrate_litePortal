@@ -92,7 +92,7 @@
     </section><br>
 
     <section class = "mat-typography ui-fluid settings-line"
-            fxLayout = "row nowrap"
+            fxLayout = "row"
             fxLayout.lt-md = "column nowrap"
             fxLayoutGap="20px" fxLayoutGap.lt-md="5px"
             fxLayoutAlign = "space-between center"
@@ -109,7 +109,7 @@
             </md-radio-group>
         </section>
         <section *ngIf="!settings.autoScroll || (settings.autoScroll && !settings.scrollScoreTypes)"
-                fxFlex="1 1 auto"
+                fxFlex="1 1 2"
                 fxLayoutGap="10px" fxLayoutGap.lt-md="5px"
                 fxLayoutAlign = "space-between center"
                 fxLayoutAlign.lt-md="start stretch">
@@ -117,11 +117,15 @@
                     [(ngModel)]="settings.scoreType">
                 <md-radio-button value="gross">By Gross</md-radio-button>
                 <md-radio-button value="net">By Net</md-radio-button>
+                <md-radio-button *ngIf="isPointBased()" value="points">By Points</md-radio-button>
+                
             </md-radio-group>
-            <md-checkbox fxFlex="1 1 auto"  *ngIf="settings.scoreType === 'net'"
+            <md-checkbox fxFlex="1 1 auto" [hidden]="settings.scoreType === 'gross'"
                     [(ngModel)]="settings.hideGrossColumns">Hide Gross Columns</md-checkbox>
-            <md-checkbox fxFlex="1 1 auto"  *ngIf="settings.scoreType === 'gross'"
+            <md-checkbox fxFlex="1 1 auto" [hidden]="settings.scoreType === 'net'"
                     [(ngModel)]="settings.hideNetColumns">Hide Net Columns</md-checkbox>
+            <md-checkbox fxFlex="1 1 auto" *ngIf="isPointBased()" [hidden]="settings.scoreType === 'points'"
+                    [(ngModel)]="settings.hidePointColumns">Hide Points Columns</md-checkbox>
                     <md-checkbox fxFlex="1 1 auto"
                     [(ngModel)]="settings.showSponsor">Show Sponsors</md-checkbox>
                     <md-checkbox fxFlex="1 1 auto"

@@ -17,6 +17,10 @@ import {CompetitionCategory} from '../../models/mygolf/competition/competition-c
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
+import { CompetitionData, CompetitionDataLite } from 'app/models/mygolf.data';
+import { ConfigurationService } from 'app/services/configuration.service';
+
+import * as moment from 'moment';
 
 @Component({
     selector     : 'leaderboard-settings',
@@ -44,8 +48,12 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
     private scrollTimerSubscription: Subscription;
     private scrollConfig: ScrollConfig;
 
+    @Input() compData: CompetitionDataLite;
+
+    offsetCompDate: string;
     constructor(
         private activeRoute: ActivatedRoute,
+        private configService: ConfigurationService
 
     ) {
         this.onNextPage     = new EventEmitter();
@@ -61,6 +69,8 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
                 this.settingsChanged();
             }
             })
+        if(this.configService.getConfig().oldCompetitionOffsetDate)
+            this.offsetCompDate = this.configService.getConfig().oldCompetitionOffsetDate;
     }
     @Input()
     get settings() {
@@ -289,6 +299,14 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
 
     private stopSubscription() {
         if (this.scrollTimerSubscription) this.scrollTimerSubscription.unsubscribe();
+    }
+
+    isPointBased() {
+        if(!this.compData) return;
+        return this.compData.pointBased;
+    }
+    isBeforeCompOffset() {
+        return moment(this.compData.startDate).isBefore(moment(this.offsetCompDate, 'YYYY-MM-DD'), 'days');
     }
 }
 
