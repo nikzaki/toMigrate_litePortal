@@ -129,8 +129,8 @@ flex-wrap: nowrap;">
             <md-radio-group fxFlex="1 1 auto" (change)="onLeaderboardSettingsChange(settings)"
                 [(ngModel)]="settings.scoreType">
                 <md-radio-button value="gross">By Gross</md-radio-button>
-                <md-radio-button value="net">By Net</md-radio-button>
-                <md-radio-button *ngIf="isPointBased()" value="points">By Points</md-radio-button>
+                <md-radio-button value="net">By {{isBeforeCompOffset()&&isPointBased()?'Points':'Net'}}</md-radio-button>
+                <md-radio-button [hidden]="isBeforeCompOffset()" *ngIf="isPointBased()" value="points">By Points</md-radio-button>
             </md-radio-group>
         </section>
     </section>
@@ -144,7 +144,16 @@ flex-wrap: nowrap;">
         Category: {{refreshParams.category.categoryName}}
     </div>
     <div fxFlex="0 1 auto" class="mat-title">
-        By: <span style="text-transform: capitalize">{{refreshParams.scoreType}}</span> Score
+        By: <span style="text-transform: capitalize">
+            {{isBeforeCompOffset()&&isPointBased()&&refreshParams.scoreType === 'net'?'Points':settings.scoreType}}
+            <!-- {{refreshParams.scoreType}} -->
+        </span> Score
+    </div>
+</div>
+<div *ngIf="compData && compData.status === 'In Progress' && isPointBased()" fxLayout="row nowrap" fxLayoutGap="30px"
+    fxLayout.lt-sm="10px" fxLayoutAlign="center center" class="mat-typography">
+    <div fxFlex="0 1 auto" class="mat-title">
+        Net and points shown are estimates. They may change after the finalization.
     </div>
 </div>
 <!-- <p-tabView  *ngIf="0 && !hideCatTabs">
@@ -236,7 +245,9 @@ flex-wrap: nowrap;">
                         Round : {{refreshParams.round.roundNo?refreshParams.round.roundNo:'All'}}<br>
                         <span *ngIf="refreshParams.category.categoryName">Category:
                             {{refreshParams.category.categoryName}}</span><br>
-                        By: {{refreshParams.scoreType === 'gross'?'Gross':'Net'}} Score
+                        By: {{isBeforeCompOffset()&&isPointBased()&&refreshParams.scoreType === 'net'?'Points':settings.scoreType}}
+                        <!-- {{refreshParams.scoreType === 'gross'?'Gross':'Net'}}  -->
+                        Score
                     </div>
                 </ng-container>
                 <!-- <div fxFlex="0 1 auto" class="mat-title" >
@@ -279,7 +290,7 @@ flex-wrap: nowrap;">
                 </p-column>
                 <p-column header="OCB" [hidden]="isColumnHidden('ocb') && isGrossHidden() || hideOCBColumn('gross')" rowspan="2" [style]="{'width':'7%'}"></p-column>
                 <!-- && competition.scoringFormat === 'Stableford' -->
-                <p-column [header]="'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-header"
+                <p-column [header]="isBeforeCompOffset()&&isPointBased()?'Points':'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-header"
                     [style]="{'width':'15%'}"></p-column>
                     <p-column header="OCBNet" [hidden]="isColumnHidden('ocb') && isNetHidden() || hideOCBColumn('net')" rowspan="2" [style]="{'width':'7%'}"></p-column>
                 <!-- competition?deriveScoringFormat():'Net' -->
@@ -550,7 +561,7 @@ flex-wrap: nowrap;">
                     [style]="{'width':'15%'}">
                 </p-column>
                 <p-column header="OCB" [hidden]="isColumnHidden('ocb') && isGrossHidden() || hideOCBColumn('gross')" rowspan="2" [style]="{'width':'7%'}"></p-column>
-                <p-column [header]="'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-header"
+                <p-column [header]="isBeforeCompOffset()&&isPointBased()?'Points':'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-header"
                     [style]="{'width':'15%'}"></p-column>
                     <p-column header="OCB" [hidden]="isColumnHidden('ocb') && isNetHidden() || hideOCBColumn('net')" rowspan="2" [style]="{'width':'7%'}"></p-column>
                 <p-column [header]="'Points'" colspan="{{colspan()}}" [hidden]="isPointsHidden()"

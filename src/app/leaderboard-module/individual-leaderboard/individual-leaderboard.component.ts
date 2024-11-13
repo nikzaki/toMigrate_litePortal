@@ -1016,7 +1016,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     }
     isPointsHidden() {
         if (!this.settings) return true;
-        if(this.refreshParams.scoreType === 'points') return false;
+        if(this.compData) if(this.isBeforeCompOffset(this.compData.startDate)) return true;    
+        if(this.refreshParams.scoreType === 'points') return false;    
         if(!this.isPointBased()) return true;
         if(this.settings.hidePointColumns) return true;
         // if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
@@ -1628,7 +1629,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     }
 
     isBeforeCompOffset(startDate: Date) {
-        return moment(startDate).isBefore(moment(this.offsetCompDate, 'YYYY-MM-DD'), 'days');
+        let _startDate = startDate;
+        if(this.compData && this.compData.startDate) _startDate = this.compData.startDate;
+        console.debug("before comp offset : ", this.offsetCompDate, _startDate, moment(_startDate).isBefore(moment(this.offsetCompDate, 'YYYY-MM-DD'), 'days'))
+        return moment(_startDate).isBefore(moment(this.offsetCompDate, 'YYYY-MM-DD'), 'days');
     }
 
     getToPar(player: LeaderBoardPlayer) {
