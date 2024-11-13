@@ -71,7 +71,7 @@
                             
                         </tr>
                         <tr>
-                            <td>{{getScoreTitle(null,round.roundNo)}}</td>
+                            <td>{{getScoreTitle('Gross',round.roundNo)}}</td>
                             <td *ngFor = "let score of round.nines[whichNine-1].scores">
                                 <span [ngClass] = "deriveScoreClass(score)">{{score.grossScore}}</span>
                             </td>
@@ -83,26 +83,28 @@
                             </td>
                         </tr>
                         <tr [hidden]="isNetHidden()">
-                            <td>{{getScoreTitle(null,round.roundNo)}}</td>
+                            <td>&nbsp;</td>
+                            <td>{{getScoreTitle('Net',round.roundNo)}}</td>
                             <td *ngFor = "let score of round.nines[whichNine-1].scores">
-                                <span [ngClass] = "deriveScoreClass(score)">{{score.netScore}}</span>
+                                <span [ngClass] = "deriveScoreClass(score,'net')">{{score.netScore}}</span>
                             </td>
-                            <td [ngClass] = "deriveParClass(whichNine===1?round.outTotal : round.inTotal,round.nines[whichNine-1])">
+                            <td [ngClass] = "deriveParClass(whichNine===1?round.outTotalNet : round.inTotalNet,round.nines[whichNine-1])">
                                 {{whichNine===1?round.outTotalNet : round.inTotalNet}}
                             </td>
-                            <td [ngClass] = "deriveTotalClass(round.inTotal+round.outTotal)">
+                            <td [ngClass] = "deriveTotalClass(round.inTotalNet+round.outTotalNet)">
                                 {{round.inTotalNet+round.outTotalNet}}
                             </td>
                         </tr>
                         <tr [hidden]="isPointsHidden()">
-                            <td>{{getScoreTitle(null,round.roundNo)}}</td>
+                            <td>&nbsp;</td>
+                            <td>{{getScoreTitle('Points',round.roundNo)}}</td>
                             <td *ngFor = "let score of round.nines[whichNine-1].scores">
-                                <span [ngClass] = "deriveScoreClass(score)">{{score.points}}</span>
+                                <span>{{score.points}}</span>
                             </td>
-                            <td [ngClass] = "deriveParClass(whichNine===1?round.outTotal : round.inTotal,round.nines[whichNine-1])">
+                            <td>
                                 {{whichNine===1?round.outPoints : round.inPoints}}
                             </td>
-                            <td [ngClass] = "deriveTotalClass(round.inTotal+round.outTotal)">
+                            <td>
                                 {{round.inPoints+round.outPoints}}
                             </td>
                         </tr>

@@ -8,7 +8,7 @@ import {Admin} from '../mygolf/admin';
  * Created by ashok on 28/04/17.
  */
 export interface Session {
-    readonly status: string; //Values are 'inactive', 'active', 'failed', 'inprogress'
+    readonly status?: string; //Values are 'inactive', 'active', 'failed', 'inprogress'
     readonly error?: any;
     readonly authToken?: string;
     readonly userInfo?: User;

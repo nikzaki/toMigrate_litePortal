@@ -167,6 +167,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     showWinners: boolean = false;
     overrideWinner: boolean = false;
     maxSponsorDisplay: number = 3;
+
+    showOtherScores: boolean = false;
     constructor(
         private router: Router,
         private activeRoute: ActivatedRoute,
@@ -397,12 +399,15 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         }
     }
     onLeaderboardSettingsChange(settings: LeaderboardSettings) {
-        // console.log('This.settings :', this.settings)
-        // console.log('Settings : ', settings)
+        console.log('This.settings :', this.settings)
+        console.log('Settings : ', settings)
         // console.log('Embedded? : ', this.embedded)
         // this.settings = settings;
         if (this.embedded) {
             this.leaderboardSettingsChange.emit(this.settings);
+        } else if(settings) {
+            this.leaderboardSettingsChange.emit(settings);
+            this.savePreferences();
         } else {
             this.savePreferences();
         }
@@ -976,10 +981,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         return this.hiddenColumns[columnId];
     }
     isGrossHidden() {
-        console.debug("is gross hidden [0]", this.settings);
-        console.debug("is gross hidden [1]", this.refreshParams);
-        console.debug("is gross hidden scoretype [2]", this.refreshParams.scoreType);
-        console.debug("is gross hidden hide [3]", this.settings.hideGrossColumns);
+        // console.debug("is gross hidden [0]", this.settings);
+        // console.debug("is gross hidden [1]", this.refreshParams);
+        // console.debug("is gross hidden scoretype [2]", this.refreshParams.scoreType);
+        // console.debug("is gross hidden hide [3]", this.settings.hideGrossColumns);
         if (!this.settings) return false;
         if(this.refreshParams.scoreType === 'gross') return false;
         if(this.settings.hideGrossColumns) return true;
@@ -1213,7 +1218,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     }
     private restorePreferences() {
         let val = this.userPreference.getFromSession("Leaderboard.settings");
-        // console.log('restore pref : ', val)
+        console.log('restore pref : ', val)
         if (val) {
             if (val.lbSettings) this.settings = val.lbSettings;
             this.showSettings = val.showSettings;
@@ -1633,5 +1638,11 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     isPointBased() {
         if(!this.compData) return;
         return this.compData.pointBased;
+    }
+
+    onChangeSettings() {
+        console.debug("on change settings : ", this.settings.scoreType)
+        this.leaderboardSettingsChange.emit(this.settings);
+        this.savePreferences();
     }
  }

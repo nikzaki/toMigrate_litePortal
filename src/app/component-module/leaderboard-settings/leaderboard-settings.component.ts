@@ -51,6 +51,9 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
     @Input() compData: CompetitionDataLite;
 
     offsetCompDate: string;
+
+    @Input() scoreType: string;
+    @Input() showOtherScores: boolean;
     constructor(
         private activeRoute: ActivatedRoute,
         private configService: ConfigurationService
@@ -72,8 +75,9 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
         if(this.configService.getConfig().oldCompetitionOffsetDate)
             this.offsetCompDate = this.configService.getConfig().oldCompetitionOffsetDate;
     }
-    @Input()
+    @Input() 
     get settings() {
+        // console.debug("get settings ", this.settingsValue, this.settings);
         return this.settingsValue;
     }
 
@@ -98,11 +102,30 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
 
 
     ngOnChanges(changes: SimpleChanges): void {
+        console.debug("on changes : ", changes, this.scoreType, this.showOtherScores)
         if (changes.details) {
             this._deriveRounds();
             this._deriveCategories();
             this.settingsChanged();
         }
+        if(changes.scoreType) {
+            this.settings.scoreType = this.scoreType;
+            this.settingsChanged();
+        }
+
+        if(changes.showOtherScores) {
+            if(this.showOtherScores) {
+                this.settings.hideGrossColumns = false;
+                this.settings.hideNetColumns = false;
+                this.settings.hidePointColumns = false;
+            } else {
+                this.settings.hideGrossColumns = true;
+                this.settings.hideNetColumns = true;
+                this.settings.hidePointColumns = true;
+            }
+        }
+
+
     }
 
     dataRefreshed(totalPlayers: number) {
@@ -112,7 +135,7 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
         
         this.activeRoute.queryParams 
             .subscribe(params => {
-                console.log("get params - settings [data refreshed] " ,params, this.totalPlayers);
+                console.log("get params - settings [data refreshed] ", this.settings ,params, this.totalPlayers);
             if(params.categoryId) {
                 this.settings.byCategory = true;
                 this.settings.selectedCategory = Number(params.categoryId);

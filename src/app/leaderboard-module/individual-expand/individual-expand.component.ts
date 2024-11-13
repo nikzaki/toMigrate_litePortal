@@ -5,6 +5,7 @@ import {ObservableMedia} from '@angular/flex-layout';
 import {Subscription} from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
 import { LeaderboardSettings } from 'app/component-module/leaderboard-settings/leaderboard-settings';
+import { CompetitionData, CompetitionDataLite } from 'app/models/mygolf.data';
 
 @Component({
     selector     : 'app-individual-expand',
@@ -32,6 +33,7 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
 
     holes: number[] = [1,2,3,4,5,6,7,8,9];
     @Input() settings: LeaderboardSettings;
+    @Input() compData: CompetitionDataLite;
     constructor(private competitionService: CompetitionService, private media: ObservableMedia,
         private activeRoute: ActivatedRoute) {
         this.watcher = media.subscribe(change => {
@@ -92,20 +94,38 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
            
     }
 
-    deriveScoreClass(s) {
-        if ((s.parScore - s.grossScore) == 0) {
-            if(this.enableToyota) return '';
-            else return "par-score";
-        } else if ((s.parScore - s.grossScore) == 1) {
-            return "birdie-score";
-        } else if ((s.parScore - s.grossScore) == 2) {
-            return "eagle-score";
-        } else if ((s.parScore - s.grossScore) == -1) {
-            return "bogey-score";
-        } else if ((s.parScore - s.grossScore) < -1) {
-            if(this.enableToyota) return "par-score";
-            else return '';
-        } 
+    deriveScoreClass(s, scoreType?: string) {
+        if(scoreType === 'net') {
+
+            if ((s.parScore - s.grossScore) == 0) {
+                if(this.enableToyota) return '';
+                else return "par-score";
+            } else if ((s.parScore - s.netScore) == 1) {
+                return "birdie-score";
+            } else if ((s.parScore - s.netScore) == 2) {
+                return "eagle-score";
+            } else if ((s.parScore - s.netScore) == -1) {
+                return "bogey-score";
+            } else if ((s.parScore - s.netScore) < -1) {
+                if(this.enableToyota) return "par-score";
+                else return '';
+            } 
+        } else {
+
+            if ((s.parScore - s.grossScore) == 0) {
+                if(this.enableToyota) return '';
+                else return "par-score";
+            } else if ((s.parScore - s.grossScore) == 1) {
+                return "birdie-score";
+            } else if ((s.parScore - s.grossScore) == 2) {
+                return "eagle-score";
+            } else if ((s.parScore - s.grossScore) == -1) {
+                return "bogey-score";
+            } else if ((s.parScore - s.grossScore) < -1) {
+                if(this.enableToyota) return "par-score";
+                else return '';
+            } 
+        }
     }
 
     deriveParClass(pr,playerRoundNine) {
@@ -184,7 +204,7 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
             if(roundNo > 1 && roundNo === this.maxRounds) return 'FR'
             else return 'R'+roundNo;
             // else return 'Score';
-        }
+        } else if(type === 'Points') return 'Points'
         else return 'Gross';
     }
 
@@ -195,6 +215,7 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
     }
     isPointsHidden() {
         if(!this.settings) return;
+        if(!this.compData.pointBased) return true;
         if(this.settings.scoreType === 'points') return false;
         if(this.settings.hidePointColumns) return true;
 
