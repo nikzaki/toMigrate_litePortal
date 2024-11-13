@@ -713,6 +713,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                         this._deriveRounds();
                     } else {
 
+                        this._deriveRounds();
                     this.refreshLeaderBoard();
                     }
                     // console.log("Comp Sponsor : ", this.compDetails);

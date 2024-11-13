@@ -54,6 +54,7 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
 
     @Input() scoreType: string;
     @Input() showOtherScores: boolean;
+    @Input() selectedRound: number;
     constructor(
         private activeRoute: ActivatedRoute,
         private configService: ConfigurationService
@@ -123,6 +124,12 @@ export class LeaderboardSettingsComponent implements OnInit, OnChanges, OnDestro
                 this.settings.hideNetColumns = true;
                 this.settings.hidePointColumns = true;
             }
+            this.settingsChanged();
+        }
+
+        if(changes.selectedRound) {
+            this.settings.selectedRound = this.selectedRound;
+            this.settingsChanged();
         }
 
 
