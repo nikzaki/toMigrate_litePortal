@@ -220,4 +220,9 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
         if(this.settings.hidePointColumns) return true;
 
     }
+
+    isMobileScreen() {
+        return this.media.isActive('xs');
+        // || this.media.isActive('sm')
+    }
  }

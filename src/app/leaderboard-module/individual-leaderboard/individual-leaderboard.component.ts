@@ -384,7 +384,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
 
     }
     isMobileScreen() {
-        return this.media.isActive('xs') || this.media.isActive('sm');
+        return this.media.isActive('xs');
+        // || this.media.isActive('sm')
     }
     enterFullScreen() {
         let i = this.leaderboardSection.nativeElement;
@@ -978,6 +979,11 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
 
     }
     isColumnHidden(columnId: string) {
+        if(columnId === 'handicap') {
+            if(!this.compData) return this.hiddenColumns['handicap'];
+            if(this.compData.handicapFormat === 'System36' && this.compData.status === 'In Progress') return true;
+            else return this.hiddenColumns['handicap'];
+        }
         return this.hiddenColumns[columnId];
     }
     isGrossHidden() {

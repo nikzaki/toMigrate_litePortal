@@ -468,6 +468,8 @@ export class CompetitionService {
         teamEvent: boolean,
         scoreType: string): Observable<LeaderBoard> {
         let url = this.configService.getRestApiUrl(RestUrl.competitionService.newLeaderboard);
+        let reCompId = /:compId/gi;
+        url = url.replace(reCompId, String(competitionId));
         let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA, {
             competitionId: competitionId,
             roundNo: roundNo,
