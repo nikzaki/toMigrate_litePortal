@@ -277,15 +277,17 @@ flex-wrap: nowrap;">
                 <p-column colspan="{{colspan()}}" header="Gross" [hidden]="isGrossHidden()" styleClass="gross-header"
                     [style]="{'width':'15%'}">
                 </p-column>
+                <p-column header="OCB" [hidden]="isColumnHidden('ocb') && isGrossHidden() || hideOCBColumn('gross')" rowspan="2" [style]="{'width':'7%'}"></p-column>
                 <!-- && competition.scoringFormat === 'Stableford' -->
                 <p-column [header]="'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-header"
                     [style]="{'width':'15%'}"></p-column>
+                    <p-column header="OCBNet" [hidden]="isColumnHidden('ocb') && isNetHidden() || hideOCBColumn('net')" rowspan="2" [style]="{'width':'7%'}"></p-column>
                 <!-- competition?deriveScoringFormat():'Net' -->
                 <p-column [header]="'Points'" colspan="{{colspan()}}" [hidden]="isPointsHidden()"
                     styleClass="points-header" [style]="{'width':'15%'}"></p-column>
                 <!-- <p-column  colspan="{{colspan()}}" [hidden]="isNetHidden() && competition.scoringFormat !== 'Stableford'" styleClass="net-column"
                             [style]="{'width':'15%'}">Point</p-column> -->
-                <p-column header="OCB" [hidden]="isColumnHidden('ocb')" rowspan="2" [style]="{'width':'7%'}"></p-column>
+                <p-column header="OCBPoints" [hidden]="isColumnHidden('ocb') && isPointsHidden() || hideOCBColumn('points')" rowspan="2" [style]="{'width':'7%'}"></p-column>
             </p-row>
             <p-row>
                 <p-column header="R1" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(1)">
@@ -438,6 +440,7 @@ flex-wrap: nowrap;">
             [style]="{'textAlign': 'center'}"></p-column>
         <p-column field="totalGross" styleClass="gross-column" [hidden]="isGrossHidden()"
             [style]="{'textAlign': 'center'}"></p-column>
+        <p-column styleClass="ocb-data" field="grossOcbStat" header="OCB" [hidden]="isColumnHidden('ocb') && isGrossHidden() || hideOCBColumn('gross')" [style]="{'textAlign': 'center'}"></p-column>
 
         <p-column field="round1Net" header="R1" styleClass="net-column"
             [hidden]="isNetHidden() || isMultiRoundHidden(1)" [style]="{'textAlign': 'center'}">
@@ -469,6 +472,7 @@ flex-wrap: nowrap;">
                 </div>
             </ng-template>
         </p-column>
+        <p-column styleClass="ocb-data" field="netOcbStat" header="OCB" [hidden]="isColumnHidden('ocb') && isNetHidden() || hideOCBColumn('net')" [style]="{'textAlign': 'center'}"></p-column>
 
         <p-column field="round1Points" header="R1" styleClass="points-column"
             [hidden]="isPointsHidden() || isMultiRoundHidden(1)" [style]="{'textAlign': 'center'}">
@@ -502,8 +506,7 @@ flex-wrap: nowrap;">
             </ng-template>
         </p-column>
 
-        <p-column field="ocb" header="OCB" [hidden]="isColumnHidden('ocb')" [style]="{'textAlign': 'center'}">
-        </p-column>
+        <p-column styleClass="ocb-data" field="ocb" header="OCB" [hidden]="isColumnHidden('ocb') && isPointsHidden() || hideOCBColumn('points')" [style]="{'textAlign': 'center'}"></p-column>
         <ng-template let-player pTemplate="rowexpansion">
             <!--<player-scorecard-display-->
             <!--[competitionId]="competitionId"-->
@@ -546,11 +549,13 @@ flex-wrap: nowrap;">
                 <p-column colspan="{{colspan()}}" header="Gross" [hidden]="isGrossHidden()" styleClass="gross-header"
                     [style]="{'width':'15%'}">
                 </p-column>
+                <p-column header="OCB" [hidden]="isColumnHidden('ocb') && isGrossHidden() || hideOCBColumn('gross')" rowspan="2" [style]="{'width':'7%'}"></p-column>
                 <p-column [header]="'Net'" colspan="{{colspan()}}" [hidden]="isNetHidden()" styleClass="net-header"
                     [style]="{'width':'15%'}"></p-column>
+                    <p-column header="OCB" [hidden]="isColumnHidden('ocb') && isNetHidden() || hideOCBColumn('net')" rowspan="2" [style]="{'width':'7%'}"></p-column>
                 <p-column [header]="'Points'" colspan="{{colspan()}}" [hidden]="isPointsHidden()"
                     styleClass="points-header" [style]="{'width':'15%'}"></p-column>
-                <p-column header="OCB" [hidden]="isColumnHidden('ocb')" rowspan="2" [style]="{'width':'7%'}"></p-column>
+                <p-column header="OCB" [hidden]="isColumnHidden('ocb') && isPointsHidden() || hideOCBColumn('points')" rowspan="2" [style]="{'width':'7%'}"></p-column>
             </p-row>
             <p-row>
                 <p-column header="R1" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(1)">
@@ -702,6 +707,7 @@ flex-wrap: nowrap;">
             [style]="{'textAlign': 'center'}"></p-column>
         <p-column field="totalGross" styleClass="gross-column" [hidden]="isGrossHidden()"
             [style]="{'textAlign': 'center'}"></p-column>
+        <p-column styleClass="ocb-data" field="grossOcbStat" header="OCB" [hidden]="isColumnHidden('ocb') && isGrossHidden() || hideOCBColumn('gross')" [style]="{'textAlign': 'center'}"></p-column>
 
         <p-column field="round1Net" header="R1" styleClass="net-column"
             [hidden]="isNetHidden() || isMultiRoundHidden(1)" [style]="{'textAlign': 'center'}">
@@ -734,6 +740,7 @@ flex-wrap: nowrap;">
 
             </ng-template>
         </p-column>
+        <p-column styleClass="ocb-data" field="netOcbStat" header="OCB" [hidden]="isColumnHidden('ocb') && isNetHidden() || hideOCBColumn('net')" [style]="{'textAlign': 'center'}"></p-column>
 
         <p-column field="round1Points" header="R1" styleClass="points-column"
             [hidden]="isPointsHidden() || isMultiRoundHidden(1)" [style]="{'textAlign': 'center'}">
@@ -766,8 +773,7 @@ flex-wrap: nowrap;">
                 </div>
             </ng-template>
         </p-column>
-        <p-column field="ocb" header="OCB" [hidden]="isColumnHidden('ocb')" [style]="{'textAlign': 'center'}">
-        </p-column>
+        <p-column styleClass="ocb-data" field="ocb" header="OCB" [hidden]="isColumnHidden('ocb') && isPointsHidden() || hideOCBColumn('points')" [style]="{'textAlign': 'center'}"></p-column>
         <ng-template let-player pTemplate="rowexpansion">
             <!--<player-scorecard-display-->
             <!--[competitionId]="competitionId"-->
@@ -831,7 +837,9 @@ flex-wrap: nowrap;">
 
                 <p-column [header]="competition?deriveScoringFormat():'Net'" colspan="{{colspan()}}"
                     [hidden]="isNetHidden()" styleClass="net-column" [style]="{'width':'15%'}"></p-column>
-                <p-column header="OCB" [hidden]="isColumnHidden('ocb')" rowspan="2" [style]="{'width':'7%'}"></p-column>
+                <p-column header="OCB" [hidden]="isColumnHidden('ocb') && isGrossHidden()" rowspan="2" [style]="{'width':'7%'}"></p-column>
+                <p-column header="OCB" [hidden]="isColumnHidden('ocb') && isNetHidden()" rowspan="2" [style]="{'width':'7%'}"></p-column>
+                <p-column header="OCB" [hidden]="isColumnHidden('ocb') && isPointsHidden()" rowspan="2" [style]="{'width':'7%'}"></p-column>
             </p-row>
             <p-row *ngIf="0">
                 <p-column header="R1" styleClass="gross-column" [hidden]="isGrossHidden() || isMultiRoundHidden(1)">
@@ -1058,8 +1066,9 @@ flex-wrap: nowrap;">
 
             </ng-template>
         </p-column>
-        <p-column field="ocb" header="OCB" [hidden]="isColumnHidden('ocb')" [style]="{'textAlign': 'center'}">
-        </p-column>
+        <p-column styleClass="ocb-data" field="grossOcbStat" header="OCB" [hidden]="isColumnHidden('ocb') && isGrossHidden()" [style]="{'textAlign': 'center'}"></p-column>
+        <p-column styleClass="ocb-data" field="netOcbStat" header="OCB" [hidden]="isColumnHidden('ocb') && isNetHidden()" [style]="{'textAlign': 'center'}"></p-column>
+        <p-column styleClass="ocb-data" field="ocb" header="OCB" [hidden]="isColumnHidden('ocb') && isPointsHidden()" [style]="{'textAlign': 'center'}"></p-column>
         <ng-template let-player pTemplate="rowexpansion">
             <!--<player-scorecard-display-->
             <!--[competitionId]="competitionId"-->

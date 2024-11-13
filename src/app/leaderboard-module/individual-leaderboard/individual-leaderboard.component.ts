@@ -1652,4 +1652,9 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         this.leaderboardSettingsChange.emit(this.settings);
         this.savePreferences();
     }
+
+    hideOCBColumn(scoreType: string) {
+        if(this.settings.scoreType === scoreType) return false;
+        else return true;
+    }
  }
