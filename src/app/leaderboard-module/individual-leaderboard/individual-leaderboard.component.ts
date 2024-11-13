@@ -823,14 +823,22 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             }
             // category && category.categoryId !== -1?category.categoryId:null
             // this.subGetLeaderboard = 
+
+            const subLeaderboard = this.configService.getConfig().useNewLeaderboardAPI?this.competitionService.getNewLeaderboard(this.competitionId,
+                round && round.roundNo ? round.roundNo : null,
+                _categoryId,
+                orderBy,
+                false,
+                _scoreType):this.competitionService.getLeaderboard(this.competitionId,round && round.roundNo ? round.roundNo : null,_categoryId,orderBy,false);
             
             // this.competitionService.getLeaderboard(this.competitionId,
-            this.competitionService.getNewLeaderboard(this.competitionId,
-                    round && round.roundNo ? round.roundNo : null,
-                    _categoryId,
-                    orderBy,
-                    false,
-                    _scoreType)
+            // this.competitionService.getNewLeaderboard(this.competitionId,
+            //         round && round.roundNo ? round.roundNo : null,
+            //         _categoryId,
+            //         orderBy,
+            //         false,
+            //         _scoreType)
+            subLeaderboard
                 .subscribe((leaderboard: LeaderBoard) => {
                     if(leaderboard) this.isRefreshing = false;
                     this.leaderBoard = leaderboard;

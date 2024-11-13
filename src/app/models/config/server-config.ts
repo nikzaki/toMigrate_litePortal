@@ -10,4 +10,5 @@ export interface ServerConfig {
     serverPort?: number;
     portalPath?: string;
     oldCompetitionOffsetDate?: string;
+    useNewLeaderboardAPI?: boolean;
 }
