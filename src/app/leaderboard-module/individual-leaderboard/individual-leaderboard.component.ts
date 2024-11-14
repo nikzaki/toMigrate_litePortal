@@ -1666,6 +1666,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
     }
 
     hideOCBColumn(scoreType: string) {
+        if(this.hiddenColumns['ocb']) return true;
         if(this.settings.scoreType === scoreType) return false;
         else return true;
     }
