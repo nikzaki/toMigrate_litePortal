@@ -145,8 +145,8 @@ flex-wrap: nowrap;">
     </div>
     <div fxFlex="0 1 auto" class="mat-title">
         By: <span style="text-transform: capitalize">
-            {{isBeforeCompOffset()&&isPointBased()&&refreshParams.scoreType === 'net'?'Points':settings.scoreType}}
-            <!-- {{refreshParams.scoreType}} -->
+            {{isBeforeCompOffset()&&isPointBased()&&viewScoreType() === 'Net'?'Points':settings.scoreType}}
+            <!-- {{viewScoreType()}} -->
         </span> Score
     </div>
 </div>
@@ -245,8 +245,8 @@ flex-wrap: nowrap;">
                         Round : {{refreshParams.round.roundNo?refreshParams.round.roundNo:'All'}}<br>
                         <span *ngIf="refreshParams.category.categoryName">Category:
                             {{refreshParams.category.categoryName}}</span><br>
-                        By: {{isBeforeCompOffset()&&isPointBased()&&refreshParams.scoreType === 'net'?'Points':settings.scoreType}}
-                        <!-- {{refreshParams.scoreType === 'gross'?'Gross':'Net'}}  -->
+                        By: {{isBeforeCompOffset()&&isPointBased()&&viewScoreType() === 'Net'?'Points':settings.scoreType}}
+                        <!-- {{viewScoreType() === 'gross'?'Gross':'Net'}}  -->
                         Score
                     </div>
                 </ng-container>
@@ -278,7 +278,7 @@ flex-wrap: nowrap;">
                 <p-column header="Team" rowspan="2" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')"
                     [style]="{'width': '14%'}">
                 </p-column>
-                <p-column [hidden]="0 && viewScoreType() === 'points'" header="(+/-)" rowspan="2"
+                <p-column [hidden]="0 && viewScoreType() === 'Points'" header="(+/-)" rowspan="2"
                     [style]="{'width':'5%'}"></p-column>
                 <p-column header="On" rowspan="2" [hidden]="isColumnHidden('on')|| isMobileScreen()"
                     [style]="{'width':'3%'}"></p-column>
@@ -409,14 +409,22 @@ flex-wrap: nowrap;">
                 </div>
             </ng-template>
         </p-column>
-        <p-column [hidden]="0 && viewScoreType() === 'points'" header="(+/-)" [style]="{'textAlign': 'center'}">
+        <p-column [hidden]="0 && viewScoreType() === 'Points'" header="(+/-)" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
-                <div *ngIf="!byNet" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</div>
+                <!-- <div *ngIf="!byNet" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</div>
                 <div *ngIf="byNet && player.modifiedTotalNet">
                     <span class="strike-out" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</span>
                     <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
                 </div>
                 <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="getToPar(player)<0">
+                    {{getToPar(player)}}
+                </div> -->
+                <div *ngIf="settings.scoreType !== 'net'" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</div>
+                <div *ngIf="settings.scoreType === 'net' && player.parCap && player.parCap > getToPar(player)">
+                    <span class="strike-out" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</span>
+                    <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
+                </div>
+                <div *ngIf="settings.scoreType === 'net' && (!player.parCap || player.parCap <= getToPar(player))" [class.under-par]="getToPar(player)<0">
                     {{getToPar(player)}}
                 </div>
             </ng-template>
@@ -511,9 +519,12 @@ flex-wrap: nowrap;">
                         <span *ngIf="player.modifiedTotalNet"
                             [class.under-par]="getToPar(player)<0">{{player.modifiedTotalNet}}</span>
                     </div> -->
-                <div *ngIf="player.parCap === 0 || player.parCap === null">
+                <div *ngIf="player.parCap === 0 || player.parCap === null; else elseTotalPoints">
                     <span>{{player.totalPoints}}</span>
                 </div>
+                <ng-template #elseTotalPoints>
+                    <span>{{player.totalPoints}}</span>
+                </ng-template>
             </ng-template>
         </p-column>
 
@@ -550,7 +561,7 @@ flex-wrap: nowrap;">
                 <p-column header="Team" rowspan="2" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')"
                     [style]="{'width': '14%'}">
                 </p-column>
-                <p-column [hidden]="0 && viewScoreType() === 'points'" header="(+/-)" rowspan="2"
+                <p-column [hidden]="0 && viewScoreType() === 'Points'" header="(+/-)" rowspan="2"
                     [style]="{'width':'5%'}"></p-column>
                 <p-column header="On" rowspan="2" [hidden]="isColumnHidden('on')|| isMobileScreen()"
                     [style]="{'width':'3%'}"></p-column>
@@ -676,16 +687,25 @@ flex-wrap: nowrap;">
                 </div>
             </ng-template>
         </p-column>
-        <p-column [hidden]="0 && viewScoreType() === 'points'" header="(+/-)" [style]="{'textAlign': 'center'}">
+        <p-column [hidden]="0 && viewScoreType() === 'Point'" header="(+/-)" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
-                <div *ngIf="!byNet" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</div>
+                
+                <div *ngIf="settings.scoreType !== 'net'" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</div>
+                <div *ngIf="settings.scoreType === 'net' && player.parCap && player.parCap > getToPar(player)">
+                    <span class="strike-out" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</span>
+                    <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
+                </div>
+                <div *ngIf="settings.scoreType === 'net' && (!player.parCap || player.parCap <= getToPar(player))" [class.under-par]="getToPar(player)<0">
+                    {{getToPar(player)}}
+                </div>
+                <!-- <div *ngIf="!byNet" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</div>
                 <div *ngIf="byNet && player.modifiedTotalNet">
                     <span class="strike-out" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</span>
                     <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
                 </div>
                 <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="getToPar(player)<0">
                     {{getToPar(player)}}
-                </div>
+                </div> -->
             </ng-template>
         </p-column>
 
@@ -779,9 +799,12 @@ flex-wrap: nowrap;">
                 <span *ngIf="player.modifiedTotalNet"
                     [class.under-par]="getToPar(player)<0">{{player.modifiedTotalNet}}</span>
             </div> -->
-                <div *ngIf="player.parCap === 0 || player.parCap === null">
+                <div *ngIf="player.parCap === 0 || player.parCap === null; else elseTotalPoints">
                     <span>{{player.totalPoints}}</span>
                 </div>
+                <ng-template #elseTotalPoints>
+                    <span>{{player.totalPoints}}</span>
+                </ng-template>
             </ng-template>
         </p-column>
         <p-column styleClass="ocb-data" field="ocb" header="OCB" [hidden]="isColumnHidden('ocb') && isPointsHidden() || hideOCBColumn('points')" [style]="{'textAlign': 'center'}"></p-column>
@@ -818,7 +841,7 @@ flex-wrap: nowrap;">
                 <p-column header="Team" rowspan="2" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')"
                     [style]="{'width': '14%'}">
                 </p-column>
-                <p-column [hidden]="0 && viewScoreType() === 'points'" header="+/-" rowspan="2"
+                <p-column [hidden]="0 && viewScoreType() === 'Points'" header="+/-" rowspan="2"
                     [style]="{'width':'5%'}">
 
                     <!-- <i class="fas fa-exchange-alt fa-rotate-90"></i> -->
@@ -939,7 +962,7 @@ flex-wrap: nowrap;">
                 </div>
             </ng-template>
         </p-column>
-        <p-column [hidden]="0 && viewScoreType() === 'points'" header="(+/-)" [style]="{'textAlign': 'center'}">
+        <p-column [hidden]="0 && viewScoreType() === 'Net'" header="(+/-)" [style]="{'textAlign': 'center'}">
             <ng-template let-col let-player="rowData" pTemplate="body">
 
                 <div *ngIf="!byNet && getToPar(player)<0" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}
@@ -960,13 +983,23 @@ flex-wrap: nowrap;">
                 <div *ngIf="!byNet && getToPar(player) > 0">
                     <button style="font-weight: bold;background-color: white; color:black" pButton type="button" [label]="'+'+getToPar(player)"></button>
                 </div> -->
-                <div *ngIf="byNet && player.modifiedTotalNet">
+
+
+                <div *ngIf="settings.scoreType !== 'net'" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</div>
+                <div *ngIf="settings.scoreType === 'net' && player.parCap && player.parCap > getToPar(player)">
+                    <span class="strike-out" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</span>
+                    <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
+                </div>
+                <div *ngIf="settings.scoreType === 'net' && (!player.parCap || player.parCap <= getToPar(player))" [class.under-par]="getToPar(player)<0">
+                    {{getToPar(player)}}
+                </div>
+                <!-- <div *ngIf="byNet && player.modifiedTotalNet">
                     <span class="strike-out" [class.under-par]="getToPar(player)<0">{{getToPar(player)}}</span>
                     <span [class.under-par]="player.parCap<0">{{player.parCap}}</span>
                 </div>
                 <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="getToPar(player)<0">
                     {{getToPar(player)}}
-                </div>
+                </div> -->
             </ng-template>
         </p-column>
 

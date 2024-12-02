@@ -1647,7 +1647,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         // console.debug("get to par : ", this.refreshParams['scoreType'], player)
         if(this.refreshParams['scoreType'].toLowerCase() === 'gross') return player.toParGross;
         else if(this.refreshParams['scoreType'].toLowerCase() === 'net') return player.toParNet;
-        else if(this.refreshParams['scoreType'].toLowerCase() === 'points') return player.toParGross;
+        else if(this.refreshParams['scoreType'].toLowerCase() === 'points') return player.toParNet;
     }
 
     viewScoreType() {
