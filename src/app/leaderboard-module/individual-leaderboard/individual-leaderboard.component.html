@@ -76,7 +76,7 @@
     [selectedRound]="settings.selectedRound"> 
 </leaderboard-settings>
 <!-- <p *ngIf="!showSettings">You can change settings by clicking on <md-icon (click)="onToggleShowSettings()" class="mdi mdi-settings"></md-icon> icon.</p> -->
-<section *ngIf="!embedded && !hideTopBar" class="mat-typography" fxLayout="row nowrap" fxLayout.lt-sm="column nowrap"
+<section [hidden]="!showLeaderBoard" *ngIf="!embedded && !hideTopBar" class="mat-typography" fxLayout="row nowrap" fxLayout.lt-sm="column nowrap"
     fxLayoutAlign="space-between" style="margin-top:1.5em">
     <div fxFlex="0 0 auto" fxFlex.lt-sm="1 1 auto" fxLayoutAlign.lt-sm="end">
         <button md-icon-button mdTooltip="View Leaderboard in full screen view" color="primary"
@@ -135,7 +135,7 @@ flex-wrap: nowrap;">
         </section>
     </section>
 </section>
-<div *ngIf="refreshParams && showAutoScrollDetail() && !hideTopBar" fxLayout="row nowrap" fxLayoutGap="30px"
+<div [hidden]="!showLeaderBoard"  *ngIf="refreshParams && showAutoScrollDetail() && !hideTopBar" fxLayout="row nowrap" fxLayoutGap="30px"
     fxLayout.lt-sm="10px" fxLayoutAlign="center center" class="mat-typography">
     <div fxFlex="0 1 auto" class="mat-title" (click)="toggleDialog(true)">
         Round : {{refreshParams.round.roundNo?refreshParams.round.roundNo:'All'}}
@@ -156,6 +156,13 @@ flex-wrap: nowrap;">
         Net and points shown are estimates. They may change after the finalization.
     </div>
 </div>
+<div *ngIf="!showLeaderBoard" fxdivout="row nowrap" fxLayoutGap="30px"
+fxLayout.lt-sm="10px" fxLayoutAlign="center center" class="mat-typography">
+<div fxFlex="0 1 auto" class="mat-title" style="color: red;">
+    Leaderboard is disabled by the Organizer. It will be available once the competition is Completed.
+    <br> Please refresh to update competition status.
+</div>
+</div>
 <!-- <p-tabView  *ngIf="0 && !hideCatTabs">
     <ng-container *ngFor="let cat of validCategories; let idx = index">
     <p-tabPanel *ngIf="cat.categoryId > 0" (onClick)="onClickCategory($event, cat)" [header]="cat.categoryName" >
@@ -163,7 +170,7 @@ flex-wrap: nowrap;">
     </ng-container>
 </p-tabView> -->
 
-<div class="row">
+<div [hidden]="!showLeaderBoard" class="row">
     <div class="col" *ngIf="!showWinners">
         <ng-container class="toyota" *ngFor="let cat of validCategories; let idx = index">
             <button pButton *ngIf="!hideAllCategory && !hideCatTabs && cat.categoryId <= 0"
@@ -221,7 +228,7 @@ flex-wrap: nowrap;">
         </ng-container>
     </div>
 </div>
-<section #leaderboardSection class="competition-leaderboard" *ngIf="!showWinners">
+<section [hidden]="!showLeaderBoard" #leaderboardSection class="competition-leaderboard" *ngIf="!showWinners">
 
     <section class="fullscreen-header">
         <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-between center">

@@ -490,5 +490,17 @@ export class CompetitionService {
                    })
     }
 
+    
+    public checkShowLeaderboard(competitionId: number): Observable<boolean> {
+        let url = this.configService.getRestApiUrl(RestUrl.competitionService.checkShowLeaderboard);
+        let reCompId = /:compId/gi;
+        url = url.replace(reCompId, String(competitionId));
+        let req = new RemoteRequest(url, RequestMethod.Get);
+        return this.remoteHttp.execute(req)
+                   .map((resp: Response)=>{
+                       return resp.json();
+                   })
+    }
+
 
 }

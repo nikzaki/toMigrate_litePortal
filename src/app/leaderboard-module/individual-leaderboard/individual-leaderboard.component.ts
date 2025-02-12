@@ -824,6 +824,13 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             // category && category.categoryId !== -1?category.categoryId:null
             // this.subGetLeaderboard = 
 
+            const subShowLeaderboard = this.competitionService.checkShowLeaderboard(this.competitionId);
+            subShowLeaderboard.subscribe((showLeaderBoard: boolean)=>{
+                console.debug("show leaderboard : ", showLeaderBoard)
+                if(showLeaderBoard !== undefined) {
+                    this.showLeaderBoard = showLeaderBoard;
+                }
+            })
             const subLeaderboard = this.configService.getConfig().useNewLeaderboardAPI?this.competitionService.getNewLeaderboard(this.competitionId,
                 round && round.roundNo ? round.roundNo : null,
                 _categoryId,
@@ -981,12 +988,14 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                 },()=>{
                     this.isRefreshing = false;
                 });
+
                 // this.subscriptions.push(sub);
                 // this.addToBusyList([sub]);
         }
         
 
     }
+    showLeaderBoard: boolean;
     isColumnHidden(columnId: string) {
         if(columnId === 'handicap') {
             if(!this.compData) return this.hiddenColumns['handicap'];
