@@ -661,6 +661,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
         this.currentPage = data.currentPage;
     }
     refresh(params: LeaderboardRefreshParams) {
+        // console.debug("auto refreshing [params]", params)
+        // console.debug("auto refreshing [settings]", this.settings)
         this.refreshParams = params;
         this.refreshLeaderBoard();
         if(this.subFlightList) {
@@ -807,11 +809,25 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
             }
 
             let _categoryId = null;
-            if(this.settings.selectedCategory)
-                _categoryId = this.settings.selectedCategory
-            else if(category && category.categoryId !== -1)
-                _categoryId = category.categoryId
-            else _categoryId = null
+            // if(this.enableToyota) {
+            //     if(this.settings.selectedCategory)
+            //         _categoryId = this.settings.selectedCategory
+            //     else if(category && category.categoryId !== -1)
+            //         _categoryId = category.categoryId
+            //     else _categoryId = null
+            // } else {
+                
+            //     _categoryId = category && category.categoryId !== -1 ? category.categoryId : null
+            // }
+            if(this.settings.autoScroll && this.settings.scrollCategories) {
+                _categoryId = category && category.categoryId !== -1 ? category.categoryId : null
+            } else {
+                if(this.settings.selectedCategory)
+                    _categoryId = this.settings.selectedCategory
+                else if(category && category.categoryId !== -1)
+                    _categoryId = category.categoryId
+                else _categoryId = null
+            }
 
 
             // if(round !== undefined && round > 0) {
@@ -948,7 +964,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     /* NOT SHOWING WITHDRAW OR CUT PLAYERS HERE */
                     if (!this.settings.showNonPlaying){
                         this.leaderBoard.players = this.leaderBoard.players.filter(function (ptd) {
-                            return (ptd.position !== 'W' && ptd.position !== 'CUT' && ptd.position !== 'N' 
+                            return (!ptd.statusName.toLowerCase().includes('withdrawn') && !ptd.statusName.toLowerCase().includes('cutoff')
+                            // return (ptd.position !== 'W' && ptd.position !== 'CUT' && ptd.position !== 'N' 
                             // && ( ptd.round1Gross < 144 && ptd.round2Gross < 180 && ptd.round3Gross < 180 && ptd.round4Gross < 180 )
                             // ptd.outTotalGross >= 144
                             
