@@ -249,12 +249,13 @@ fxLayout.lt-sm="10px" fxLayoutAlign="center center" class="mat-typography">
             <div fxFlex="0 0 auto" *ngIf="refreshParams" fxLayout="row nowrap" fxLayoutGap="30px"
                 fxLayoutAlign="center center" class="mat-typography">
 
-                <ng-container *ngIf="competition?.totalRounds>1">
+                <ng-container >
                     <div fxFlex="1 1 22vw" class="mat-title" (click)="toggleDialog(true)">
-                        Round : {{refreshParams.round.roundNo?refreshParams.round.roundNo:'All'}}<br>
+                        <span *ngIf="competition?.totalRounds>1">Round : {{refreshParams.round.roundNo?refreshParams.round.roundNo:'All'}}<br></span>
                         <span *ngIf="refreshParams.category.categoryName">Category:
                             {{refreshParams.category.categoryName}}</span><br>
-                        By: {{isBeforeCompOffset()&&isPointBased()&&viewScoreType() === 'Net'?'Points':settings.scoreType}}
+                        By: 
+                        <span style="text-transform: capitalize;">{{isBeforeCompOffset()&&isPointBased()&&viewScoreType() === 'Net'?'Points':settings.scoreType}}</span>
                         <!-- {{viewScoreType() === 'gross'?'Gross':'Net'}}  -->
                         Score
                     </div>
