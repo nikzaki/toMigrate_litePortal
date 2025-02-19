@@ -74,6 +74,7 @@ export class CompetitionService {
                        if(compDetails.sponsors) {
                            compDetails.sponsors.forEach(sponsor=>{
                                this.configService.deriveFulImageURL(sponsor, ['imageUrl']);
+                               this.configService.deriveFulImageURL(sponsor.sponsor, ['image']);
                                ConfigurationService.deriveDates(sponsor,['sponsorDate']);
                            });
                        }

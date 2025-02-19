@@ -16,7 +16,7 @@
     <div [hidden]="hideCompHeader" class="card-title ui-g align-items-center" *ngIf="competition && !enableToyota">
         <div class="ui-md-3" *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length > 0">
             <img class="mx-auto d-block img-fluid" style="max-width: 24vh; max-height: 48vh"
-                [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''">
+                [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].sponsor.image:''">
             <!-- [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:'assets/images/MALGA_logo.png'" -->
             <!-- fxFlex="0 1 12vh" -->
             <!-- *ngIf="compDetails&&compDetails.sponsors[0]" -->
@@ -40,7 +40,7 @@
         <div hidden="true" class="ui-g-12"
             *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length > 0">
             <img class="mx-auto d-block img-fluid" style="max-width: 24vh; max-height: 48vh"
-                [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:''">
+                [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].sponsor.image:''">
             <!-- [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:'assets/images/MALGA_logo.png'" -->
             <!-- fxFlex="0 1 12vh" -->
             <!-- *ngIf="compDetails&&compDetails.sponsors[0]" -->
@@ -235,12 +235,14 @@ fxLayout.lt-sm="10px" fxLayoutAlign="center center" class="mat-typography">
             <div fxFlex="1 1 auto" fxLayout="row nowrap" fxLayoutGap="10px" fxLayoutAlign="space-evenly center">
                 <!-- style="margin-left: -100px" -->
                 <img class="comp-logo" fxFlex="0 0 auto" *ngIf="competition"
+                style="object-fit: contain;"
                     [src]="competition.thumbnail?competition.thumbnail:competition.imageUrl"
                     onerror="this.src='assets/images/default_competition.png'">
                 <span class="mat-display-1 comp-name" style="text-align: center"
                     fxFlex="0 0 auto">{{competition?.competitionName}}</span>
                 <ng-container *ngIf="competition&&!competition.teamEvent">
-                    <img class="m2u-logo" fxFlex="0 1 16vw" src="assets/images/mygolf2uLogo.png">
+                    <!-- <img class="m2u-logo" fxFlex="0 1 16vw" src="assets/images/mygolf2uLogo.png"> -->
+                    <img style="max-width: 6rem;object-fit: contain;" src="assets/images/mygolf2uLogo.png">
                 </ng-container>
 
             </div>
@@ -1142,8 +1144,10 @@ fxLayout.lt-sm="10px" fxLayoutAlign="center center" class="mat-typography">
                 style="margin-bottom: 1em">
                 <ng-container *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length >0">
                     <div *ngFor="let sponsor of compDetails.sponsors; let idx = index">
-                        <img *ngIf="idx < maxSponsorDisplay" [src]="sponsor.imageUrl?sponsor.imageUrl:''"
-                            fxFlex="0 1 12vh">
+                        <img *ngIf="idx < maxSponsorDisplay" [src]="sponsor.sponsor.image?sponsor.sponsor.image:''"
+                            style="max-height: 5em !important">
+                            <!-- fxFlex="0 1 12vh 5vh"  -->
+                            <!-- [src]="sponsor.imageUrl?sponsor.imageUrl:''" -->
                     </div>
                     <div class="ticker-wrap" *ngIf="0">
                         <div class="ticker">
@@ -1166,11 +1170,13 @@ fxLayout.lt-sm="10px" fxLayoutAlign="center center" class="mat-typography">
                             [src]="compDetails.sponsors[2]?compDetails.sponsors[2].imageUrl:''"
                             fxFlex="0 1 12vh"> -->
                 <div class="qr-code">
-                    Scan for live scoring : <img [src]="url_qrCode" fxFlex="0 1 12vh" alt="" title="" />
+                    Scan for live scoring : <img style="max-height: 5em !important" [src]="url_qrCode"  alt="" title="" />
+                    <!-- fxFlex="0 1 12vh" -->
                 </div>
 
                 <ng-container *ngIf="competition&&competition.teamEvent">
-                    <img class="m2u-logo" fxFlex="0 1 12vh" src="assets/images/mygolf2uLogo.png">
+                    <!-- <img class="m2u-logo" fxFlex="0 1 12vh" src="assets/images/mygolf2uLogo.png"> -->
+                    <img style="max-width: 6rem;object-fit: contain;" src="assets/images/mygolf2uLogo.png">
                 </ng-container>
 
             </div>
