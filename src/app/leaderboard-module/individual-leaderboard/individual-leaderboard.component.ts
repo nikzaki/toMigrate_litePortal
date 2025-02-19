@@ -831,12 +831,18 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges,  After
                     this.showLeaderBoard = showLeaderBoard;
                 }
             })
-            const subLeaderboard = this.configService.getConfig().useNewLeaderboardAPI?this.competitionService.getNewLeaderboard(this.competitionId,
+            const subLeaderboard = this.competitionService.getNewLeaderboard(this.competitionId,
                 round && round.roundNo ? round.roundNo : null,
                 _categoryId,
                 orderBy,
                 false,
-                _scoreType):this.competitionService.getLeaderboard(this.competitionId,round && round.roundNo ? round.roundNo : null,_categoryId,orderBy,false);
+                _scoreType);
+            // this.configService.getConfig().useNewLeaderboardAPI?this.competitionService.getNewLeaderboard(this.competitionId,
+            //     round && round.roundNo ? round.roundNo : null,
+            //     _categoryId,
+            //     orderBy,
+            //     false,
+            //     _scoreType):this.competitionService.getLeaderboard(this.competitionId,round && round.roundNo ? round.roundNo : null,_categoryId,orderBy,false);
             
             // this.competitionService.getLeaderboard(this.competitionId,
             // this.competitionService.getNewLeaderboard(this.competitionId,

@@ -477,6 +477,7 @@ export class CompetitionService {
             categoryId: category&&category===-1?null:category,
             isTeamEvent: teamEvent,
             scoreType: scoreType,
+            category: category&&category===-1?null:category,
         });
         return this.remoteHttp.execute(req)
                    .map((resp: Response)=>{
