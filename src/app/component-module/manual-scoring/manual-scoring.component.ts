@@ -247,6 +247,19 @@ export class ManualScoringComponent implements OnInit {
             let courseHoleNo  = score.holeNumber - ((score.whichNine - 1) * 9);
             score.actualScore = courseScore['hole' + courseHoleNo];
         });
+        let _scoresArr = [];
+        let _scores = '';
+        if(1) {
+            console.debug("on save - player scorecard", this.playerScorecard);
+            console.debug("on save - player scores", this.playerScores);
+            this.playerScorecard.playerRoundScores[0].scores.forEach((s)=>{
+                _scoresArr.push(`${s.holeNumber}=${s.actualScore}`);
+            })
+            _scores = _scoresArr.join(" ");
+            console.debug("on save - player scores", _scoresArr, _scores);
+
+            // return;
+        }
         //The scores are transfered. Now save it
         // this.scorecardService.saveManualScoring(this.competitionId,
         //     this.scoringRound, this.selectedPlayer.playerId,
@@ -267,14 +280,11 @@ export class ManualScoringComponent implements OnInit {
         //         }
         //     });
 
-        
-        let leanScorecard = getLeanScorecard(this.playerScorecard, this.selectedPlayer.playerId);
-        let zipped: any = zipScorecard(leanScorecard);
-        this.scorecardService.saveScorecard(this.competitionId,
-            this.scoringRound, this.selectedPlayer.scoringPlayerId,
-            zipped)
+        this.scorecardService.newSaveScores(this.competitionId, this.scoringRound,
+            this.selectedPlayer.scoringPlayerId, _scores)
             .subscribe((result: ServerResult) => {
-                if (result.success) {
+                console.debug("result : ", result)
+                if (result) {
                     this.flights.forEach(flight=>{
                         flight.flightMembers.forEach(fm=>{
                             if(fm.playerId === this.selectedPlayer.playerId)
@@ -286,8 +296,31 @@ export class ManualScoringComponent implements OnInit {
                         detail  : 'Saved the scores for ' + this.selectedPlayer.playerName + " successfully"
                     });
                     this.cancelScoring();
+                    this.refresh();
                 }
             });
+        
+        // let leanScorecard = getLeanScorecard(this.playerScorecard, this.selectedPlayer.playerId);
+        // let zipped: any = zipScorecard(leanScorecard);
+        // this.scorecardService.saveScorecard(this.competitionId,
+        //     this.scoringRound, this.selectedPlayer.scoringPlayerId,
+        //     zipped)
+        //     .subscribe((result: ServerResult) => {
+        //         if (result.success) {
+        //             this.flights.forEach(flight=>{
+        //                 flight.flightMembers.forEach(fm=>{
+        //                     if(fm.playerId === this.selectedPlayer.playerId)
+        //                         fm.status = 'Completed';
+        //                 });
+        //             })
+        //             this.messages.push({
+        //                 severity: 'info',
+        //                 detail  : 'Saved the scores for ' + this.selectedPlayer.playerName + " successfully"
+        //             });
+        //             this.cancelScoring();
+        //             this.refresh();
+        //         }
+        //     });
     }
 
 
@@ -296,7 +329,10 @@ export class ManualScoringComponent implements OnInit {
             this.confirmService.confirm({
                 message: "You will loose all unsaved scores. Do you want to continue?"
             });
-        else this.cancelScoring();
+        else {
+            this.cancelScoring();
+            this.refresh();
+        }
 
     }
 
@@ -308,7 +344,9 @@ export class ManualScoringComponent implements OnInit {
         this.flightsPanel.expand(null);
 
         this.confirm.hide();
-        this.refresh();
+        // setTimeout(()=>{
+            this.refresh();
+        // },1000)
     }
 
     doNotCancelScoring() {

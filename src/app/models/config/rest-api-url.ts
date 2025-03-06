@@ -61,7 +61,8 @@ export const RestUrl: any = {
         getCompData: '/competitions/:compId',
         getCompDataLite: '/competitions/:compId/lite',
         newLeaderboard: '/competitions/:compId/leaderboard',
-        checkShowLeaderboard: '/competitions/:compId/show-leaderboard'
+        checkShowLeaderboard: '/competitions/:compId/show-leaderboard',
+        newCompRoundScore: '/competitions/:compId/rounds/:roundNo/players/:playerId/update-score',
     },
     scorecardService : {
         getPlayerScorecard: '/manualscoring/getscorecard',

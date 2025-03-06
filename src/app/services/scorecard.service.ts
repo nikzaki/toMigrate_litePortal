@@ -8,13 +8,13 @@ import {ConfigurationService} from "./configuration.service";
 import {HttpService} from "./http.service";
 import {RestUrl} from "../models/config/rest-api-url";
 import {Util} from "../util";
-import {Response} from "@angular/http";
+import {RequestMethod, Response} from "@angular/http";
 import {PlainScorecard, PlayerRoundScores} from "../models/mygolf/scorecard";
 import {ClubCourse} from "../models/mygolf/club/club-course";
 import {ServerResult} from "../models/server-result";
 import {Observable} from "rxjs";
 import {CourseHole} from '../models/mygolf/club/course-hole';
-import {RemoteRequest} from './remote-request';
+import {ContentType, RemoteRequest} from './remote-request';
 
 @Injectable()
 export class ScorecardService {
@@ -115,6 +115,52 @@ export class ScorecardService {
         }, hdrs);
         return this.remoteHttp.execute(request)
                    .map((resp: Response)=>{
+                       let result: ServerResult = resp.json();
+                       return result;
+                   }).catch(Util.handleError);
+    }
+
+    
+    // public newSaveScores(competitionId: number, roundNo: number, playerId: number, scores: string): Observable<ServerResult> {
+
+    //     let hdrs = {};
+
+    //     let url = this.configService.getRestApiUrl(RestUrl.competitionService.newCompRoundScore);
+    //     let reCompId = /:compId/gi;
+    //     let reRoundNo = /:roundNo/gi;
+    //     let rePlayerId = /:playerId/gi;
+    //     url = url.replace(reCompId, String(competitionId));
+    //     url = url.replace(reRoundNo, String(roundNo));
+    //     url = url.replace(rePlayerId, String(playerId));
+    //     // if (playerId) hdrs["Player-Id"] = playerId;
+    //     // let scorecardJson  = JSON.stringify(scorecard);
+    //     let request = RemoteRequest.createPostRequest(url, {
+    //         competitionId: competitionId,
+    //         roundNo      : roundNo,
+    //         playerId     : playerId,
+    //         scores: scores
+    //     }, hdrs);
+    //     return this.remoteHttp.execute(request)
+    //                .map((resp: Response)=>{
+    //                    let result: ServerResult = resp.json();
+    //                    return result;
+    //                }).catch(Util.handleError);
+    // }
+
+    
+    public newSaveScores(competitionId: number, roundNo: number, playerId: number, scores: string): Observable<ServerResult> {
+        
+
+        let url = this.configService.getRestApiUrl(RestUrl.competitionService.newCompRoundScore);
+        let reCompId = /:compId/gi;
+        let reRoundNo = /:roundNo/gi;
+        let rePlayerId = /:playerId/gi;
+        url = url.replace(reCompId, String(competitionId));
+        url = url.replace(reRoundNo, String(roundNo));
+        url = url.replace(rePlayerId, String(playerId));
+        let req = new RemoteRequest(url, RequestMethod.Post, ContentType.PLAIN_TEXT, scores);
+        return this.remoteHttp.execute(req)
+                   .map((resp: Response) => {
                        let result: ServerResult = resp.json();
                        return result;
                    }).catch(Util.handleError);

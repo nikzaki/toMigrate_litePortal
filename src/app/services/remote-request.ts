@@ -14,6 +14,8 @@ export class ContentType {
     public static PLAIN_TEXT                    = 'text/plain';
     public static JPEG                          = 'image/jpeg';
     public static PNG                           = 'image/png';
+    public static WILDCARD_IMAGE                = "image/*";
+    public static MULTIPART_FORM                = "multipart/form-data";
 }
 export class RemoteRequest {
     /**
@@ -67,7 +69,12 @@ export class RemoteRequest {
                 // console.debug("non get URL FORM DATA")
                 bodyStr = this.paramString(this.data);
                 headers.set('Content-Type', ContentType.URL_ENCODED_FORM_DATA);
-            }
+            } else if (ContentType.PLAIN_TEXT === this.reqContentType) {
+                bodyStr = this.data; // this.paramString(this.data);
+                //! for file, there is no need to set Content-Type, browser will handle
+                // headers.set("enctype", ContentType.MULTIPART_FORM);
+                // headers.set("Content-Type", ContentType.MULTIPART_FORM);
+            } 
             else {
                 
                 // console.debug("non get NOT URL FORM DATA")
