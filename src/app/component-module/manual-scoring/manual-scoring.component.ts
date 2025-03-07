@@ -158,7 +158,12 @@ export class ManualScoringComponent implements OnInit {
     selectPlayer(flightMember: FlightMember) {
         //get the scorecard for the player
         this.blocked = true;
-        this.scorecardService.getPlayerScorecard(this.competitionId, this.scoringRound, flightMember.playerId)
+        
+        this.scorecardService.newCompetitionScorecards(this.competitionId, this.scoringRound)
+        .subscribe((compScorecardsResult: any)=>{
+            this.compScorecards = compScorecardsResult;
+            
+            this.scorecardService.getPlayerScorecard(this.competitionId, this.scoringRound, flightMember.playerId)
             .subscribe((scorecard: PlainScorecard) => {
                 this.playerScorecard = scorecard;
                 if(this.compScorecards) {
@@ -170,32 +175,12 @@ export class ManualScoringComponent implements OnInit {
                         scorecard.backNineTotal = _playerScore.inTotalGross;
                         scorecard.frontNineTotal = _playerScore.outTotalGross;
                         scorecard.totalScore = _playerScore.totalGross;
-                        scorecard.playerRoundScores[0].scores.forEach((s, sidx)=>{
-                            // if(score.scorecardId === _playerScore.scores.find(score => score.scorecardId))
+                        scorecard.playerRoundScores[0].scores.forEach((s)=>{
                             let _grossScore = _playerScore.scores.find(score => score.scorecardId === s.scorecardId).grossScore;
-                            // if(score.scorecardId === _playerScore.scores.find(score => score.scorecardId === score.scorecardId))
                             s.actualScore = _grossScore;
-                            // score.actualScore = _playerScore.scores[sidx].grossScore;
                         })
                     }
                     
-                    // this.flightStatus.forEach((fs)=>{
-                    //     let _playerScore = 
-                    //     this.compScorecards.playerScorecards.find((ps: PlayerScorecard)=>{
-                    //         return ps.playerRoundId === fs.playerRoundId && ps.updated
-                    //     })
-                    //     if(_playerScore) {
-                    //         fs.grossScore = _playerScore.totalGross;
-                    //         fs.netScore = _playerScore.totalNet;
-                    //         fs.holesPlayed = _playerScore.holesPlayed;
-                    //         fs.scores.forEach((score, sidx)=>{
-                    //             score = _playerScore.scores[sidx].grossScore;
-                    //         })
-                    //     }
-                    // })
-                    // this.playerScorecard.playerRoundScores[0] = this.compScorecards.playerScorecards.find((ps)=>{
-                    //     return ps.playerRoundId === scorecard.playerRoundScores[0].playerRoundId;
-                    // })[0];
                 }
                 this._deriveCourseScores();
                 this.selectedPlayer = flightMember;
@@ -210,7 +195,8 @@ export class ManualScoringComponent implements OnInit {
                 let msg = Util.getErrorMessage(error, "Error getting scorecard for the selected player");
                 this.messageActions.errorGrowl(msg, "Saving manual score error");
                 this.blocked = false;
-            })
+            });
+        });
     }
 
     private _deriveCourseScores() {
