@@ -165,4 +165,21 @@ export class ScorecardService {
                        return result;
                    }).catch(Util.handleError);
     }
+
+    public newCompetitionScorecards(competitionId: number, roundNo: number): Observable<ServerResult> {
+        
+
+        let url = this.configService.getRestApiUrl(RestUrl.competitionService.newPlayerScorecards);
+        let reCompId = /:compId/gi;
+        let reRoundNo = /:roundNo/gi;
+        let rePlayerId = /:playerId/gi;
+        url = url.replace(reCompId, String(competitionId));
+        url = url.replace(reRoundNo, String(roundNo));
+        let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA);
+        return this.remoteHttp.execute(req)
+                   .map((resp: Response) => {
+                       let result: ServerResult = resp.json();
+                       return result;
+                   }).catch(Util.handleError);
+    }
 }

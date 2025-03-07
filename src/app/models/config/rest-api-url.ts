@@ -63,6 +63,7 @@ export const RestUrl: any = {
         newLeaderboard: '/competitions/:compId/leaderboard',
         checkShowLeaderboard: '/competitions/:compId/show-leaderboard',
         newCompRoundScore: '/competitions/:compId/rounds/:roundNo/players/:playerId/update-score',
+        newPlayerScorecards: '/scorecards/competitions/:compId/rounds/:roundNo'
     },
     scorecardService : {
         getPlayerScorecard: '/manualscoring/getscorecard',

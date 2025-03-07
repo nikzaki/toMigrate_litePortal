@@ -9487,6 +9487,18 @@ export interface FacilityClosingTimesRequest {
     timeRanges?: Array<TimeRange>;
 }
 
+export interface CompetitionScorecards {
+    competitionName?: string;
+    scoringFormat?: string;
+    roundId?: number;
+    roundNo?: number;
+    playedOn?: Date;
+    club?: ClubDataLite;
+    organizerId?: number;
+    organizerName?: string;
+    playerScorecards?: PlayerScorecard[];
+}
+
 
 export type AuthFailureType = "InvalidCredentials" | "NotAPlayer" | "NotAClubMember" | "NotAClubUser" | "NotMygolfUser";
 

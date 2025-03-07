@@ -1,4 +1,4 @@
-import { WhichNine } from './../../models/mygolf.data';
+import { CompetitionScorecards, PlayerScorecard, WhichNine } from './../../models/mygolf.data';
 import {Component, OnInit, ViewEncapsulation, ViewChild, ElementRef,
 HostListener} from '@angular/core';
 import {Subject} from 'rxjs/Subject';
@@ -161,6 +161,42 @@ export class ManualScoringComponent implements OnInit {
         this.scorecardService.getPlayerScorecard(this.competitionId, this.scoringRound, flightMember.playerId)
             .subscribe((scorecard: PlainScorecard) => {
                 this.playerScorecard = scorecard;
+                if(this.compScorecards) {
+                    // this.playerScorecard.playerRoundScores[0] = 
+                    let _playerScore = this.compScorecards.playerScorecards.find((ps)=>{
+                        return ps.playerRoundId === scorecard.playerRoundScores[0].playerRoundId
+                    })
+                    if(_playerScore) {
+                        scorecard.backNineTotal = _playerScore.inTotalGross;
+                        scorecard.frontNineTotal = _playerScore.outTotalGross;
+                        scorecard.totalScore = _playerScore.totalGross;
+                        scorecard.playerRoundScores[0].scores.forEach((s, sidx)=>{
+                            // if(score.scorecardId === _playerScore.scores.find(score => score.scorecardId))
+                            let _grossScore = _playerScore.scores.find(score => score.scorecardId === s.scorecardId).grossScore;
+                            // if(score.scorecardId === _playerScore.scores.find(score => score.scorecardId === score.scorecardId))
+                            s.actualScore = _grossScore;
+                            // score.actualScore = _playerScore.scores[sidx].grossScore;
+                        })
+                    }
+                    
+                    // this.flightStatus.forEach((fs)=>{
+                    //     let _playerScore = 
+                    //     this.compScorecards.playerScorecards.find((ps: PlayerScorecard)=>{
+                    //         return ps.playerRoundId === fs.playerRoundId && ps.updated
+                    //     })
+                    //     if(_playerScore) {
+                    //         fs.grossScore = _playerScore.totalGross;
+                    //         fs.netScore = _playerScore.totalNet;
+                    //         fs.holesPlayed = _playerScore.holesPlayed;
+                    //         fs.scores.forEach((score, sidx)=>{
+                    //             score = _playerScore.scores[sidx].grossScore;
+                    //         })
+                    //     }
+                    // })
+                    // this.playerScorecard.playerRoundScores[0] = this.compScorecards.playerScorecards.find((ps)=>{
+                    //     return ps.playerRoundId === scorecard.playerRoundScores[0].playerRoundId;
+                    // })[0];
+                }
                 this._deriveCourseScores();
                 this.selectedPlayer = flightMember;
                 this.blocked = false;
@@ -228,20 +264,19 @@ export class ManualScoringComponent implements OnInit {
     onSaveClick() {
         //first transfer the score to scorecard.
         let prs = this.playerScorecard.playerRoundScores[0];
-        let empty = 0;
-        this.playerScores.forEach(cs=>{
-            for(let i=1; i<=9;i++){
-                if(!cs['hole'+i]) empty++;
-            }
-        });
-        // if(empty > 0){
-        if(empty === 18) {
-            this.messages.push({
-                severity: 'error',
-                detail  : 'Enter all scores before saving.'
-            });
-            return;
-        }
+        // let empty = 0;
+        // this.playerScores.forEach(cs=>{
+        //     for(let i=1; i<=9;i++){
+        //         if(!cs['hole'+i]) empty++;
+        //     }
+        // });
+        // if(empty === 18) {
+        //     this.messages.push({
+        //         severity: 'error',
+        //         detail  : 'Enter all scores before saving.'
+        //     });
+        //     return;
+        // }
         prs.scores.forEach(score => {
             let courseScore   = this.playerScores[score.whichNine - 1];
             let courseHoleNo  = score.holeNumber - ((score.whichNine - 1) * 9);
@@ -411,16 +446,40 @@ export class ManualScoringComponent implements OnInit {
         else if(nine.whichNine === 1) return (9**(nine.whichNine-1))+(holeNo-1) 
     }
 
+    compScorecards: CompetitionScorecards;
     flightStatus: Array<CompetitionFlightStatus>;
     refreshScores() {
         if (this.scoringRound) {
-            this.competitionService.getFlightStatus(this.competitionId, this.scoringRound)
+            this.scorecardService.newCompetitionScorecards(this.competitionId, this.scoringRound)
+            .subscribe((compScorecardsResult: any)=>{
+                this.compScorecards = compScorecardsResult;
+                console.debug("competition scorecards ", this.compScorecards, compScorecardsResult);
+
+                this.competitionService.getFlightStatus(this.competitionId, this.scoringRound)
                 .subscribe((flightStatus: CompetitionFlightStatus[]) => {
                     this.flightStatus = flightStatus;
+                    this.flightStatus.forEach((fs)=>{
+                        let _playerScore = 
+                        this.compScorecards.playerScorecards.find((ps: PlayerScorecard)=>{
+                            return ps.playerRoundId === fs.playerRoundId && ps.updated
+                        })
+                        if(_playerScore) {
+                            fs.grossScore = _playerScore.totalGross;
+                            fs.netScore = _playerScore.totalNet;
+                            fs.holesPlayed = _playerScore.holesPlayed;
+                            fs.scores.forEach((score, sidx)=>{
+                                score = _playerScore.scores[sidx].grossScore;
+                            })
+                        }
+                    })
+
                 }, (error) => {
                     let msg = Util.getErrorMessage(error, "Error getting flight scoring status");
                     this.messageActions.error(msg);
                 });
+            })
+
+         
         }
     }
 
