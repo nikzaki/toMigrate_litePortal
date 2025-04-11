@@ -25,18 +25,12 @@
   >
     <div
       class="ui-md-3"
-      *ngIf="
-        compDetails && compDetails.sponsors && compDetails.sponsors.length > 0
-      "
+      *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length > 0"
     >
       <img
         class="mx-auto d-block img-fluid"
         style="max-width: 24vh; max-height: 48vh"
-        [src]="
-          compDetails && compDetails.sponsors[0]
-            ? compDetails.sponsors[0].sponsor.image
-            : ''
-        "
+        [src]="compDetails && compDetails.sponsors[0] ? compDetails.sponsors[0].sponsor.image : ''"
       />
       <!-- [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:'assets/images/MALGA_logo.png'" -->
       <!-- fxFlex="0 1 12vh" -->
@@ -76,18 +70,12 @@
     <div
       hidden="true"
       class="ui-g-12"
-      *ngIf="
-        compDetails && compDetails.sponsors && compDetails.sponsors.length > 0
-      "
+      *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length > 0"
     >
       <img
         class="mx-auto d-block img-fluid"
         style="max-width: 24vh; max-height: 48vh"
-        [src]="
-          compDetails && compDetails.sponsors[0]
-            ? compDetails.sponsors[0].sponsor.image
-            : ''
-        "
+        [src]="compDetails && compDetails.sponsors[0] ? compDetails.sponsors[0].sponsor.image : ''"
       />
       <!-- [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:'assets/images/MALGA_logo.png'" -->
       <!-- fxFlex="0 1 12vh" -->
@@ -220,12 +208,7 @@ ROUND SELECTION
     fxLayoutGap.lt-md="5px"
     fxLayoutAlign="space-between center"
     fxLayoutAlign.lt-md="start stretch"
-    style="
-      padding: 5px;
-      align-items: flex-start;
-      justify-content: center;
-      flex-wrap: nowrap;
-    "
+    style="padding: 5px; align-items: flex-start; justify-content: center; flex-wrap: nowrap"
   >
     <section
       fxFlex="1 1 auto"
@@ -234,9 +217,7 @@ ROUND SELECTION
       fxLayoutAlign="space-between center"
       fxLayoutAlign.lt-md="start stretch"
     >
-      <md-checkbox fxFlex="0 0 auto" [(ngModel)]="showOtherScores"
-        >Show Other Scores</md-checkbox
-      >
+      <md-checkbox fxFlex="0 0 auto" [(ngModel)]="showOtherScores">Show Other Scores</md-checkbox>
       <md-radio-group
         fxFlex="1 1 auto"
         (change)="onLeaderboardSettingsChange(settings)"
@@ -244,15 +225,9 @@ ROUND SELECTION
       >
         <md-radio-button value="gross">By Gross</md-radio-button>
         <md-radio-button value="net"
-          >By
-          {{
-            isBeforeCompOffset() && isPointBased() ? "Points" : "Net"
-          }}</md-radio-button
+          >By {{ isBeforeCompOffset() && isPointBased() ? 'Points' : 'Net' }}</md-radio-button
         >
-        <md-radio-button
-          [hidden]="isBeforeCompOffset()"
-          *ngIf="isPointBased()"
-          value="points"
+        <md-radio-button [hidden]="isBeforeCompOffset()" *ngIf="isPointBased()" value="points"
           >By Points</md-radio-button
         >
       </md-radio-group>
@@ -270,21 +245,17 @@ ROUND SELECTION
 >
   <div fxFlex="0 1 auto" class="mat-title" (click)="toggleDialog(true)">
     Round :
-    {{ refreshParams.round.roundNo ? refreshParams.round.roundNo : "All" }}
+    {{ refreshParams.round.roundNo ? refreshParams.round.roundNo : 'All' }}
   </div>
-  <div
-    fxFlex="0 1 auto"
-    class="mat-title"
-    *ngIf="refreshParams.category.categoryName"
-  >
+  <div fxFlex="0 1 auto" class="mat-title" *ngIf="refreshParams.category.categoryName">
     Category: {{ refreshParams.category.categoryName }}
   </div>
   <div fxFlex="0 1 auto" class="mat-title">
     By:
     <span style="text-transform: capitalize">
       {{
-        isBeforeCompOffset() && isPointBased() && viewScoreType() === "Net"
-          ? "Points"
+        isBeforeCompOffset() && isPointBased() && viewScoreType() === 'Net'
+          ? 'Points'
           : settings.scoreType
       }}
       <!-- {{viewScoreType()}} -->
@@ -313,8 +284,8 @@ ROUND SELECTION
   class="mat-typography"
 >
   <div fxFlex="0 1 auto" class="mat-title" style="color: red">
-    Leaderboard is disabled by the Organizer. It will be available once the
-    competition is Completed.
+    Leaderboard is disabled by the Organizer. It will be available once the competition is
+    Completed.
     <br />
     Please refresh to update competition status.
   </div>
@@ -328,28 +299,14 @@ ROUND SELECTION
 
 <div [hidden]="!showLeaderBoard" class="row">
   <div class="col" *ngIf="!showWinners">
-    <ng-container
-      class="toyota"
-      *ngFor="let cat of validCategories; let idx = index"
-    >
+    <ng-container class="toyota" *ngFor="let cat of validCategories; let idx = index">
       <button
         pButton
         *ngIf="!hideAllCategory && !hideCatTabs && cat.categoryId <= 0"
-        [style.font-weight]="
-          cat.categoryId === settings.selectedCategory ? 'bold' : 'normal'
-        "
-        [style.border-bottom]="
-          cat.categoryId === settings.selectedCategory ? 'red' : ''
-        "
-        [style.border-style]="
-          cat.categoryId === settings.selectedCategory ? 'solid' : ''
-        "
-        style="
-          background-color: transparent;
-          box-shadow: none;
-          color: black;
-          font-family: 'Toyota';
-        "
+        [style.font-weight]="cat.categoryId === settings.selectedCategory ? 'bold' : 'normal'"
+        [style.border-bottom]="cat.categoryId === settings.selectedCategory ? 'red' : ''"
+        [style.border-style]="cat.categoryId === settings.selectedCategory ? 'solid' : ''"
+        style="background-color: transparent; box-shadow: none; color: black; font-family: 'Toyota'"
         (click)="onClickCategory($event, cat)"
         [label]="cat.categoryName"
       >
@@ -359,21 +316,10 @@ ROUND SELECTION
       <button
         pButton
         *ngIf="!hideCatTabs && cat.categoryId > 0"
-        [style.font-weight]="
-          cat.categoryId === settings.selectedCategory ? 'bold' : 'normal'
-        "
-        [style.border-bottom]="
-          cat.categoryId === settings.selectedCategory ? 'red' : ''
-        "
-        [style.border-style]="
-          cat.categoryId === settings.selectedCategory ? 'solid' : ''
-        "
-        style="
-          background-color: transparent;
-          box-shadow: none;
-          color: black;
-          font-family: 'Toyota';
-        "
+        [style.font-weight]="cat.categoryId === settings.selectedCategory ? 'bold' : 'normal'"
+        [style.border-bottom]="cat.categoryId === settings.selectedCategory ? 'red' : ''"
+        [style.border-style]="cat.categoryId === settings.selectedCategory ? 'solid' : ''"
+        style="background-color: transparent; box-shadow: none; color: black; font-family: 'Toyota'"
         (click)="onClickCategory($event, cat)"
         [label]="cat.categoryName"
       >
@@ -385,12 +331,7 @@ ROUND SELECTION
       <button
         pButton
         (click)="goTeamLeaderboard()"
-        style="
-          background-color: transparent;
-          box-shadow: none;
-          color: black;
-          font-family: 'Toyota';
-        "
+        style="background-color: transparent; box-shadow: none; color: black; font-family: 'Toyota'"
         label="TEAM"
       ></button>
     </ng-container>
@@ -404,12 +345,7 @@ ROUND SELECTION
       [style.font-weight]="showWinners ? 'bold' : 'normal'"
       [style.border-bottom]="showWinners ? 'red' : ''"
       [style.border-style]="showWinners ? 'solid' : ''"
-      style="
-        background-color: transparent;
-        box-shadow: none;
-        color: black;
-        font-family: 'Toyota';
-      "
+      style="background-color: transparent; box-shadow: none; color: black; font-family: 'Toyota'"
     ></button>
     <!-- <button pButton  *ngIf="settings.selectedRound === 0"
             [style.font-weight]="round.roundNo === settings.selectedRound?'bold':'normal'"
@@ -430,24 +366,15 @@ ROUND SELECTION
         pButton
         *ngIf="validRounds && validRounds.length > 1"
         [style.font-weight]="
-          !showWinners && round.roundNo === settings.selectedRound
-            ? 'bold'
-            : 'normal'
+          !showWinners && round.roundNo === settings.selectedRound ? 'bold' : 'normal'
         "
         [style.border-bottom]="
           !showWinners && round.roundNo === settings.selectedRound ? 'red' : ''
         "
         [style.border-style]="
-          !showWinners && round.roundNo === settings.selectedRound
-            ? 'solid'
-            : ''
+          !showWinners && round.roundNo === settings.selectedRound ? 'solid' : ''
         "
-        style="
-          background-color: transparent;
-          box-shadow: none;
-          color: black;
-          font-family: 'Toyota';
-        "
+        style="background-color: transparent; box-shadow: none; color: black; font-family: 'Toyota'"
         (click)="onClickRound($event, round)"
         [label]="
           round.roundNo === 0
@@ -469,11 +396,7 @@ ROUND SELECTION
   *ngIf="!showWinners"
 >
   <section class="fullscreen-header">
-    <div
-      class="fs-div"
-      fxLayout="row nowrap"
-      fxLayoutAlign="space-between center"
-    >
+    <div class="fs-div" fxLayout="row nowrap" fxLayoutAlign="space-between center">
       <div
         fxFlex="1 1 auto"
         fxLayout="row nowrap"
@@ -486,23 +409,15 @@ ROUND SELECTION
           fxFlex="0 0 auto"
           *ngIf="competition"
           style="object-fit: contain"
-          [src]="
-            competition.thumbnail ? competition.thumbnail : competition.imageUrl
-          "
+          [src]="competition.thumbnail ? competition.thumbnail : competition.imageUrl"
           onerror="this.src='assets/images/default_competition.png'"
         />
-        <span
-          class="mat-display-1 comp-name"
-          style="text-align: center"
-          fxFlex="0 0 auto"
-          >{{ competition?.competitionName }}</span
-        >
+        <span class="mat-display-1 comp-name" style="text-align: center" fxFlex="0 0 auto">{{
+          competition?.competitionName
+        }}</span>
         <ng-container *ngIf="competition && !competition.teamEvent">
           <!-- <img class="m2u-logo" fxFlex="0 1 16vw" src="assets/images/mygolf2uLogo.png"> -->
-          <img
-            style="max-width: 6rem; object-fit: contain"
-            src="assets/images/mygolf2uLogo.png"
-          />
+          <img style="max-width: 6rem; object-fit: contain" src="assets/images/mygolf2uLogo.png" />
         </ng-container>
       </div>
       <div
@@ -516,22 +431,15 @@ ROUND SELECTION
         <ng-container>
           <div fxFlex="1 1 22vw" class="mat-title" (click)="toggleDialog(true)">
             <span *ngIf="competition?.totalRounds > 1"
-              >Round :
-              {{
-                refreshParams.round.roundNo
-                  ? refreshParams.round.roundNo
-                  : "All"
-              }}<br
+              >Round : {{ refreshParams.round.roundNo ? refreshParams.round.roundNo : 'All' }}<br
             /></span>
             <span *ngIf="refreshParams.category.categoryName"
               >Category: {{ refreshParams.category.categoryName }}</span
             ><br />
             By:
             <span style="text-transform: capitalize">{{
-              isBeforeCompOffset() &&
-              isPointBased() &&
-              viewScoreType() === "Net"
-                ? "Points"
+              isBeforeCompOffset() && isPointBased() && viewScoreType() === 'Net'
+                ? 'Points'
                 : settings.scoreType
             }}</span>
             <!-- {{viewScoreType() === 'gross'?'Gross':'Net'}}  -->
@@ -546,9 +454,7 @@ ROUND SELECTION
                 </div> -->
       </div>
     </div>
-    <scoring-notifications
-      [notifications]="scoringNotifications | async"
-    ></scoring-notifications>
+    <scoring-notifications [notifications]="scoringNotifications | async"></scoring-notifications>
   </section>
   <!--<div *ngIf="autoScroll && !fullScreen">Showing Page <b>{{currentPage}} of {{totalPages}}</b></div>-->
   <p-dataTable
@@ -581,11 +487,7 @@ ROUND SELECTION
           [hidden]="isColumnHidden('handicap') || isMobileScreen()"
           [style]="{ width: '5%' }"
         ></p-column>
-        <p-column
-          header="Player"
-          rowspan="2"
-          [style]="{ width: '24%' }"
-        ></p-column>
+        <p-column header="Player" rowspan="2" [style]="{ width: '24%' }"></p-column>
         <p-column
           header="Nationality"
           rowspan="2"
@@ -630,9 +532,7 @@ ROUND SELECTION
         </p-column>
         <p-column
           header="OCB"
-          [hidden]="
-            (isColumnHidden('ocb') && isGrossHidden()) || hideOCBColumn('gross')
-          "
+          [hidden]="(isColumnHidden('ocb') && isGrossHidden()) || hideOCBColumn('gross')"
           rowspan="2"
           [style]="{ width: '7%' }"
         ></p-column>
@@ -646,9 +546,7 @@ ROUND SELECTION
         ></p-column>
         <p-column
           header="OCBNet"
-          [hidden]="
-            (isColumnHidden('ocb') && isNetHidden()) || hideOCBColumn('net')
-          "
+          [hidden]="(isColumnHidden('ocb') && isNetHidden()) || hideOCBColumn('net')"
           rowspan="2"
           [style]="{ width: '7%' }"
         ></p-column>
@@ -664,10 +562,7 @@ ROUND SELECTION
                             [style]="{'width':'15%'}">Point</p-column> -->
         <p-column
           header="OCBPoints"
-          [hidden]="
-            (isColumnHidden('ocb') && isPointsHidden()) ||
-            hideOCBColumn('points')
-          "
+          [hidden]="(isColumnHidden('ocb') && isPointsHidden()) || hideOCBColumn('points')"
           rowspan="2"
           [style]="{ width: '7%' }"
         ></p-column>
@@ -713,11 +608,7 @@ ROUND SELECTION
           [hidden]="isGrossHidden() || isAllRoundHidden()"
         >
         </p-column>
-        <p-column
-          header="Total"
-          styleClass="gross-column"
-          [hidden]="isGrossHidden()"
-        ></p-column>
+        <p-column header="Total" styleClass="gross-column" [hidden]="isGrossHidden()"></p-column>
         <p-column
           header="R1"
           styleClass="net-column"
@@ -757,11 +648,7 @@ ROUND SELECTION
           styleClass="net-column"
           [hidden]="isNetHidden() || isAllRoundHidden()"
         ></p-column>
-        <p-column
-          header="Total"
-          styleClass="net-column"
-          [hidden]="isNetHidden()"
-        ></p-column>
+        <p-column header="Total" styleClass="net-column" [hidden]="isNetHidden()"></p-column>
         <p-column
           header="R1"
           styleClass="points-column"
@@ -802,66 +689,35 @@ ROUND SELECTION
           [hidden]="isPointsHidden() || isAllRoundHidden()"
         >
         </p-column>
-        <p-column
-          header="Total"
-          styleClass="points-column"
-          [hidden]="isPointsHidden()"
-        ></p-column>
+        <p-column header="Total" styleClass="points-column" [hidden]="isPointsHidden()"></p-column>
       </p-row>
     </p-headerColumnGroup>
     <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
-    <p-column
-      [hidden]="isColumnHidden('position')"
-      [style]="{ textAlign: 'center' }"
-    >
+    <p-column [hidden]="isColumnHidden('position')" [style]="{ textAlign: 'center' }">
       <ng-template let-col let-player="rowData" pTemplate="body">
         <ng-container *ngIf="settings.selectedRound === 0">
-          <span
-            *ngIf="
-              player.compStatus === 'Registered' &&
-              player.statusName === 'Active'
-            "
-            >{{ player.position }}</span
-          >
-          <span
-            *ngIf="
-              player.compStatus === 'Registered' &&
-              player.statusName === 'Failed Cutoff'
-            "
+          <span *ngIf="player.compStatus === 'Registered' && player.statusName === 'Active'">{{
+            player.position
+          }}</span>
+          <span *ngIf="player.compStatus === 'Registered' && player.statusName === 'Failed Cutoff'"
             >CUT</span
           >
-          <span
-            *ngIf="
-              player.compStatus === 'Registered' &&
-              player.statusName === 'Absent'
-            "
-            >{{ getOtherPlayerStatus(player) }}</span
-          >
+          <span *ngIf="player.compStatus === 'Registered' && player.statusName === 'Absent'">{{
+            getOtherPlayerStatus(player)
+          }}</span>
           <span
             style="color: red"
-            *ngIf="
-              player.compStatus === 'Withdrawn' &&
-              player.statusName === 'Withdrawn'
-            "
+            *ngIf="player.compStatus === 'Withdrawn' && player.statusName === 'Withdrawn'"
             >WD</span
           >
           <span
-            *ngIf="
-              player.compStatus === 'FailedCutoff' &&
-              player.statusName === 'Failed Cutoff'
-            "
+            *ngIf="player.compStatus === 'FailedCutoff' && player.statusName === 'Failed Cutoff'"
             >CUT</span
           >
         </ng-container>
         <ng-container *ngIf="settings.selectedRound > 0">
-          <span *ngIf="player.playerRoundStatus === 'Completed'">{{
-            player.position
-          }}</span>
-          <span
-            style="color: red"
-            *ngIf="player.playerRoundStatus === 'Withdrawn'"
-            >WD</span
-          >
+          <span *ngIf="player.playerRoundStatus === 'Completed'">{{ player.position }}</span>
+          <span style="color: red" *ngIf="player.playerRoundStatus === 'Withdrawn'">WD</span>
           <ng-container
             *ngIf="
               !player.playerRoundStatus ||
@@ -869,13 +725,9 @@ ROUND SELECTION
               player.playerRoundStatus === 'InProgress'
             "
           >
-            <span style="color: red" *ngIf="player.statusName === 'Withdrawn'"
-              >WD</span
-            >
+            <span style="color: red" *ngIf="player.statusName === 'Withdrawn'">WD</span>
             <span *ngIf="player.statusName === 'Failed Cutoff'">CUT</span>
-            <span *ngIf="player.statusName === 'Active'">{{
-              player.position
-            }}</span>
+            <span *ngIf="player.statusName === 'Active'">{{ player.position }}</span>
           </ng-container>
         </ng-container>
         <!-- <div class="position" [class.withdrawn-player]="player.playerRoundStatus==='Withdrawn' || player.position==='W' || getOtherPlayerStatus(player) === 'WD'">
@@ -930,21 +782,14 @@ ROUND SELECTION
           fxLayoutAlign.lt-md="center center"
           fxLayoutGap="3px"
         >
-          <img
-            fxFlex="0 0 40px"
-            fxFlex.lt-md="0 0 40px"
-            [src]="player.flagUrl"
-          />
+          <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="player.flagUrl" />
           <div fxFlex="1 1 auto" fxHide.lt-md="true">
             {{ player.sportCode }}
           </div>
         </div>
       </ng-template>
     </p-column>
-    <p-column
-      header="Team"
-      [hidden]="true || !competition?.teamEvent || isColumnHidden('team')"
-    >
+    <p-column header="Team" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')">
       <ng-template let-player="rowData" pTemplate="body">
         <div
           fxLayout="row nowrap"
@@ -952,11 +797,7 @@ ROUND SELECTION
           fxLayoutAlign.lt-md="center center"
           fxLayoutGap="3px"
         >
-          <img
-            fxFlex="0 0 40px"
-            fxFlex.lt-md="0 0 40px"
-            [src]="player.teamLogo"
-          />
+          <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="player.teamLogo" />
           <div fxFlex="1 1 auto" fxHide.lt-md="true">{{ player.teamName }}</div>
         </div>
       </ng-template>
@@ -975,18 +816,11 @@ ROUND SELECTION
                 <div *ngIf="byNet && !player.modifiedTotalNet" [class.under-par]="getToPar(player)<0">
                     {{getToPar(player)}}
                 </div> -->
-        <div
-          *ngIf="settings.scoreType !== 'net'"
-          [class.under-par]="getToPar(player) < 0"
-        >
+        <div *ngIf="settings.scoreType !== 'net'" [class.under-par]="getToPar(player) < 0">
           {{ getToPar(player) }}
         </div>
         <div
-          *ngIf="
-            settings.scoreType === 'net' &&
-            player.parCap &&
-            player.parCap > getToPar(player)
-          "
+          *ngIf="settings.scoreType === 'net' && player.parCap && player.parCap > getToPar(player)"
         >
           <span class="strike-out" [class.under-par]="getToPar(player) < 0">{{
             getToPar(player)
@@ -995,8 +829,7 @@ ROUND SELECTION
         </div>
         <div
           *ngIf="
-            settings.scoreType === 'net' &&
-            (!player.parCap || player.parCap <= getToPar(player))
+            settings.scoreType === 'net' && (!player.parCap || player.parCap <= getToPar(player))
           "
           [class.under-par]="getToPar(player) < 0"
         >
@@ -1013,11 +846,7 @@ ROUND SELECTION
     </p-column>
     <!-- checkThru(playersToDisplay) -->
     <!-- || isMobileScreen() -->
-    <p-column
-      field="thru"
-      [hidden]="isColumnHidden('thru')"
-      [style]="{ textAlign: 'center' }"
-    >
+    <p-column field="thru" [hidden]="isColumnHidden('thru')" [style]="{ textAlign: 'center' }">
       <ng-template let-car="rowData" let-i="rowIndex" pTemplate="body">
         {{ checkThru(playersToDisplay[i]) }}
       </ng-template>
@@ -1079,9 +908,7 @@ ROUND SELECTION
       styleClass="ocb-data"
       field="grossOcbStat"
       header="OCB"
-      [hidden]="
-        (isColumnHidden('ocb') && isGrossHidden()) || hideOCBColumn('gross')
-      "
+      [hidden]="(isColumnHidden('ocb') && isGrossHidden()) || hideOCBColumn('gross')"
       [style]="{ textAlign: 'center' }"
     ></p-column>
 
@@ -1143,11 +970,9 @@ ROUND SELECTION
             [class.under-par]="getToPar(player) < 0"
             >{{ player.totalNet }}</span
           >
-          <span
-            *ngIf="player.modifiedTotalNet"
-            [class.under-par]="getToPar(player) < 0"
-            >{{ player.modifiedTotalNet }}</span
-          >
+          <span *ngIf="player.modifiedTotalNet" [class.under-par]="getToPar(player) < 0">{{
+            player.modifiedTotalNet
+          }}</span>
         </div>
         <div *ngIf="player.parCap === 0 || player.parCap === null">
           <span>{{ player.totalNet }}</span>
@@ -1158,9 +983,7 @@ ROUND SELECTION
       styleClass="ocb-data"
       field="netOcbStat"
       header="OCB"
-      [hidden]="
-        (isColumnHidden('ocb') && isNetHidden()) || hideOCBColumn('net')
-      "
+      [hidden]="(isColumnHidden('ocb') && isNetHidden()) || hideOCBColumn('net')"
       [style]="{ textAlign: 'center' }"
     ></p-column>
 
@@ -1222,12 +1045,7 @@ ROUND SELECTION
                         <span *ngIf="player.modifiedTotalNet"
                             [class.under-par]="getToPar(player)<0">{{player.modifiedTotalNet}}</span>
                     </div> -->
-        <div
-          *ngIf="
-            player.parCap === 0 || player.parCap === null;
-            else elseTotalPoints
-          "
-        >
+        <div *ngIf="player.parCap === 0 || player.parCap === null; else elseTotalPoints">
           <span>{{ player.totalPoints }}</span>
         </div>
         <ng-template #elseTotalPoints>
@@ -1240,9 +1058,7 @@ ROUND SELECTION
       styleClass="ocb-data"
       field="ocb"
       header="OCB"
-      [hidden]="
-        (isColumnHidden('ocb') && isPointsHidden()) || hideOCBColumn('points')
-      "
+      [hidden]="(isColumnHidden('ocb') && isPointsHidden()) || hideOCBColumn('points')"
       [style]="{ textAlign: 'center' }"
     ></p-column>
     <ng-template let-player pTemplate="rowexpansion">
@@ -1261,6 +1077,9 @@ ROUND SELECTION
         [maxRounds]="competition.totalRounds"
         [settings]="settings"
         [compData]="compData"
+        [scoreType]="settings.scoreType"
+        (settingsChange)="onLeaderboardSettingsChange($event)"
+        [compNonPlayedHoles]="compNonPlayedHoles"
       ></app-individual-expand>
     </ng-template>
   </p-dataTable>
@@ -1298,11 +1117,7 @@ ROUND SELECTION
           [hidden]="isColumnHidden('handicap') || isMobileScreen()"
           [style]="{ width: '5%' }"
         ></p-column>
-        <p-column
-          header="Player"
-          rowspan="2"
-          [style]="{ width: '24%' }"
-        ></p-column>
+        <p-column header="Player" rowspan="2" [style]="{ width: '24%' }"></p-column>
         <p-column
           header="Nationality"
           rowspan="2"
@@ -1347,9 +1162,7 @@ ROUND SELECTION
         </p-column>
         <p-column
           header="OCB"
-          [hidden]="
-            (isColumnHidden('ocb') && isGrossHidden()) || hideOCBColumn('gross')
-          "
+          [hidden]="(isColumnHidden('ocb') && isGrossHidden()) || hideOCBColumn('gross')"
           rowspan="2"
           [style]="{ width: '7%' }"
         ></p-column>
@@ -1362,9 +1175,7 @@ ROUND SELECTION
         ></p-column>
         <p-column
           header="OCB"
-          [hidden]="
-            (isColumnHidden('ocb') && isNetHidden()) || hideOCBColumn('net')
-          "
+          [hidden]="(isColumnHidden('ocb') && isNetHidden()) || hideOCBColumn('net')"
           rowspan="2"
           [style]="{ width: '7%' }"
         ></p-column>
@@ -1377,10 +1188,7 @@ ROUND SELECTION
         ></p-column>
         <p-column
           header="OCB"
-          [hidden]="
-            (isColumnHidden('ocb') && isPointsHidden()) ||
-            hideOCBColumn('points')
-          "
+          [hidden]="(isColumnHidden('ocb') && isPointsHidden()) || hideOCBColumn('points')"
           rowspan="2"
           [style]="{ width: '7%' }"
         ></p-column>
@@ -1426,11 +1234,7 @@ ROUND SELECTION
           [hidden]="isGrossHidden() || isAllRoundHidden()"
         >
         </p-column>
-        <p-column
-          header="Total"
-          styleClass="gross-column"
-          [hidden]="isGrossHidden()"
-        ></p-column>
+        <p-column header="Total" styleClass="gross-column" [hidden]="isGrossHidden()"></p-column>
         <p-column
           header="R1"
           styleClass="net-column"
@@ -1470,11 +1274,7 @@ ROUND SELECTION
           styleClass="net-column"
           [hidden]="isNetHidden() || isAllRoundHidden()"
         ></p-column>
-        <p-column
-          header="Total"
-          styleClass="net-column"
-          [hidden]="isNetHidden()"
-        ></p-column>
+        <p-column header="Total" styleClass="net-column" [hidden]="isNetHidden()"></p-column>
         <p-column
           header="R1"
           styleClass="points-column"
@@ -1515,66 +1315,35 @@ ROUND SELECTION
           [hidden]="isPointsHidden() || isAllRoundHidden()"
         >
         </p-column>
-        <p-column
-          header="Total"
-          styleClass="points-column"
-          [hidden]="isPointsHidden()"
-        ></p-column>
+        <p-column header="Total" styleClass="points-column" [hidden]="isPointsHidden()"></p-column>
       </p-row>
     </p-headerColumnGroup>
     <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
-    <p-column
-      [hidden]="isColumnHidden('position')"
-      [style]="{ textAlign: 'center' }"
-    >
+    <p-column [hidden]="isColumnHidden('position')" [style]="{ textAlign: 'center' }">
       <ng-template let-col let-player="rowData" pTemplate="body">
         <ng-container *ngIf="settings.selectedRound === 0">
-          <span
-            *ngIf="
-              player.compStatus === 'Registered' &&
-              player.statusName === 'Active'
-            "
-            >{{ player.position }}</span
-          >
-          <span
-            *ngIf="
-              player.compStatus === 'Registered' &&
-              player.statusName === 'Failed Cutoff'
-            "
+          <span *ngIf="player.compStatus === 'Registered' && player.statusName === 'Active'">{{
+            player.position
+          }}</span>
+          <span *ngIf="player.compStatus === 'Registered' && player.statusName === 'Failed Cutoff'"
             >CUT</span
           >
-          <span
-            *ngIf="
-              player.compStatus === 'Registered' &&
-              player.statusName === 'Absent'
-            "
-            >{{ getOtherPlayerStatus(player) }}</span
-          >
+          <span *ngIf="player.compStatus === 'Registered' && player.statusName === 'Absent'">{{
+            getOtherPlayerStatus(player)
+          }}</span>
           <span
             style="color: red"
-            *ngIf="
-              player.compStatus === 'Withdrawn' &&
-              player.statusName === 'Withdrawn'
-            "
+            *ngIf="player.compStatus === 'Withdrawn' && player.statusName === 'Withdrawn'"
             >WD</span
           >
           <span
-            *ngIf="
-              player.compStatus === 'FailedCutoff' &&
-              player.statusName === 'Failed Cutoff'
-            "
+            *ngIf="player.compStatus === 'FailedCutoff' && player.statusName === 'Failed Cutoff'"
             >CUT</span
           >
         </ng-container>
         <ng-container *ngIf="settings.selectedRound > 0">
-          <span *ngIf="player.playerRoundStatus === 'Completed'">{{
-            player.position
-          }}</span>
-          <span
-            style="color: red"
-            *ngIf="player.playerRoundStatus === 'Withdrawn'"
-            >WD</span
-          >
+          <span *ngIf="player.playerRoundStatus === 'Completed'">{{ player.position }}</span>
+          <span style="color: red" *ngIf="player.playerRoundStatus === 'Withdrawn'">WD</span>
           <ng-container
             *ngIf="
               !player.playerRoundStatus ||
@@ -1582,13 +1351,9 @@ ROUND SELECTION
               player.playerRoundStatus === 'InProgress'
             "
           >
-            <span style="color: red" *ngIf="player.statusName === 'Withdrawn'"
-              >WD</span
-            >
+            <span style="color: red" *ngIf="player.statusName === 'Withdrawn'">WD</span>
             <span *ngIf="player.statusName === 'Failed Cutoff'">CUT</span>
-            <span *ngIf="player.statusName === 'Active'">{{
-              player.position
-            }}</span>
+            <span *ngIf="player.statusName === 'Active'">{{ player.position }}</span>
           </ng-container>
         </ng-container>
         <!-- <div  class="position"   [class.withdrawn-player]="player.playerRoundStatus === 'Withdrawn' || player.position==='W' || getOtherPlayerStatus(player) === 'WD'">
@@ -1641,21 +1406,14 @@ ROUND SELECTION
           fxLayoutAlign.lt-md="center center"
           fxLayoutGap="3px"
         >
-          <img
-            fxFlex="0 0 40px"
-            fxFlex.lt-md="0 0 40px"
-            [src]="getFlagUrl(player.flagUrl)"
-          />
+          <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="getFlagUrl(player.flagUrl)" />
           <div fxFlex="1 1 auto" fxHide.lt-md="true">
             {{ player.sportCode }}
           </div>
         </div>
       </ng-template>
     </p-column>
-    <p-column
-      header="Team"
-      [hidden]="true || !competition?.teamEvent || isColumnHidden('team')"
-    >
+    <p-column header="Team" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')">
       <ng-template let-player="rowData" pTemplate="body">
         <div
           fxLayout="row nowrap"
@@ -1663,11 +1421,7 @@ ROUND SELECTION
           fxLayoutAlign.lt-md="center center"
           fxLayoutGap="3px"
         >
-          <img
-            fxFlex="0 0 40px"
-            fxFlex.lt-md="0 0 40px"
-            [src]="player.teamLogo"
-          />
+          <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="player.teamLogo" />
           <div fxFlex="1 1 auto" fxHide.lt-md="true">{{ player.teamName }}</div>
         </div>
       </ng-template>
@@ -1678,18 +1432,11 @@ ROUND SELECTION
       [style]="{ textAlign: 'center' }"
     >
       <ng-template let-col let-player="rowData" pTemplate="body">
-        <div
-          *ngIf="settings.scoreType !== 'net'"
-          [class.under-par]="getToPar(player) < 0"
-        >
+        <div *ngIf="settings.scoreType !== 'net'" [class.under-par]="getToPar(player) < 0">
           {{ getToPar(player) }}
         </div>
         <div
-          *ngIf="
-            settings.scoreType === 'net' &&
-            player.parCap &&
-            player.parCap > getToPar(player)
-          "
+          *ngIf="settings.scoreType === 'net' && player.parCap && player.parCap > getToPar(player)"
         >
           <span class="strike-out" [class.under-par]="getToPar(player) < 0">{{
             getToPar(player)
@@ -1698,8 +1445,7 @@ ROUND SELECTION
         </div>
         <div
           *ngIf="
-            settings.scoreType === 'net' &&
-            (!player.parCap || player.parCap <= getToPar(player))
+            settings.scoreType === 'net' && (!player.parCap || player.parCap <= getToPar(player))
           "
           [class.under-par]="getToPar(player) < 0"
         >
@@ -1724,11 +1470,7 @@ ROUND SELECTION
     </p-column>
     <!-- checkThru(playersToDisplay) -->
     <!-- || isMobileScreen() -->
-    <p-column
-      field="thru"
-      [hidden]="isColumnHidden('thru')"
-      [style]="{ textAlign: 'center' }"
-    >
+    <p-column field="thru" [hidden]="isColumnHidden('thru')" [style]="{ textAlign: 'center' }">
       <ng-template let-car="rowData" let-i="rowIndex" pTemplate="body">
         {{ checkThru(playersToDisplay[i]) }}
       </ng-template>
@@ -1790,9 +1532,7 @@ ROUND SELECTION
       styleClass="ocb-data"
       field="grossOcbStat"
       header="OCB"
-      [hidden]="
-        (isColumnHidden('ocb') && isGrossHidden()) || hideOCBColumn('gross')
-      "
+      [hidden]="(isColumnHidden('ocb') && isGrossHidden()) || hideOCBColumn('gross')"
       [style]="{ textAlign: 'center' }"
     ></p-column>
 
@@ -1854,11 +1594,9 @@ ROUND SELECTION
             [class.under-par]="getToPar(player) < 0"
             >{{ player.totalNet }}</span
           >
-          <span
-            *ngIf="player.modifiedTotalNet"
-            [class.under-par]="getToPar(player) < 0"
-            >{{ player.modifiedTotalNet }}</span
-          >
+          <span *ngIf="player.modifiedTotalNet" [class.under-par]="getToPar(player) < 0">{{
+            player.modifiedTotalNet
+          }}</span>
         </div>
         <div *ngIf="player.parCap === 0 || player.parCap === null">
           <span>{{ player.totalNet }}</span>
@@ -1869,9 +1607,7 @@ ROUND SELECTION
       styleClass="ocb-data"
       field="netOcbStat"
       header="OCB"
-      [hidden]="
-        (isColumnHidden('ocb') && isNetHidden()) || hideOCBColumn('net')
-      "
+      [hidden]="(isColumnHidden('ocb') && isNetHidden()) || hideOCBColumn('net')"
       [style]="{ textAlign: 'center' }"
     ></p-column>
 
@@ -1933,12 +1669,7 @@ ROUND SELECTION
                 <span *ngIf="player.modifiedTotalNet"
                     [class.under-par]="getToPar(player)<0">{{player.modifiedTotalNet}}</span>
             </div> -->
-        <div
-          *ngIf="
-            player.parCap === 0 || player.parCap === null;
-            else elseTotalPoints
-          "
-        >
+        <div *ngIf="player.parCap === 0 || player.parCap === null; else elseTotalPoints">
           <span>{{ player.totalPoints }}</span>
         </div>
         <ng-template #elseTotalPoints>
@@ -1950,9 +1681,7 @@ ROUND SELECTION
       styleClass="ocb-data"
       field="ocb"
       header="OCB"
-      [hidden]="
-        (isColumnHidden('ocb') && isPointsHidden()) || hideOCBColumn('points')
-      "
+      [hidden]="(isColumnHidden('ocb') && isPointsHidden()) || hideOCBColumn('points')"
       [style]="{ textAlign: 'center' }"
     ></p-column>
     <ng-template let-player pTemplate="rowexpansion">
@@ -1969,6 +1698,10 @@ ROUND SELECTION
         [competitionId]="competitionId"
         [player]="playerRowExpanded"
         [test]="'test string here'"
+        [settings]="settings"
+        [compData]="compData"
+        [scoreType]="settings.scoreType"
+        [compNonPlayedHoles]="compNonPlayedHoles"
       ></app-individual-expand>
     </ng-template>
   </p-dataTable>
@@ -2167,11 +1900,7 @@ ROUND SELECTION
           [hidden]="isGrossHidden() || isAllRoundHidden()"
         >
         </p-column>
-        <p-column
-          header="Total"
-          styleClass="gross-column"
-          [hidden]="isGrossHidden()"
-        ></p-column>
+        <p-column header="Total" styleClass="gross-column" [hidden]="isGrossHidden()"></p-column>
         <p-column
           header="R1"
           styleClass="net-column"
@@ -2211,25 +1940,15 @@ ROUND SELECTION
           styleClass="net-column"
           [hidden]="isNetHidden() || isAllRoundHidden()"
         ></p-column>
-        <p-column
-          header="Total"
-          styleClass="net-column"
-          [hidden]="isNetHidden()"
-        ></p-column>
+        <p-column header="Total" styleClass="net-column" [hidden]="isNetHidden()"></p-column>
       </p-row>
     </p-headerColumnGroup>
     <p-column expander="true" [hidden]="isExpanderHidden()"></p-column>
-    <p-column
-      [hidden]="isColumnHidden('position')"
-      [style]="{ textAlign: 'center' }"
-    >
+    <p-column [hidden]="isColumnHidden('position')" [style]="{ textAlign: 'center' }">
       <!-- [ngClass]="player.position === 'W' || player.position === 'CUT'?'non-playing-rows':''"  -->
 
       <ng-template let-col let-player="rowData" pTemplate="body">
-        <div
-          class="position"
-          [class.withdrawn-player]="player.playerRoundStatus === 'Withdrawn'"
-        >
+        <div class="position" [class.withdrawn-player]="player.playerRoundStatus === 'Withdrawn'">
           <!-- {{player.position}} -->
 
           <span *ngIf="player.playerRoundStatus === 'Withdrawn'">WD</span>
@@ -2270,15 +1989,12 @@ ROUND SELECTION
           <span
             >{{ player.playerName }}
             <span *ngIf="showPlayerId"> (#{{ player.playerId }}) </span>
-            <span *ngIf="showCompPlayerId">
-              (#{{ player.competitionPlayerId }})
-            </span>
+            <span *ngIf="showCompPlayerId"> (#{{ player.competitionPlayerId }}) </span>
           </span>
           <button
             pButton
             *ngIf="
-              overrideMode &&
-              (!selectedWinner || selectedWinner !== player.competitionPlayerId)
+              overrideMode && (!selectedWinner || selectedWinner !== player.competitionPlayerId)
             "
             (click)="
               selectedWinner = player.competitionPlayerId;
@@ -2300,21 +2016,14 @@ ROUND SELECTION
           fxLayoutAlign.lt-md="center center"
           fxLayoutGap="3px"
         >
-          <img
-            fxFlex="0 0 40px"
-            fxFlex.lt-md="0 0 40px"
-            [src]="getFlagUrl(player.flagUrl)"
-          />
+          <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="getFlagUrl(player.flagUrl)" />
           <div fxFlex="1 1 auto" fxHide.lt-md="true">
             {{ player.sportCode }}
           </div>
         </div>
       </ng-template>
     </p-column>
-    <p-column
-      header="Team"
-      [hidden]="true || !competition?.teamEvent || isColumnHidden('team')"
-    >
+    <p-column header="Team" [hidden]="true || !competition?.teamEvent || isColumnHidden('team')">
       <ng-template let-player="rowData" pTemplate="body">
         <div
           fxLayout="row nowrap"
@@ -2322,11 +2031,7 @@ ROUND SELECTION
           fxLayoutAlign.lt-md="center center"
           fxLayoutGap="3px"
         >
-          <img
-            fxFlex="0 0 40px"
-            fxFlex.lt-md="0 0 40px"
-            [src]="player.teamLogo"
-          />
+          <img fxFlex="0 0 40px" fxFlex.lt-md="0 0 40px" [src]="player.teamLogo" />
           <div fxFlex="1 1 auto" fxHide.lt-md="true">{{ player.teamName }}</div>
         </div>
       </ng-template>
@@ -2379,11 +2084,7 @@ ROUND SELECTION
           PAR
         </div>
         <div
-          *ngIf="
-            settings.scoreType === 'net' &&
-            player.parCap &&
-            player.parCap > getToPar(player)
-          "
+          *ngIf="settings.scoreType === 'net' && player.parCap && player.parCap > getToPar(player)"
         >
           <span class="strike-out" [class.under-par]="getToPar(player) < 0">{{
             getToPar(player)
@@ -2392,8 +2093,7 @@ ROUND SELECTION
         </div>
         <div
           *ngIf="
-            settings.scoreType === 'net' &&
-            (!player.parCap || player.parCap <= getToPar(player))
+            settings.scoreType === 'net' && (!player.parCap || player.parCap <= getToPar(player))
           "
           [class.under-par]="getToPar(player) < 0"
         >
@@ -2417,11 +2117,7 @@ ROUND SELECTION
     </p-column>
     <!-- checkThru(playersToDisplay) -->
     <!-- || isMobileScreen() -->
-    <p-column
-      field="thru"
-      [hidden]="isColumnHidden('thru')"
-      [style]="{ textAlign: 'center' }"
-    >
+    <p-column field="thru" [hidden]="isColumnHidden('thru')" [style]="{ textAlign: 'center' }">
       <ng-template let-car="rowData" let-i="rowIndex" pTemplate="body">
         <!-- {{checkThru(playersToDisplay[i])==='F'?'-':checkThru(playersToDisplay[i])}} -->
         {{ checkThru(playersToDisplay[i]) }}
@@ -2512,18 +2208,10 @@ ROUND SELECTION
       [style]="{ textAlign: 'center' }"
     >
       <ng-template let-col let-player="rowData" pTemplate="body">
-        <div
-          [hidden]="
-            enableToyota && (player.thru !== 'F' || player.thru === '0')
-          "
-        >
+        <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">
           {{ player.outTotalGross }}
         </div>
-        <div
-          *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')"
-        >
-          -
-        </div>
+        <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div>
       </ng-template>
     </p-column>
     <p-column
@@ -2533,18 +2221,10 @@ ROUND SELECTION
       [style]="{ textAlign: 'center' }"
     >
       <ng-template let-col let-player="rowData" pTemplate="body">
-        <div
-          [hidden]="
-            enableToyota && (player.thru !== 'F' || player.thru === '0')
-          "
-        >
+        <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">
           {{ player.inTotalGross }}
         </div>
-        <div
-          *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')"
-        >
-          -
-        </div>
+        <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div>
       </ng-template>
     </p-column>
     <p-column
@@ -2554,18 +2234,10 @@ ROUND SELECTION
       [style]="{ textAlign: 'center' }"
     >
       <ng-template let-col let-player="rowData" pTemplate="body">
-        <div
-          [hidden]="
-            enableToyota && (player.thru !== 'F' || player.thru === '0')
-          "
-        >
+        <div [hidden]="enableToyota && (player.thru !== 'F' || player.thru === '0')">
           {{ player.totalGross }}
         </div>
-        <div
-          *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')"
-        >
-          -
-        </div>
+        <div *ngIf="enableToyota && (player.thru !== 'F' || player.thru === '0')">-</div>
       </ng-template>
     </p-column>
 
@@ -2627,11 +2299,9 @@ ROUND SELECTION
             [class.under-par]="getToPar(player) < 0"
             >{{ player.totalNet }}</span
           >
-          <span
-            *ngIf="player.modifiedTotalNet"
-            [class.under-par]="getToPar(player) < 0"
-            >{{ player.modifiedTotalNet }}</span
-          >
+          <span *ngIf="player.modifiedTotalNet" [class.under-par]="getToPar(player) < 0">{{
+            player.modifiedTotalNet
+          }}</span>
         </div>
         <div *ngIf="player.parCap === 0 || player.parCap === null">
           <span>{{ player.totalNet }}</span>
@@ -2674,6 +2344,10 @@ ROUND SELECTION
         [competitionId]="competitionId"
         [player]="playerRowExpanded"
         [test]="'test string here'"
+        [settings]="settings"
+        [compData]="compData"
+        [scoreType]="settings.scoreType"
+        [compNonPlayedHoles]="compNonPlayedHoles"
       >
       </app-individual-expand>
     </ng-template>
@@ -2689,11 +2363,7 @@ ROUND SELECTION
         style="margin-bottom: 1em"
       >
         <ng-container
-          *ngIf="
-            compDetails &&
-            compDetails.sponsors &&
-            compDetails.sponsors.length > 0
-          "
+          *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length > 0"
         >
           <div *ngFor="let sponsor of compDetails.sponsors; let idx = index">
             <img
@@ -2731,21 +2401,13 @@ ROUND SELECTION
                             fxFlex="0 1 12vh"> -->
         <div class="qr-code">
           Scan for live scoring :
-          <img
-            style="max-height: 5em !important"
-            [src]="url_qrCode"
-            alt=""
-            title=""
-          />
+          <img style="max-height: 5em !important" [src]="url_qrCode" alt="" title="" />
           <!-- fxFlex="0 1 12vh" -->
         </div>
 
         <ng-container *ngIf="competition && competition.teamEvent">
           <!-- <img class="m2u-logo" fxFlex="0 1 12vh" src="assets/images/mygolf2uLogo.png"> -->
-          <img
-            style="max-width: 6rem; object-fit: contain"
-            src="assets/images/mygolf2uLogo.png"
-          />
+          <img style="max-width: 6rem; object-fit: contain" src="assets/images/mygolf2uLogo.png" />
         </ng-container>
       </div>
       <!-- <div fxFlex="0 0 auto" *ngIf="refreshParams" fxLayout="row nowrap" fxLayoutGap="30px"
@@ -2760,11 +2422,7 @@ ROUND SELECTION
         fxFlex="1 1 auto"
         fxLayout="row nowrap"
         fxLayoutGap="10px"
-        style="
-          margin-bottom: 1em;
-          place-content: end !important;
-          align-items: center;
-        "
+        style="margin-bottom: 1em; place-content: end !important; align-items: center"
       >
         <!-- fxLayoutAlign="space-evenly center" -->
         <!-- <img *ngIf="compDetails&&compDetails.sponsors[0]"
@@ -2782,10 +2440,7 @@ ROUND SELECTION
 
         <ng-container>
           <a href="#" (click)="onClickMyGolf2uLink()">
-            <img
-              style="max-height: 5rem !important"
-              src="assets/images/New-myGolf2u.png"
-            />
+            <img style="max-height: 5rem !important" src="assets/images/New-myGolf2u.png" />
             <!-- fxFlex="0 1 12vh" -->
             <!-- class="m2u-logo" -->
             <!-- "assets/images/mygolf2uLogo.png" -->
@@ -2843,9 +2498,7 @@ ROUND SELECTION
 
 <!-- </ng-template> -->
 
-<scoring-notifications
-  [notifications]="scoringNotifications | async"
-></scoring-notifications>
+<scoring-notifications [notifications]="scoringNotifications | async"></scoring-notifications>
 <!-- <p-dialog #prizeVisibility [visible]="prizeDialog" [closable]="true" 
 showHeader="true"
 [contentStyle]="{'overflow':'visible'}" height="600" width="600">
@@ -2870,10 +2523,7 @@ showHeader="true"
     <h3>Select Columns to Hide</h3>
     <div class="ui-g ui-fluid">
       <div class="ui-g-12">
-        <leaderboard-column-visibility
-          #visibilityComp
-          [columnDetails]="leaderboardColumns"
-        >
+        <leaderboard-column-visibility #visibilityComp [columnDetails]="leaderboardColumns">
         </leaderboard-column-visibility>
       </div>
     </div>
@@ -2888,12 +2538,7 @@ showHeader="true"
   </div>
 </p-dialog>
 
-<p-dialog
-  [visible]="display"
-  height="640"
-  width="800"
-  header="Selection Dialog"
->
+<p-dialog [visible]="display" height="640" width="800" header="Selection Dialog">
   <div>Round Selection</div>
 
   <section
@@ -2921,7 +2566,7 @@ showHeader="true"
         <md-select fxFlex="1 1 auto" [(ngModel)]="settings.selectedRound"
           >&nbsp;&nbsp;&nbsp;
           <md-option *ngFor="let round of validRounds" [value]="round.roundNo">
-            {{ round.roundNo ? "Round " + round.roundNo : "All Rounds" }}
+            {{ round.roundNo ? 'Round ' + round.roundNo : 'All Rounds' }}
           </md-option>
         </md-select>
       </ng-container>
@@ -2950,10 +2595,7 @@ showHeader="true"
           [(ngModel)]="settings.selectedCategory"
           name="category"
         >
-          <md-option
-            *ngFor="let catg of validCategories"
-            [value]="catg.categoryId"
-          >
+          <md-option *ngFor="let catg of validCategories" [value]="catg.categoryId">
             {{ catg.categoryName }}
           </md-option>
         </md-select>

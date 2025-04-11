@@ -1,0 +1,22 @@
+[{
+    "compId": 2845,
+    "categories": [{
+            "categoryId": null,
+            "categoryName": "BOYS",
+            "rounds": [{
+                "roundNo": 2,
+                "holes": [1, 2, 3, 4, 5, 6, 7, 8, 9],
+                "hideTotal": ["OUT"]
+            }]
+        },
+        {
+            "categoryId": null,
+            "categoryName": "GIRLS",
+            "rounds": [{
+                "roundNo": 2,
+                "holes": [10, 11, 12, 13, 14, 15, 16, 17, 18],
+                "hideTotal": ["IN"]
+            }]
+        }
+    ]
+}]

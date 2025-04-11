@@ -1,7 +1,7 @@
-import { Session } from "./../../models/session/session";
-import { AuthenticationService } from "./../../services/authentication.service";
-import { PrizeListComponent } from "../../component-module/prize-list/prize-list.component";
-import { ConfigurationService } from "./../../services/configuration.service";
+import { Session } from './../../models/session/session';
+import { AuthenticationService } from './../../services/authentication.service';
+import { PrizeListComponent } from '../../component-module/prize-list/prize-list.component';
+import { ConfigurationService } from './../../services/configuration.service';
 import {
   Component,
   OnInit,
@@ -18,58 +18,57 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
-} from "@angular/core";
-import { Router, ActivatedRoute } from "@angular/router";
-import { Subscription } from "rxjs/Subscription";
-import { DOCUMENT } from "@angular/common";
-import { LeaderBoard } from "../../models/mygolf/competition/leaderboard";
-import { LeaderBoardPlayer } from "../../models/mygolf/competition/leaderboard-player";
-import { Competition } from "../../models/mygolf/competition/competition";
-import { CompetitionDetails } from "../../models/mygolf/competition/competition-details";
-import { CompetitionService } from "../../services/competition.service";
-import { CompetitionGameRound } from "../../models/mygolf/competition/competition-game-round";
+} from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
+import { DOCUMENT } from '@angular/common';
+import { LeaderBoard } from '../../models/mygolf/competition/leaderboard';
+import { LeaderBoardPlayer } from '../../models/mygolf/competition/leaderboard-player';
+import { Competition } from '../../models/mygolf/competition/competition';
+import { CompetitionDetails } from '../../models/mygolf/competition/competition-details';
+import { CompetitionService } from '../../services/competition.service';
+import { CompetitionGameRound } from '../../models/mygolf/competition/competition-game-round';
 import {
   LeaderboardSettingsComponent,
   LeaderboardRefreshParams,
-} from "../../component-module/leaderboard-settings/leaderboard-settings.component";
+} from '../../component-module/leaderboard-settings/leaderboard-settings.component';
 import {
   LeaderboardSettings,
   DefaultLeaderboardSettings,
-} from "../../component-module/leaderboard-settings/leaderboard-settings";
-import { UserPreferenceService } from "../../services/user-preference.service";
+} from '../../component-module/leaderboard-settings/leaderboard-settings';
+import { UserPreferenceService } from '../../services/user-preference.service';
 
-import { Team } from "../../models/mygolf/competition/team";
+import { Team } from '../../models/mygolf/competition/team';
 import {
   ColumnsHidden,
   TableColumnDetails,
-} from "../../component-module/leaderboard-settings/column-visibility";
-import { Observable } from "rxjs/Observable";
-import { ScoringNotification } from "../../models/session/user-notifications";
-import { NotificationService } from "../../redux/notifications/notification-service";
-import { MediaChange, ObservableMedia } from "@angular/flex-layout";
-import { DateAdapter } from "@angular/material";
+} from '../../component-module/leaderboard-settings/column-visibility';
+import { Observable } from 'rxjs/Observable';
+import { ScoringNotification } from '../../models/session/user-notifications';
+import { NotificationService } from '../../redux/notifications/notification-service';
+import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { DateAdapter } from '@angular/material';
 
-import { GameRound } from "../../models/mygolf/gameround";
-import { CompetitionCategory } from "../../models/mygolf/competition/competition-category";
+import { GameRound } from '../../models/mygolf/gameround';
+import { CompetitionCategory } from '../../models/mygolf/competition/competition-category';
 import {
   CompetitionData,
   CompetitionDataLite,
   FlightInfo,
   FlightMember,
-} from "app/models/mygolf.data";
+} from 'app/models/mygolf.data';
 
-import * as moment from "moment";
+import * as moment from 'moment';
+import { Http } from '@angular/http';
 
 @Component({
-  selector: "individual-leaderboard",
-  templateUrl: "./individual-leaderboard.component.html",
-  styleUrls: ["./individual-leaderboard.component.scss"],
+  selector: 'individual-leaderboard',
+  templateUrl: './individual-leaderboard.component.html',
+  styleUrls: ['./individual-leaderboard.component.scss'],
   encapsulation: ViewEncapsulation.None,
   // changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class IndividualLeaderboardComponent
-  implements OnInit, OnChanges, AfterViewInit, OnDestroy
-{
+export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterViewInit, OnDestroy {
   // OnDestroy,
 
   // private _onDestroy = new Subject<void>();
@@ -81,12 +80,10 @@ export class IndividualLeaderboardComponent
   @Input() paused: boolean = false;
   @Input() settings: LeaderboardSettings = DefaultLeaderboardSettings;
   @Input() hiddenColumns: ColumnsHidden = {};
-  @Output() leaderboardSettingsChange: EventEmitter<LeaderboardSettings> =
-    new EventEmitter();
-  @Output() columnsVisibilityChange: EventEmitter<ColumnsHidden> =
-    new EventEmitter();
+  @Output() leaderboardSettingsChange: EventEmitter<LeaderboardSettings> = new EventEmitter();
+  @Output() columnsVisibilityChange: EventEmitter<ColumnsHidden> = new EventEmitter();
   fullScreen: boolean = false;
-  colorSet: string = "amateur";
+  colorSet: string = 'amateur';
   showByCategory: boolean = false;
   competition: Competition;
   compDetails: CompetitionDetails;
@@ -116,17 +113,17 @@ export class IndividualLeaderboardComponent
   private paramSubscription: Subscription;
   refreshParams: LeaderboardRefreshParams;
   private watcher: Subscription;
-  activeMediaQuery = "";
+  activeMediaQuery = '';
   mobileScreen: boolean;
   mqAlias: string;
   private currentScrollTop: number;
   scoringNotifications: Observable<ScoringNotification[]>;
   leaderboardColumns: TableColumnDetails[];
-  @ViewChild("settingsComp") leaderBoardSettings: LeaderboardSettingsComponent;
+  @ViewChild('settingsComp') leaderBoardSettings: LeaderboardSettingsComponent;
 
   visibilityDialog: boolean;
-  @ViewChild("leaderboardSection") leaderboardSection: ElementRef;
-  @ViewChild("prizeLists") prizeList: PrizeListComponent;
+  @ViewChild('leaderboardSection') leaderboardSection: ElementRef;
+  @ViewChild('prizeLists') prizeList: PrizeListComponent;
 
   hideLogo: boolean = false;
   hideCompName: boolean = false;
@@ -155,7 +152,8 @@ export class IndividualLeaderboardComponent
     @Inject(DOCUMENT) private document: Document,
     private media: ObservableMedia,
     private cdr: ChangeDetectorRef,
-    private configService: ConfigurationService
+    private configService: ConfigurationService,
+    private http: Http
   ) {
     // router.events.pipe(takeUntil(this._onDestroy)).subscribe(event => {
     //     // do stuff here
@@ -164,11 +162,9 @@ export class IndividualLeaderboardComponent
 
     this.settings = DefaultLeaderboardSettings;
     this.watcher = media.subscribe((change: MediaChange) => {
-      this.activeMediaQuery = change
-        ? `'${change.mqAlias}' = (${change.mediaQuery})`
-        : "";
-      this.mqAlias = change ? change.mqAlias : "";
-      if (change && (change.mqAlias === "xs" || change.mqAlias === "sm")) {
+      this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : '';
+      this.mqAlias = change ? change.mqAlias : '';
+      if (change && (change.mqAlias === 'xs' || change.mqAlias === 'sm')) {
         this.mobileScreen = true;
       } else {
         this.mobileScreen = false;
@@ -178,46 +174,45 @@ export class IndividualLeaderboardComponent
       .scoringNotifications()
       .map((notfs: ScoringNotification[]) => {
         if (this.competitionId)
-          return notfs.filter(
-            (notf) => notf["competitionId"] === this.competitionId
-          );
+          return notfs.filter(notf => notf['competitionId'] === this.competitionId);
         else return notfs;
       });
     this.leaderboardColumns = [
       {
-        id: "handicap",
-        name: "Handicap",
+        id: 'handicap',
+        name: 'Handicap',
       },
       {
-        id: "on",
-        name: "On",
+        id: 'on',
+        name: 'On',
         hidden: true,
       },
       {
-        id: "thru",
-        name: "Thru",
+        id: 'thru',
+        name: 'Thru',
       },
       {
-        id: "ocb",
-        name: "OCB",
+        id: 'ocb',
+        name: 'OCB',
         hidden: true,
       },
       {
-        id: "team",
-        name: "Team",
+        id: 'team',
+        name: 'Team',
         hidden: true,
       },
       {
-        id: "nationality",
-        name: "Nationality",
+        id: 'nationality',
+        name: 'Nationality',
         hidden: true,
       },
     ];
 
     if (this.configService.getConfig().oldCompetitionOffsetDate)
-      this.offsetCompDate =
-        this.configService.getConfig().oldCompetitionOffsetDate;
+      this.offsetCompDate = this.configService.getConfig().oldCompetitionOffsetDate;
   }
+
+  compNonPlayedHoles: Array<any> = [];
 
   offsetCompDate: string;
 
@@ -226,13 +221,13 @@ export class IndividualLeaderboardComponent
     if (!this.embedded) {
       this.restorePreferences();
     }
-    this.activeRoute.queryParams.subscribe((params) => {
-      if (params["maxSponsorDisplay"] && params["maxSponsorDisplay"] > 0)
-        this.maxSponsorDisplay = params["maxSponsorDisplay"];
-      else if (params["maxSponsorDisplay"] && params["maxSponsorDisplay"] === 0)
-        this.maxSponsorDisplay = params["maxSponsorDisplay"];
+    this.activeRoute.queryParams.subscribe(params => {
+      if (params['maxSponsorDisplay'] && params['maxSponsorDisplay'] > 0)
+        this.maxSponsorDisplay = params['maxSponsorDisplay'];
+      else if (params['maxSponsorDisplay'] && params['maxSponsorDisplay'] === 0)
+        this.maxSponsorDisplay = params['maxSponsorDisplay'];
       else this.maxSponsorDisplay = 3;
-      if (params["enableToyota"] && params["enableToyota"] === "true") {
+      if (params['enableToyota'] && params['enableToyota'] === 'true') {
         this.enableToyota = true;
         this.hideLogo = true;
         this.hideCompName = true;
@@ -242,77 +237,63 @@ export class IndividualLeaderboardComponent
         this.hideCatTabs = false;
         this.hidePlayerImage = true;
         this.hideAllCategory = true;
-        this.leaderboardColumns.forEach((det) => {
-          if (det.id === "handicap") det.hidden = true;
+        this.leaderboardColumns.forEach(det => {
+          if (det.id === 'handicap') det.hidden = true;
           // if(det.id === 'thru')
           //     det.hidden = true;
           // if(det.id === 'on')
           //     det.hidden = false;
         });
         if (
-          params["overrideWinner"] &&
-          params["overrideWinner"] === "true" &&
-          params["secretCode"] &&
-          params["secretCode"] === "xsoftbritex"
+          params['overrideWinner'] &&
+          params['overrideWinner'] === 'true' &&
+          params['secretCode'] &&
+          params['secretCode'] === 'xsoftbritex'
         )
           this.overrideWinner = true;
         // if(this.validCategories && this.validCategories.length > 0)
         //     this.settings.selectedCategory = this.validCategories[0].categoryId;
       }
-      if (params["showPoints"] && params["showPoints"] === "true") {
-        this.settings["hideNetColumns"] = false;
+      if (params['showPoints'] && params['showPoints'] === 'true') {
+        this.settings['hideNetColumns'] = false;
       }
-      if (params["hideGross"] && params["hideGross"] === "true") {
-        this.settings["hideGrossColumns"] = true;
+      if (params['hideGross'] && params['hideGross'] === 'true') {
+        this.settings['hideGrossColumns'] = true;
       }
-      if (params["showPlayerId"] && params["showPlayerId"] === "true") {
+      if (params['showPlayerId'] && params['showPlayerId'] === 'true') {
         this.showPlayerId = true;
-      } else if (params["showPlayerId"] && params["showPlayerId"] === "false")
+      } else if (params['showPlayerId'] && params['showPlayerId'] === 'false')
         this.showPlayerId = false;
-      if (params["showCompPlayerId"] && params["showCompPlayerId"] === "true") {
+      if (params['showCompPlayerId'] && params['showCompPlayerId'] === 'true') {
         this.showCompPlayerId = true;
-      } else if (
-        params["showCompPlayerId"] &&
-        params["showCompPlayerId"] === "false"
-      )
+      } else if (params['showCompPlayerId'] && params['showCompPlayerId'] === 'false')
         this.showCompPlayerId = false;
-      if (params["hideLogo"] && params["hideLogo"] === "true")
-        this.hideLogo = true;
-      else if (params["hideLogo"] && params["hideLogo"] === "false")
-        this.hideLogo = false;
-      if (params["hideCompName"] && params["hideCompName"] === "true")
-        this.hideCompName = true;
-      else if (params["hideCompName"] && params["hideCompName"] === "false")
+      if (params['hideLogo'] && params['hideLogo'] === 'true') this.hideLogo = true;
+      else if (params['hideLogo'] && params['hideLogo'] === 'false') this.hideLogo = false;
+      if (params['hideCompName'] && params['hideCompName'] === 'true') this.hideCompName = true;
+      else if (params['hideCompName'] && params['hideCompName'] === 'false')
         this.hideCompName = false;
-      if (params["hideCompHeader"] && params["hideCompHeader"] === "true")
+      if (params['hideCompHeader'] && params['hideCompHeader'] === 'true')
         this.hideCompHeader = true;
-      else if (params["hideCompHeader"] && params["hideCompHeader"] === "false")
+      else if (params['hideCompHeader'] && params['hideCompHeader'] === 'false')
         this.hideCompHeader = false;
-      if (params["hideTopBar"] && params["hideTopBar"] === "true")
-        this.hideTopBar = true;
-      else if (params["hideTopBar"] && params["hideTopBar"] === "false")
-        this.hideTopBar = false;
-      if (params["hidePlayerImage"] && params["hidePlayerImage"] === "true")
+      if (params['hideTopBar'] && params['hideTopBar'] === 'true') this.hideTopBar = true;
+      else if (params['hideTopBar'] && params['hideTopBar'] === 'false') this.hideTopBar = false;
+      if (params['hidePlayerImage'] && params['hidePlayerImage'] === 'true')
         this.hidePlayerImage = true;
-      else if (
-        params["hidePlayerImage"] &&
-        params["hidePlayerImage"] === "false"
-      )
+      else if (params['hidePlayerImage'] && params['hidePlayerImage'] === 'false')
         this.hidePlayerImage = false;
-      if (params["hideAllCategory"] && params["hideAllCategory"] === "true")
+      if (params['hideAllCategory'] && params['hideAllCategory'] === 'true')
         this.hideAllCategory = true;
-      else if (
-        params["hideAllCategory"] &&
-        params["hideAllCategory"] === "false"
-      )
+      else if (params['hideAllCategory'] && params['hideAllCategory'] === 'false')
         this.hideAllCategory = false;
 
-      console.debug("init ", params);
-      if (params["categoryId"]) {
+      console.debug('init ', params);
+      if (params['categoryId']) {
         // this.filteredCategoryId = params['categoryId'];
-        this.settings["byCategory"] = true;
-        this.settings["selectedCategory"] = Number(params["categoryId"]);
-        console.debug("has category ", params["categoryId"], this.settings);
+        this.settings['byCategory'] = true;
+        this.settings['selectedCategory'] = Number(params['categoryId']);
+        console.debug('has category ', params['categoryId'], this.settings);
         this.savePreferences();
       }
 
@@ -356,15 +337,14 @@ export class IndividualLeaderboardComponent
   // }
 
   ngAfterViewInit(): void {
-    this.paramSubscription = this.activeRoute.params.subscribe((params) => {
-      if (params["competitionId"])
-        this.competitionId = +params["competitionId"];
+    this.paramSubscription = this.activeRoute.params.subscribe(params => {
+      if (params['competitionId']) this.competitionId = +params['competitionId'];
 
-      if (params["categoryId"]) {
+      if (params['categoryId']) {
         // this.filteredCategoryId = params['categoryId'];
-        this.settings["byCategory"] = true;
-        this.settings["selectedCategory"] = Number(params["categoryId"]);
-        console.debug("has category ", this.filteredCategoryId, this.settings);
+        this.settings['byCategory'] = true;
+        this.settings['selectedCategory'] = Number(params['categoryId']);
+        console.debug('has category ', this.filteredCategoryId, this.settings);
         this.savePreferences();
       }
       this.refreshCompInfo();
@@ -388,7 +368,7 @@ export class IndividualLeaderboardComponent
     // this.columnsVisibilityChange.emit(this.hiddenColumns);
   }
   isMobileScreen() {
-    return this.media.isActive("xs");
+    return this.media.isActive('xs');
     // || this.media.isActive('sm')
   }
   enterFullScreen() {
@@ -404,8 +384,8 @@ export class IndividualLeaderboardComponent
     }
   }
   onLeaderboardSettingsChange(settings: LeaderboardSettings) {
-    console.log("This.settings :", this.settings);
-    console.log("Settings : ", settings);
+    console.log('This.settings :', this.settings);
+    console.log('Settings : ', settings);
     // console.log('Embedded? : ', this.embedded)
     // this.settings = settings;
     if (this.embedded) {
@@ -428,16 +408,13 @@ export class IndividualLeaderboardComponent
     //     return (ptd.position !== 'W' && ptd.position !== 'CUT')
     // })
     let notPlay: number = 0;
-    this.playersToDisplay = this.leaderBoard.players.slice(
-      data.startIndex,
-      data.endIndex
-    );
-    console.log("Total players : ", this.totalPlayers);
+    this.playersToDisplay = this.leaderBoard.players.slice(data.startIndex, data.endIndex);
+    console.log('Total players : ', this.totalPlayers);
     this.playersToDisplay.sort((a, b) => {
       // console.debug("sorting - round: ",this.compDetails.roundInProgress, a,b)
 
-      let _thruTimeA = moment(this.checkThru(a), "HH:mm:ss");
-      let _thruTimeB = moment(this.checkThru(b), "HH:mm:ss");
+      let _thruTimeA = moment(this.checkThru(a), 'HH:mm:ss');
+      let _thruTimeB = moment(this.checkThru(b), 'HH:mm:ss');
       // console.debug("sorting : ",_thruTimeA,_thruTimeA.isValid(), _thruTimeB,_thruTimeB.isValid())
       // if(Number(a.position) < Number(b.position)) return -1;
       // else if(Number(a.position) > Number(b.position)) return 1;
@@ -448,10 +425,7 @@ export class IndividualLeaderboardComponent
       if (this.compDetails.roundInProgress) {
         if (!a.position && Number(b.position)) return 1;
         else if (Number(a.position) && !b.position) return -1;
-        else if (
-          a.playerRoundStatus === "FailedCutoff" &&
-          b.playerRoundStatus === "Withdrawn"
-        ) {
+        else if (a.playerRoundStatus === 'FailedCutoff' && b.playerRoundStatus === 'Withdrawn') {
           // if(a.position === 'CUT' && b.position === 'W') {
           if (a.round4Gross === 0 && b.round4Gross > 0) return 1;
           else if (a.round4Gross > 0 && b.round4Gross === 0) return -1;
@@ -462,32 +436,16 @@ export class IndividualLeaderboardComponent
             else {
               if (a.round2Gross === 0 && b.round2Gross > 0) return 1;
               else if (a.round2Gross > 0 && b.round2Gross === 0) return -1;
-              else if (
-                a.round2Gross > 0 &&
-                b.round2Gross > 0 &&
-                a.round2Gross > b.round2Gross
-              )
+              else if (a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross > b.round2Gross)
                 return 1;
-              else if (
-                a.round2Gross > 0 &&
-                b.round2Gross > 0 &&
-                a.round2Gross < b.round2Gross
-              )
+              else if (a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross < b.round2Gross)
                 return -1;
               else {
                 if (a.round1Gross === 0 && b.round1Gross > 0) return 1;
                 else if (a.round1Gross > 0 && b.round1Gross === 0) return -1;
-                else if (
-                  a.round1Gross > 0 &&
-                  b.round1Gross > 0 &&
-                  a.round1Gross > b.round1Gross
-                )
+                else if (a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross > b.round1Gross)
                   return 1;
-                else if (
-                  a.round1Gross > 0 &&
-                  b.round1Gross > 0 &&
-                  a.round1Gross < b.round1Gross
-                )
+                else if (a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross < b.round1Gross)
                   return -1;
                 // else if(a.round1Gross < b.round1Gross) return -1
                 else {
@@ -496,10 +454,7 @@ export class IndividualLeaderboardComponent
               }
             }
           }
-        } else if (
-          a.playerRoundStatus === "Withdrawn" &&
-          b.playerRoundStatus === "FailedCutoff"
-        ) {
+        } else if (a.playerRoundStatus === 'Withdrawn' && b.playerRoundStatus === 'FailedCutoff') {
           // else if(a.position === 'W' && b.position === 'CUT') {
 
           if (a.round4Gross === 0 && b.round4Gross > 0) return 1;
@@ -510,32 +465,16 @@ export class IndividualLeaderboardComponent
             else {
               if (a.round2Gross === 0 && b.round2Gross > 0) return 1;
               else if (a.round2Gross > 0 && b.round2Gross === 0) return -1;
-              else if (
-                a.round2Gross > 0 &&
-                b.round2Gross > 0 &&
-                a.round2Gross > b.round2Gross
-              )
+              else if (a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross > b.round2Gross)
                 return 1;
-              else if (
-                a.round2Gross > 0 &&
-                b.round2Gross > 0 &&
-                a.round2Gross < b.round2Gross
-              )
+              else if (a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross < b.round2Gross)
                 return -1;
               else {
                 if (a.round1Gross === 0 && b.round1Gross > 0) return 1;
                 else if (a.round1Gross > 0 && b.round1Gross === 0) return -1;
-                else if (
-                  a.round1Gross > 0 &&
-                  b.round1Gross > 0 &&
-                  a.round1Gross > b.round1Gross
-                )
+                else if (a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross > b.round1Gross)
                   return 1;
-                else if (
-                  a.round1Gross > 0 &&
-                  b.round1Gross > 0 &&
-                  a.round1Gross < b.round1Gross
-                )
+                else if (a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross < b.round1Gross)
                   return -1;
                 else {
                   return 0;
@@ -543,10 +482,7 @@ export class IndividualLeaderboardComponent
               }
             }
           }
-        } else if (
-          a.playerRoundStatus === "Withdrawn" &&
-          b.playerRoundStatus === "Withdrawn"
-        ) {
+        } else if (a.playerRoundStatus === 'Withdrawn' && b.playerRoundStatus === 'Withdrawn') {
           // else if(a.position === 'W' && b.position === 'W'){
 
           if (a.round4Gross === 0 && b.round4Gross > 0) return 1;
@@ -557,32 +493,16 @@ export class IndividualLeaderboardComponent
             else {
               if (a.round2Gross === 0 && b.round2Gross > 0) return 1;
               else if (a.round2Gross > 0 && b.round2Gross === 0) return -1;
-              else if (
-                a.round2Gross > 0 &&
-                b.round2Gross > 0 &&
-                a.round2Gross > b.round2Gross
-              )
+              else if (a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross > b.round2Gross)
                 return 1;
-              else if (
-                a.round2Gross > 0 &&
-                b.round2Gross > 0 &&
-                a.round2Gross < b.round2Gross
-              )
+              else if (a.round2Gross > 0 && b.round2Gross > 0 && a.round2Gross < b.round2Gross)
                 return -1;
               else {
                 if (a.round1Gross === 0 && b.round1Gross > 0) return 1;
                 else if (a.round1Gross > 0 && b.round1Gross === 0) return -1;
-                else if (
-                  a.round1Gross > 0 &&
-                  b.round1Gross > 0 &&
-                  a.round1Gross > b.round1Gross
-                )
+                else if (a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross > b.round1Gross)
                   return 1;
-                else if (
-                  a.round1Gross > 0 &&
-                  b.round1Gross > 0 &&
-                  a.round1Gross < b.round1Gross
-                )
+                else if (a.round1Gross > 0 && b.round1Gross > 0 && a.round1Gross < b.round1Gross)
                   return -1;
                 else {
                   return 0;
@@ -592,24 +512,15 @@ export class IndividualLeaderboardComponent
           }
         } else if (
           /** NEW */
-          a.playerRoundStatus === "Withdrawn" &&
-          b.playerRoundStatus !== "Withdrawn"
+          a.playerRoundStatus === 'Withdrawn' &&
+          b.playerRoundStatus !== 'Withdrawn'
         )
           return 1;
-        else if (
-          a.playerRoundStatus !== "Withdrawn" &&
-          b.playerRoundStatus === "Withdrawn"
-        )
+        else if (a.playerRoundStatus !== 'Withdrawn' && b.playerRoundStatus === 'Withdrawn')
           return -1;
-        else if (
-          a.playerRoundStatus === "FailedCutoff" &&
-          b.playerRoundStatus !== "FailedCutoff"
-        )
+        else if (a.playerRoundStatus === 'FailedCutoff' && b.playerRoundStatus !== 'FailedCutoff')
           return 1;
-        else if (
-          a.playerRoundStatus !== "FailedCutoff" &&
-          b.playerRoundStatus === "FailedCutoff"
-        )
+        else if (a.playerRoundStatus !== 'FailedCutoff' && b.playerRoundStatus === 'FailedCutoff')
           return -1;
         else if (!a.playerRoundStatus && b.playerRoundStatus) return 1;
         else if (a.playerRoundStatus && !b.playerRoundStatus) return -1;
@@ -633,35 +544,29 @@ export class IndividualLeaderboardComponent
               } else if (!_thruTimeA.isValid() && _thruTimeB.isValid()) {
                 return -1;
               } else if (_thruTimeA.isValid() && _thruTimeB.isValid()) {
-                if (_thruTimeA.isAfter(_thruTimeB, "m")) return 1;
-                else if (_thruTimeA.isBefore(_thruTimeB, "m")) return -1;
+                if (_thruTimeA.isAfter(_thruTimeB, 'm')) return 1;
+                else if (_thruTimeA.isBefore(_thruTimeB, 'm')) return -1;
                 else {
                   if (1) return 0;
                   // if(!isNaN(Number(a.position)) && isNaN(Number(b.position))) return -1
                   // else if(isNaN(Number(a.position)) && !isNaN(Number(b.position))) return 1;
                   else {
                     if (
-                      a.playerRoundStatus === "FailedCutoff" &&
-                      b.playerRoundStatus === "Withdrawn"
+                      a.playerRoundStatus === 'FailedCutoff' &&
+                      b.playerRoundStatus === 'Withdrawn'
                     ) {
                       // if(a.position === 'CUT' && b.position === 'W') {
                       if (a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                      else if (a.round4Gross > 0 && b.round4Gross === 0)
-                        return -1;
+                      else if (a.round4Gross > 0 && b.round4Gross === 0) return -1;
                       else {
                         if (a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                        else if (a.round3Gross > 0 && b.round3Gross === 0)
-                          return -1;
+                        else if (a.round3Gross > 0 && b.round3Gross === 0) return -1;
                         else {
-                          if (a.round2Gross === 0 && b.round2Gross > 0)
-                            return 1;
-                          else if (a.round2Gross > 0 && b.round2Gross === 0)
-                            return -1;
+                          if (a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                          else if (a.round2Gross > 0 && b.round2Gross === 0) return -1;
                           else {
-                            if (a.round1Gross === 0 && b.round1Gross > 0)
-                              return 1;
-                            else if (a.round1Gross > 0 && b.round1Gross === 0)
-                              return -1;
+                            if (a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                            else if (a.round1Gross > 0 && b.round1Gross === 0) return -1;
                             else {
                               return 0;
                             }
@@ -669,28 +574,22 @@ export class IndividualLeaderboardComponent
                         }
                       }
                     } else if (
-                      a.playerRoundStatus === "Withdrawn" &&
-                      b.playerRoundStatus === "FailedCutoff"
+                      a.playerRoundStatus === 'Withdrawn' &&
+                      b.playerRoundStatus === 'FailedCutoff'
                     ) {
                       // else if(a.position === 'W' && b.position === 'CUT') {
 
                       if (a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                      else if (a.round4Gross > 0 && b.round4Gross === 0)
-                        return -1;
+                      else if (a.round4Gross > 0 && b.round4Gross === 0) return -1;
                       else {
                         if (a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                        else if (a.round3Gross > 0 && b.round3Gross === 0)
-                          return -1;
+                        else if (a.round3Gross > 0 && b.round3Gross === 0) return -1;
                         else {
-                          if (a.round2Gross === 0 && b.round2Gross > 0)
-                            return 1;
-                          else if (a.round2Gross > 0 && b.round2Gross === 0)
-                            return -1;
+                          if (a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                          else if (a.round2Gross > 0 && b.round2Gross === 0) return -1;
                           else {
-                            if (a.round1Gross === 0 && b.round1Gross > 0)
-                              return 1;
-                            else if (a.round1Gross > 0 && b.round1Gross === 0)
-                              return -1;
+                            if (a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                            else if (a.round1Gross > 0 && b.round1Gross === 0) return -1;
                             else {
                               return 0;
                             }
@@ -698,28 +597,22 @@ export class IndividualLeaderboardComponent
                         }
                       }
                     } else if (
-                      a.playerRoundStatus === "Withdrawn" &&
-                      b.playerRoundStatus === "Withdrawn"
+                      a.playerRoundStatus === 'Withdrawn' &&
+                      b.playerRoundStatus === 'Withdrawn'
                     ) {
                       // else if(a.position === 'W' && b.position === 'W'){
 
                       if (a.round4Gross === 0 && b.round4Gross > 0) return 1;
-                      else if (a.round4Gross > 0 && b.round4Gross === 0)
-                        return -1;
+                      else if (a.round4Gross > 0 && b.round4Gross === 0) return -1;
                       else {
                         if (a.round3Gross === 0 && b.round3Gross > 0) return 1;
-                        else if (a.round3Gross > 0 && b.round3Gross === 0)
-                          return -1;
+                        else if (a.round3Gross > 0 && b.round3Gross === 0) return -1;
                         else {
-                          if (a.round2Gross === 0 && b.round2Gross > 0)
-                            return 1;
-                          else if (a.round2Gross > 0 && b.round2Gross === 0)
-                            return -1;
+                          if (a.round2Gross === 0 && b.round2Gross > 0) return 1;
+                          else if (a.round2Gross > 0 && b.round2Gross === 0) return -1;
                           else {
-                            if (a.round1Gross === 0 && b.round1Gross > 0)
-                              return 1;
-                            else if (a.round1Gross > 0 && b.round1Gross === 0)
-                              return -1;
+                            if (a.round1Gross === 0 && b.round1Gross > 0) return 1;
+                            else if (a.round1Gross > 0 && b.round1Gross === 0) return -1;
                             else {
                               return 0;
                             }
@@ -739,11 +632,11 @@ export class IndividualLeaderboardComponent
       }
     });
 
-    this.playersToDisplay.forEach((ptd) => {
+    this.playersToDisplay.forEach(ptd => {
       if (
-        ptd.position === "W" ||
-        ptd.position === "CUT" ||
-        ptd.position === "N"
+        ptd.position === 'W' ||
+        ptd.position === 'CUT' ||
+        ptd.position === 'N'
         // || ( ptd.round1Gross >= 144)
         //  || ptd.round2Gross >= 180 || ptd.round3Gross >= 180 || ptd.round4Gross >= 180 )
       ) {
@@ -797,22 +690,16 @@ export class IndividualLeaderboardComponent
           this.totalRounds = comp.totalRounds;
           // if(comp.status.toLowerCase() === 'completed') this.settings.autoScroll = false;
           if (comp.teamEvent) {
-            this.competitionService
-              .getCompetitionTeams(this.competitionId)
-              .subscribe((compTeams) => {
-                this.teams = compTeams.competitionTeams;
-                this.derivePlayerTeams();
-              });
+            this.competitionService.getCompetitionTeams(this.competitionId).subscribe(compTeams => {
+              this.teams = compTeams.competitionTeams;
+              this.derivePlayerTeams();
+            });
           }
-          this.url_qrCode =
-            "https://api.qrserver.com/v1/create-qr-code/?data=" + _portalPath;
+          this.url_qrCode = 'https://api.qrserver.com/v1/create-qr-code/?data=' + _portalPath;
           if (this.competition && this.competition.teamEvent)
-            this.url_qrCode += "/teamleaderboard/" + this.competitionId;
-          else this.url_qrCode += "/leaderboard/" + this.competitionId;
-          console.debug(
-            "comp is before : ",
-            this.isBeforeCompOffset(this.competition.startDate)
-          );
+            this.url_qrCode += '/teamleaderboard/' + this.competitionId;
+          else this.url_qrCode += '/leaderboard/' + this.competitionId;
+          console.debug('comp is before : ', this.isBeforeCompOffset(this.competition.startDate));
         });
       let sub2 = this.competitionService
         .getCompetitionDetails(this.competitionId)
@@ -835,8 +722,37 @@ export class IndividualLeaderboardComponent
           this.compData = compData;
           // console.log("Comp Sponsor : ", this.compDetails);
         });
-      this.addToBusyList([sub1, sub2, sub3]);
+      let sub4 = this.competitionService.getCompNonPlayedHoles().subscribe(data => {
+        console.table('get comp non played holes', data);
+        console.debug('get comp non played holes : ', data);
+        // if (data) this.compNonPlayedHoles = JSON.parse(JSON.stringify(data));
+        if (data) this.compNonPlayedHoles = data;
+      });
+      this.addToBusyList([sub1, sub2, sub3, sub4]);
+      // this.loadCompNonPlayedHoles();
     }
+  }
+  loadCompNonPlayedHoles() {
+    // return
+    //     return this.http.get('config/comp_nonHolesPlayed.json')
+    //                .map((resp: Response) => {
+    //                    this.compNonPlayedHoles = resp.json();
+    //                    return this.compNonPlayedHoles;
+    //                });
+    // return new Promise((resolve, reject) => {
+    //   this.http
+    //     .get('config/comp_nonHolesPlayed.json')
+    //     .map(res => res.json())
+    //     .catch((error: any): any => {
+    //       console.log('Configuration file "configuration.json" could not be read');
+    //       resolve(true);
+    //       return Observable.throw(error.json().error || 'Server error');
+    //     })
+    //     .subscribe(data => {
+    //       this.compNonPlayedHoles = data;
+    //       resolve(true);
+    //     });
+    // });
   }
   compData: CompetitionDataLite;
 
@@ -847,10 +763,7 @@ export class IndividualLeaderboardComponent
       this.pauseScroll = true;
       if (!this.playerRowExpanded.rounds) {
         let sub = this.competitionService
-          .getAllScoresForPlayer(
-            this.competitionId,
-            this.playerRowExpanded.playerId
-          )
+          .getAllScoresForPlayer(this.competitionId, this.playerRowExpanded.playerId)
           .subscribe((compRounds: CompetitionGameRound[]) => {
             this.playerRowExpanded.rounds = compRounds;
             // this.prepareScorecardDisplay();
@@ -865,12 +778,8 @@ export class IndividualLeaderboardComponent
   }
   deriveScoringFormat() {
     // console.log("[scoring format] ", this.competition.scoringFormat)
-    if (
-      this.competition.scoringFormat === "Stableford" ||
-      this.compData.pointBased
-    )
-      return "Point";
-    else return "Net";
+    if (this.competition.scoringFormat === 'Stableford' || this.compData.pointBased) return 'Point';
+    else return 'Net';
   }
   isRefreshing: boolean = false;
 
@@ -879,45 +788,45 @@ export class IndividualLeaderboardComponent
     // if(this.isRefreshing) return;
     this.isRefreshing = true;
     if (this.refreshParams) {
-      let round = this.refreshParams["round"];
-      let category = this.refreshParams["category"];
-      let scoreType = this.refreshParams["scoreType"];
+      let round = this.refreshParams['round'];
+      let category = this.refreshParams['category'];
+      let scoreType = this.refreshParams['scoreType'];
       let orderBy = 2;
-      let _scoreType = "G";
-      if (scoreType === "gross") {
-        _scoreType = "G";
-      } else if (scoreType === "net") {
-        _scoreType = "N";
-      } else if (scoreType === "points") {
-        _scoreType = "P";
+      let _scoreType = 'G';
+      if (scoreType === 'gross') {
+        _scoreType = 'G';
+      } else if (scoreType === 'net') {
+        _scoreType = 'N';
+      } else if (scoreType === 'points') {
+        _scoreType = 'P';
       }
-      if (scoreType === "net") {
+      if (scoreType === 'net') {
         let scoringFormat =
           this.competition && this.competition.scoringFormat
             ? this.competition.scoringFormat.toLowerCase()
-            : "strokeplay";
+            : 'strokeplay';
         switch (scoringFormat) {
-          case "strokeplay":
-          case "system36":
+          case 'strokeplay':
+          case 'system36':
             orderBy = 3;
             break;
-          case "stableford":
+          case 'stableford':
             orderBy = 4;
             break;
           default:
             orderBy = 3;
         }
-      } else if (scoreType === "points") {
+      } else if (scoreType === 'points') {
         let scoringFormat =
           this.competition && this.competition.scoringFormat
             ? this.competition.scoringFormat.toLowerCase()
-            : "strokeplay";
+            : 'strokeplay';
         switch (scoringFormat) {
-          case "strokeplay":
-          case "system36":
+          case 'strokeplay':
+          case 'system36':
             orderBy = 3;
             break;
-          case "stableford":
+          case 'stableford':
             orderBy = 4;
             break;
           default:
@@ -937,13 +846,10 @@ export class IndividualLeaderboardComponent
       //     _categoryId = category && category.categoryId !== -1 ? category.categoryId : null
       // }
       if (this.settings.autoScroll && this.settings.scrollCategories) {
-        _categoryId =
-          category && category.categoryId !== -1 ? category.categoryId : null;
+        _categoryId = category && category.categoryId !== -1 ? category.categoryId : null;
       } else {
-        if (this.settings.selectedCategory)
-          _categoryId = this.settings.selectedCategory;
-        else if (category && category.categoryId !== -1)
-          _categoryId = category.categoryId;
+        if (this.settings.selectedCategory) _categoryId = this.settings.selectedCategory;
+        else if (category && category.categoryId !== -1) _categoryId = category.categoryId;
         else _categoryId = null;
       }
 
@@ -957,11 +863,9 @@ export class IndividualLeaderboardComponent
       // category && category.categoryId !== -1?category.categoryId:null
       // this.subGetLeaderboard =
 
-      const subShowLeaderboard = this.competitionService.checkShowLeaderboard(
-        this.competitionId
-      );
+      const subShowLeaderboard = this.competitionService.checkShowLeaderboard(this.competitionId);
       subShowLeaderboard.subscribe((showLeaderBoard: boolean) => {
-        console.debug("show leaderboard : ", showLeaderBoard);
+        console.debug('show leaderboard : ', showLeaderBoard);
         if (showLeaderBoard !== undefined) {
           this.showLeaderBoard = showLeaderBoard;
         }
@@ -1084,28 +988,26 @@ export class IndividualLeaderboardComponent
           // })
           /* NOT SHOWING WITHDRAW OR CUT PLAYERS HERE */
           if (!this.settings.showNonPlaying) {
-            this.leaderBoard.players = this.leaderBoard.players.filter(
-              function (ptd) {
-                return (
-                  !ptd.statusName.toLowerCase().includes("withdrawn") &&
-                  !ptd.statusName.toLowerCase().includes("cutoff")
-                  // return (ptd.position !== 'W' && ptd.position !== 'CUT' && ptd.position !== 'N'
-                  // && ( ptd.round1Gross < 144 && ptd.round2Gross < 180 && ptd.round3Gross < 180 && ptd.round4Gross < 180 )
-                  // ptd.outTotalGross >= 144
-                );
-              }
-            );
+            this.leaderBoard.players = this.leaderBoard.players.filter(function (ptd) {
+              return (
+                !ptd.statusName.toLowerCase().includes('withdrawn') &&
+                !ptd.statusName.toLowerCase().includes('cutoff')
+                // return (ptd.position !== 'W' && ptd.position !== 'CUT' && ptd.position !== 'N'
+                // && ( ptd.round1Gross < 144 && ptd.round2Gross < 180 && ptd.round3Gross < 180 && ptd.round4Gross < 180 )
+                // ptd.outTotalGross >= 144
+              );
+            });
             this.totalPlayers = this.leaderBoard.players.length;
-            this.activeRoute.queryParams.subscribe((params) => {
-              if (params["enableToyota"] && params["enableToyota"] === "true") {
-                this.settings["scrollSize"] = this.totalPlayers;
+            this.activeRoute.queryParams.subscribe(params => {
+              if (params['enableToyota'] && params['enableToyota'] === 'true') {
+                this.settings['scrollSize'] = this.totalPlayers;
               }
             });
           } else {
             this.totalPlayers = this.leaderBoard.players.length;
-            this.activeRoute.queryParams.subscribe((params) => {
-              if (params["enableToyota"] && params["enableToyota"] === "true") {
-                this.settings["scrollSize"] = this.totalPlayers;
+            this.activeRoute.queryParams.subscribe(params => {
+              if (params['enableToyota'] && params['enableToyota'] === 'true') {
+                this.settings['scrollSize'] = this.totalPlayers;
               }
             });
           }
@@ -1124,7 +1026,7 @@ export class IndividualLeaderboardComponent
             this.subGetLeaderboard = null;
           }
         },
-        (error) => {
+        error => {
           if (this.subGetLeaderboard) {
             this.subGetLeaderboard.unsubscribe();
             this.subGetLeaderboard = null;
@@ -1141,14 +1043,11 @@ export class IndividualLeaderboardComponent
   }
   showLeaderBoard: boolean = true;
   isColumnHidden(columnId: string) {
-    if (columnId === "handicap") {
-      if (!this.compData) return this.hiddenColumns["handicap"];
-      if (
-        this.compData.handicapFormat === "System36" &&
-        this.compData.status === "In Progress"
-      )
+    if (columnId === 'handicap') {
+      if (!this.compData) return this.hiddenColumns['handicap'];
+      if (this.compData.handicapFormat === 'System36' && this.compData.status === 'In Progress')
         return true;
-      else return this.hiddenColumns["handicap"];
+      else return this.hiddenColumns['handicap'];
     }
     return this.hiddenColumns[columnId];
   }
@@ -1158,7 +1057,7 @@ export class IndividualLeaderboardComponent
     // console.debug("is gross hidden scoretype [2]", this.refreshParams.scoreType);
     // console.debug("is gross hidden hide [3]", this.settings.hideGrossColumns);
     if (!this.settings) return false;
-    if (this.refreshParams.scoreType === "gross") return false;
+    if (this.refreshParams.scoreType === 'gross') return false;
     if (this.settings.hideGrossColumns) return true;
     // if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
     //     this.refreshParams)
@@ -1169,7 +1068,7 @@ export class IndividualLeaderboardComponent
   }
   isNetHidden() {
     if (!this.settings) return true;
-    if (this.refreshParams.scoreType === "net") return false;
+    if (this.refreshParams.scoreType === 'net') return false;
     if (this.settings.hideNetColumns) return true;
     // if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
     //     this.refreshParams)
@@ -1181,9 +1080,8 @@ export class IndividualLeaderboardComponent
   }
   isPointsHidden() {
     if (!this.settings) return true;
-    if (this.compData)
-      if (this.isBeforeCompOffset(this.compData.startDate)) return true;
-    if (this.refreshParams.scoreType === "points") return false;
+    if (this.compData) if (this.isBeforeCompOffset(this.compData.startDate)) return true;
+    if (this.refreshParams.scoreType === 'points') return false;
     if (!this.isPointBased()) return true;
     if (this.settings.hidePointColumns) return true;
     // if (this.settings.autoScroll && this.settings.scrollScoreTypes &&
@@ -1196,8 +1094,7 @@ export class IndividualLeaderboardComponent
   }
 
   isAllRoundHidden() {
-    if (this.refreshParams.round.roundNo === 0 && this.totalRounds > 1)
-      return true;
+    if (this.refreshParams.round.roundNo === 0 && this.totalRounds > 1) return true;
   }
 
   isMultiRoundHidden(roundNo: number) {
@@ -1216,8 +1113,7 @@ export class IndividualLeaderboardComponent
 
   isMaxRoundHidden(roundNo: number, multiRoundHide?: boolean) {
     // console.log('isMaxRoundHidden : ', this.totalRounds, roundNo)
-    if (this.refreshParams.round.roundNo === 0)
-      if (roundNo > this.totalRounds) return true;
+    if (this.refreshParams.round.roundNo === 0) if (roundNo > this.totalRounds) return true;
   }
 
   isSponsorHidden() {
@@ -1236,52 +1132,51 @@ export class IndividualLeaderboardComponent
     let colspan: number = 3;
     // console.log("colspan() : ", colspan, this.totalRounds, this.refreshParams.round.roundNo)
 
-    if (this.refreshParams.round.roundNo === 0 && this.totalRounds === 1)
-      return colspan;
+    if (this.refreshParams.round.roundNo === 0 && this.totalRounds === 1) return colspan;
     else if (this.refreshParams.round.roundNo !== 0) return colspan;
     else return colspan - 2 + this.totalRounds;
   }
   private prepareScorecardDisplay() {
     let rows: any[] = [];
-    this.playerRowExpanded.rounds.forEach((round) => {
+    this.playerRowExpanded.rounds.forEach(round => {
       let parRow: any = {};
-      parRow["round"] = round.roundNo;
-      parRow["rowType"] = "Par";
-      parRow["courseNames"] = round.courseNames;
-      parRow["outTotal"] = null;
-      parRow["inTotal"] = null;
-      round.nines.forEach((nine) => {
-        nine.scores.forEach((score) => {
-          parRow["g" + score.holeNo] = score.parScore;
-          parRow["n" + score.holeNo] = score.parScore;
+      parRow['round'] = round.roundNo;
+      parRow['rowType'] = 'Par';
+      parRow['courseNames'] = round.courseNames;
+      parRow['outTotal'] = null;
+      parRow['inTotal'] = null;
+      round.nines.forEach(nine => {
+        nine.scores.forEach(score => {
+          parRow['g' + score.holeNo] = score.parScore;
+          parRow['n' + score.holeNo] = score.parScore;
         });
       });
       rows.push(parRow);
 
       let idxRow: any = {};
-      idxRow["round"] = round.roundNo;
-      idxRow["rowType"] = "Index";
-      idxRow["courseNames"] = round.courseNames;
-      idxRow["outTotal"] = null;
-      idxRow["inTotal"] = null;
-      round.nines.forEach((nine) => {
-        nine.scores.forEach((score) => {
-          idxRow["g" + score.holeNo] = score.index;
-          idxRow["n" + score.holeNo] = score.index;
+      idxRow['round'] = round.roundNo;
+      idxRow['rowType'] = 'Index';
+      idxRow['courseNames'] = round.courseNames;
+      idxRow['outTotal'] = null;
+      idxRow['inTotal'] = null;
+      round.nines.forEach(nine => {
+        nine.scores.forEach(score => {
+          idxRow['g' + score.holeNo] = score.index;
+          idxRow['n' + score.holeNo] = score.index;
         });
       });
       rows.push(idxRow);
 
       let scoreRow: any = {};
-      scoreRow["round"] = round.roundNo;
-      scoreRow["rowType"] = "Gross";
-      scoreRow["courseNames"] = round.courseNames;
-      scoreRow["outTotal"] = round.outTotal;
-      scoreRow["inTotal"] = round.inTotal;
-      round.nines.forEach((nine) => {
-        nine.scores.forEach((score) => {
-          scoreRow["g" + score.holeNo] = score.grossScore;
-          scoreRow["n" + score.holeNo] = score.netScore;
+      scoreRow['round'] = round.roundNo;
+      scoreRow['rowType'] = 'Gross';
+      scoreRow['courseNames'] = round.courseNames;
+      scoreRow['outTotal'] = round.outTotal;
+      scoreRow['inTotal'] = round.inTotal;
+      round.nines.forEach(nine => {
+        nine.scores.forEach(score => {
+          scoreRow['g' + score.holeNo] = score.grossScore;
+          scoreRow['n' + score.holeNo] = score.netScore;
         });
       });
       rows.push(scoreRow);
@@ -1292,12 +1187,12 @@ export class IndividualLeaderboardComponent
   columnVisibilityChanged(hiddenColumns: TableColumnDetails[]) {
     this.visibilityDialog = false;
     let columnVisibility = {};
-    hiddenColumns.map((col) => {
+    hiddenColumns.map(col => {
       if (col.hidden) columnVisibility[col.id] = col.hidden;
     });
     setTimeout(() => {
       this.hiddenColumns = columnVisibility;
-      this.leaderboardColumns.forEach((det) => {
+      this.leaderboardColumns.forEach(det => {
         det.hidden = this.hiddenColumns[det.id];
       });
       if (!this.embedded) {
@@ -1318,9 +1213,9 @@ export class IndividualLeaderboardComponent
 
     // if (data.position === 'W' || data.position === 'X' || data.position === 'CUT')
     if (
-      data.playerRoundStatus === "Withdrawn" ||
-      data.playerRoundStatus === "FailedCutoff" ||
-      data.playerRoundStatus === "FailedCutoff"
+      data.playerRoundStatus === 'Withdrawn' ||
+      data.playerRoundStatus === 'FailedCutoff' ||
+      data.playerRoundStatus === 'FailedCutoff'
     )
       return data.thru;
 
@@ -1341,26 +1236,24 @@ export class IndividualLeaderboardComponent
     _time = _time.substr(0, 5);
     // console.log("Get hours : ", _time.substr(0, 5));
     if (this.enableToyota) {
-      if (data.thru === "F") return data.thru;
-      else if (this.compDetails.roundInProgress === 1 && data.thru === "0")
+      if (data.thru === 'F') return data.thru;
+      else if (this.compDetails.roundInProgress === 1 && data.thru === '0')
         return this.getStartTime(data.playerId);
       // return ''; //_time
-      else if (this.compDetails.roundInProgress === 2 && data.thru === "18")
+      else if (this.compDetails.roundInProgress === 2 && data.thru === '18')
         return this.getStartTime(data.playerId);
       // return ''; //_time
-      else if (this.compDetails.roundInProgress === 3 && data.thru === "36")
+      else if (this.compDetails.roundInProgress === 3 && data.thru === '36')
         return this.getStartTime(data.playerId);
       // return ''; //_time
-      else if (this.compDetails.roundInProgress === 4 && data.thru === "54")
+      else if (this.compDetails.roundInProgress === 4 && data.thru === '54')
         return this.getStartTime(data.playerId);
       // return ''; //_time
-      else if (this.compDetails.roundInProgress > 1 && data.thru === "0")
+      else if (this.compDetails.roundInProgress > 1 && data.thru === '0')
         return this.getStartTime(data.playerId);
-      else if (this.compDetails.roundInProgress > 1 && data.thru !== "0") {
+      else if (this.compDetails.roundInProgress > 1 && data.thru !== '0') {
         if (this.settings.selectedRound === 0) {
-          return (
-            18 - (18 * this.compDetails.roundInProgress - Number(data.thru))
-          );
+          return 18 - (18 * this.compDetails.roundInProgress - Number(data.thru));
         } else
           return (
             18 * this.compDetails.roundInProgress -
@@ -1370,33 +1263,29 @@ export class IndividualLeaderboardComponent
       // return 18-(18*this.compDetails.roundInProgress - Number(data.thru))
       else return data.thru;
     } else {
-      if (data.thru === "F") return data.thru;
-      else if (this.compDetails.roundInProgress === 1 && data.thru === "0")
-        return ""; //_time
-      else if (this.compDetails.roundInProgress === 2 && data.thru === "18")
-        return ""; //_time
-      else if (this.compDetails.roundInProgress === 3 && data.thru === "36")
-        return ""; //_time
-      else if (this.compDetails.roundInProgress === 4 && data.thru === "54")
-        return ""; //_time
+      if (data.thru === 'F') return data.thru;
+      else if (this.compDetails.roundInProgress === 1 && data.thru === '0') return ''; //_time
+      else if (this.compDetails.roundInProgress === 2 && data.thru === '18') return ''; //_time
+      else if (this.compDetails.roundInProgress === 3 && data.thru === '36') return ''; //_time
+      else if (this.compDetails.roundInProgress === 4 && data.thru === '54') return ''; //_time
       else return data.thru;
     }
   }
   addToBusyList(sub: Subscription[]) {
-    this.busyConfig.busy = this.refreshSubList.filter((s) => !s.closed);
+    this.busyConfig.busy = this.refreshSubList.filter(s => !s.closed);
     // this.refreshSubList.splice(0, this.refreshSubList.length);
     this.busyConfig.busy.push(...sub);
   }
   private savePreferences() {
-    this.userPreference.setInSession("Leaderboard.settings", {
+    this.userPreference.setInSession('Leaderboard.settings', {
       lbSettings: this.settings,
       hiddenColumns: this.hiddenColumns,
       showSettings: this.showSettings,
     });
   }
   private restorePreferences() {
-    let val = this.userPreference.getFromSession("Leaderboard.settings");
-    console.log("restore pref : ", val);
+    let val = this.userPreference.getFromSession('Leaderboard.settings');
+    console.log('restore pref : ', val);
     if (val) {
       if (val.lbSettings) this.settings = val.lbSettings;
       this.showSettings = val.showSettings;
@@ -1411,7 +1300,7 @@ export class IndividualLeaderboardComponent
   private applyHiddenColumns() {
     let columns = [];
 
-    this.leaderboardColumns.forEach((det) => {
+    this.leaderboardColumns.forEach(det => {
       det.hidden = this.hiddenColumns[det.id];
       columns.push(det);
     });
@@ -1419,17 +1308,15 @@ export class IndividualLeaderboardComponent
   }
   private derivePlayerTeams() {
     if (this.teams && this.leaderBoard) {
-      this.teams.forEach((team) => {
-        team.teamPlayers.forEach((tp) => {
-          let players: LeaderBoardPlayer[] = this.leaderBoard.players.filter(
-            (pl) => {
-              return pl.playerId === tp.teamPlayerId;
-            }
-          );
+      this.teams.forEach(team => {
+        team.teamPlayers.forEach(tp => {
+          let players: LeaderBoardPlayer[] = this.leaderBoard.players.filter(pl => {
+            return pl.playerId === tp.teamPlayerId;
+          });
           if (players && players.length)
-            players.forEach((pl) => {
-              pl["teamName"] = team.teamName;
-              pl["teamLogo"] = team.teamLogo;
+            players.forEach(pl => {
+              pl['teamName'] = team.teamName;
+              pl['teamLogo'] = team.teamLogo;
             });
         });
       });
@@ -1451,12 +1338,12 @@ export class IndividualLeaderboardComponent
 
   private _deriveCategories() {
     if (this.compDetails && this.compDetails.categories) {
-      let categories = this.compDetails.categories.filter((c) => c.forGrouping);
+      let categories = this.compDetails.categories.filter(c => c.forGrouping);
       let allCatg = {
         forGrouping: true,
         sequence: 0,
         categoryId: -1,
-        categoryName: "All",
+        categoryName: 'All',
       };
       if (categories.length > 1) {
         this.validCategories = [allCatg, ...categories];
@@ -1470,11 +1357,11 @@ export class IndividualLeaderboardComponent
       }
 
       setTimeout(() => {
-        this.activeRoute.queryParams.subscribe((params) => {
+        this.activeRoute.queryParams.subscribe(params => {
           if (this.validCategories && this.validCategories.length > 0) {
             this.validCategories.sort((a, b) => {
-              if (a.gender === "M" && b.gender !== "M") return -1;
-              else if (a.gender !== "M" && b.gender === "M") return 1;
+              if (a.gender === 'M' && b.gender !== 'M') return -1;
+              else if (a.gender !== 'M' && b.gender === 'M') return 1;
               else {
                 if (a.categoryId < 0 && b.categoryId > 0) return 1;
                 else if (a.categoryId > 0 && b.categoryId < 0) return -1;
@@ -1484,16 +1371,16 @@ export class IndividualLeaderboardComponent
               }
             });
           }
-          if (params["enableToyota"] && params["enableToyota"] === "true") {
+          if (params['enableToyota'] && params['enableToyota'] === 'true') {
             // this.settings['scrollSize'] = this.totalPlayers;
-            this.settings["scrollFrequency"] = 60;
-            this.settings["showNonPlaying"] = true;
+            this.settings['scrollFrequency'] = 60;
+            this.settings['showNonPlaying'] = true;
             if (this.validCategories && this.validCategories.length > 0) {
               let _initCat = this.validCategories
-                .filter((c) => {
-                  return c.gender === "M";
+                .filter(c => {
+                  return c.gender === 'M';
                 })
-                .map((c) => {
+                .map(c => {
                   return c;
                 });
 
@@ -1501,9 +1388,7 @@ export class IndividualLeaderboardComponent
                 this.settings.selectedCategory = _initCat[0].categoryId
                   ? _initCat[0].categoryId
                   : -1; //this.validCategories[1].categoryId;
-                this.refreshParams["category"] = _initCat[0].categoryId
-                  ? _initCat[0]
-                  : null; //this.validCategories[1];
+                this.refreshParams['category'] = _initCat[0].categoryId ? _initCat[0] : null; //this.validCategories[1];
               }
               this.refreshLeaderBoard();
             }
@@ -1522,7 +1407,7 @@ export class IndividualLeaderboardComponent
   private _deriveRounds() {
     if (this.compDetails && this.compDetails.gameRounds) {
       let validRounds = this.compDetails.gameRounds.filter(
-        (r) => r.status === "InProgress" || r.status === "Completed"
+        r => r.status === 'InProgress' || r.status === 'Completed'
       );
       let round = {
         roundNo: 0,
@@ -1543,28 +1428,23 @@ export class IndividualLeaderboardComponent
   getFlagUrl(flagUrl: string) {
     if (flagUrl == null) return null;
     else {
-      let flagIcon = flagUrl.split("/");
-      return "assets/images/flag/" + flagIcon[2];
+      let flagIcon = flagUrl.split('/');
+      return 'assets/images/flag/' + flagIcon[2];
     }
   }
 
   onClickCategory(e, cat) {
-    console.debug(
-      "category clicked : ",
-      e,
-      cat,
-      this.settings.selectedCategory
-    );
+    console.debug('category clicked : ', e, cat, this.settings.selectedCategory);
     // if(!cat) return;
     if (!cat) this.settings.selectedCategory = null;
     else this.settings.selectedCategory = cat.categoryId;
-    this.refreshParams["category"] = cat;
+    this.refreshParams['category'] = cat;
     this.refreshLeaderBoard();
   }
 
   onClickRound(e, round) {
     this.showWinners = false;
-    console.debug("round clicked : ", e, round, this.settings.selectedRound);
+    console.debug('round clicked : ', e, round, this.settings.selectedRound);
     // if(!round) return;
     if (!round) {
       this.settings.selectedRound = 0;
@@ -1578,28 +1458,24 @@ export class IndividualLeaderboardComponent
     // }
     else {
       this.settings.selectedRound = round.roundNo;
-      this.refreshParams["round"] = round;
+      this.refreshParams['round'] = round;
     }
     this.refreshLeaderBoard();
   }
 
   onClickMyGolf2uLink() {
-    window.open("https://www.mygolf2u.com", "_blank");
+    window.open('https://www.mygolf2u.com', '_blank');
   }
 
   getRoundTitle(x: number) {
-    if (!x) return "-";
-    if (!this.compDetails) return "-";
-    if (this.compDetails && !this.compDetails.gameRounds) return "-";
-    if (
-      this.compDetails &&
-      this.compDetails.gameRounds &&
-      this.compDetails.gameRounds.length === 0
-    )
-      return "-";
-    if (!this.totalRounds) return "-";
-    if (x === this.totalRounds) return "FR";
-    else return "R" + x;
+    if (!x) return '-';
+    if (!this.compDetails) return '-';
+    if (this.compDetails && !this.compDetails.gameRounds) return '-';
+    if (this.compDetails && this.compDetails.gameRounds && this.compDetails.gameRounds.length === 0)
+      return '-';
+    if (!this.totalRounds) return '-';
+    if (x === this.totalRounds) return 'FR';
+    else return 'R' + x;
   }
 
   getCurrentCourses() {
@@ -1617,9 +1493,7 @@ export class IndividualLeaderboardComponent
     // return _courseNames.join(" | ");
     if (!this.leaderBoard) return;
     _courseNames =
-      this.leaderBoard.firstNineCourseName +
-      " | " +
-      this.leaderBoard.secondNineCourseName;
+      this.leaderBoard.firstNineCourseName + ' | ' + this.leaderBoard.secondNineCourseName;
     return _courseNames;
   }
 
@@ -1630,7 +1504,7 @@ export class IndividualLeaderboardComponent
   }
 
   getRowClass(e) {
-    console.debug("row class : ", e);
+    console.debug('row class : ', e);
   }
 
   ngOnDestroy() {
@@ -1646,45 +1520,39 @@ export class IndividualLeaderboardComponent
     if (this.subFlightList) return;
     let _compId = this.competition.competitionId;
     let _roundNo = this.compDetails.roundInProgress;
-    if (this.compDetails && this.compDetails.roundInProgress === null)
-      _roundNo = 1;
+    if (this.compDetails && this.compDetails.roundInProgress === null) _roundNo = 1;
     // this.flightList = [];
 
-    this.subFlightList = this.competitionService
-      .getFlightList(_compId, _roundNo)
-      .subscribe(
-        (data) => {
-          if (data) {
-            this.flightList = data;
-          }
-          // if(this.subFlightList) {
-          //     this.subFlightList.unsubscribe();
-          //     this.subFlightList = null;
-          // }
-        },
-        (error) => {
-          if (this.subFlightList) {
-            this.subFlightList.unsubscribe();
-            this.subFlightList = null;
-          }
+    this.subFlightList = this.competitionService.getFlightList(_compId, _roundNo).subscribe(
+      data => {
+        if (data) {
+          this.flightList = data;
         }
-      );
+        // if(this.subFlightList) {
+        //     this.subFlightList.unsubscribe();
+        //     this.subFlightList = null;
+        // }
+      },
+      error => {
+        if (this.subFlightList) {
+          this.subFlightList.unsubscribe();
+          this.subFlightList = null;
+        }
+      }
+    );
     // this.addToBusyList([sub]);
   }
 
   getStartTime(playerId) {
     let _filteredFlight = this.flightList.filter((f: FlightInfo) => {
-      return (
-        f.flightMembers.filter((fm: FlightMember) => fm.playerId === playerId)
-          .length > 0
-      );
+      return f.flightMembers.filter((fm: FlightMember) => fm.playerId === playerId).length > 0;
     });
-    return moment(_filteredFlight[0].startTime, "HH:mm:ss").format("HH:mm");
+    return moment(_filteredFlight[0].startTime, 'HH:mm:ss').format('HH:mm');
   }
 
   getRoundThru(player, round: number) {
     let _thru: number;
-    if (player.thru === "F") return true; // player.thru;
+    if (player.thru === 'F') return true; // player.thru;
     // else if(round === 1) return
     else if (this.settings.selectedRound === 0) {
       if (round > 0 && Number(player.thru) >= 18 * round) {
@@ -1697,20 +1565,17 @@ export class IndividualLeaderboardComponent
 
   getCutOffClass(player, idx, playersToDisplay: Array<any>) {
     let _idx;
-    let _class = "";
+    let _class = '';
 
     console.debug(
-      "cut off class : ",
+      'cut off class : ',
       idx,
       player,
       playersToDisplay,
       this.leaderBoard,
       this.playersToDisplay
     );
-    if (
-      player.position === "CUT" ||
-      player.playerRoundStatus === "FailedCutoff"
-    ) {
+    if (player.position === 'CUT' || player.playerRoundStatus === 'FailedCutoff') {
       // return 'cut-off-line'
     }
 
@@ -1718,14 +1583,13 @@ export class IndividualLeaderboardComponent
     // if(!this.leaderBoard || this.leaderBoard.players.length === 0) return;
     // this.playersToDisplay.filter((p: LeaderBoardPlayer, i, lbp)=>{
     let _hasCut = this.playersToDisplay.find((p: LeaderBoardPlayer, i, lbp) => {
-      console.debug("cut off class [1]: ", player, p, lbp, i);
+      console.debug('cut off class [1]: ', player, p, lbp, i);
       return (
         p.playerId === player.playerId &&
-        (player.position === "CUT" ||
-          player.playerRoundStatus === "FailedCutoff")
+        (player.position === 'CUT' || player.playerRoundStatus === 'FailedCutoff')
       ); // && lbp[i-1].position !== 'CUT'
     });
-    if (_hasCut) _class = "cut-off-line";
+    if (_hasCut) _class = 'cut-off-line';
     return _class;
   }
 
@@ -1740,26 +1604,19 @@ export class IndividualLeaderboardComponent
     this.errorMessage = null;
     this.getAuthenticate()
       .then((result: any) => {
-        console.debug("after get auth ", result);
+        console.debug('after get auth ', result);
         if (result && result.success) {
           let _compId = this.competition.competitionId;
-          let _grossOrNet = "G"; //'N'
+          let _grossOrNet = 'G'; //'N'
           let _winners = [];
           if (this.selectedWinner) _winners.push(this.selectedWinner);
           let _category;
           if (this.selectedCategory) _category = this.selectedCategory;
           let _authToken = result.session.authToken;
           this.competitionService
-            .overrideWinners(
-              _compId,
-              _grossOrNet,
-              _winners,
-              _category,
-              true,
-              _authToken
-            )
+            .overrideWinners(_compId, _grossOrNet, _winners, _category, true, _authToken)
             .subscribe((result: any) => {
-              console.debug("execute override winners : ", result);
+              console.debug('execute override winners : ', result);
               this.refreshLeaderBoard();
               this.overrideMode = false;
               this.selectedCategory = null;
@@ -1779,7 +1636,7 @@ export class IndividualLeaderboardComponent
     return new Promise((resolve, reject) => {
       this.competitionService.getAuth(this.username, this.password).subscribe(
         (session: any) => {
-          console.log("authenticate : ", session);
+          console.log('authenticate : ', session);
           resolve({
             success: session.success,
             session: session,
@@ -1787,7 +1644,7 @@ export class IndividualLeaderboardComponent
           // if(url) session.returnUrl = url;
           // return createAction(SessionActions.LOGIN_SUCESS, session);
         },
-        (error) => {
+        error => {
           let _error = error.json();
           let _msg = _error.errorMessage;
           this.errorMessage = _msg;
@@ -1813,79 +1670,59 @@ export class IndividualLeaderboardComponent
 
   OLDgetOtherPlayerStatus(player: LeaderBoardPlayer) {
     console.debug(
-      "get other plaeyr status : ",
+      'get other plaeyr status : ',
       this.settings.selectedRound,
       this.compDetails.roundInProgress
     );
-    let _currRound =
-      this.settings.selectedRound || this.compDetails.roundInProgress;
+    let _currRound = this.settings.selectedRound || this.compDetails.roundInProgress;
     let _currRoundStatus: string;
     for (let key in player.roundsAbsent) {
-      if (Number(key) === _currRound - 1)
-        _currRoundStatus = player.roundsAbsent[key];
+      if (Number(key) === _currRound - 1) _currRoundStatus = player.roundsAbsent[key];
     }
-    if (_currRoundStatus === "Withdrawn") return "WD";
+    if (_currRoundStatus === 'Withdrawn') return 'WD';
   }
 
   getOtherPlayerStatus(player: LeaderBoardPlayer) {
     console.debug(
-      "get other plaeyr status : ",
+      'get other plaeyr status : ',
       this.settings.selectedRound,
       this.compDetails.roundInProgress
     );
-    let _currRound =
-      this.settings.selectedRound || this.compDetails.roundInProgress;
+    let _currRound = this.settings.selectedRound || this.compDetails.roundInProgress;
     let _currRoundStatus: string;
-    let _maxRounds = this.compDetails.gameRounds
-      ? this.compDetails.gameRounds.length
-      : 0;
+    let _maxRounds = this.compDetails.gameRounds ? this.compDetails.gameRounds.length : 0;
     for (let key in player.roundsAbsent) {
-      if (Number(key) === _currRound - 1)
-        _currRoundStatus = player.roundsAbsent[key];
-      else if (
-        this.settings.selectedRound === 0 ||
-        !this.compDetails.roundInProgress
-      ) {
-        if (Number(key) === _maxRounds)
-          _currRoundStatus = player.roundsAbsent[key];
+      if (Number(key) === _currRound - 1) _currRoundStatus = player.roundsAbsent[key];
+      else if (this.settings.selectedRound === 0 || !this.compDetails.roundInProgress) {
+        if (Number(key) === _maxRounds) _currRoundStatus = player.roundsAbsent[key];
       }
     }
-    if (_currRoundStatus === "Withdrawn") return "WD";
-    else if (_currRoundStatus === "FailedCutoff") return "CUT";
+    if (_currRoundStatus === 'Withdrawn') return 'WD';
+    else if (_currRoundStatus === 'FailedCutoff') return 'CUT';
   }
 
   isBeforeCompOffset(startDate: Date) {
     let _startDate = startDate;
-    if (this.compData && this.compData.startDate)
-      _startDate = this.compData.startDate;
-    console.debug(
-      "before comp offset : ",
-      this.offsetCompDate,
-      _startDate,
-      moment(_startDate).isBefore(
-        moment(this.offsetCompDate, "YYYY-MM-DD"),
-        "days"
-      )
-    );
-    return moment(_startDate).isBefore(
-      moment(this.offsetCompDate, "YYYY-MM-DD"),
-      "days"
-    );
+    if (this.compData && this.compData.startDate) _startDate = this.compData.startDate;
+    // console.debug(
+    //   'before comp offset : ',
+    //   this.offsetCompDate,
+    //   _startDate,
+    //   moment(_startDate).isBefore(moment(this.offsetCompDate, 'YYYY-MM-DD'), 'days')
+    // );
+    return moment(_startDate).isBefore(moment(this.offsetCompDate, 'YYYY-MM-DD'), 'days');
   }
 
   getToPar(player: LeaderBoardPlayer) {
     // console.debug("get to par : ", this.refreshParams['scoreType'], player)
-    if (this.refreshParams["scoreType"].toLowerCase() === "gross")
-      return player.toParGross;
-    else if (this.refreshParams["scoreType"].toLowerCase() === "net")
-      return player.toParNet;
-    else if (this.refreshParams["scoreType"].toLowerCase() === "points")
-      return player.toParNet;
+    if (this.refreshParams['scoreType'].toLowerCase() === 'gross') return player.toParGross;
+    else if (this.refreshParams['scoreType'].toLowerCase() === 'net') return player.toParNet;
+    else if (this.refreshParams['scoreType'].toLowerCase() === 'points') return player.toParNet;
   }
 
   viewScoreType() {
     if (!this.refreshParams) return;
-    return this.refreshParams["scoreType"];
+    return this.refreshParams['scoreType'];
   }
   isPointBased() {
     if (!this.compData) return;
@@ -1893,13 +1730,13 @@ export class IndividualLeaderboardComponent
   }
 
   onChangeSettings() {
-    console.debug("on change settings : ", this.settings.scoreType);
+    console.debug('on change settings : ', this.settings.scoreType);
     this.leaderboardSettingsChange.emit(this.settings);
     this.savePreferences();
   }
 
   hideOCBColumn(scoreType: string) {
-    if (this.hiddenColumns["ocb"]) return true;
+    if (this.hiddenColumns['ocb']) return true;
     if (this.settings.scoreType === scoreType) return false;
     else return true;
   }
