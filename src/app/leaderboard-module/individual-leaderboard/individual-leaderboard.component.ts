@@ -217,6 +217,17 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
   offsetCompDate: string;
 
   filteredCategoryId: number;
+  proMode: boolean = false;
+
+  isEnableProViewMode() {
+    let enableProView = false;
+    this.activeRoute.queryParams.subscribe(params => {
+      enableProView =
+        (params['enableToyota'] && params['enableToyota'] === 'true') ||
+        (params['pro'] && params['pro'] === 'true');
+    });
+    return enableProView;
+  }
   ngOnInit() {
     if (!this.embedded) {
       this.restorePreferences();
@@ -227,7 +238,11 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
       else if (params['maxSponsorDisplay'] && params['maxSponsorDisplay'] === 0)
         this.maxSponsorDisplay = params['maxSponsorDisplay'];
       else this.maxSponsorDisplay = 3;
-      if (params['enableToyota'] && params['enableToyota'] === 'true') {
+      if (
+        (params['enableToyota'] && params['enableToyota'] === 'true') ||
+        (params['pro'] && params['pro'] === 'true')
+      ) {
+        this.proMode = true;
         this.enableToyota = true;
         this.hideLogo = true;
         this.hideCompName = true;
@@ -297,6 +312,22 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
         this.savePreferences();
       }
 
+      if (params['showColumns']) {
+        const showColumns = params['showColumns'].split(',');
+        console.debug('column hidden [333] : ', showColumns, params['showColumns']);
+        showColumns.forEach(showCol => {
+          delete this.hiddenColumns[showCol];
+          this.leaderboardColumns = this.leaderboardColumns.filter(col => {
+            return col.id !== showCol;
+          });
+          // .unshift();
+          // if (showCol === this.hiddenColumns[showCol]) this.hiddenColumns[showCol] = false;
+        });
+
+        // this.columnsVisibilityChange.emit(this.hiddenColumns);
+        this.columnVisibilityChanged(this.leaderboardColumns);
+        console.debug('column hidden [333a] : ', this.hiddenColumns, this.leaderboardColumns);
+      }
       console.log(params); // { orderby: "price" }
       //   this.fullScreen= params.fullScreen;
       //   if(params.fullScreen === 'true' || params.fullScreen) {
@@ -999,14 +1030,20 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
             });
             this.totalPlayers = this.leaderBoard.players.length;
             this.activeRoute.queryParams.subscribe(params => {
-              if (params['enableToyota'] && params['enableToyota'] === 'true') {
+              if (
+                (params['enableToyota'] && params['enableToyota'] === 'true') ||
+                (params['pro'] && params['pro'] === 'true')
+              ) {
                 this.settings['scrollSize'] = this.totalPlayers;
               }
             });
           } else {
             this.totalPlayers = this.leaderBoard.players.length;
             this.activeRoute.queryParams.subscribe(params => {
-              if (params['enableToyota'] && params['enableToyota'] === 'true') {
+              if (
+                (params['enableToyota'] && params['enableToyota'] === 'true') ||
+                (params['pro'] && params['pro'] === 'true')
+              ) {
                 this.settings['scrollSize'] = this.totalPlayers;
               }
             });
@@ -1043,6 +1080,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
   }
   showLeaderBoard: boolean = true;
   isColumnHidden(columnId: string) {
+    console.debug('is column hidden [0]', this.settings);
+    console.debug('is column hidden [1]', this.hiddenColumns);
     if (columnId === 'handicap') {
       if (!this.compData) return this.hiddenColumns['handicap'];
       if (this.compData.handicapFormat === 'System36' && this.compData.status === 'In Progress')
@@ -1286,6 +1325,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
   private restorePreferences() {
     let val = this.userPreference.getFromSession('Leaderboard.settings');
     console.log('restore pref : ', val);
+
+    console.debug('restore pref : ', val, this.hiddenColumns);
     if (val) {
       if (val.lbSettings) this.settings = val.lbSettings;
       this.showSettings = val.showSettings;
@@ -1371,7 +1412,10 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
               }
             });
           }
-          if (params['enableToyota'] && params['enableToyota'] === 'true') {
+          if (
+            (params['enableToyota'] && params['enableToyota'] === 'true') ||
+            (params['pro'] && params['pro'] === 'true')
+          ) {
             // this.settings['scrollSize'] = this.totalPlayers;
             this.settings['scrollFrequency'] = 60;
             this.settings['showNonPlaying'] = true;
