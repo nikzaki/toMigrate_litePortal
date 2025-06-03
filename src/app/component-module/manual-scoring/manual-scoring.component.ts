@@ -1,8 +1,4 @@
-import {
-  CompetitionScorecards,
-  PlayerScorecard,
-  WhichNine,
-} from "./../../models/mygolf.data";
+import { CompetitionScorecards, PlayerScorecard, WhichNine } from './../../models/mygolf.data';
 import {
   Component,
   OnInit,
@@ -10,42 +6,36 @@ import {
   ViewChild,
   ElementRef,
   HostListener,
-} from "@angular/core";
-import { Subject } from "rxjs/Subject";
-import { Competition } from "../../models/mygolf/competition/competition";
-import { CompetitionDetails } from "../../models/mygolf/competition/competition-details";
-import { Flight } from "../../models/mygolf/competition/competition-flight";
-import { FlightMember } from "../../models/mygolf/competition/flight-member";
-import {
-  DataTable,
-  ConfirmDialog,
-  Message,
-  Panel,
-  ConfirmationService,
-} from "primeng/primeng";
-import { SessionService } from "../../redux/session";
-import { CompetitionService } from "../../services/competition.service";
-import { ScorecardService } from "../../services/scorecard.service";
-import { PlainScorecard } from "../../models/mygolf/scorecard";
-import { Router, ActivatedRoute } from "@angular/router";
-import { Observable } from "rxjs/Observable";
-import { ServerResult } from "../../models/server-result";
-import { SystemMessageActions } from "../../redux/messages/system-message-actions";
-import { Util } from "../../util";
+} from '@angular/core';
+import { Subject } from 'rxjs/Subject';
+import { Competition } from '../../models/mygolf/competition/competition';
+import { CompetitionDetails } from '../../models/mygolf/competition/competition-details';
+import { Flight } from '../../models/mygolf/competition/competition-flight';
+import { FlightMember } from '../../models/mygolf/competition/flight-member';
+import { DataTable, ConfirmDialog, Message, Panel, ConfirmationService } from 'primeng/primeng';
+import { SessionService } from '../../redux/session';
+import { CompetitionService } from '../../services/competition.service';
+import { ScorecardService } from '../../services/scorecard.service';
+import { PlainScorecard } from '../../models/mygolf/scorecard';
+import { Router, ActivatedRoute } from '@angular/router';
+import { Observable } from 'rxjs/Observable';
+import { ServerResult } from '../../models/server-result';
+import { SystemMessageActions } from '../../redux/messages/system-message-actions';
+import { Util } from '../../util';
 import {
   getLeanScorecard,
   zipScorecard,
-} from "../../redux/scorecard-functions/scorecard-functions";
-import { CompetitionFlightStatus } from "app/models/mygolf/competition";
+} from '../../redux/scorecard-functions/scorecard-functions';
+import { CompetitionFlightStatus } from 'app/models/mygolf/competition';
 
 @Component({
-  selector: "manual-scoring",
-  templateUrl: "./manual-scoring.component.html",
-  styleUrls: ["./manual-scoring.component.scss"],
+  selector: 'manual-scoring',
+  templateUrl: './manual-scoring.component.html',
+  styleUrls: ['./manual-scoring.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
 export class ManualScoringComponent implements OnInit {
-  searchString: string = "";
+  searchString: string = '';
   searchStringChanged: Subject<string> = new Subject<string>();
   competitionId: number;
   compInfo: Competition;
@@ -57,11 +47,11 @@ export class ManualScoringComponent implements OnInit {
   selectedPlayer: FlightMember;
   playerScorecard: PlainScorecard;
   playerScores: CourseScore[];
-  @ViewChild("flights")
+  @ViewChild('flights')
   flightsPanel: Panel;
-  @ViewChild("scoretable")
+  @ViewChild('scoretable')
   scoreTable: DataTable;
-  @ViewChild("confirm")
+  @ViewChild('confirm')
   confirm: ConfirmDialog;
   messages: Message[] = [];
   dataChanged: boolean = false;
@@ -79,7 +69,7 @@ export class ManualScoringComponent implements OnInit {
 
   innerWidth: any;
 
-  @HostListener("window:resize", ["$event"])
+  @HostListener('window:resize', ['$event'])
   onResize(event) {
     this.innerWidth = window.innerWidth;
   }
@@ -87,40 +77,39 @@ export class ManualScoringComponent implements OnInit {
   holesAllowed: Array<number> = [];
   ngOnInit() {
     this.innerWidth = window.innerWidth;
-    this.activeRoute.params.subscribe((params) => {
-      this.competitionId = +params["competitionId"];
+    this.activeRoute.params.subscribe(params => {
+      this.competitionId = +params['competitionId'];
       if (!this.compInfo)
         this.competitionService
           .getCompetitionInfo(this.competitionId)
           .subscribe((comp: Competition) => {
             //Check whether the competition is valid
-            this.sessionService.getUser().subscribe((usr) => {
+            this.sessionService.getUser().subscribe(usr => {
               if (usr && usr.name && usr.name.length > 0) {
                 this.parseNumbers(usr.name);
               }
-              console.debug("manual scoring : comp ", comp);
-              console.debug("manual scoring : usr ", usr);
-              if (usr.userType === "Admin" || usr.userType === "Britesoft") {
+              console.debug('manual scoring : comp ', comp);
+              console.debug('manual scoring : usr ', usr);
+              if (usr.userType === 'Admin' || usr.userType === 'Britesoft') {
                 this.compInfo = comp;
                 this.refresh();
               } else if (
-                (usr.userType === "Organizer" || usr.userType === "Club") &&
+                (usr.userType === 'Organizer' || usr.userType === 'Club') &&
                 usr.organizerId &&
                 comp.organizerId === usr.organizerId
               ) {
+                console.debug('manual scoring : organizer id ');
                 this.compInfo = comp;
                 this.refresh();
-              } else if (
-                usr.userType === "Club" &&
-                usr.clubId &&
-                comp.clubId === usr.clubId
-              ) {
+              } else if (usr.userType === 'Club' && usr.clubId && comp.clubId === usr.clubId) {
+                console.debug('manual scoring : club id ');
                 this.compInfo = comp;
                 this.refresh();
               } else {
+                console.debug('manual scoring : rejected ');
                 this.messageActions.errorGrowl(
-                  "You cannot score for this competition.",
-                  "Access denied"
+                  'You cannot score for this competition.',
+                  'Access denied'
                 );
               }
             });
@@ -130,7 +119,7 @@ export class ManualScoringComponent implements OnInit {
     this.searchStringChanged
       .debounceTime(300)
       .distinctUntilChanged()
-      .subscribe((searchStr) => {
+      .subscribe(searchStr => {
         this.searchString = searchStr;
         this._filter();
       });
@@ -139,7 +128,7 @@ export class ManualScoringComponent implements OnInit {
   refresh() {
     this.refreshCompDetails().subscribe(() => {
       this.refreshFlights().subscribe(() => {
-        console.log("Refreshed");
+        console.log('Refreshed');
         this.refreshScores();
       });
     });
@@ -153,20 +142,17 @@ export class ManualScoringComponent implements OnInit {
         //noinspection TypeScriptValidateTypes
         if (compDetails.nextRound) this.scoringRound = compDetails.nextRound;
         else {
-          this.scoringRound =
-            compDetails.gameRounds[compDetails.gameRounds.length - 1].roundNo;
+          this.scoringRound = compDetails.gameRounds[compDetails.gameRounds.length - 1].roundNo;
         }
         return true;
       });
   }
 
   private getScoringRound(): Observable<boolean> {
-    return this.competitionService
-      .getScoringRound(this.competitionId)
-      .map((round: number) => {
-        this.scoringRound = round;
-        return true;
-      });
+    return this.competitionService.getScoringRound(this.competitionId).map((round: number) => {
+      this.scoringRound = round;
+      return true;
+    });
   }
 
   private refreshFlights(): Observable<boolean> {
@@ -181,7 +167,7 @@ export class ManualScoringComponent implements OnInit {
   }
 
   selectPlayer(flightMember: FlightMember) {
-    console.debug("selected flight member", flightMember, this.selectedPlayer);
+    console.debug('selected flight member', flightMember, this.selectedPlayer);
     //get the scorecard for the player
     this.blocked = true;
 
@@ -191,31 +177,22 @@ export class ManualScoringComponent implements OnInit {
         this.compScorecards = compScorecardsResult;
 
         this.scorecardService
-          .getPlayerScorecard(
-            this.competitionId,
-            this.scoringRound,
-            flightMember.playerId
-          )
+          .getPlayerScorecard(this.competitionId, this.scoringRound, flightMember.playerId)
           .subscribe(
             (scorecard: PlainScorecard) => {
               this.playerScorecard = scorecard;
               if (this.compScorecards) {
                 // this.playerScorecard.playerRoundScores[0] =
-                let _playerScore = this.compScorecards.playerScorecards.find(
-                  (ps) => {
-                    return (
-                      ps.playerRoundId ===
-                      scorecard.playerRoundScores[0].playerRoundId
-                    );
-                  }
-                );
+                let _playerScore = this.compScorecards.playerScorecards.find(ps => {
+                  return ps.playerRoundId === scorecard.playerRoundScores[0].playerRoundId;
+                });
                 if (_playerScore) {
                   scorecard.backNineTotal = _playerScore.inTotalGross;
                   scorecard.frontNineTotal = _playerScore.outTotalGross;
                   scorecard.totalScore = _playerScore.totalGross;
-                  scorecard.playerRoundScores[0].scores.forEach((s) => {
+                  scorecard.playerRoundScores[0].scores.forEach(s => {
                     let _grossScore = _playerScore.scores.find(
-                      (score) => score.scorecardId === s.scorecardId
+                      score => score.scorecardId === s.scorecardId
                     ).grossScore;
                     s.actualScore = _grossScore;
                   });
@@ -230,12 +207,12 @@ export class ManualScoringComponent implements OnInit {
                 this.focusFirstElement();
               }, 300);
             },
-            (error) => {
+            error => {
               let msg = Util.getErrorMessage(
                 error,
-                "Error getting scorecard for the selected player"
+                'Error getting scorecard for the selected player'
               );
-              this.messageActions.errorGrowl(msg, "Saving manual score error");
+              this.messageActions.errorGrowl(msg, 'Saving manual score error');
               this.blocked = false;
             }
           );
@@ -244,23 +221,23 @@ export class ManualScoringComponent implements OnInit {
 
   private _deriveCourseScores() {
     let courseScores: Array<CourseScore> = [];
-    this.playerScorecard.courses.forEach((course) => {
+    this.playerScorecard.courses.forEach(course => {
       let courseScore = {
         whichNine: course.whichNine,
         courseName: course.courseName,
       };
-      course.holes.forEach((ch) => {
-        courseScore["hole" + ch.courseHoleNumber] = null;
-        courseScore["holeInfo" + ch.courseHoleNumber] = ch;
+      course.holes.forEach(ch => {
+        courseScore['hole' + ch.courseHoleNumber] = null;
+        courseScore['holeInfo' + ch.courseHoleNumber] = ch;
       });
       let prs = this.playerScorecard.playerRoundScores[0];
       prs.scores
-        .filter((score) => score.whichNine === course.whichNine)
-        .forEach((score) => {
+        .filter(score => score.whichNine === course.whichNine)
+        .forEach(score => {
           let holeNo = score.holeNumber;
           let courseHoleNo = holeNo - (score.whichNine - 1) * 9;
-          courseScore["hole" + courseHoleNo] = score.actualScore;
-          courseScore["holeInfo" + courseHoleNo].holeIndex = score.holeIndex;
+          courseScore['hole' + courseHoleNo] = score.actualScore;
+          courseScore['holeInfo' + courseHoleNo].holeIndex = score.holeIndex;
         });
       courseScores.push(courseScore);
     });
@@ -311,21 +288,21 @@ export class ManualScoringComponent implements OnInit {
     //     });
     //     return;
     // }
-    prs.scores.forEach((score) => {
+    prs.scores.forEach(score => {
       let courseScore = this.playerScores[score.whichNine - 1];
       let courseHoleNo = score.holeNumber - (score.whichNine - 1) * 9;
-      score.actualScore = courseScore["hole" + courseHoleNo];
+      score.actualScore = courseScore['hole' + courseHoleNo];
     });
     let _scoresArr = [];
-    let _scores = "";
+    let _scores = '';
     if (1) {
-      console.debug("on save - player scorecard", this.playerScorecard);
-      console.debug("on save - player scores", this.playerScores);
-      this.playerScorecard.playerRoundScores[0].scores.forEach((s) => {
+      console.debug('on save - player scorecard', this.playerScorecard);
+      console.debug('on save - player scores', this.playerScores);
+      this.playerScorecard.playerRoundScores[0].scores.forEach(s => {
         _scoresArr.push(`${s.holeNumber}=${s.actualScore}`);
       });
-      _scores = _scoresArr.join(" ");
-      console.debug("on save - player scores", _scoresArr, _scores);
+      _scores = _scoresArr.join(' ');
+      console.debug('on save - player scores', _scoresArr, _scores);
 
       // return;
     }
@@ -350,27 +327,18 @@ export class ManualScoringComponent implements OnInit {
     //     });
 
     this.scorecardService
-      .newSaveScores(
-        this.competitionId,
-        this.scoringRound,
-        this.selectedPlayer.playerId,
-        _scores
-      )
+      .newSaveScores(this.competitionId, this.scoringRound, this.selectedPlayer.playerId, _scores)
       .subscribe((result: ServerResult) => {
-        console.debug("result : ", result);
+        console.debug('result : ', result);
         if (result) {
-          this.flights.forEach((flight) => {
-            flight.flightMembers.forEach((fm) => {
-              if (fm.playerId === this.selectedPlayer.playerId)
-                fm.status = "Completed";
+          this.flights.forEach(flight => {
+            flight.flightMembers.forEach(fm => {
+              if (fm.playerId === this.selectedPlayer.playerId) fm.status = 'Completed';
             });
           });
           this.messages.push({
-            severity: "info",
-            detail:
-              "Saved the scores for " +
-              this.selectedPlayer.playerName +
-              " successfully",
+            severity: 'info',
+            detail: 'Saved the scores for ' + this.selectedPlayer.playerName + ' successfully',
           });
           this.cancelScoring();
           this.refresh();
@@ -403,7 +371,7 @@ export class ManualScoringComponent implements OnInit {
   onCancelClick() {
     if (this.dataChanged)
       this.confirmService.confirm({
-        message: "You will loose all unsaved scores. Do you want to continue?",
+        message: 'You will loose all unsaved scores. Do you want to continue?',
       });
     else {
       this.cancelScoring();
@@ -429,31 +397,23 @@ export class ManualScoringComponent implements OnInit {
   }
 
   private _filter() {
-    console.debug("flights : ", this.flights);
-    this.filteredFlights = this.flights.filter((flight) => {
-      if (
-        flight.flightNumber
-          .toLowerCase()
-          .indexOf(this.searchString.toLocaleLowerCase()) >= 0
-      )
+    console.debug('flights : ', this.flights);
+    this.filteredFlights = this.flights.filter(flight => {
+      if (flight.flightNumber.toLowerCase().indexOf(this.searchString.toLocaleLowerCase()) >= 0)
         return true;
       //Check the flight members
-      let flightMembers = flight.flightMembers.filter((fm) => {
-        return (
-          fm.playerName
-            .toLowerCase()
-            .indexOf(this.searchString.toLowerCase()) >= 0
-        );
+      let flightMembers = flight.flightMembers.filter(fm => {
+        return fm.playerName.toLowerCase().indexOf(this.searchString.toLowerCase()) >= 0;
       });
       return flightMembers && flightMembers.length;
     });
   }
 
   private _calculateTotals() {
-    this.playerScores.forEach((nine) => {
+    this.playerScores.forEach(nine => {
       nine.total = 0;
       for (let i = 1; i <= 9; i++) {
-        let score = nine["hole" + i];
+        let score = nine['hole' + i];
         if (score) nine.total += score;
       }
     });
@@ -463,9 +423,9 @@ export class ManualScoringComponent implements OnInit {
     //add all elements we want to include in our selection
     let focussableElements =
       'a:not([disabled]), button:not([disabled]), input[type=number]:not([disabled]), [tabindex]:not([disabled]):not([tabindex="-1"])';
-    if (document.activeElement && document.activeElement["form"]) {
+    if (document.activeElement && document.activeElement['form']) {
       let focussable = Array.prototype.filter.call(
-        document.activeElement["form"].querySelectorAll(focussableElements),
+        document.activeElement['form'].querySelectorAll(focussableElements),
         function (element) {
           //check for visibility while always include the current activeElement
           return (
@@ -482,7 +442,7 @@ export class ManualScoringComponent implements OnInit {
   }
 
   focusFirstElement() {
-    let scoreForm = this.elementRef.nativeElement.querySelector("form");
+    let scoreForm = this.elementRef.nativeElement.querySelector('form');
     let focussableElements =
       'a:not([disabled]), button:not([disabled]), input[type=number]:not([disabled]), [tabindex]:not([disabled]):not([tabindex="-1"])';
     let focussable = Array.prototype.filter.call(
@@ -490,9 +450,7 @@ export class ManualScoringComponent implements OnInit {
       function (element) {
         //check for visibility while always include the current activeElement
         return (
-          element.offsetWidth > 0 ||
-          element.offsetHeight > 0 ||
-          element === document.activeElement
+          element.offsetWidth > 0 || element.offsetHeight > 0 || element === document.activeElement
         );
       }
     );
@@ -500,11 +458,10 @@ export class ManualScoringComponent implements OnInit {
   }
 
   getHoleNumber(nine, holeNo) {
-    if (!nine) return "";
+    if (!nine) return '';
     // return Math.pow(9,(nine.whichNine-1)) + holeNo;
     if (nine.whichNine === 2) return 9 ** (nine.whichNine - 1) + holeNo;
-    else if (nine.whichNine === 1)
-      return 9 ** (nine.whichNine - 1) + (holeNo - 1);
+    else if (nine.whichNine === 1) return 9 ** (nine.whichNine - 1) + (holeNo - 1);
   }
 
   compScorecards: CompetitionScorecards;
@@ -515,43 +472,32 @@ export class ManualScoringComponent implements OnInit {
         .newCompetitionScorecards(this.competitionId, this.scoringRound)
         .subscribe((compScorecardsResult: any) => {
           this.compScorecards = compScorecardsResult;
-          console.debug(
-            "competition scorecards ",
-            this.compScorecards,
-            compScorecardsResult
-          );
+          console.debug('competition scorecards ', this.compScorecards, compScorecardsResult);
 
-          this.competitionService
-            .getFlightStatus(this.competitionId, this.scoringRound)
-            .subscribe(
-              (flightStatus: CompetitionFlightStatus[]) => {
-                this.flightStatus = flightStatus;
-                this.flightStatus.forEach((fs) => {
-                  let _playerScore = this.compScorecards.playerScorecards.find(
-                    (ps: PlayerScorecard) => {
-                      return (
-                        ps.playerRoundId === fs.playerRoundId && ps.updated
-                      );
-                    }
-                  );
-                  if (_playerScore) {
-                    fs.grossScore = _playerScore.totalGross;
-                    fs.netScore = _playerScore.totalNet;
-                    fs.holesPlayed = _playerScore.holesPlayed;
-                    fs.scores.forEach((score, sidx) => {
-                      score = _playerScore.scores[sidx].grossScore;
-                    });
+          this.competitionService.getFlightStatus(this.competitionId, this.scoringRound).subscribe(
+            (flightStatus: CompetitionFlightStatus[]) => {
+              this.flightStatus = flightStatus;
+              this.flightStatus.forEach(fs => {
+                let _playerScore = this.compScorecards.playerScorecards.find(
+                  (ps: PlayerScorecard) => {
+                    return ps.playerRoundId === fs.playerRoundId && ps.updated;
                   }
-                });
-              },
-              (error) => {
-                let msg = Util.getErrorMessage(
-                  error,
-                  "Error getting flight scoring status"
                 );
-                this.messageActions.error(msg);
-              }
-            );
+                if (_playerScore) {
+                  fs.grossScore = _playerScore.totalGross;
+                  fs.netScore = _playerScore.totalNet;
+                  fs.holesPlayed = _playerScore.holesPlayed;
+                  fs.scores.forEach((score, sidx) => {
+                    score = _playerScore.scores[sidx].grossScore;
+                  });
+                }
+              });
+            },
+            error => {
+              let msg = Util.getErrorMessage(error, 'Error getting flight scoring status');
+              this.messageActions.error(msg);
+            }
+          );
         });
     }
   }
@@ -562,20 +508,20 @@ export class ManualScoringComponent implements OnInit {
 
     // Step 1: Extract the part inside parentheses '(1,2,3)'
     const insideParentheses = inputString.match(/\((.*?)\)/);
-    const numbersString = insideParentheses ? insideParentheses[1] : "";
+    const numbersString = insideParentheses ? insideParentheses[1] : '';
 
     // Step 2: Remove parentheses to get '1,2,3'
-    const commaSeparatedString = numbersString.replace(/[\(\)]/g, "");
+    const commaSeparatedString = numbersString.replace(/[\(\)]/g, '');
 
     // Step 3: Split comma-separated string into an array of strings
-    const numbersArrayStrings = commaSeparatedString.split(",");
+    const numbersArrayStrings = commaSeparatedString.split(',');
 
     // Step 4: Convert each string element to a number
     const numbersArray = numbersArrayStrings.map(Number);
     if (numbersArray[0] === 0) this.holesAllowed = [];
     else this.holesAllowed = numbersArray;
 
-    console.log("numbers array : ", numbersArray, this.holesAllowed);
+    console.log('numbers array : ', numbersArray, this.holesAllowed);
   }
 
   arraysHaveSameNumbers(arr1, arr2) {
@@ -586,11 +532,11 @@ export class ManualScoringComponent implements OnInit {
     const set1 = new Set(arr1);
     const set2 = new Set(arr2);
 
-    return arr1.every((num) => set2.has(num));
+    return arr1.every(num => set2.has(num));
   }
 
   isPartiallyIncluded(array1, array2) {
-    return array1.every((number) => array2.includes(number));
+    return array1.every(number => array2.includes(number));
   }
 
   haveMutualInclusiveNumbers(arr1: number[], arr2: number[]): boolean {
@@ -600,7 +546,7 @@ export class ManualScoringComponent implements OnInit {
 
     // Check if there's any common element between the two sets
     let foundCommonElement = false;
-    set1.forEach((num) => {
+    set1.forEach(num => {
       if (set2.has(num)) {
         foundCommonElement = true;
       }
@@ -617,7 +563,7 @@ export class ManualScoringComponent implements OnInit {
     }
 
     console.debug(
-      "canScoreHole",
+      'canScoreHole',
       this.holesAllowed,
       holeNo,
       this.arraysHaveSameNumbers(this.holesAllowed, holeNo),
@@ -625,8 +571,7 @@ export class ManualScoringComponent implements OnInit {
     );
     //  console.debug("canScoreHole", nine.whichNine, _holeNo, this.haveMutualInclusiveNumbers(this.holesAllowed, _holeNo));
     if (!this.holesAllowed || this.holesAllowed.length === 0) return true;
-    else if (this.haveMutualInclusiveNumbers(this.holesAllowed, _holeNo))
-      return true;
+    else if (this.haveMutualInclusiveNumbers(this.holesAllowed, _holeNo)) return true;
     else return this.isPartiallyIncluded(this.holesAllowed, _holeNo); //
 
     // let _hasHole = [];
@@ -652,7 +597,7 @@ export class ManualScoringComponent implements OnInit {
   }
 
   getTotalScores(player) {
-    console.debug("getTotalScores", player);
+    console.debug('getTotalScores', player);
   }
 }
 interface HoleInfo {
