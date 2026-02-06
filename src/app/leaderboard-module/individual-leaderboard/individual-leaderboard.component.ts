@@ -328,7 +328,13 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
         this.columnVisibilityChanged(this.leaderboardColumns);
         console.debug('column hidden [333a] : ', this.hiddenColumns, this.leaderboardColumns);
       }
+      if (params['scrollSize']) {
+        this.settings['scrollSize'] = Number(params['scrollSize']);
+        this.savePreferences();
+      }
       console.log(params); // { orderby: "price" }
+
+      console.debug('enter param ', params);
       //   this.fullScreen= params.fullScreen;
       //   if(params.fullScreen === 'true' || params.fullScreen) {
       //     this.enterFullScreen()
@@ -367,8 +373,14 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
   //     // this._onDestroy.complete();
   // }
 
+  isFullScreen: boolean = false;
+  enterFullscreenFromOverlay() {
+    this.enterFullScreen();
+    this.isFullScreen = false;
+  }
   ngAfterViewInit(): void {
     this.paramSubscription = this.activeRoute.params.subscribe(params => {
+      console.debug('enter param ', params);
       if (params['competitionId']) this.competitionId = +params['competitionId'];
 
       if (params['categoryId']) {
@@ -378,7 +390,34 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
         console.debug('has category ', this.filteredCategoryId, this.settings);
         this.savePreferences();
       }
+      // if (params['fullScreen']) {
+      //   const isFullScreen = params['fullScreen'];
+      //   console.debug('enter full screen from param ', isFullScreen, params['fullScreen']);
+      //   if (isFullScreen === 'true') this.enterFullScreen();
+      // }
       this.refreshCompInfo();
+    });
+
+    this.activeRoute.queryParams.subscribe(params => {
+      console.debug('enter query param ', params);
+      if (params['fullScreen']) {
+        const isFullScreen = params['fullScreen'];
+        this.isFullScreen = params['fullScreen'];
+        console.debug('enter full screen from param ', isFullScreen, params['fullScreen']);
+        if (isFullScreen === 'true' || isFullScreen) {
+          // setTimeout(() => {
+          //   if (confirm('Do you want to continue?')) {
+          //     console.log('User clicked OK');
+          //     this.enterFullScreen();
+          //   } else {
+          //     console.log('User clicked Cancel');
+          //   }
+          // }, 1000);
+          // alert('Tap OK to enter fullscreen');
+          // prompt.dismiss().then(()=>{
+          // })
+        }
+      }
     });
 
     // this.cdr.detach();
@@ -1080,8 +1119,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
   }
   showLeaderBoard: boolean = true;
   isColumnHidden(columnId: string) {
-    console.debug('is column hidden [0]', this.settings);
-    console.debug('is column hidden [1]', this.hiddenColumns);
+    // console.debug('is column hidden [0]', this.settings);
+    // console.debug('is column hidden [1]', this.hiddenColumns);
     if (columnId === 'handicap') {
       if (!this.compData) return this.hiddenColumns['handicap'];
       if (this.compData.handicapFormat === 'System36' && this.compData.status === 'In Progress')
@@ -1303,10 +1342,14 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
       else return data.thru;
     } else {
       if (data.thru === 'F') return data.thru;
-      else if (this.compDetails.roundInProgress === 1 && data.thru === '0') return ''; //_time
-      else if (this.compDetails.roundInProgress === 2 && data.thru === '18') return ''; //_time
-      else if (this.compDetails.roundInProgress === 3 && data.thru === '36') return ''; //_time
-      else if (this.compDetails.roundInProgress === 4 && data.thru === '54') return ''; //_time
+      else if (this.compDetails.roundInProgress === 1 && data.thru === '0')
+        return ''; //_time
+      else if (this.compDetails.roundInProgress === 2 && data.thru === '18')
+        return ''; //_time
+      else if (this.compDetails.roundInProgress === 3 && data.thru === '36')
+        return ''; //_time
+      else if (this.compDetails.roundInProgress === 4 && data.thru === '54')
+        return ''; //_time
       else return data.thru;
     }
   }
@@ -1596,7 +1639,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
 
   getRoundThru(player, round: number) {
     let _thru: number;
-    if (player.thru === 'F') return true; // player.thru;
+    if (player.thru === 'F')
+      return true; // player.thru;
     // else if(round === 1) return
     else if (this.settings.selectedRound === 0) {
       if (round > 0 && Number(player.thru) >= 18 * round) {

@@ -1,5 +1,5 @@
 {
-  "serverRoot": "https://betalet.mygolf2u.com",
+  "serverRoot": "https://miglet.mygolf2u.com",
   "webSocketDebug": false,
   "webSocketProtocol": "wss",
   "webSocketPort": 433,

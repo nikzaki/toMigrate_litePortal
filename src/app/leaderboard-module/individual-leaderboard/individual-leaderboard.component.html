@@ -1,4 +1,8 @@
 <div [ngBusy]="busyConfig"></div>
+<div *ngIf="isFullScreen" class="fullscreen-overlay"
+     (click)="enterFullscreenFromOverlay()">
+  Tap anywhere to View Leaderboard
+</div>
 <section
   *ngIf="!embedded"
   class="mat-typography"
