@@ -3,6 +3,7 @@ import { Session } from './../models/session/session';
 import {
   CompetitionData,
   CompetitionDataLite,
+  CompetitionSponsorData,
   FlightInfo,
   SearchCriteria,
 } from './../models/mygolf.data';
@@ -35,7 +36,10 @@ import { isPresent } from '../util';
  */
 @Injectable()
 export class CompetitionService {
-  constructor(private remoteHttp: HttpService, private configService: ConfigurationService) {}
+  constructor(
+    private remoteHttp: HttpService,
+    private configService: ConfigurationService
+  ) {}
 
   /**
    * Returns the information about a competition
@@ -542,5 +546,37 @@ export class CompetitionService {
       //   console.debug('non played holes ', resp._body);
       return resp.json();
     });
+  }
+
+  /**
+   * Get the details of competition
+   * @param compId The ID of the competition
+   * @returns {Observable<R>}
+   */
+  public getNewCompetitionSponsors(compId: number): Observable<Array<CompetitionSponsorData>> {
+    let url = this.configService.getRestApiUrl(RestUrl.competitionService.getNewSponsors);
+    let reCompId = /:compId/gi;
+    url = url.replace(reCompId, String(compId));
+    let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA, {
+      competitionId: compId,
+    });
+    return this.remoteHttp
+      .execute(req)
+      .map((resp: Response) => {
+        let compSponsors: Array<CompetitionSponsorData> = resp.json();
+        if (compSponsors) {
+          compSponsors.forEach(sponsor => {
+            this.configService.deriveFulImageURL(sponsor, ['image']);
+            this.configService.deriveFulImageURL(sponsor.sponsor, ['image']);
+            if (sponsor.image) sponsor.sponsor.image = sponsor.image;
+            ConfigurationService.deriveDates(sponsor, ['sponsorDate']);
+          });
+        }
+        compSponsors.sort((a, b) => {
+          return a.displaySequence - b.displaySequence;
+        });
+        return compSponsors;
+      })
+      .catch(Util.handleError);
   }
 }
