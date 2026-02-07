@@ -1,27 +1,27 @@
 import {
-    MdCheckboxModule,
-    MdButtonModule,
-    MdRadioModule,
-    MdIconModule,
-    MdCardModule,
-    MdTooltipModule,
-    MdTableModule,
-    MdTabsModule,
-    MdListModule,
-    MdToolbarModule,
-    MdInputModule,
-    MdOptionModule,
-    MdSelectModule,
-    MdProgressSpinnerModule,
-    MdSlideToggleModule
+    MatCheckboxModule,
+    MatButtonModule,
+    MatRadioModule,
+    MatIconModule,
+    MatCardModule,
+    MatTooltipModule,
+    MatTableModule,
+    MatTabsModule,
+    MatListModule,
+    MatToolbarModule,
+    MatInputModule,
+    MatOptionModule,
+    MatSelectModule,
+    MatProgressSpinnerModule,
+    MatSlideToggleModule
 } from '@angular/material';
 import {CdkTableModule} from '@angular/cdk/table';
-import {BusyModule} from 'angular2-busy';
+import {BusyModule} from 'ng-busy';
 import {FlexLayoutModule} from '@angular/flex-layout';
 
 export const MDModules = [
-    MdCheckboxModule, MdButtonModule, MdRadioModule, MdIconModule, MdCardModule, MdTooltipModule,
-    MdTableModule, CdkTableModule, MdTabsModule, MdListModule, MdToolbarModule, MdInputModule,
-    MdListModule, MdOptionModule, MdSelectModule, MdProgressSpinnerModule, MdSlideToggleModule,
+    MatCheckboxModule, MatButtonModule, MatRadioModule, MatIconModule, MatCardModule, MatTooltipModule,
+    MatTableModule, CdkTableModule, MatTabsModule, MatListModule, MatToolbarModule, MatInputModule,
+    MatListModule, MatOptionModule, MatSelectModule, MatProgressSpinnerModule, MatSlideToggleModule,
     BusyModule, FlexLayoutModule
 ];
