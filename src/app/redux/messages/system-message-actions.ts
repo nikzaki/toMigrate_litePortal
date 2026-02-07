@@ -2,7 +2,7 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../../models/appstate';
 import {Message} from 'primeng/primeng';
 import {Injectable} from '@angular/core';
-import {ToastsManager} from 'ng2-toastr/ng2-toastr';
+import {ToastrService} from 'ngx-toastr';
 /**
  * Created by ashok on 09/06/17.
  */
@@ -18,7 +18,7 @@ export class SystemMessageActions {
     public static CLEAR_GROWL_MESSAGES = 'CLEAR_GROWL_MESSAGES';
     growlMessages: Message[] = [];
     messages: Message[] = [];
-    constructor(private store: Store<AppState>, private toastManager: ToastsManager) {
+    constructor(private store: Store<AppState>, private toastManager: ToastrService) {
     }
 
     public info(detail: string, summary?: string) {

@@ -13,21 +13,21 @@ export function appMenuReducer(state: AppMenu = {currentItems:[]}, action: Actio
         case AppMenuActions.CLEAR_MENU_ITEMS:
             return {currentItems: []};
         case AppMenuActions.ADD_MENU:
-            if(action.payload)
+            if((action as any).payload)
                 return {
-                    currentItems: [...state.currentItems, action.payload]
+                    currentItems: [...state.currentItems, (action as any).payload]
                 };
             else return state;
         case AppMenuActions.ADD_MENU_AT_BEGINING:
-            if(action.payload){
-                let newMenuItems = List(state.currentItems).insert(0, action.payload).toJS();
+            if((action as any).payload){
+                let newMenuItems = List(state.currentItems).insert(0, (action as any).payload).toJS();
                 return {currentItems: newMenuItems};
             }
             else return state;
 
         case AppMenuActions.INSERT_MENU:
-            if(action.payload){
-                let newItems =  List(state.currentItems).insert(action.payload.index, action.payload.menu).toJS();
+            if((action as any).payload){
+                let newItems =  List(state.currentItems).insert((action as any).payload.index, (action as any).payload.menu).toJS();
                 return {currentItems: newItems};
             }
             else return state;

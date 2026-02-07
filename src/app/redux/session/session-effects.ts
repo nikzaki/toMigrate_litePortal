@@ -42,7 +42,7 @@ export class SessionEffects {
   @Effect()
   login$ = this.actions$
     .ofType(SessionActions.LOGIN)
-    .map((action: Action) => <Credentials>action.payload)
+    .map((action: Action) => <Credentials>(action as any).payload)
     .switchMap((credentials: Credentials) => {
       let url = credentials.returnUrl;
       return this.authService
@@ -64,7 +64,7 @@ export class SessionEffects {
   @Effect()
   loggedIn$ = this.actions$
     .ofType(SessionActions.LOGIN_SUCESS)
-    .map((action: Action) => <Session>action.payload)
+    .map((action: Action) => <Session>(action as any).payload)
     .map((session: Session) => {
       switch (session.userInfo.userType) {
         case 'Player':
@@ -85,7 +85,7 @@ export class SessionEffects {
 
   @Effect({ dispatch: false })
   adminLoggedIn$ = this.actions$.ofType(SessionActions.ADMIN_LOGGED_IN).do((action: Action) => {
-    let url = (<Credentials>action.payload).returnUrl;
+    let url = (<Credentials>(action as any).payload).returnUrl;
     this.store.dispatch(createAction(SessionActions.ADMIN_INFO_POPULATE, {}));
     //Now navigate to Admin Hole
     if (url) this.router.navigate([url]);
@@ -95,7 +95,7 @@ export class SessionEffects {
   @Effect({ dispatch: false })
   organizerLoggedIn$ = this.actions$
     .ofType(SessionActions.ORGANIZER_LOGGED_IN)
-    .map((action: Action) => <Session>action.payload)
+    .map((action: Action) => <Session>(action as any).payload)
     .do((session: Session) => {
       return this.organizerService
         .getOrganizerInfo(session.userInfo.organizerId)
@@ -130,7 +130,7 @@ export class SessionEffects {
   @Effect({ dispatch: false })
   clubLoggedIn$ = this.actions$
     .ofType(SessionActions.CLUB_LOGGED_IN, SessionActions.ORGANIZER_LOGGED_IN)
-    .map((action: Action) => action.payload)
+    .map((action: Action) => (action as any).payload)
     .do((session: Session) => {
       return this.clubService
         .getClubInfo(session.userInfo.clubId)
@@ -164,7 +164,7 @@ export class SessionEffects {
   @Effect({ dispatch: false })
   playerLoggedIn$ = this.actions$
     .ofType(SessionActions.PLAYER_LOGGED_IN)
-    .map((action: Action) => action.payload)
+    .map((action: Action) => (action as any).payload)
     .do((session: Session) => {
       this.playerService
         .getPlayerInfo(session.userInfo.playerId)

@@ -12,14 +12,14 @@ export function notificationReducer(state: UserNotifications = InitUserNotificat
     switch(action.type) {
         case NotificationActions.ACTIVE_COMPETITIONS:
             return Object.assign({}, state, {
-                activeCompetitions: action.payload
+                activeCompetitions: (action as any).payload
             });
         case NotificationActions.NEW_SCORING_NOTIFICATION:
             return Object.assign({}, state, {
-                scoringNotifications: [...state.scoringNotifications, action.payload]
+                scoringNotifications: [...state.scoringNotifications, (action as any).payload]
             });
         case NotificationActions.REMOVE_SCORING_NOTIFICATION:
-            let remaining = state.scoringNotifications.filter(n=>n!==action.payload);
+            let remaining = state.scoringNotifications.filter(n=>n!==(action as any).payload);
             return Object.assign({}, state, {
                 scoringNotifications: remaining
             });

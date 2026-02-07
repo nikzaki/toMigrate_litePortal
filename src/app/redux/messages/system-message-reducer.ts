@@ -12,13 +12,13 @@ export function systemMessageReducer(state: SystemMessages=initSystemMessages, a
     switch(action.type) {
         case SystemMessageActions.ADD_MESSAGE:
             return {
-                lastMessage: action.payload,
-                messages: [...state.messages, action.payload],
+                lastMessage: (action as any).payload,
+                messages: [...state.messages, (action as any).payload],
                 growlMessages: state.growlMessages
             };
         case SystemMessageActions.REMOVE_MESSAGE:
-            let mgs = state.messages.filter(m=>m!==action.payload);
-            if(state.lastMessage === action.payload)
+            let mgs = state.messages.filter(m=>m!==(action as any).payload);
+            if(state.lastMessage === (action as any).payload)
                 return {
                     lastMessage: null,
                     messages: mgs,
@@ -39,11 +39,11 @@ export function systemMessageReducer(state: SystemMessages=initSystemMessages, a
             return {
                 lastMessage: state.lastMessage,
                 messages: state.messages,
-                growlMessages: [...state.growlMessages, action.payload]
+                growlMessages: [...state.growlMessages, (action as any).payload]
             };
         case SystemMessageActions.REMOVE_GROWL_MESSAGE:
             let msgs = state.growlMessages.filter(gm=>{
-                return !Object.is(gm, action.payload);
+                return !Object.is(gm, (action as any).payload);
             });
             return {
                 lastMessage: state.lastMessage,
@@ -54,7 +54,7 @@ export function systemMessageReducer(state: SystemMessages=initSystemMessages, a
             return {
                 lastMessage: state.lastMessage,
                 messages: state.messages,
-                growlMessages: action.payload
+                growlMessages: (action as any).payload
             };
         case SystemMessageActions.CLEAR_GROWL_MESSAGES:
             return {

@@ -380,7 +380,7 @@ export class CompetitionService {
     });
   }
 
-  public getSearchCompetitions(): Observable<Array<Competition>> {
+  public getSearchCompetitions(): Observable<Competition> {
     let url = this.configService.getRestApiUrl(RestUrl.competitionService.searchCompetitions);
     let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA);
     return this.remoteHttp

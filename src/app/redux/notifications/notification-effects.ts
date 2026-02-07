@@ -47,7 +47,7 @@ export class NotificationEffects {
     @Effect({dispatch: false})
     clubLoggedIn$      = this.actions$.ofType(SessionActions.CLUB_LOGGED_IN)
                              .do((action: Action) => {
-                                 let session: Session = action.payload;
+                                 let session: Session = (action as any).payload;
                                  this.clubService.getActiveCompetitions(session.userInfo.clubId)
                                      .take(1)
                                      .subscribe(comps => {
@@ -57,7 +57,7 @@ export class NotificationEffects {
     @Effect({dispatch: false})
     organizerLoggedIn$ = this.actions$.ofType(SessionActions.ORGANIZER_LOGGED_IN)
                              .do((action: Action) => {
-                                 let session: Session = action.payload;
+                                 let session: Session = (action as any).payload;
                                  this.organizerService.getActiveCompetitions(session.userInfo.organizerId)
                                      .take(1)
                                      .subscribe(comps => {

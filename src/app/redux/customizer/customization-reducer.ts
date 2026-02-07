@@ -19,15 +19,15 @@ export function customizationReducer(state: Customization = DefaultCustomization
         case CustomizationActions.RESET_DEFAULT:
             return DefaultCustomization;
         case CustomizationActions.SET_THEME:
-            return Map(state).set('currentTheme', action.payload).toJS();
+            return Map(state).set('currentTheme', (action as any).payload).toJS();
         case CustomizationActions.SET_TEXT_SIZE:
-            return Map(state).set('textSize', action.payload).toJS();
+            return Map(state).set('textSize', (action as any).payload).toJS();
         case CustomizationActions.SET_MENU_LAYOUT:
-            return Map(state).set('menuLayout', action.payload).toJS();
+            return Map(state).set('menuLayout', (action as any).payload).toJS();
         case CustomizationActions.SET_MENU_COLOR:
-            return Map(state).set('menuColor', action.payload).toJS();
+            return Map(state).set('menuColor', (action as any).payload).toJS();
         case CustomizationActions.SET_PROFILE_TYPE:
-            return Map(state).set('profileType', action.payload).toJS();
+            return Map(state).set('profileType', (action as any).payload).toJS();
         default:
             return state;
     }
