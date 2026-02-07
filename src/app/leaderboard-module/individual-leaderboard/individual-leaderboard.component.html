@@ -3,8 +3,8 @@
      (click)="enterFullscreenFromOverlay()">
   Tap anywhere to View Leaderboard
 </div>
+  <!-- *ngIf="!embedded && !isFullScreen" -->
 <section
-  *ngIf="!embedded"
   class="mat-typography"
   fxLayout="row nowrap"
   fxLayout.lt-sm="column nowrap"
@@ -31,9 +31,10 @@
       class="ui-md-3"
       *ngIf="compDetails && compDetails.sponsors && compDetails.sponsors.length > 0"
     >
+    <!-- style="max-width: 24vh; max-height: 48vh" -->
       <img
         class="mx-auto d-block img-fluid"
-        style="max-width: 24vh; max-height: 48vh"
+        style="max-height: 5rem"
         [src]="compDetails && compDetails.sponsors[0] ? compDetails.sponsors[0].sponsor.image : ''"
       />
       <!-- [src]="compDetails && compDetails.sponsors[0]?compDetails.sponsors[0].imageUrl:'assets/images/MALGA_logo.png'" -->
@@ -44,7 +45,7 @@
     <div class="ui-md-3">
       <img
         class="mx-auto d-block img-fluid lb-logo"
-        style="max-height: 25vh"
+        style="max-height: 5rem"
         [src]="
           competition && competition.imageUrl
             ? competition.imageUrl
@@ -53,7 +54,7 @@
         onerror="assets/images/default_competition.png"
       />
     </div>
-    <div class="ui-g-12 vertical-align-center competition-name">
+    <div class="ui-g-9 vertical-align-center competition-name">
       <h1 class="mga-font">{{ competition?.competitionName }}</h1>
     </div>
     <div
@@ -1050,7 +1051,7 @@ ROUND SELECTION
 
     <p-column
       styleClass="ocb-data"
-      field="ocb"
+      field="pointsOcbStat"
       header="OCB"
       [hidden]="(isColumnHidden('ocb') && isPointsHidden()) || hideOCBColumn('points')"
       [style]="{ textAlign: 'center' }"
@@ -2343,7 +2344,7 @@ ROUND SELECTION
     ></p-column>
     <p-column
       styleClass="ocb-data"
-      field="ocb"
+      field="pointsOcbStat"
       header="OCB"
       [hidden]="isColumnHidden('ocb') && isPointsHidden()"
       [style]="{ textAlign: 'center' }"

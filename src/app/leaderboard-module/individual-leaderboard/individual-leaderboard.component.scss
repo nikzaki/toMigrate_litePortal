@@ -788,3 +788,11 @@ $duration: 60s;
   z-index: 9999;
   cursor: pointer;
 }
+.ios-fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+}

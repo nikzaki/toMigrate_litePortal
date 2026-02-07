@@ -18,6 +18,7 @@ import {
   ElementRef,
   ChangeDetectionStrategy,
   ChangeDetectorRef,
+  Renderer2,
 } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
@@ -54,6 +55,7 @@ import { CompetitionCategory } from '../../models/mygolf/competition/competition
 import {
   CompetitionData,
   CompetitionDataLite,
+  CompetitionSponsorData,
   FlightInfo,
   FlightMember,
 } from 'app/models/mygolf.data';
@@ -153,7 +155,8 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
     private media: ObservableMedia,
     private cdr: ChangeDetectorRef,
     private configService: ConfigurationService,
-    private http: Http
+    private http: Http,
+    private renderer: Renderer2
   ) {
     // router.events.pipe(takeUntil(this._onDestroy)).subscribe(event => {
     //     // do stuff here
@@ -332,15 +335,12 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
         this.settings['scrollSize'] = Number(params['scrollSize']);
         this.savePreferences();
       }
+      if (params['embedded'] && params['embedded'] === 'true') {
+        this.embedded = true;
+      }
       console.log(params); // { orderby: "price" }
 
       console.debug('enter param ', params);
-      //   this.fullScreen= params.fullScreen;
-      //   if(params.fullScreen === 'true' || params.fullScreen) {
-      //     this.enterFullScreen()
-      //   }
-
-      //   console.log(this.fullScreen); // price
     });
     // console.log('ngOnInit() : ', this.embedded)
 
@@ -390,11 +390,6 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
         console.debug('has category ', this.filteredCategoryId, this.settings);
         this.savePreferences();
       }
-      // if (params['fullScreen']) {
-      //   const isFullScreen = params['fullScreen'];
-      //   console.debug('enter full screen from param ', isFullScreen, params['fullScreen']);
-      //   if (isFullScreen === 'true') this.enterFullScreen();
-      // }
       this.refreshCompInfo();
     });
 
@@ -447,6 +442,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
       i.requestFullscreen();
     } else if (i.webkitRequestFullscreen) {
       i.webkitRequestFullscreen();
+      // this.renderer.addClass(i, 'ios-fullscreen');
     } else if (i.mozRequestFullScreen) {
       i.mozRequestFullScreen();
     } else if (i.msRequestFullscreen) {
@@ -798,10 +794,18 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
         // if (data) this.compNonPlayedHoles = JSON.parse(JSON.stringify(data));
         if (data) this.compNonPlayedHoles = data;
       });
-      this.addToBusyList([sub1, sub2, sub3, sub4]);
+
+      let sub5 = this.competitionService
+        .getNewCompetitionSponsors(this.competitionId)
+        .subscribe((compSponsors: Array<CompetitionSponsorData>) => {
+          this.sponsors = [];
+          this.sponsors.push(...compSponsors);
+        });
+      this.addToBusyList([sub1, sub2, sub3, sub4, sub5]);
       // this.loadCompNonPlayedHoles();
     }
   }
+  sponsors: Array<CompetitionSponsorData>;
   loadCompNonPlayedHoles() {
     // return
     //     return this.http.get('config/comp_nonHolesPlayed.json')
