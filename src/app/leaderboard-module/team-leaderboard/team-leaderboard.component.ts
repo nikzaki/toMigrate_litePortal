@@ -1,7 +1,7 @@
 import {Component, ElementRef, Input, OnDestroy, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
 import {MediaChange, MediaObserver} from '@angular/flex-layout';
 import {ActivatedRoute} from '@angular/router';
-import {DataTable} from 'primeng/primeng';
+import {DataTable} from 'primeng/api';
 import {Observable} from 'rxjs/Observable';
 import {Subscription} from 'rxjs/Subscription';
 import {ColumnsHidden, TableColumnDetails} from '../../component-module/leaderboard-settings/column-visibility';

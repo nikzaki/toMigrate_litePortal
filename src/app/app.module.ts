@@ -10,7 +10,7 @@ import {StoreDevtoolsModule} from '@ngrx/store-devtools';
 import {StompConfig, StompService} from '@stomp/rx-stompjs';
 import {ToastModule, ToastOptions} from 'ngx-toastr';
 import {localStorageSync} from 'ngrx-store-localstorage';
-import {ConfirmationService} from 'primeng/primeng';
+import {ConfirmationService} from 'primeng/api';
 import {AdminModule} from './admin-module/admin.module';
 import {AppComponent} from './app.component';
 import {AppFooter} from './app.footer.component';

@@ -1,6 +1,6 @@
 import {Component, OnInit, Input, Output, EventEmitter, OnChanges, SimpleChanges, ViewChild} from '@angular/core';
 import {MobileDevice} from '../../models/mygolf/mobile-device';
-import {ConfirmationService, OverlayPanel} from 'primeng/primeng';
+import {ConfirmationService, OverlayPanel} from 'primeng/api';
 import {Flight} from '../../models/mygolf/competition/competition-flight';
 import {DeviceService} from '../../services/device.service';
 import {Router, ActivatedRoute} from '@angular/router';

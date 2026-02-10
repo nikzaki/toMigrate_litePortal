@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {ConfirmationService, Dialog, SelectItem} from 'primeng/primeng';
+import {ConfirmationService, Dialog, SelectItem} from 'primeng/api';
 import 'rxjs/add/operator/debounceTime';
 import 'rxjs/add/operator/distinctUntilChanged';
 import {Subject} from 'rxjs/Subject';

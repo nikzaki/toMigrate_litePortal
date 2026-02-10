@@ -1,4 +1,4 @@
-import {Message} from 'primeng/primeng';
+import {Message} from 'primeng/api';
 /**
  * Created by ashok on 09/06/17.
  */

@@ -1,7 +1,7 @@
 import {Component, OnInit, Input, OnChanges, SimpleChanges, ViewEncapsulation, ViewChild} from '@angular/core';
 import {CompetitionPlayer} from '../../models/mygolf/competition/competition-player';
 import {Util} from '../../util';
-import {OverlayPanel} from 'primeng/primeng';
+import {OverlayPanel} from 'primeng/overlaypanel';
 import {BehaviorSubject} from 'rxjs/BehaviorSubject';
 import {DataSource} from '@angular/cdk/collections';
 import {Observable} from 'rxjs/Observable';

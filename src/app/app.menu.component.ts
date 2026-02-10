@@ -2,7 +2,7 @@ import {Component, EventEmitter, forwardRef, Inject, Input, OnInit} from '@angul
 import {animate, state, style, transition, trigger} from '@angular/animations';
 import {Location} from '@angular/common';
 import {Router} from '@angular/router';
-import {MenuItem} from 'primeng/primeng';
+import {MenuItem} from 'primeng/api';
 import {AppComponent} from './app.component';
 @Component({
     selector: 'app-menu',

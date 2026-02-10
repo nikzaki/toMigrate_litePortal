@@ -2,9 +2,9 @@ import {Component, OnInit, Input, EventEmitter, Output, ViewChild} from '@angula
 import {Competition} from '../../models/mygolf/competition/competition';
 import {Actions} from '@ngrx/effects';
 import {Action} from '../../models/action';
-import {DataList} from 'primeng/primeng';
+import {DataList} from 'primeng/api';
 import { CompetitionService } from 'app/services/competition.service';
-import {DataGridModule} from 'primeng/primeng';
+import {DataGridModule} from 'primeng/api';
 @Component({
     selector   : 'competition-list',
     templateUrl: './competition-list.component.html',

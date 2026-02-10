@@ -5,7 +5,7 @@ import {
 import {AppMenuService} from './redux/appmenu/appmenu-service';
 import {Observable} from 'rxjs/Observable';
 import {AppState} from './models/appstate';
-import {MenuItem, Message, TooltipModule} from 'primeng/primeng';
+import {MenuItem, Message, TooltipModule} from 'primeng/api';
 import {Store} from '@ngrx/store';
 import {AppMenuActions} from './redux/appmenu/appmenu-actions';
 import {CustomizationService} from './redux/customizer/customization-service';
@@ -18,7 +18,7 @@ import {Subscription} from 'rxjs/Subscription';
 import {SystemMessageActions} from './redux/messages/system-message-actions';
  import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
-// import {SidebarModule} from 'primeng/primeng';
+// import {SidebarModule} from 'primeng/api';
 enum MenuOrientation {
     STATIC,
     OVERLAY,

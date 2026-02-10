@@ -1,7 +1,7 @@
 
 import {Component, Input, OnChanges, SimpleChanges, Output, EventEmitter, OnInit} from '@angular/core';
 import {TableColumnDetails} from './column-visibility';
-import {SelectItem} from 'primeng/primeng';
+import {SelectItem} from 'primeng/api';
 
 @Component({
     selector: 'leaderboard-column-visibility',

@@ -1,7 +1,7 @@
 import {Routes, RouterModule} from '@angular/router';
 import {ModuleWithProviders} from '@angular/core';
 import {AdminHomeComponent} from './admin-home/admin-home.component';
-import {MenuItem} from 'primeng/primeng';
+import {MenuItem} from 'primeng/api';
 import {AdminGuard} from './admin-guard';
 import {CompetitionDetailsComponent} from '../component-module/competition-details/competition-details.component';
 import {ManualScoringComponent} from '../component-module/manual-scoring/manual-scoring.component';
@@ -77,7 +77,7 @@ export const routes: Routes = [
         ]
     }
 ];
-export const AdminRoutes: ModuleWithProviders = RouterModule.forChild(routes);
+export const AdminRoutes: ModuleWithProviders<RouterModule> = RouterModule.forChild(routes);
 export const AdminMenuItems: MenuItem [] = [
     {label: 'Admin Home', icon: 'home', routerLink: ['/admin']},
     {label: 'Advertisements', icon: 'movie', routerLink: ['/admin/advertisements']},

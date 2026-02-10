@@ -1,5 +1,5 @@
 import {appMenuReducer} from './appmenu-reducer';
-import {MenuItem} from 'primeng/primeng';
+import {MenuItem} from 'primeng/api';
 import {AppMenuActions} from './appmenu-actions';
 import {AppMenu} from '../../models/session/appmenu';
 import {createAction} from '../create-action';

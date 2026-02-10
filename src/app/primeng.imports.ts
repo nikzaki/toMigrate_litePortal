@@ -63,7 +63,7 @@ import {
     TreeTableModule, BlockUIModule, ColorPickerModule, OrganizationChartModule,
     InplaceModule,
     CaptchaModule
-} from 'primeng/primeng';
+} from 'primeng/api';
 export const PRIMENG_MODULES = [
     AccordionModule,
     AutoCompleteModule,

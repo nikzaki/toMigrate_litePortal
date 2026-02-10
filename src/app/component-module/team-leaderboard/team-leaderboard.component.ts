@@ -8,7 +8,7 @@ import {SystemMessageActions} from '../../redux/messages/system-message-actions'
 import {CompetitionTeams} from '../../models/mygolf/competition/competition-teams';
 import {GameRound} from '../../models/mygolf/gameround';
 import {TeamScores} from '../../models/mygolf/competition/team-scores';
-import {DataTable} from 'primeng/primeng';
+import {DataTable} from 'primeng/api';
 import {Observable} from 'rxjs/Observable';
 import {
     LeaderboardSettingsComponent,

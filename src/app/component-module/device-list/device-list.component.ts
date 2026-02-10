@@ -11,7 +11,7 @@ import {
     ChangeDetectorRef
 } from '@angular/core';
 
-import {Inplace, DataGrid} from 'primeng/primeng';
+import {Inplace, DataGrid} from 'primeng/api';
 import {DeviceService} from '../../services/device.service';
 import {Device} from '../../models/mygolf/device/device';
 import {ServerResult} from '../../models/server-result';

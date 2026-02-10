@@ -1,5 +1,5 @@
 import {Component, OnInit, ViewChild, ViewEncapsulation, OnDestroy} from '@angular/core';
-import {SelectItem, Message, OverlayPanel} from 'primeng/primeng';
+import {SelectItem, Message, OverlayPanel} from 'primeng/api';
 import {Competition} from '../../models/mygolf/competition/competition';
 import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/observable/timer';

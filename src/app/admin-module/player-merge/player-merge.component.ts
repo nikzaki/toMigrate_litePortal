@@ -2,7 +2,7 @@ import {Component, OnInit, ViewEncapsulation, ViewChild} from '@angular/core';
 import {Player} from '../../models/mygolf/player/player';
 import {PlayerList} from '../../models/mygolf/player/player-list';
 import {Subject} from 'rxjs/Subject';
-import {ConfirmDialog, Message, ConfirmationService} from 'primeng/primeng';
+import {ConfirmDialog, Message, ConfirmationService} from 'primeng/api';
 import {PlayerService} from '../../services/player.service';
 import {ConfigurationService} from '../../services/configuration.service';
 import {ServerResult} from '../../models/server-result';

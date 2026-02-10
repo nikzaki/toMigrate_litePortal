@@ -3,7 +3,7 @@ import {Store} from '@ngrx/store';
 import {AppState} from '../../models/appstate';
 import {createAction} from '../create-action';
 import {CustomizationActions} from '../customizer/customization-actions';
-import {MenuItem} from 'primeng/primeng';
+import {MenuItem} from 'primeng/api';
 /**
  * Created by ashok on 29/04/17.
  */

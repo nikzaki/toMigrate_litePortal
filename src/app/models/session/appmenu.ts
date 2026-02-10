@@ -1,4 +1,4 @@
-import {MenuItem} from 'primeng/primeng';
+import {MenuItem} from 'primeng/api';
 /**
  * Current menu items of the application
  * Created by ashok on 29/04/17.

@@ -3,7 +3,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {CompetitionFlightStatus} from '../../models/mygolf/competition/competition-flight-status';
-import {OverlayPanel} from 'primeng/primeng';
+import {OverlayPanel} from 'primeng/overlaypanel';
 import {Subject} from 'rxjs/Subject';
 import {Subscription} from 'rxjs/Subscription';
 @Component({

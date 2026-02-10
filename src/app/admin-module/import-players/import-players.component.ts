@@ -11,12 +11,12 @@ import {Player} from '../../models/mygolf/player/player';
 import {ClubList} from '../../models/mygolf/club/club-list';
 import {Club} from '../../models/mygolf/club/club';
 
-import {Http, ResponseContentType} from '@angular/http';
+import {Http, ResponseContentType} from '@angular/common/http';
 import 'rxjs/Rx';
-import {DropdownModule} from 'primeng/primeng';
-import {SelectItem} from 'primeng/primeng';
+import {DropdownModule} from 'primeng/dropdown';
+import {SelectItem} from 'primeng/api';
 
-import {ConfirmationService, OverlayPanel} from 'primeng/primeng';
+import {ConfirmationService, OverlayPanel} from 'primeng/overlaypanel';
 import { OutgoingHttpHeaders } from 'http';
 import {Session} from '../../models/session/session';
 import {SessionService} from '../../redux/session/session.service';

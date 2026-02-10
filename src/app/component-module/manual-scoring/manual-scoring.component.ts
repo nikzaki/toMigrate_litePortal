@@ -12,7 +12,7 @@ import { Competition } from '../../models/mygolf/competition/competition';
 import { CompetitionDetails } from '../../models/mygolf/competition/competition-details';
 import { Flight } from '../../models/mygolf/competition/competition-flight';
 import { FlightMember } from '../../models/mygolf/competition/flight-member';
-import { DataTable, ConfirmDialog, Message, Panel, ConfirmationService } from 'primeng/primeng';
+import { DataTable, ConfirmDialog, Message, Panel, ConfirmationService } from 'primeng/api';
 import { SessionService } from '../../redux/session';
 import { CompetitionService } from '../../services/competition.service';
 import { ScorecardService } from '../../services/scorecard.service';

@@ -4,7 +4,7 @@ import {
 } from '@angular/core';
 import {Advertisement} from '../../models/mygolf/advertisement';
 import {FormBuilder, FormControl,  Validators} from '@angular/forms';
-import {FileUpload} from 'primeng/primeng';
+import {FileUpload} from 'primeng/api';
 
 @Component({
     selector   : 'advertisement-form',

@@ -4,7 +4,7 @@ import {AppState} from '../../models/appstate';
 import {AppMenuActions} from './appmenu-actions';
 import {compose} from '@ngrx/core/compose';
 import {rootReducer} from '../root-reducer';
-import {MenuItem} from 'primeng/primeng';
+import {MenuItem} from 'primeng/api';
 /**
  * Created by ashok on 04/05/17.
  */

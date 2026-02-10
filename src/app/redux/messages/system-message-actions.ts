@@ -1,6 +1,6 @@
 import {Store} from '@ngrx/store';
 import {AppState} from '../../models/appstate';
-import {Message} from 'primeng/primeng';
+import {Message} from 'primeng/api';
 import {Injectable} from '@angular/core';
 import {ToastrService} from 'ngx-toastr';
 /**

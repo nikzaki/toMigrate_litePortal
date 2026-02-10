@@ -5,7 +5,7 @@ import {CompetitionService} from '../../services/competition.service';
 import {Competition, CompetitionTeams, CompetitionDetails} from '../../models/mygolf/competition';
 import {Util} from '../../util';
 import {SystemMessageActions} from '../../redux/messages/system-message-actions';
-import {TreeNode, TreeTable} from 'primeng/primeng';
+import {TreeNode, TreeTable} from 'primeng/api';
 import {Observable} from 'rxjs/Observable';
 import "rxjs/add/operator/finally";
 import {GameRound} from '../../models/mygolf/gameround';

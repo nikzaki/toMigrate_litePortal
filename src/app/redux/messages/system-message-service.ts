@@ -2,7 +2,7 @@ import {Injectable} from '@angular/core';
 import {Store} from '@ngrx/store';
 import {AppState} from '../../models/appstate';
 import {Observable} from 'rxjs/Observable';
-import {Message} from 'primeng/primeng';
+import {Message} from 'primeng/api';
 /**
  * Created by ashok on 09/06/17.
  */

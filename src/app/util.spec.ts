@@ -1,5 +1,5 @@
 import {Util} from './util';
-import {TreeNode} from 'primeng/primeng';
+import {TreeNode} from 'primeng/api';
 /**
  * Created by ashok on 28/06/17.
  */

@@ -21,7 +21,7 @@ import {
     SelectItem,
     OverlayPanelModule,
     OverlayPanel
-} from 'primeng/primeng';
+} from 'primeng/api';
 import {
     HandicapService
 } from 'app/services/handicap.service';
@@ -45,7 +45,7 @@ import {
 } from '../../models/mygolf/club/club-list';
 import {
     DialogModule
-} from 'primeng/primeng';
+} from 'primeng/api';
 import {
     PlayerService
 } from 'app/services/player.service';
@@ -54,26 +54,26 @@ import {
 } from 'app/models/mygolf/player/player-list';
 import {
     PaginatorModule
-} from 'primeng/primeng';
+} from 'primeng/api';
 import {
     ConfirmDialog,
     Message,
     ConfirmationService
-} from 'primeng/primeng';
+} from 'primeng/api';
 import {
     MessagesModule
-} from 'primeng/primeng';
-// import {MessageModule} from 'primeng/primeng';
+} from 'primeng/api';
+// import {MessageModule} from 'primeng/api';
 // import {Message} from 'primeng/components/common/api';
 import {
     MessageService
 } from 'primeng/components/common/messageservice';
 import {
     FieldsetModule
-} from 'primeng/primeng';
+} from 'primeng/api';
 import {
     PanelModule
-} from 'primeng/primeng';
+} from 'primeng/api';
 import { HandicapSystem,
     HandicapCalculation,
     HandicapGameRound,

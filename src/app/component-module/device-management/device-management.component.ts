@@ -1,5 +1,5 @@
 import {Component, OnInit} from '@angular/core';
-import {SelectItem, Message} from 'primeng/primeng';
+import {SelectItem, Message} from 'primeng/api';
 import * as moment from 'moment';
 
 import {Map, fromJS} from 'immutable';

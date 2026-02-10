@@ -7,7 +7,7 @@ import {
     ViewEncapsulation
 } from '@angular/core';
 import {CompetitionPrize} from '../../models/mygolf/competition/competition-prize';
-import {TreeNode} from 'primeng/primeng';
+import {TreeNode} from 'primeng/api';
 import {Util} from '../../util';
 @Component({
     selector   : 'prize-list',

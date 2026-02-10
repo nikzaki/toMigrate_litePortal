@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {Observable} from 'rxjs/Observable';
 import {Headers, RequestMethod} from '@angular/http';
 import {ContentType, RemoteRequest} from './services/remote-request';
-import {TreeNode} from 'primeng/primeng';
+import {TreeNode} from 'primeng/api';
 
 /**
  * Created by ashok on 25/02/17.
