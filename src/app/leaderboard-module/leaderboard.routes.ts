@@ -30,4 +30,4 @@ export const routes: Routes = [
     exports: [RouterModule]
 })
 export class LeaderboardRoutes{}
-// export const LeaderboardRoutes: ModuleWithProviders = RouterModule.forChild(routes);
+// export const LeaderboardRoutes: ModuleWithProviders<RouterModule> = RouterModule.forChild(routes);

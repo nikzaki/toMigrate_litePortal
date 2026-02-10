@@ -1,5 +1,5 @@
 import {
-    AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, Renderer2, ViewChild, LOCALE_ID,
+    AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, ViewChild, LOCALE_ID,
     Inject, OnInit, ViewContainerRef, HostListener
 } from '@angular/core';
 import {AppMenuService} from './redux/appmenu/appmenu-service';

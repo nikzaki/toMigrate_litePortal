@@ -12,4 +12,4 @@ export const routes: Routes = [
         ]
     }
 ];
-export const PlayerRoutes: ModuleWithProviders = RouterModule.forChild(routes);
+export const PlayerRoutes: ModuleWithProviders<RouterModule> = RouterModule.forChild(routes);
