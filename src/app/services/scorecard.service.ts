@@ -69,7 +69,7 @@ export class ScorecardService {
         });
         return this.remoteHttp.execute(request)
                    .map((resp: Response)=>{
-                       let result: ServerResult = resp.json();
+                       let result: ServerResult = resp as any;
                        return result;
                    }).catch(Util.handleError);
     }
@@ -116,7 +116,7 @@ export class ScorecardService {
         }, hdrs);
         return this.remoteHttp.execute(request)
                    .map((resp: Response)=>{
-                       let result: ServerResult = resp.json();
+                       let result: ServerResult = resp as any;
                        return result;
                    }).catch(Util.handleError);
     }
@@ -143,7 +143,7 @@ export class ScorecardService {
     //     }, hdrs);
     //     return this.remoteHttp.execute(request)
     //                .map((resp: Response)=>{
-    //                    let result: ServerResult = resp.json();
+    //                    let result: ServerResult = resp as any;
     //                    return result;
     //                }).catch(Util.handleError);
     // }
@@ -162,7 +162,7 @@ export class ScorecardService {
         let req = new RemoteRequest(url, "POST", ContentType.PLAIN_TEXT, scores);
         return this.remoteHttp.execute(req)
                    .map((resp: Response) => {
-                       let result: ServerResult = resp.json();
+                       let result: ServerResult = resp as any;
                        return result;
                    }).catch(Util.handleError);
     }
@@ -179,7 +179,7 @@ export class ScorecardService {
         let req = new RemoteRequest(url, "GET", ContentType.URL_ENCODED_FORM_DATA);
         return this.remoteHttp.execute(req)
                    .map((resp: Response) => {
-                       let result: ServerResult = resp.json();
+                       let result: ServerResult = resp as any;
                        return result;
                    }).catch(Util.handleError);
     }
