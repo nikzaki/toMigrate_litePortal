@@ -1,4 +1,4 @@
-import {Headers, Request, RequestMethod} from '@angular/http';
+import {Headers, Request, RequestMethod} from '@angular/common/http';
 import {isPresent} from '../util';
 /**
  * This class represents a remote request

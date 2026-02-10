@@ -39,7 +39,7 @@ export class ScorecardService {
         });
         return this.remoteHttp.execute(req)
                    .map((resp: Response)=>{
-                       let scorecard: PlainScorecard = resp.json();
+                       let scorecard: PlainScorecard = resp as any;
                        this.transform(scorecard);
                        return scorecard;
                    }).catch(Util.handleError);
