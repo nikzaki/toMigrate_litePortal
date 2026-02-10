@@ -47,11 +47,10 @@ import {HomeModule} from './home-module/home.module';
 import {HomeRoutes} from './home-module/home.routes';
 import {LeaderboardRoutes} from './leaderboard-module/leaderboard.routes';
 
-export const prodReducer = compose(localStorageSync({
+export const prodReducer = localStorageSync({
         keys: AppSync,
         rehydrate: false
-    }),
-    combineReducers)(rootReducer);
+    })(combineReducers(rootReducer));
 
 export function appReducer(state: any = {}, action: any){
     return prodReducer(state, action);

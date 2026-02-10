@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewContainerRef } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastsManager } from 'ng2-toastr/ng2-toastr';
+import { ToastrService } from 'ngx-toastr';
 
 // import {DashboardComponent} from '../main-portal/dashboard/dashboard.component';
 // import {AboutUsComponent} from '../main-portal/about-us/about-us.component';
@@ -16,11 +16,9 @@ export class MainComponent implements OnInit {
   embedded: boolean = false;
   constructor(
     public router: Router,
-    private toastManager: ToastsManager,
-    private vcr: ViewContainerRef,
+    private toastManager: ToastrService,
     private activeRoute: ActivatedRoute
   ) {
-    toastManager.setRootViewContainerRef(vcr);
   }
 
   ngOnInit() {

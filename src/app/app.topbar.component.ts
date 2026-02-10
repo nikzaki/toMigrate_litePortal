@@ -1,4 +1,5 @@
-import {Component, forwardRef, Inject, ElementRef, ViewChild, ViewEncapsulation} from "@angular/core";
+import {Component, forwardRef, Inject, ElementRef, ViewChild, ViewEncapsulation} from "@angular/core"
+import {Renderer2} from "@angular/core";
 import {AppComponent} from "./app.component";
 import {Router} from '@angular/router';
 import {SessionService} from './redux/session/session.service';

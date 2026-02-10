@@ -1,5 +1,6 @@
-import {Component, ViewEncapsulation, OnInit} from "@angular/core";
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
+import {Component, ViewEncapsulation, OnInit} from "@angular/core"
+import {Renderer2} from "@angular/core";
+import {FormBuilder, FormControl, FormGroup, Validators, AbstractControl} from "@angular/forms";
 
 import {SelectItem} from "primeng/components/common/api";
 
@@ -8,7 +9,14 @@ import {SelectItem} from "primeng/components/common/api";
 import {PlayerService} from '../../services/player.service';
 import {Player} from '../../models/mygolf/player/player';
 import {Util} from '../../util';
-import {CustomValidators} from 'ng2-validation';
+
+// Custom validator function for password matching
+function equalTo(control: AbstractControl): { [key: string]: any } | null {
+  const form = control.parent;
+  if (!form) return null;
+  const password = form.get('password');
+  return password && control.value === password.value ? null : { equalTo: true };
+}
 @Component({
   selector: 'app-player-registration',
   templateUrl: './player-registration.component.html',
@@ -39,7 +47,7 @@ export class PlayerRegistrationComponent implements OnInit {
     this.teeoffOptions.push({label: "Red", value: "Red"});
     let password = new FormControl('', Validators.compose([Validators.required, Validators.minLength(6),
                                                            Validators.maxLength(15)]));
-    let password2 = new FormControl('', Validators.compose([Validators.required, CustomValidators.equalTo(password)]));
+    let password2 = new FormControl('', Validators.compose([Validators.required, equalTo]));
     this.regForm = this.fb.group({
       email    : ['', Validators.compose([Validators.required,
                                           Validators.pattern(this.emailRegex)])],

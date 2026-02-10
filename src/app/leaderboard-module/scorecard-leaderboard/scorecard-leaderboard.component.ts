@@ -33,7 +33,7 @@ import {ColumnsHidden, TableColumnDetails} from '../../component-module/leaderbo
 import {Observable} from 'rxjs/Observable';
 import {ScoringNotification} from '../../models/session/user-notifications';
 import {NotificationService} from '../../redux/notifications/notification-service';
-import {MediaChange, ObservableMedia} from '@angular/flex-layout';
+import {MediaChange, MediaObserver} from '@angular/flex-layout';
 
 
 @Component({
@@ -89,7 +89,7 @@ export class ScorecardLeaderboardComponent implements OnInit,OnChanges, OnDestro
         private competitionService: CompetitionService,
 
         @Inject(DOCUMENT) private document: Document,
-        private media: ObservableMedia) {
+        private media: MediaObserver) {
         this.settings = DefaultLeaderboardSettings;
         this.watcher = media.subscribe((change: MediaChange) => {
             this.activeMediaQuery = change ? `'${change.mqAlias}' = (${change.mediaQuery})` : "";

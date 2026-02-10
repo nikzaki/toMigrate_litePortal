@@ -3,7 +3,7 @@ import {
     EventEmitter, AfterViewInit, OnDestroy
 } from '@angular/core';
 import {Action} from '../../models/action';
-import {ObservableMedia, MediaChange} from '@angular/flex-layout';
+import {MediaObserver, MediaChange} from '@angular/flex-layout';
 import {Subscription} from 'rxjs/Subscription';
 
 
@@ -25,7 +25,7 @@ export class ActionPanelComponent implements OnInit, OnChanges, AfterViewInit, O
     visibleActions: Action [] = [];
     smallScreen: boolean;
     private watcher: Subscription;
-    constructor(media: ObservableMedia) {
+    constructor(media: MediaObserver) {
         this.watcher = media.subscribe((change: MediaChange)=>{
             this.smallScreen = (change.mqAlias === 'xs');
         });

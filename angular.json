@@ -2,8 +2,9 @@
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "version": 1,
   "newProjectRoot": "projects",
+  "defaultProject": "myGolf2u-Portal",
   "projects": {
-    "myGolf2u Portal": {
+    "myGolf2u-Portal": {
       "root": "",
       "sourceRoot": "src",
       "projectType": "application",
@@ -28,19 +29,8 @@
               "node_modules/fullcalendar/dist/fullcalendar.min.css",
               "node_modules/quill/dist/quill.snow.css",
               "node_modules/nanoscroller/bin/css/nanoscroller.css",
-              "node_modules/angular2-busy/build/style/busy.css",
-              "node_modules/ng2-toastr/bundles/ng2-toastr.min.css",
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
-            ],
-            "scripts": [
-              "node_modules/jquery/dist/jquery.js",
-              "node_modules/nanoscroller/bin/javascripts/jquery.nanoscroller.js",
-              "src/assets/layout/js/ripple.js",
-              "node_modules/moment/moment.js",
-              "node_modules/chart.js/dist/Chart.js",
-              "node_modules/fullcalendar/dist/fullcalendar.js",
-              "node_modules/quill/dist/quill.js"
             ]
           },
           "configurations": {
@@ -66,11 +56,11 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "myGolf2u Portal:build"
+            "browserTarget": "myGolf2u-Portal:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "myGolf2u Portal:build:production"
+              "browserTarget": "myGolf2u-Portal:build:production"
             },
             "dev": {
               "optimization": false,
@@ -91,7 +81,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "myGolf2u Portal:build"
+            "browserTarget": "myGolf2u-Portal:build"
           }
         },
         "test": {
@@ -141,7 +131,7 @@
         }
       }
     },
-    "myGolf2u Portal-e2e": {
+    "myGolf2u-Portal-e2e": {
       "root": "e2e",
       "sourceRoot": "e2e",
       "projectType": "application",
@@ -150,7 +140,7 @@
           "builder": "@angular-devkit/build-angular:protractor",
           "options": {
             "protractorConfig": "./protractor.conf.js",
-            "devServerTarget": "myGolf2u Portal:serve"
+            "devServerTarget": "myGolf2u-Portal:serve"
           }
         },
         "lint": {
@@ -165,7 +155,7 @@
       }
     }
   },
-  "defaultProject": "myGolf2u Portal",
+  "defaultProject": "myGolf2u-Portal",
   "schematics": {
     "@schematics/angular:component": {
       "prefix": "app",

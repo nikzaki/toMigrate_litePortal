@@ -46,7 +46,7 @@ import {
 import { Observable } from 'rxjs/Observable';
 import { ScoringNotification } from '../../models/session/user-notifications';
 import { NotificationService } from '../../redux/notifications/notification-service';
-import { MediaChange, ObservableMedia } from '@angular/flex-layout';
+import { MediaChange, MediaObserver } from '@angular/flex-layout';
 import { DateAdapter } from '@angular/material';
 
 import { GameRound } from '../../models/mygolf/gameround';
@@ -150,7 +150,7 @@ export class IndividualLeaderboardComponent implements OnInit, OnChanges, AfterV
     private authService: AuthenticationService,
 
     @Inject(DOCUMENT) private document: Document,
-    private media: ObservableMedia,
+    private media: MediaObserver,
     private cdr: ChangeDetectorRef,
     private configService: ConfigurationService,
     private http: Http

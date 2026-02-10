@@ -1,5 +1,5 @@
 import {Component, Input, OnInit, ViewEncapsulation} from '@angular/core';
-import {ObservableMedia} from '@angular/flex-layout';
+import {MediaObserver} from '@angular/flex-layout';
 import {Competition, CompetitionDetails, HoleScore} from '../../models/mygolf/competition';
 import {TeamPlayerScores} from '../../models/mygolf/competition/team-player-scores';
 import {TeamScores} from '../../models/mygolf/competition/team-scores';
@@ -24,7 +24,7 @@ export class TeamExpandComponent implements OnInit {
              _18Holes: any[];
              whichNine: number = 1;
 
-    constructor(private media: ObservableMedia) {
+    constructor(private media: MediaObserver) {
         // this.scoreLegends = this.amateurLegends;
         this.firstNineCols  = [
             {header: '1', field: '1'},

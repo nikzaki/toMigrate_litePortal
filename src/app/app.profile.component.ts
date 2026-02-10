@@ -1,4 +1,6 @@
-import {animate, Component, state, style, transition, trigger, ElementRef, ViewChild} from "@angular/core";
+import {Component, ElementRef, ViewChild} from "@angular/core"
+import {Renderer2} from "@angular/core";
+import {animate, state, style, transition, trigger} from "@angular/animations";
 import {SessionActions} from './redux/session/session-actions';
 import {SessionService} from './redux/session/session.service';
 import {Observable} from 'rxjs/Observable';

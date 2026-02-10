@@ -1,5 +1,5 @@
 import {
-    AfterViewInit, Component, ElementRef, OnDestroy, Renderer, Renderer2, ViewChild, LOCALE_ID,
+    AfterViewInit, Component, ElementRef, OnDestroy, Renderer2, Renderer2, ViewChild, LOCALE_ID,
     Inject, OnInit, ViewContainerRef, HostListener
 } from '@angular/core';
 import {AppMenuService} from './redux/appmenu/appmenu-service';
@@ -16,7 +16,7 @@ import {ScoringNotification} from './models/session/user-notifications';
 import {SystemMessageService} from './redux/messages/system-message-service';
 import {Subscription} from 'rxjs/Subscription';
 import {SystemMessageActions} from './redux/messages/system-message-actions';
-import {ToastsManager} from 'ng2-toastr/ng2-toastr';
+ import { ToastrService } from 'ngx-toastr';
 import { ActivatedRoute } from '@angular/router';
 // import {SidebarModule} from 'primeng/primeng';
 enum MenuOrientation {
@@ -91,13 +91,11 @@ export class AppComponent implements OnInit, AfterViewInit, OnDestroy {
         private notfService: NotificationService,
         private messageService: SystemMessageService,
         public messageAction: SystemMessageActions,
-        private toastManager: ToastsManager,
-        private vcr: ViewContainerRef,
-        private appMenuActions: AppMenuActions,
-        private activeRoute: ActivatedRoute,) {
-        console.log("Locale ID=" + _locale);
-        this.toastManager.setRootViewContainerRef(vcr);
-        this.appMenu = this.appMenuService.getCurrentValue();
+         private toastManager: ToastrService,
+         private appMenuActions: AppMenuActions,
+         private activeRoute: ActivatedRoute,) {
+         console.log("Locale ID=" + _locale);
+         this.appMenu = this.appMenuService.getCurrentValue();
         this.loggedIn = this.sessionService.isLoggedIn();
         this.appMenuActions.initialMenu();
 

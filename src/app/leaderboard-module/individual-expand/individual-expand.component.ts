@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { CompetitionGameRound, LeaderBoardPlayer } from '../../models/mygolf/competition';
 import { CompetitionService } from '../../services/competition.service';
-import { ObservableMedia } from '@angular/flex-layout';
+import { MediaObserver } from '@angular/flex-layout';
 import { Subscription } from 'rxjs/Subscription';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -49,7 +49,7 @@ export class IndividualExpandComponent implements OnInit, OnDestroy {
   @Output() leaderboardSettingsChange: EventEmitter<LeaderboardSettings> = new EventEmitter();
   constructor(
     private competitionService: CompetitionService,
-    private media: ObservableMedia,
+    private media: MediaObserver,
     private activeRoute: ActivatedRoute
   ) {
     this.watcher = media.subscribe(change => {

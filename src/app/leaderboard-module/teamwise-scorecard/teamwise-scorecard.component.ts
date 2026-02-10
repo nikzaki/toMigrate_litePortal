@@ -1,5 +1,5 @@
 import {Component, ElementRef, Input, OnInit, ViewChild, ViewEncapsulation} from '@angular/core';
-import {MediaChange, ObservableMedia} from '@angular/flex-layout';
+import {MediaChange, MediaObserver} from '@angular/flex-layout';
 import {ActivatedRoute, Router} from '@angular/router';
 import {DataTable} from 'primeng/primeng';
 import {Observable} from 'rxjs/Observable';
@@ -84,7 +84,7 @@ export class TeamwiseScorecardComponent implements OnInit {
         private userPreference: UserPreferenceService,
         private notfService: NotificationService,
         private messageActions: SystemMessageActions,
-        media: ObservableMedia,
+        media: MediaObserver,
         private configService: ConfigurationService,
         private router: Router) {
         this.activatedRoute.queryParams.subscribe(params => {

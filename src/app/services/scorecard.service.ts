@@ -3,12 +3,13 @@ import { LeanScorecard } from './../models/mygolf.data';
  * Created by ashok on 29/06/17.
  */
 
-import {Injectable} from "@angular/core";
+import {Injectable} from "@angular/core"
+import {Renderer2} from "@angular/core";
 import {ConfigurationService} from "./configuration.service";
 import {HttpService} from "./http.service";
 import {RestUrl} from "../models/config/rest-api-url";
 import {Util} from "../util";
-import {RequestMethod, Response} from "@angular/http";
+import {HttpRequest, HttpResponse} from "@angular/common/http";
 import {PlainScorecard, PlayerRoundScores} from "../models/mygolf/scorecard";
 import {ClubCourse} from "../models/mygolf/club/club-course";
 import {ServerResult} from "../models/server-result";
@@ -158,7 +159,7 @@ export class ScorecardService {
         url = url.replace(reCompId, String(competitionId));
         url = url.replace(reRoundNo, String(roundNo));
         url = url.replace(rePlayerId, String(playerId));
-        let req = new RemoteRequest(url, RequestMethod.Post, ContentType.PLAIN_TEXT, scores);
+        let req = new RemoteRequest(url, "POST", ContentType.PLAIN_TEXT, scores);
         return this.remoteHttp.execute(req)
                    .map((resp: Response) => {
                        let result: ServerResult = resp.json();
@@ -175,7 +176,7 @@ export class ScorecardService {
         let rePlayerId = /:playerId/gi;
         url = url.replace(reCompId, String(competitionId));
         url = url.replace(reRoundNo, String(roundNo));
-        let req = new RemoteRequest(url, RequestMethod.Get, ContentType.URL_ENCODED_FORM_DATA);
+        let req = new RemoteRequest(url, "GET", ContentType.URL_ENCODED_FORM_DATA);
         return this.remoteHttp.execute(req)
                    .map((resp: Response) => {
                        let result: ServerResult = resp.json();
