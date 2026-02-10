@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Request, Response, RequestOptions, Headers } from '@angular/http';
+import { Http, Request, Response, RequestOptions, Headers } from '@angular/common/http';
 import { RemoteRequest } from './remote-request';
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/switchMap';

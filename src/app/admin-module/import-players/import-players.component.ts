@@ -11,7 +11,7 @@ import {Player} from '../../models/mygolf/player/player';
 import {ClubList} from '../../models/mygolf/club/club-list';
 import {Club} from '../../models/mygolf/club/club';
 
-import {Http, ResponseContentType} from '@angular/common/http';
+import {Http, } from '@angular/common/http';
 import 'rxjs/Rx';
 import {DropdownModule} from 'primeng/dropdown';
 import {SelectItem} from 'primeng/api';
@@ -286,7 +286,7 @@ export class ImportPlayersComponent implements OnInit {
     downloadTemplate() {
         return this.http
             .get('http://dev.mygolf2u.com/document/import_player.csv', {
-                responseType: ResponseContentType.Blob,
+                responseType: 'blob',
                 // search:
             }
 

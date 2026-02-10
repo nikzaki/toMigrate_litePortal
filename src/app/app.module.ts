@@ -1,14 +1,14 @@
 import {APP_INITIALIZER, LOCALE_ID, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {MatIconRegistry} from '@angular/material';
+import {MatIconRegistry} from '@angular/material/icon';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbAlertModule, NgbCarouselModule, NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {EffectsModule} from '@ngrx/effects';
 import {combineReducers, StoreModule} from '@ngrx/store';
 import {StoreDevtoolsModule} from '@ngrx/store-devtools';
-import {StompConfig, StompService} from '@stomp/rx-stompjs';
-import {ToastModule, ToastOptions} from 'ngx-toastr';
+import {StompConfig, StompService} from '@stomp/ng2-stompjs';
+import {ToastrModule} from 'ngx-toastr';
 import {localStorageSync} from 'ngrx-store-localstorage';
 import {ConfirmationService} from 'primeng/api';
 import {AdminModule} from './admin-module/admin.module';
@@ -59,12 +59,6 @@ export function loadConfig(configService: ConfigurationService) {
     return () => {
         return configService.load();
     };
-}
-export class CustomOption extends ToastOptions {
-    animate = 'fade'; // you can override any options available
-    newestOnTop = false;
-    showCloseButton = true;
-    positionClass: 'toast-bottom-right';
 }
 export let stompConfigFactory = (configService: ConfigurationService)=> {
     //replace http: with ws
@@ -128,7 +122,7 @@ export function setLocaleId() {
         FormsModule,
         HttpModule,
         BrowserAnimationsModule,
-        ToastModule.forRoot(),
+        ToastrModule.forRoot(),
         StoreModule.provideStore(appReducer),
         StoreDevtoolsModule.instrumentOnlyWithExtension({
             maxAge: 5
@@ -195,7 +189,6 @@ export function setLocaleId() {
             useFactory: stompConfigFactory,
             deps: [ConfigurationService]
         },
-        {provide: ToastOptions, useClass: CustomOption}
     ],
     exports: [BrowserModule,
               FormsModule,

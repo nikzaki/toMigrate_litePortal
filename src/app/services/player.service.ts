@@ -3,7 +3,7 @@ import {ConfigurationService} from './configuration.service';
 import {HttpService} from './http.service';
 import {Observable} from 'rxjs/Observable';
 import {RestUrl} from '../models/config/rest-api-url';
-import {RequestMethod, Response} from '@angular/http';
+import { Response} from '@angular/common/http';
 import {ContentType, RemoteRequest} from './remote-request';
 import {Player} from '../models/mygolf/player/player';
 import {Util} from '../util';
@@ -27,7 +27,7 @@ export class PlayerService {
      */
     public isEmailUsed(email: string): Observable<boolean> {
         let url     = this.configService.getRestApiUrl(RestUrl.playerService.isEmailUsed);
-        let request = new RemoteRequest(url, RequestMethod.Get,
+        let request = new RemoteRequest(url, "GET",
             ContentType.URL_ENCODED_FORM_DATA, {
                 email: email
             });
@@ -56,7 +56,7 @@ export class PlayerService {
         if(playerInfo.country && playerInfo.country.id) playerInfo.country = playerInfo.country.id;
         // playerInfo.nationality = playerInfo.nationality.id;
         // playerInfo.country = playerInfo.country.id;
-        let request      = new RemoteRequest(url, RequestMethod.Post,
+        let request      = new RemoteRequest(url, "POST",
             ContentType.URL_ENCODED_FORM_DATA, playerInfo, hdrs);
         return this.remoteHttp.execute(request)
                    .map((resp: Response) => {
@@ -73,7 +73,7 @@ export class PlayerService {
         console.log("update club service : ", clubId)
         const hdrs = {};
         hdrs['Player-Id'] = playerInfo.playerId;
-        let request      = new RemoteRequest(url, RequestMethod.Post,
+        let request      = new RemoteRequest(url, "POST",
             ContentType.URL_ENCODED_FORM_DATA, {
                 clubId: clubId,
                 membershipNumber: playerInfo.membership,
@@ -122,7 +122,7 @@ export class PlayerService {
      */
     public getPlayerInfo(playerId: number): Observable<Player> {
         let url     = this.configService.getRestApiUrl(RestUrl.playerService.playerInfo);
-        let request = new RemoteRequest(url, RequestMethod.Get,
+        let request = new RemoteRequest(url, "GET",
             ContentType.URL_ENCODED_FORM_DATA, {
                 playerId: playerId
             });
@@ -136,7 +136,7 @@ export class PlayerService {
 
     public getPlayerByEmail(email: string): Observable<Player> {
         let url     = this.configService.getRestApiUrl(RestUrl.playerService.getPlayerByEmail);
-        let request = new RemoteRequest(url, RequestMethod.Get,
+        let request = new RemoteRequest(url, "GET",
             ContentType.URL_ENCODED_FORM_DATA, {
                 email: email
             });
@@ -151,7 +151,7 @@ export class PlayerService {
 
     public getPlayerById(playerId: number): Observable<PlayerInfo> {
         let url     = this.configService.getRestApiUrl(RestUrl.playerService.getPlayerById);
-        let request = new RemoteRequest(url, RequestMethod.Get,
+        let request = new RemoteRequest(url, "GET",
             ContentType.URL_ENCODED_FORM_DATA, {
                 playerId: playerId
             });
@@ -187,7 +187,7 @@ export class PlayerService {
         let url = this.configService.getRestApiUrl(RestUrl.playerService.getCountryList);
         console.log("url ", url)
         console.log("url", RestUrl.playerService.getCountries)
-        let request = new RemoteRequest(url, RequestMethod.Get,
+        let request = new RemoteRequest(url, "GET",
             ContentType.URL_ENCODED_FORM_DATA);
         return this.remoteHttp.execute(request)
                    .map((resp: Response) => {
@@ -200,7 +200,7 @@ export class PlayerService {
         let url = this.configService.getRestApiUrl(RestUrl.playerService.getClubMembership);
         // console.log("url ", url)
         // console.log("url", RestUrl.playerService.getCountries)
-        let request = new RemoteRequest(url, RequestMethod.Get,
+        let request = new RemoteRequest(url, "GET",
             ContentType.URL_ENCODED_FORM_DATA, '', {
                 'Player-Id': playerId
             });
@@ -213,7 +213,7 @@ export class PlayerService {
 
     public getTeeBox(): Observable<Array<any>> {
         let url = this.configService.getRestApiUrl(RestUrl.playerService.getTeeBox);
-        let request = new RemoteRequest(url, RequestMethod.Get,
+        let request = new RemoteRequest(url, "GET",
             ContentType.URL_ENCODED_FORM_DATA);
         return this.remoteHttp.execute(request)
                    .map((resp: Response) => {
@@ -230,7 +230,7 @@ export class PlayerService {
         console.log("update player service : ", playerInfo)
         const hdrs = {};
         hdrs['Player-Id'] = playerInfo.playerId;
-        let request      = new RemoteRequest(url, RequestMethod.Post,
+        let request      = new RemoteRequest(url, "POST",
             ContentType.URL_ENCODED_FORM_DATA, {
                 handicapIndex: playerInfo.handicapIndex,
             }, hdrs);
@@ -246,7 +246,7 @@ export class PlayerService {
         if(format === 'xlsx')
             url = this.configService.getRestApiUrl(RestUrl.playerImport.downloadTemplateXLSX);
 
-        let request = new RemoteRequest(url, RequestMethod.Get,
+        let request = new RemoteRequest(url, "GET",
             ContentType.JSON);
         return this.remoteHttp.execute(request)
                    .map((resp: any) => {
@@ -268,7 +268,7 @@ export class PlayerService {
         let reMembership = /:membershipId/gi;
         
         url = url.replace(reInstanceId, String(instanceId));
-        let request      = new RemoteRequest(url, RequestMethod.Post,
+        let request      = new RemoteRequest(url, "POST",
             ContentType.URL_ENCODED_FORM_DATA, _params);
         return this.remoteHttp.execute(request)
                    .map((resp: Response) => {

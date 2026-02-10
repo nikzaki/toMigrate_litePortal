@@ -4,7 +4,7 @@ import {ConfigurationService} from './configuration.service';
 import {Observable} from 'rxjs/Observable';
 import {RestUrl} from '../models/config/rest-api-url';
 import {Organizer} from '../models/mygolf/organizer/organizer';
-import {RequestMethod, Response} from '@angular/http';
+import { Response} from '@angular/common/http';
 import {ContentType, RemoteRequest} from './remote-request';
 import {Util} from '../util';
 import {Competition} from '../models/mygolf/competition/competition';

@@ -59,7 +59,7 @@ import {
 } from 'app/models/mygolf.data';
 
 import * as moment from 'moment';
-import { Http } from '@angular/http';
+import { Http } from '@angular/common/http';
 
 @Component({
   selector: 'individual-leaderboard',

@@ -11,7 +11,7 @@ import {
  */
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { RequestMethod, Response } from '@angular/http';
+import { RequestMethod, Response } from '@angular/common/http';
 import { Util } from '../util';
 import { HttpService } from './http.service';
 import { ConfigurationService } from './configuration.service';

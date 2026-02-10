@@ -3,7 +3,7 @@ import {ConfigurationService} from './configuration.service';
 import {HttpService} from './http.service';
 import {Observable} from 'rxjs/Observable';
 import {RestUrl} from '../models/config/rest-api-url';
-import {RequestMethod, Response} from '@angular/http';
+import {RequestMethod, Response} from '@angular/common/http';
 import {ContentType, RemoteRequest} from './remote-request';
 import {Player} from '../models/mygolf/player/player';
 import {Util} from '../util';

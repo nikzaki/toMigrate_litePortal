@@ -1,4 +1,4 @@
-import {Headers, Request, RequestMethod} from '@angular/common/http';
+import {HttpHeaders} from '@angular/common/http';
 import {isPresent} from '../util';
 /**
  * This class represents a remote request
@@ -25,36 +25,36 @@ export class RemoteRequest {
      * @returns {RemoteRequest} Returns the request
      */
     public static createGetRemoteRequest(url: string, formData: any, hdrs?: any): RemoteRequest{
-        return RemoteRequest.createRemoteRequest(url, formData, RequestMethod.Get, hdrs);
+        return RemoteRequest.createRemoteRequest(url, formData, 'GET', hdrs);
     }
 
     public static createPostRequest(url: string, formData: any, hdrs?: any): RemoteRequest {
-        return RemoteRequest.createRemoteRequest(url, formData, RequestMethod.Post, hdrs);
+        return RemoteRequest.createRemoteRequest(url, formData, 'POST', hdrs);
     }
 
-    public static createRemoteRequest(url: string, formData: any, method: RequestMethod, hdrs?: any): RemoteRequest {
+    public static createRemoteRequest(url: string, formData: any, method: string, hdrs?: any): RemoteRequest {
         let remoteRequest = new RemoteRequest(url, method,
             ContentType.URL_ENCODED_FORM_DATA,formData, hdrs);
         return remoteRequest;
     }
 
     constructor(private url: string,
-        private method: RequestMethod,
+        private method: string,
         private reqContentType?: string,
         private data?: any,
         private headers?: any) {
     }
 
-    buildAjax(additionalHeaders?: any): Request {
+    buildAjax(additionalHeaders?: any): any {
         let effUrl    = this.url;
-        const headers = new Headers();
+        const headers = new HttpHeaders();
         // Populate additional headers
         this.populateHeader(headers, additionalHeaders);
         // Now set the headers from the request
         this.populateHeader(headers, this.headers);
         let bodyStr: string = '';
         // console.debug("building ajax", this.data, this.reqContentType)
-        if (this.method === RequestMethod.Get && isPresent(this.data)) {
+        if (this.method === 'GET' && isPresent(this.data)) {
             // console.debug("get")
             const paramStr = this.paramString(this.data);
             if (paramStr && paramStr.length) {
@@ -94,10 +94,7 @@ export class RemoteRequest {
             body   : bodyStr
         };
         // console.debug("building ajax [2]", bodyStr, headers, args)
-        const req  = new Request(args);
-        req.url    = effUrl;
-        req.method = this.method;
-        return req;
+        return args;
     }
 
     private paramString(data: any): string {
@@ -115,13 +112,13 @@ export class RemoteRequest {
     }
 
     /**
-     * Populate the Headers instance with header attributes
+     * Populate the HttpHeaders instance with header attributes
      * @param hdr
      */
-    private populateHeader(hdr: Headers, info: any) {
+    private populateHeader(hdr: HttpHeaders, info: any) {
         if (isPresent(info)) {
             for (const key in info)
-                hdr.set(key, info[key]);
+                hdr = hdr.set(key, info[key]);
         }
     }
 }

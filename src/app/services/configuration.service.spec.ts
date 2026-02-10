@@ -1,6 +1,6 @@
 import {fakeAsync, inject, TestBed, tick} from '@angular/core/testing';
 import {ConfigurationService} from './configuration.service';
-import {HttpModule, RequestMethod, Response, ResponseOptions, XHRBackend} from '@angular/http';
+import {HttpModule, RequestMethod, Response, ResponseOptions, XHRBackend} from '@angular/common/http';
 import {MockBackend, MockConnection} from '@angular/http/testing';
 const mockConfig = {
   serverRoot: 'http://golflet.mygolf2u.com'

@@ -1,5 +1,5 @@
 import {Injectable} from '@angular/core'; 
-import {Headers, Http, Response} from '@angular/http';
+import {Headers, Http, Response} from '@angular/common/http';
 import {Observable} from 'rxjs/Observable';
 import {Session} from '../models/session/session';
 import {AuthenticationResult} from '../models/session/authentication-result';

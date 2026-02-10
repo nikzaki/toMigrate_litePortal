@@ -4,7 +4,7 @@ import {ConfigurationService} from './configuration.service';
 import {Observable} from 'rxjs/Observable';
 import {DeviceList, MobileDevice} from '../models/mygolf/mobile-device';
 import {RemoteRequest, ContentType} from './remote-request';
-import {RequestMethod, Response} from '@angular/http';
+import {RequestMethod, Response} from '@angular/common/http';
 import {RestUrl} from '../models/config/rest-api-url';
 import * as moment from 'moment';
 import {ServerResult} from '../models/server-result';

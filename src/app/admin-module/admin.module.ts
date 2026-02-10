@@ -1,7 +1,7 @@
 import {NgModule} from '@angular/core';
 import {PRIMENG_MODULES} from '../primeng.imports';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {HttpModule} from '@angular/http';
+import {HttpModule} from '@angular/common/http';
 import {ReactiveFormsModule, FormsModule} from '@angular/forms';
 import {BrowserModule} from '@angular/platform-browser';
 import { AdminHomeComponent } from './admin-home/admin-home.component';

@@ -4,7 +4,7 @@ import {ConfigurationService} from './configuration.service';
 import {Observable} from 'rxjs/Observable';
 import {AdvertisementList, Advertisement} from '../models/mygolf/advertisement';
 import {RemoteRequest, ContentType} from './remote-request';
-import {RequestMethod, Response, Headers} from '@angular/http';
+import {RequestMethod, Response, Headers} from '@angular/common/http';
 import {ServerResult} from '../models/server-result';
 import {HttpService} from './http.service';
 import {RestUrl} from '../models/config/rest-api-url';
