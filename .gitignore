@@ -2,3 +2,8 @@ node_modules/
 node_modules_/
 node_modules*/
 dist
+# Angular build cache (never commit)
+.angular/
+
+# build output
+/dist/
